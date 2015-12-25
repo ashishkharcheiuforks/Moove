@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/windowBackground">
+
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/wrapper"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/currentList"
+            android:layout_width="match_parent"
+            android:overScrollMode="never"
+            android:visibility="visible"
+            android:divider="@android:color/transparent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:focusable="false"
+            android:choiceMode="singleChoice"
+            android:fastScrollEnabled="true"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/emptyItem"
+            android:visibility="visible"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="150dp"
+                android:id="@+id/emptyImage"
+                android:layout_height="150dp"
+                android:layout_marginBottom="35dp"
+                android:src="@drawable/place_white"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/emptyText"
+                android:textSize="25sp"
+                android:text="@string/no_places"
+                android:gravity="center|top"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

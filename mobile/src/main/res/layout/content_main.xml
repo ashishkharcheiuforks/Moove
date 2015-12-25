@@ -12,8 +12,35 @@
     tools:context="com.backdoor.moove.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/currentList"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:id="@+id/emptyItem"
+        android:visibility="visible"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="150dp"
+            android:id="@+id/emptyImage"
+            android:layout_height="150dp"
+            android:layout_marginBottom="35dp"
+            android:src="@drawable/ic_alarm_off_48px_white"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:id="@+id/emptyText"
+            android:textSize="30sp"
+            android:text="@string/no_reminders"
+            android:gravity="center|top"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 </RelativeLayout>

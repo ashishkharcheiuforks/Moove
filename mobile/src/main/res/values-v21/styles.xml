@@ -1,9 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@color/themePrimary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="HomeDark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimaryDark">@color/themePrimaryDark</item>
+        <item name="colorPrimary">@color/themePrimary</item>
+        <item name="colorAccent">@color/greenPrimary</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="MyTheme.ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
+    </style>
+
+    <style name="MyTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/whitePrimary</item>
+    </style>
+
+    <style name="HomeDarkDialog" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/greenPrimary</item>
+    </style>
+
+    <style name="HomeDarkTranslucent" parent="Theme.AppCompat.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimaryDark">@color/themePrimaryDark</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 </resources>

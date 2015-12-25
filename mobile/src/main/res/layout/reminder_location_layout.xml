@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:visibility="visible"
+    android:id="@+id/geolocationlayout">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/mapContainer"
+            android:id="@+id/specsContainer">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="88dp"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/attackDelay"
+                    android:textSize="@dimen/checkbox_text_size"
+                    android:text="@string/delay_tracking_start"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:id="@+id/delayLayout"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content">
+
+                    <com.backdoor.moove.core.views.DateTimeView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/create_margin"
+                        android:layout_marginLeft="@dimen/create_margin"
+                        android:layout_marginRight="@dimen/create_margin"
+                        android:id="@+id/dateViewLocation"/>
+
+                    </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginRight="@dimen/create_margin"
+                    android:layout_marginLeft="@dimen/create_margin"
+                    android:layout_height="wrap_content">
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/address"
+                        android:singleLine="true"
+                        android:textSize="@dimen/create_text_size_normal"
+                        android:layout_toLeftOf="@+id/clearButton"
+                        android:id="@+id/searchField"/>
+
+                    <ImageButton
+                        android:layout_width="@dimen/create_imagebutton_size"
+                        android:layout_height="@dimen/create_imagebutton_size"
+                        android:id="@+id/clearButton"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toLeftOf="@+id/mapButton"
+                        android:src="@drawable/ic_clear_black_24dp"/>
+
+                    <ImageButton
+                        android:layout_width="@dimen/create_imagebutton_size"
+                        android:layout_height="@dimen/create_imagebutton_size"
+                        android:id="@+id/mapButton"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:src="@drawable/ic_map_black_24dp"/>
+
+                    </RelativeLayout>
+
+                <com.backdoor.moove.core.views.ActionView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/create_margin"
+                    android:id="@+id/actionViewLocation"/>
+            </LinearLayout>
+        </ScrollView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:visibility="visible"
+            android:orientation="vertical"
+            android:id="@+id/mapContainer">
+
+            <LinearLayout
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_alignParentBottom="true">
+
+                </LinearLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

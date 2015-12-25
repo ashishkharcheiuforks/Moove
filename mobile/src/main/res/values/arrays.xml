@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="map_types">
+        <item>@string/normal</item>
+        <item>@string/satellite</item>
+        <item>@string/hybrid</item>
+        <item>@string/terrain</item>
+    </array>
+</resources>
