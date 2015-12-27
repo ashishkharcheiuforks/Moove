@@ -19,17 +19,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.backdoor.moove.R;
+import com.backdoor.moove.core.consts.Configs;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.helper.ColorSetter;
 import com.backdoor.moove.core.helper.DataBase;
+import com.backdoor.moove.core.helper.Module;
 import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.interfaces.MapListener;
 import com.backdoor.moove.core.utils.ViewUtils;
@@ -52,7 +52,7 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
      * UI elements;
      */
     private GoogleMap map;
-    private LinearLayout layersContainer;
+    private CardView layersContainer;
     private AutoCompleteTextView cardSearch;
     private Spinner placesList;
 
@@ -406,9 +406,16 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
         card1.setCardBackgroundColor(cSetter.getCardStyle());
         card2.setCardBackgroundColor(cSetter.getCardStyle());
 
-        layersContainer = (LinearLayout) rootView.findViewById(R.id.layersContainer);
-        ScrollView specsContainer = (ScrollView) rootView.findViewById(R.id.specsContainer);
+        layersContainer = (CardView) rootView.findViewById(R.id.layersContainer);
         layersContainer.setVisibility(View.GONE);
+        layersContainer.setCardBackgroundColor(cSetter.getCardStyle());
+
+        if (Module.isLollipop()){
+            card.setCardElevation(Configs.CARD_ELEVATION);
+            card1.setCardElevation(Configs.CARD_ELEVATION);
+            card2.setCardElevation(Configs.CARD_ELEVATION);
+            layersContainer.setCardElevation(Configs.CARD_ELEVATION);
+        }
 
         ImageButton cardClear = (ImageButton) rootView.findViewById(R.id.cardClear);
         ImageButton zoomOut = (ImageButton) rootView.findViewById(R.id.zoomOut);
@@ -424,21 +431,9 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
         layers.setBackgroundColor(cSetter.getBackgroundStyle());
         myLocation.setBackgroundColor(cSetter.getBackgroundStyle());
 
-        boolean isDark = sPrefs.loadBoolean(Prefs.USE_DARK_THEME);
-
-        if (isDark){
-            cardClear.setImageResource(R.drawable.ic_clear_white_24dp);
-            zoomOut.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
-            layers.setImageResource(R.drawable.ic_layers_white_24dp);
-            myLocation.setImageResource(R.drawable.ic_my_location_white_24dp);
-            layersContainer.setBackgroundResource(R.drawable.popup_dark);
-        } else {
-            cardClear.setImageResource(R.drawable.ic_clear_black_24dp);
-            zoomOut.setImageResource(R.drawable.ic_fullscreen_exit_black_24dp);
-            layers.setImageResource(R.drawable.ic_layers_black_24dp);
-            myLocation.setImageResource(R.drawable.ic_my_location_black_24dp);
-            layersContainer.setBackgroundResource(R.drawable.popup);
-        }
+        zoomOut.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
+        layers.setImageResource(R.drawable.ic_layers_white_24dp);
+        myLocation.setImageResource(R.drawable.ic_my_location_white_24dp);
 
         cardClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -518,11 +513,7 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
         });
 
         cardSearch = (AutoCompleteTextView) rootView.findViewById(R.id.cardSearch);
-        if (isDark) {
-            cardSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search_white_24dp, 0, 0, 0);
-        } else {
-            cardSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search_black_24dp, 0, 0, 0);
-        }
+        cardSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search_white_24dp, 0, 0, 0);
         cardSearch.setThreshold(3);
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, namesList);
         adapter.setNotifyOnChange(true);

@@ -11,7 +11,9 @@ import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.speech.RecognizerIntent;
 
+import com.backdoor.moove.ContactsList;
 import com.backdoor.moove.R;
+import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.helper.Messages;
 import com.backdoor.moove.core.helper.SharedPrefs;
@@ -133,9 +135,9 @@ public class SuperUtil {
                 if (pd != null && pd.isShowing()) {
                     pd.dismiss();
                 }
-                /*Intent i = new Intent(activity, ContactsList.class);
+                Intent i = new Intent(activity, ContactsList.class);
                 i.putStringArrayListExtra(Constants.SELECTED_CONTACT_ARRAY, contacts);
-                activity.startActivityForResult(i, requestCode);*/
+                activity.startActivityForResult(i, requestCode);
             }
         }
 

@@ -12,12 +12,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
-import com.backdoor.moove.core.consts.Constants;
-import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.R;
+import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.utils.SuperUtil;
 import com.backdoor.moove.core.utils.ViewUtils;
-import com.backdoor.moove.core.helper.SharedPrefs;
 
 /**
  * Copyright 2015 Nazar Suhovich
@@ -79,7 +77,7 @@ public class ActionView extends LinearLayout {
                     ViewUtils.showOver(actionBlock);
                     selectNumber = (ImageButton) findViewById(R.id.selectNumber);
                     selectNumber.setOnClickListener(contactClick);
-                    ViewUtils.setImage(selectNumber, new SharedPrefs(activity).loadBoolean(Prefs.USE_DARK_THEME));
+                    selectNumber.setImageResource(R.drawable.ic_person_add_white_24dp);
 
                     numberView = (EditText) findViewById(R.id.numberView);
                     numberView.setFocusableInTouchMode(true);

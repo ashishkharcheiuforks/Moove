@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -70,7 +71,6 @@ import com.backdoor.moove.core.views.ActionView;
 import com.backdoor.moove.core.views.DateTimeView;
 import com.backdoor.moove.core.views.FloatingEditText;
 import com.google.android.gms.maps.model.LatLng;
-import com.melnykov.fab.FloatingActionButton;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -135,13 +135,10 @@ public class ReminderManager extends AppCompatActivity implements
     private ArrayList<String> namesList;
     private LatLng curPlace;
 
-    private ColorSetter cSetter = new ColorSetter(ReminderManager.this);
     private SharedPrefs sPrefs = new SharedPrefs(ReminderManager.this);
 
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 109;
     private static final int MENU_ITEM_DELETE = 12;
-    private boolean isMessage = false;
-    private boolean isDelayed = false;
 
     private Type remControl = new Type(this);
     private Reminder item;
@@ -151,7 +148,7 @@ public class ReminderManager extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cSetter = new ColorSetter(ReminderManager.this);
+        ColorSetter cSetter = new ColorSetter(ReminderManager.this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(cSetter.colorPrimaryDark());
         }
@@ -161,30 +158,30 @@ public class ReminderManager extends AppCompatActivity implements
         setSupportActionBar(toolbar);
 
         toolbar.setOnMenuItemClickListener(
-            new Toolbar.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.action_add:
-                            save();
-                            return true;
-                        case R.id.action_custom_melody:
-                            startActivityForResult(new Intent(ReminderManager.this, FileExplore.class),
-                                    Constants.REQUEST_CODE_SELECTED_MELODY);
-                            return true;
-                        case R.id.action_custom_radius:
-                            selectRadius();
-                            return true;
-                        case R.id.action_custom_color:
-                            chooseLEDColor();
-                            return true;
-                        case MENU_ITEM_DELETE:
-                            deleteReminder();
-                            return true;
+                new Toolbar.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.action_add:
+                                save();
+                                return true;
+                            case R.id.action_custom_melody:
+                                startActivityForResult(new Intent(ReminderManager.this, FileExplore.class),
+                                        Constants.REQUEST_CODE_SELECTED_MELODY);
+                                return true;
+                            case R.id.action_custom_radius:
+                                selectRadius();
+                                return true;
+                            case R.id.action_custom_color:
+                                chooseLEDColor();
+                                return true;
+                            case MENU_ITEM_DELETE:
+                                deleteReminder();
+                                return true;
+                        }
+                        return true;
                     }
-                    return true;
-                }
-            });
+                });
 
         navContainer = (LinearLayout) findViewById(R.id.navContainer);
         spinner = (Spinner) findViewById(R.id.navSpinner);
@@ -232,9 +229,7 @@ public class ReminderManager extends AppCompatActivity implements
             }
         }, 500);
 
-        mFab = new FloatingActionButton(ReminderManager.this);
-        mFab.setColorNormal(cSetter.colorAccent());
-        mFab.setColorPressed(cSetter.colorAccent());
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -248,27 +243,15 @@ public class ReminderManager extends AppCompatActivity implements
                 return false;
             }
         });
-        mFab.setType(FloatingActionButton.TYPE_NORMAL);
-        mFab.setImageResource(R.drawable.ic_done_white_24dp);
-
-        RelativeLayout wrapper = (RelativeLayout) findViewById(R.id.wrapper);
-        wrapper.addView(mFab);
-
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mFab.getLayoutParams();
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        params.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
         Intent intent = getIntent();
         id = intent.getLongExtra(Constants.EDIT_ID, 0);
-        int i = intent.getIntExtra(Constants.EDIT_WIDGET, 0);
-        if (i != 0){
-            new PositionDelayReceiver().cancelAlarm(ReminderManager.this, id);
-            new DisableAsync(ReminderManager.this).execute();
-        }
+
+        clearViews();
 
         spinner.setSelection(sPrefs.loadInt(Prefs.LAST_USED_REMINDER));
 
-        if (id != 0){
+        if (id != 0) {
             item = remControl.getItem(id);
             if (item != null) {
                 type = item.getType();
@@ -280,19 +263,18 @@ public class ReminderManager extends AppCompatActivity implements
                 }
             }
 
-            if (type.startsWith(Constants.TYPE_LOCATION)){
+            if (type.startsWith(Constants.TYPE_LOCATION)) {
                 spinner.setSelection(0);
             } else {
                 spinner.setSelection(1);
             }
         }
-        clearViews();
     }
 
     /**
      * Delayed handler for hiding extra options container.
      */
-    private void addHandler(){
+    private void addHandler() {
         handler.removeCallbacks(runnable);
         handler.postDelayed(runnable, 5000);
     }
@@ -368,7 +350,7 @@ public class ReminderManager extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (mFab.getVisibility() == View.GONE){
+                if (mFab.getVisibility() == View.GONE) {
                     ViewUtils.show(ReminderManager.this, mFab);
                 } else {
                     restoreTask();
@@ -383,16 +365,18 @@ public class ReminderManager extends AppCompatActivity implements
      * Check if selected reminder in spinner matches type that was edited.
      * @return Boolean
      */
-    private boolean isSame(){
+    private boolean isSame() {
         boolean is = false;
-        if (spinner.getSelectedItemPosition() == 0 && type.startsWith(Constants.TYPE_LOCATION)) is = true;
-        if (spinner.getSelectedItemPosition() == 1 && type.startsWith(Constants.TYPE_LOCATION_OUT)) is = true;
+        if (spinner.getSelectedItemPosition() == 0 && type.startsWith(Constants.TYPE_LOCATION))
+            is = true;
+        if (spinner.getSelectedItemPosition() == 1 && type.startsWith(Constants.TYPE_LOCATION_OUT))
+            is = true;
         return is;
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()){
+        switch (buttonView.getId()) {
             case R.id.currentCheck:
                 if (currentCheck.isChecked()) {
                     mapCheck.setChecked(false);
@@ -454,8 +438,7 @@ public class ReminderManager extends AppCompatActivity implements
         LinearLayout geolocationlayout = (LinearLayout) findViewById(R.id.geolocationlayout);
         ViewUtils.fadeInAnimation(geolocationlayout);
 
-        LocationType dateType = new LocationType(this, Constants.TYPE_LOCATION);
-        remControl = dateType;
+        remControl = new LocationType(this, Constants.TYPE_LOCATION);
 
         delayLayout = (LinearLayout) findViewById(R.id.delayLayout);
         mapContainer = (RelativeLayout) findViewById(R.id.mapContainer);
@@ -574,8 +557,8 @@ public class ReminderManager extends AppCompatActivity implements
         dateViewLocation.setDateTime(cal.getTimeInMillis());
 
         if (id != 0 && isSame()) {
-            String text = "", number = null, remType = "";
-            double latitude = 0.0, longitude = 0.0;
+            String text, number, remType;
+            double latitude, longitude;
             if (item != null){
                 text = item.getTitle();
                 number = item.getNumber();
@@ -583,33 +566,33 @@ public class ReminderManager extends AppCompatActivity implements
                 latitude = item.getPlace()[0];
                 longitude = item.getPlace()[1];
                 radius = item.getRadius();
-            }
 
-            if (item != null && item.getStartTime() > 0) {
-                cal.setTimeInMillis(item.getStartTime());
+                if (item.getStartTime() > 0) {
+                    cal.setTimeInMillis(item.getStartTime());
 
-                dateViewLocation.setDateTime(cal.getTimeInMillis());
-                attackDelay.setChecked(true);
-                isDelayed = true;
-            } else {
-                attackDelay.setChecked(false);
-            }
-
-            if (remType.matches(Constants.TYPE_LOCATION_CALL) || remType.matches(Constants.TYPE_LOCATION_MESSAGE)){
-                actionViewLocation.setAction(true);
-                actionViewLocation.setNumber(number);
-                if (remType.matches(Constants.TYPE_LOCATION_CALL)){
-                    actionViewLocation.setType(ActionView.TYPE_CALL);
+                    dateViewLocation.setDateTime(cal.getTimeInMillis());
+                    attackDelay.setChecked(true);
                 } else {
-                    actionViewLocation.setType(ActionView.TYPE_MESSAGE);
+                    attackDelay.setChecked(false);
                 }
-            } else {
-                actionViewLocation.setAction(false);
-            }
 
-            taskField.setText(text);
-            if (map != null) {
-                map.addMarker(new LatLng(latitude, longitude), text, true, false, radius);
+                if (remType.matches(Constants.TYPE_LOCATION_CALL) || remType.matches(Constants.TYPE_LOCATION_MESSAGE)){
+                    actionViewLocation.setAction(true);
+                    actionViewLocation.setNumber(number);
+                    if (remType.matches(Constants.TYPE_LOCATION_CALL)){
+                        actionViewLocation.setType(ActionView.TYPE_CALL);
+                    } else {
+                        actionViewLocation.setType(ActionView.TYPE_MESSAGE);
+                    }
+                } else {
+                    actionViewLocation.setAction(false);
+                }
+
+                Log.d(Constants.LOG_TAG, "Lat " + latitude + ", " + longitude);
+                taskField.setText(text);
+                if (map != null) {
+                    map.addMarker(new LatLng(latitude, longitude), text, true, false, radius);
+                }
             }
         }
     }
@@ -623,8 +606,7 @@ public class ReminderManager extends AppCompatActivity implements
         LinearLayout locationOutLayout = (LinearLayout) findViewById(R.id.locationOutLayout);
         ViewUtils.fadeInAnimation(locationOutLayout);
 
-        LocationType dateType = new LocationType(this, Constants.TYPE_LOCATION_OUT);
-        remControl = dateType;
+        remControl = new LocationType(this, Constants.TYPE_LOCATION_OUT);
 
         delayLayoutOut = (LinearLayout) findViewById(R.id.delayLayoutOut);
         specsContainerOut = (ScrollView) findViewById(R.id.specsContainerOut);
@@ -727,8 +709,8 @@ public class ReminderManager extends AppCompatActivity implements
         }
 
         if (id != 0 && isSame()) {
-            String text = "", number = null, remType = "";
-            double latitude = 0, longitude = 0;
+            String text, number, remType;
+            double latitude, longitude;
             if (item != null){
                 text = item.getTitle();
                 number = item.getNumber();
@@ -736,37 +718,37 @@ public class ReminderManager extends AppCompatActivity implements
                 latitude = item.getPlace()[0];
                 longitude = item.getPlace()[1];
                 radius = item.getRadius();
-            }
 
-            if (item != null && item.getStartTime() > 0) {
-                cal.set(myYear, myMonth, myDay, myHour, myMinute);
+                if (item.getStartTime() > 0) {
+                    cal.set(myYear, myMonth, myDay, myHour, myMinute);
 
-                dateViewLocationOut.setDateTime(cal.getTimeInMillis());
-                attachDelayOut.setChecked(true);
-                isDelayed = true;
-            } else {
-                attachDelayOut.setChecked(false);
-            }
-
-            if (remType.matches(Constants.TYPE_LOCATION_OUT_CALL) || remType.matches(Constants.TYPE_LOCATION_OUT_MESSAGE)){
-                actionViewLocationOut.setAction(true);
-                actionViewLocationOut.setNumber(number);
-                if (remType.matches(Constants.TYPE_LOCATION_OUT_CALL)){
-                    actionViewLocationOut.setType(ActionView.TYPE_CALL);
+                    dateViewLocationOut.setDateTime(cal.getTimeInMillis());
+                    attachDelayOut.setChecked(true);
                 } else {
-                    actionViewLocationOut.setType(ActionView.TYPE_MESSAGE);
+                    attachDelayOut.setChecked(false);
                 }
-            } else {
-                actionViewLocationOut.setAction(false);
-            }
 
-            taskField.setText(text);
-            LatLng pos = new LatLng(latitude, longitude);
-            if (mapOut != null) {
-                mapOut.addMarker(pos, text, true, true, radius);
+                if (remType.matches(Constants.TYPE_LOCATION_OUT_CALL) ||
+                        remType.matches(Constants.TYPE_LOCATION_OUT_MESSAGE)){
+                    actionViewLocationOut.setAction(true);
+                    actionViewLocationOut.setNumber(number);
+                    if (remType.matches(Constants.TYPE_LOCATION_OUT_CALL)){
+                        actionViewLocationOut.setType(ActionView.TYPE_CALL);
+                    } else {
+                        actionViewLocationOut.setType(ActionView.TYPE_MESSAGE);
+                    }
+                } else {
+                    actionViewLocationOut.setAction(false);
+                }
+
+                taskField.setText(text);
+                LatLng pos = new LatLng(latitude, longitude);
+                if (mapOut != null) {
+                    mapOut.addMarker(pos, text, true, true, radius);
+                }
+                mapLocation.setText(LocationUtil.getAddress(pos.latitude, pos.longitude));
+                mapCheck.setChecked(true);
             }
-            mapLocation.setText(LocationUtil.getAddress(pos.latitude, pos.longitude));
-            mapCheck.setChecked(true);
         }
     }
 
@@ -843,10 +825,7 @@ public class ReminderManager extends AppCompatActivity implements
         Log.d(Constants.LOG_TAG, "Task type " + (type != null ? type : "no type"));
         if (type != null) {
             String task = taskField.getText().toString().trim();
-            if (type.matches(Constants.TYPE_LOCATION_CALL) ||
-                    type.matches(Constants.TYPE_LOCATION_OUT_CALL)) {
-
-            } else {
+            if (!type.contains(Constants.TYPE_CALL)) {
                 if (task.matches("")) {
                     taskField.setError(getString(R.string.empty_field));
                     return null;
@@ -1286,7 +1265,6 @@ public class ReminderManager extends AppCompatActivity implements
         } else {
             taskField.setHint(getString(R.string.remind_me));
         }
-        isMessage = type;
     }
 
     public class CurrentLocation implements LocationListener {

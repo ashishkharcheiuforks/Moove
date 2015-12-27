@@ -1,7 +1,6 @@
 package com.backdoor.moove.core.utils;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.view.ViewCompat;
@@ -16,12 +15,9 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.Transformation;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
-import com.backdoor.moove.core.helper.Module;
 import com.backdoor.moove.R;
+import com.backdoor.moove.core.helper.Module;
 
 public class ViewUtils {
 
@@ -48,40 +44,6 @@ public class ViewUtils {
     public static int getColor(Context context, int resource){
         if (Module.isMarshmallow()) return context.getResources().getColor(resource, null);
         return context.getResources().getColor(resource);
-    }
-
-    /**
-     * Set contact image to ImageButton.
-     * @param ib ImageButton.
-     * @param isDark dark theme flag.
-     */
-    public static void setImage(ImageButton ib, boolean isDark){
-        if (isDark){
-            ib.setImageResource(R.drawable.ic_person_add_white_24dp);
-        } else ib.setImageResource(R.drawable.ic_person_add_black_24dp);
-    }
-
-    /**
-     * Set compound drawable for button.
-     * @param ib Button.
-     * @param isDark dark theme flag.
-     */
-    public static void setImage(Button ib, boolean isDark){
-        if (isDark){
-            ib.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person_add_white_24dp, 0, 0, 0);
-        } else ib.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person_add_black_24dp, 0, 0, 0);
-    }
-
-    /**
-     * Set light typeface for selected TextView's.
-     * @param context application context.
-     * @param views TextView's.
-     */
-    public static void setTypeFont(Context context, TextView... views){
-        Typeface typeface = AssetsUtil.getLightTypeface(context);
-        for (TextView v : views){
-            v.setTypeface(typeface);
-        }
     }
 
     public static void fadeInAnimation(View view){

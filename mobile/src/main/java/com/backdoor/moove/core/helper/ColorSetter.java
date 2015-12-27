@@ -1,7 +1,6 @@
 package com.backdoor.moove.core.helper;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 
 import com.backdoor.moove.R;
@@ -15,43 +14,6 @@ public class ColorSetter {
 
     public ColorSetter(Context context){
         this.mContext = context;
-    }
-
-    /**
-     * Method to get typeface by style code;
-     * @param style code of style
-     * @return typeface
-     */
-    public Typeface getTypeface(int style){
-        Typeface typeface;
-        if (style == 0) {
-            typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Black.ttf");
-        } else if (style == 1) {
-            typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-BlackItalic.ttf");
-        } else if (style == 2) {
-            typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Bold.ttf");
-        } else if (style == 3) {
-            typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-BoldItalic.ttf");
-        } else if (style == 4) {
-            typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Italic.ttf");
-        } else if (style == 5) {
-            typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Light.ttf");
-        } else if (style == 6) {
-            typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-LightItalic.ttf");
-        } else if (style == 7) {
-            typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Medium.ttf");
-        } else if (style == 8) {
-            typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-MediumItalic.ttf");
-        } else if (style == 9) {
-            typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Regular.ttf");
-        } else if (style == 10) {
-            typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Thin.ttf");
-        } else if (style == 11) {
-            typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-ThinItalic.ttf");
-        } else {
-            typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Light.ttf");
-        }
-        return typeface;
     }
 
     /**
@@ -109,7 +71,7 @@ public class ColorSetter {
      * @return Color
      */
     public int getSpinnerStyle(){
-        return getColor(R.color.material_grey);
+        return getColor(R.color.themePrimaryDark);
     }
 
     /**
@@ -141,7 +103,7 @@ public class ColorSetter {
      * @return Color
      */
     public int getBackgroundStyle(){
-        return getColor(R.color.material_grey);
+        return getColor(R.color.themeBackground);
     }
 
     /**
@@ -157,7 +119,7 @@ public class ColorSetter {
      * @return Color
      */
     public int getCardStyle(){
-        return getColor(R.color.material_grey);
+        return getColor(R.color.themePrimaryDark);
     }
 
     /**

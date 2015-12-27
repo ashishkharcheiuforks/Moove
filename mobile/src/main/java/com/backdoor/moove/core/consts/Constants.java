@@ -22,7 +22,6 @@ public class Constants {
     public final static String SELECTED_LED_COLOR = "selected_led_color";
 
     public static final String EDIT_ID = "edit_id";
-    public static final String EDIT_WIDGET = "edit_widget";
 
     public static final String TYPE_LOCATION = "location";
     public static final String TYPE_LOCATION_OUT = "out_location";
@@ -31,6 +30,7 @@ public class Constants {
     public static final String TYPE_LOCATION_CALL = "location_call";
     public static final String TYPE_LOCATION_MESSAGE = "location_message";
     public static final String TYPE_MESSAGE = "message";
+    public static final String TYPE_CALL = "call";
 
     public static final int NOT_LOCKED = 1;
     public static final int LOCKED = 2;
@@ -48,4 +48,6 @@ public class Constants {
     public static final String DEFAULT = "default";
     public static final String NONE = "none";
     public static final int ACTION_REQUEST_GALLERY = 130;
+    public static final String SELECTED_CONTACT_ARRAY = "selected_contacts";
+    public static final String SELECTED_CONTACT_NAME = "selected_contact_name";
 }

@@ -6,7 +6,7 @@
     android:background="?attr/colorPrimary"
     android:elevation="@dimen/toolbar_elevation"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+    app:popupTheme="@style/ThemeOverlay.AppCompat">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,19 +58,6 @@
                 android:src="@drawable/ic_mic_white_24dp"/>
 
         </RelativeLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/category"
-            android:textSize="18sp"
-            android:padding="2dp"
-            android:textColor="@color/whitePrimary"
-            android:drawableLeft="@drawable/ic_local_offer_white_24dp"
-            android:drawablePadding="30dp"
-            android:textStyle="bold"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
 
         </LinearLayout>
 

@@ -23,6 +23,8 @@ import android.widget.ListView;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.helper.ColorSetter;
 
+import java.util.ArrayList;
+
 public class ContactsList extends AppCompatActivity {
 
     private ArrayAdapter<String> adapter;
@@ -44,6 +46,9 @@ public class ContactsList extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         toolbar.setTitle(R.string.contacts);
 
+        Intent intent = getIntent();
+        final ArrayList<String> contacts = intent.getStringArrayListExtra(Constants.SELECTED_CONTACT_ARRAY);
+
         searchField = (EditText) findViewById(R.id.searchField);
         searchField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -64,7 +69,7 @@ public class ContactsList extends AppCompatActivity {
         });
 
         ListView contactsList = (ListView) findViewById(R.id.contactsList);
-        //adapter = new ArrayAdapter<>(ContactsList.this, android.R.layout.simple_list_item_1, null);
+        adapter = new ArrayAdapter<>(ContactsList.this, android.R.layout.simple_list_item_1, contacts);
         contactsList.setAdapter(adapter);
 
         contactsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -103,8 +108,8 @@ public class ContactsList extends AppCompatActivity {
                                     number = number.substring(index + 2);
                                     //selectedNumber.setText(number);
                                     Intent intent = new Intent();
-                                    //intent.putExtra(Constants.SELECTED_CONTACT_NUMBER, number);
-                                    //intent.putExtra(Constants.SELECTED_CONTACT_NAME, name);
+                                    intent.putExtra(Constants.SELECTED_CONTACT_NUMBER, number);
+                                    intent.putExtra(Constants.SELECTED_CONTACT_NAME, name);
                                     setResult(RESULT_OK, intent);
                                     finish();
                                 }
@@ -119,14 +124,14 @@ public class ContactsList extends AppCompatActivity {
                             String number = c.getString(phoneIdx);
                             //selectedNumber.setText(number);
                             Intent intent = new Intent();
-                            //intent.putExtra(Constants.SELECTED_CONTACT_NUMBER, number);
-                            //intent.putExtra(Constants.SELECTED_CONTACT_NAME, name);
+                            intent.putExtra(Constants.SELECTED_CONTACT_NUMBER, number);
+                            intent.putExtra(Constants.SELECTED_CONTACT_NAME, name);
                             setResult(RESULT_OK, intent);
                             finish();
                         }
                     } else if (c.getCount() == 0) {
                         Intent intent = new Intent();
-                        //intent.putExtra(Constants.SELECTED_CONTACT_NAME, name);
+                        intent.putExtra(Constants.SELECTED_CONTACT_NAME, name);
                         setResult(RESULT_OK, intent);
                         finish();
                     }

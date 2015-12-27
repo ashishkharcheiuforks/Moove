@@ -24,6 +24,7 @@
         <item name="colorPrimaryDark">@color/themePrimaryDark</item>
         <item name="colorPrimary">@color/themePrimary</item>
         <item name="colorAccent">@color/greenPrimary</item>
+        <item name="android:windowBackground">@color/themeBackground</item>
         <item name="windowActionBar">false</item>
     </style>
 
