@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.consts.Prefs;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.SharedPrefs;
 
 public class SelectVolume extends Activity {
@@ -22,7 +22,7 @@ public class SelectVolume extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ColorSetter cs = new ColorSetter(SelectVolume.this);
+        Coloring cs = new Coloring(SelectVolume.this);
         setTheme(cs.getDialogStyle());
         setContentView(R.layout.volume_dialog_layout);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

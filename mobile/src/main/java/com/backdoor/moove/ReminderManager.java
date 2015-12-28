@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -53,14 +54,14 @@ import com.backdoor.moove.core.data.SpinnerItem;
 import com.backdoor.moove.core.dialogs.LedColor;
 import com.backdoor.moove.core.dialogs.TargetRadius;
 import com.backdoor.moove.core.fragments.MapFragment;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.DataBase;
 import com.backdoor.moove.core.helper.LocationType;
-import com.backdoor.moove.core.helper.Messages;
 import com.backdoor.moove.core.helper.Permissions;
 import com.backdoor.moove.core.helper.Reminder;
 import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.helper.Type;
+import com.backdoor.moove.core.interfaces.ActionCallbacksExtended;
 import com.backdoor.moove.core.interfaces.MapListener;
 import com.backdoor.moove.core.services.GeolocationService;
 import com.backdoor.moove.core.services.PositionDelayReceiver;
@@ -84,7 +85,7 @@ import java.util.UUID;
 public class ReminderManager extends AppCompatActivity implements
         AdapterView.OnItemSelectedListener, MapListener, GeocoderTask.GeocoderListener,
         DateTimeView.OnSelectListener, ActionView.OnActionListener,
-        CompoundButton.OnCheckedChangeListener {
+        CompoundButton.OnCheckedChangeListener, ActionCallbacksExtended {
 
     /**
      * Location reminder variables.
@@ -108,6 +109,7 @@ public class ReminderManager extends AppCompatActivity implements
     private RadioButton currentCheck, mapCheck;
     private MapFragment mapOut;
     private ActionView actionViewLocationOut;
+    private SeekBar pointRadius;
 
     /**
      * General views.
@@ -148,7 +150,7 @@ public class ReminderManager extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ColorSetter cSetter = new ColorSetter(ReminderManager.this);
+        Coloring cSetter = new Coloring(ReminderManager.this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(cSetter.colorPrimaryDark());
         }
@@ -166,8 +168,16 @@ public class ReminderManager extends AppCompatActivity implements
                                 save();
                                 return true;
                             case R.id.action_custom_melody:
-                                startActivityForResult(new Intent(ReminderManager.this, FileExplore.class),
-                                        Constants.REQUEST_CODE_SELECTED_MELODY);
+                                if (Permissions.checkPermission(ReminderManager.this, Permissions.MANAGE_DOCUMENTS) &&
+                                        Permissions.checkPermission(ReminderManager.this, Permissions.READ_EXTERNAL)) {
+                                    startActivityForResult(new Intent(ReminderManager.this, FileExplore.class),
+                                            Constants.REQUEST_CODE_SELECTED_MELODY);
+                                } else {
+                                    Permissions.requestPermission(ReminderManager.this,
+                                            new String[]{Permissions.MANAGE_DOCUMENTS,
+                                                    Permissions.READ_EXTERNAL}, 200);
+                                }
+
                                 return true;
                             case R.id.action_custom_radius:
                                 selectRadius();
@@ -295,6 +305,24 @@ public class ReminderManager extends AppCompatActivity implements
     private void clearViews() {
         findViewById(R.id.geolocationlayout).setVisibility(View.GONE);
         findViewById(R.id.locationOutLayout).setVisibility(View.GONE);
+
+        map = new MapFragment();
+        map.setListener(this);
+        map.setMarkerRadius(sPrefs.loadInt(Prefs.LOCATION_RADIUS));
+
+        mapOut = new MapFragment();
+        mapOut.setListener(this);
+        mapOut.setMarkerRadius(sPrefs.loadInt(Prefs.LOCATION_RADIUS));
+
+        addFragment(R.id.map, map);
+        addFragment(R.id.mapOut, mapOut);
+    }
+
+    private void addFragment(int res, MapFragment fragment) {
+        FragmentManager fragMan = getSupportFragmentManager();
+        FragmentTransaction fragTransaction = fragMan.beginTransaction();
+        fragTransaction.add(res, fragment);
+        fragTransaction.commitAllowingStateLoss();
     }
 
     /**
@@ -314,19 +342,8 @@ public class ReminderManager extends AppCompatActivity implements
      * Delete or move to trash reminder.
      */
     private void deleteReminder() {
-        DataBase db = new DataBase(this);
-        db.open();
-        Cursor c = db.getReminder(id);
-        if (c != null && c.moveToFirst()) {
-            int isArchived = c.getInt(c.getColumnIndex(DataBase.STATUS_DB));
-            if (isArchived == Constants.ARCHIVE) {
-                Reminder.delete(id, this);
-                Messages.toast(ReminderManager.this, getString(R.string.deleted));
-            } else Reminder.moveToTrash(id, this, null);
-            finish();
-        }
-        if (c != null) c.close();
-        db.close();
+        Reminder.delete(id, this);
+        finish();
     }
 
     /**
@@ -382,15 +399,7 @@ public class ReminderManager extends AppCompatActivity implements
                     mapCheck.setChecked(false);
                     mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                     mLocList = new CurrentLocation();
-                    SharedPrefs prefs = new SharedPrefs(getApplicationContext());
-                    long time;
-                    time = (prefs.loadInt(Prefs.TRACK_TIME) * 1000);
-                    int distance;
-                    distance = prefs.loadInt(Prefs.TRACK_DISTANCE);
-                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time,
-                            distance, mLocList);
-                    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time,
-                            distance, mLocList);
+                    setLocationUpdates();
                 }
                 break;
             case R.id.mapCheck:
@@ -398,35 +407,63 @@ public class ReminderManager extends AppCompatActivity implements
                     currentCheck.setChecked(false);
                     ViewUtils.fadeOutAnimation(specsContainerOut);
                     ViewUtils.fadeInAnimation(mapContainerOut);
-                    if (mLocList != null) {
-                        mLocationManager.removeUpdates(mLocList);
-                    }
+                    removeUpdates();
                 }
                 break;
         }
     }
 
-    @Override
-    public void place(LatLng place) {
-        curPlace = place;
-        if (isLocationOutAttached()) mapLocation.setText(LocationUtil.getAddress(place.latitude, place.longitude));
+    private void removeUpdates() {
+        if (mLocList != null) {
+            if (Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_COARSE_LOCATION) &&
+                    Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_FINE_LOCATION)) {
+                mLocationManager.removeUpdates(mLocList);
+            } else {
+                Permissions.requestPermission(ReminderManager.this,
+                        new String[]{Permissions.ACCESS_FINE_LOCATION,
+                                Permissions.ACCESS_COARSE_LOCATION}, 201);
+            }
+        }
     }
 
     @Override
-    public void onZoomOutClick() {
-        if (isLocationAttached()) {
-            ViewUtils.fadeOutAnimation(mapContainer);
-            ViewUtils.fadeInAnimation(specsContainer);
-        }
+    public void placeChanged(LatLng place) {
+        curPlace = place;
         if (isLocationOutAttached()) {
-            ViewUtils.fadeOutAnimation(mapContainerOut);
-            ViewUtils.fadeInAnimation(specsContainerOut);
+            mapLocation.setText(LocationUtil.getAddress(place.latitude, place.longitude));
+        }
+    }
+
+    @Override
+    public void onZoomClick(boolean isFull) {
+        if (isFull) {
+            ViewUtils.slideOutUp(toolbar);
+        } else {
+            ViewUtils.slideInDown(toolbar);
         }
     }
 
     @Override
     public void placeName(String name) {
 
+    }
+
+    @Override
+    public void onBackClick() {
+        if (isLocationAttached()) {
+            if (map.isFullscreen()) {
+                ViewUtils.slideInDown(toolbar);
+            }
+            ViewUtils.fadeOutAnimation(mapContainer);
+            ViewUtils.fadeInAnimation(specsContainer);
+        }
+        if (isLocationOutAttached()) {
+            if (mapOut.isFullscreen()) {
+                ViewUtils.slideInDown(toolbar);
+            }
+            ViewUtils.fadeOutAnimation(mapContainerOut);
+            ViewUtils.fadeInAnimation(specsContainerOut);
+        }
     }
 
     /**
@@ -445,16 +482,6 @@ public class ReminderManager extends AppCompatActivity implements
         specsContainer = (ScrollView) findViewById(R.id.specsContainer);
         delayLayout.setVisibility(View.GONE);
         mapContainer.setVisibility(View.GONE);
-
-        map = new MapFragment();
-        map.setListener(this);
-        map.enableTouch(true);
-        map.setMarkerRadius(sPrefs.loadInt(Prefs.LOCATION_RADIUS));
-
-        FragmentManager fragMan = getSupportFragmentManager();
-        FragmentTransaction fragTransaction = fragMan.beginTransaction();
-        fragTransaction.add(R.id.map, map);
-        fragTransaction.commitAllowingStateLoss();
 
         attackDelay = (CheckBox) findViewById(R.id.attackDelay);
         attackDelay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -556,6 +583,14 @@ public class ReminderManager extends AppCompatActivity implements
         dateViewLocation.setListener(this);
         dateViewLocation.setDateTime(cal.getTimeInMillis());
 
+        if (curPlace != null) {
+            if (map != null) {
+                map.addMarker(curPlace, null, true, true, radius);
+                ViewUtils.fadeOutAnimation(specsContainer);
+                ViewUtils.fadeInAnimation(mapContainer);
+            }
+        }
+
         if (id != 0 && isSame()) {
             String text, number, remType;
             double latitude, longitude;
@@ -591,7 +626,9 @@ public class ReminderManager extends AppCompatActivity implements
                 Log.d(Constants.LOG_TAG, "Lat " + latitude + ", " + longitude);
                 taskField.setText(text);
                 if (map != null) {
-                    map.addMarker(new LatLng(latitude, longitude), text, true, false, radius);
+                    map.addMarker(new LatLng(latitude, longitude), text, true, true, radius);
+                    ViewUtils.fadeOutAnimation(specsContainer);
+                    ViewUtils.fadeInAnimation(mapContainer);
                 }
             }
         }
@@ -613,16 +650,6 @@ public class ReminderManager extends AppCompatActivity implements
         mapContainerOut = (RelativeLayout) findViewById(R.id.mapContainerOut);
         delayLayoutOut.setVisibility(View.GONE);
         mapContainerOut.setVisibility(View.GONE);
-
-        mapOut = new MapFragment();
-        mapOut.setListener(this);
-        mapOut.enableTouch(true);
-        mapOut.setMarkerRadius(sPrefs.loadInt(Prefs.LOCATION_RADIUS));
-
-        FragmentManager fragMan = getSupportFragmentManager();
-        FragmentTransaction fragTransaction = fragMan.beginTransaction();
-        fragTransaction.add(R.id.mapOut, mapOut);
-        fragTransaction.commitAllowingStateLoss();
 
         attachDelayOut = (CheckBox) findViewById(R.id.attachDelayOut);
         attachDelayOut.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -660,7 +687,7 @@ public class ReminderManager extends AppCompatActivity implements
         mapCheck.setOnCheckedChangeListener(this);
         currentCheck.setChecked(true);
 
-        SeekBar pointRadius = (SeekBar) findViewById(R.id.pointRadius);
+        pointRadius = (SeekBar) findViewById(R.id.pointRadius);
         pointRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -839,7 +866,7 @@ public class ReminderManager extends AppCompatActivity implements
             String uuId = UUID.randomUUID().toString();
 
             if (!LocationUtil.checkLocationEnable(this)) {
-                LocationUtil.showLocationAlert(this);
+                LocationUtil.showLocationAlert(this, this);
                 return null;
             }
             LatLng dest = null;
@@ -849,34 +876,27 @@ public class ReminderManager extends AppCompatActivity implements
                 isNull = false;
             }
             if (isNull) {
-                Messages.toast(ReminderManager.this, getString(R.string.no_place_selected));
+                showSnackbar(R.string.no_place_selected);
                 return null;
             }
 
             Double latitude = dest.latitude;
             Double longitude = dest.longitude;
-            Log.d(Constants.LOG_TAG, "Place coords " + latitude + "," + longitude);
-
-            if (isLocationAttached() && !attackDelay.isChecked()) {
-                myDay = 0;
-                myMonth = 0;
-                myYear = 0;
-                myHour = 0;
-                myMinute = 0;
-            }
-            if (isLocationOutAttached() && !attachDelayOut.isChecked()) {
-                myDay = 0;
-                myMonth = 0;
-                myYear = 0;
-                myHour = 0;
-                myMinute = 0;
-            }
+            Log.d(Constants.LOG_TAG, "Place coords " + latitude + ", " + longitude);
 
             Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
             calendar.set(myYear, myMonth, myDay, myHour, myMinute, 0);
+            long startTime = calendar.getTimeInMillis();
+            if ((isLocationAttached() && !attackDelay.isChecked()) ||
+                    (isLocationOutAttached() && !attachDelayOut.isChecked())) {
+                startTime = -1;
+            }
+
+            Log.d(Constants.LOG_TAG, "Start time " + startTime);
 
             return new Reminder(0, task, type, melody, uuId, new double[]{latitude, longitude},
-                    number, radius, calendar.getTimeInMillis(), ledColor);
+                    number, radius, startTime, ledColor);
         } else {
             return null;
         }
@@ -1007,16 +1027,15 @@ public class ReminderManager extends AppCompatActivity implements
             case 0:
                 detachCurrentView();
                 if (LocationUtil.checkGooglePlayServicesAvailability(ReminderManager.this)) {
-                    if (new Permissions(ReminderManager.this).checkPermission(Permissions.ACCESS_FINE_LOCATION) &&
-                            new Permissions(ReminderManager.this).checkPermission(Permissions.CALL_PHONE)
-                            && new Permissions(ReminderManager.this).checkPermission(Permissions.SEND_SMS)
-                            && new Permissions(ReminderManager.this).checkPermission(Permissions.ACCESS_COURSE_LOCATION)
-                            && new Permissions(ReminderManager.this).checkPermission(Permissions.READ_CONTACTS)) {
+                    if (Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_FINE_LOCATION) &&
+                            Permissions.checkPermission(ReminderManager.this, Permissions.CALL_PHONE)
+                            && Permissions.checkPermission(ReminderManager.this, Permissions.SEND_SMS)
+                            && Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_COARSE_LOCATION)
+                            && Permissions.checkPermission(ReminderManager.this, Permissions.READ_CONTACTS)) {
                         attachLocation();
                     } else {
-                        new Permissions(ReminderManager.this)
-                                .requestPermission(ReminderManager.this,
-                                        new String[]{Permissions.ACCESS_COURSE_LOCATION,
+                        Permissions.requestPermission(ReminderManager.this,
+                                        new String[]{Permissions.ACCESS_COARSE_LOCATION,
                                                 Permissions.ACCESS_FINE_LOCATION, Permissions.CALL_PHONE,
                                                 Permissions.SEND_SMS, Permissions.READ_CONTACTS}, 105);
                     }
@@ -1027,16 +1046,15 @@ public class ReminderManager extends AppCompatActivity implements
             case 1:
                 detachCurrentView();
                 if (LocationUtil.checkGooglePlayServicesAvailability(ReminderManager.this)) {
-                    if (new Permissions(ReminderManager.this).checkPermission(Permissions.ACCESS_FINE_LOCATION) &&
-                            new Permissions(ReminderManager.this).checkPermission(Permissions.CALL_PHONE)
-                            && new Permissions(ReminderManager.this).checkPermission(Permissions.SEND_SMS)
-                            && new Permissions(ReminderManager.this).checkPermission(Permissions.ACCESS_COURSE_LOCATION)
-                            && new Permissions(ReminderManager.this).checkPermission(Permissions.READ_CONTACTS)) {
+                    if (Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_FINE_LOCATION) &&
+                            Permissions.checkPermission(ReminderManager.this, Permissions.CALL_PHONE)
+                            && Permissions.checkPermission(ReminderManager.this, Permissions.SEND_SMS)
+                            && Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_COARSE_LOCATION)
+                            && Permissions.checkPermission(ReminderManager.this, Permissions.READ_CONTACTS)) {
                         attachLocationOut();
                     } else {
-                        new Permissions(ReminderManager.this)
-                                .requestPermission(ReminderManager.this,
-                                        new String[]{Permissions.ACCESS_COURSE_LOCATION,
+                        Permissions.requestPermission(ReminderManager.this,
+                                        new String[]{Permissions.ACCESS_COARSE_LOCATION,
                                                 Permissions.ACCESS_FINE_LOCATION, Permissions.CALL_PHONE,
                                                 Permissions.SEND_SMS, Permissions.READ_CONTACTS}, 106);
                     }
@@ -1080,8 +1098,29 @@ public class ReminderManager extends AppCompatActivity implements
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     SuperUtil.selectContact(ReminderManager.this, Constants.REQUEST_CODE_CONTACTS);
                 } else {
-                    new Permissions(ReminderManager.this)
-                            .showInfo(ReminderManager.this, Permissions.READ_CONTACTS);
+                    showSnackbar(R.string.cant_access_to_contacts);
+                }
+                break;
+            case 200:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    startActivityForResult(new Intent(ReminderManager.this, FileExplore.class),
+                            Constants.REQUEST_CODE_SELECTED_MELODY);
+                } else {
+                    showSnackbar(R.string.cant_read_external_storage);
+                }
+                break;
+            case 201:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    removeUpdates();
+                } else {
+                    showSnackbar(R.string.cant_access_location_services);
+                }
+                break;
+            case 202:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    setLocationUpdates();
+                } else {
+                    showSnackbar(R.string.cant_access_location_services);
                 }
                 break;
         }
@@ -1101,6 +1140,7 @@ public class ReminderManager extends AppCompatActivity implements
                 }
             }
         }
+
         if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
             ArrayList matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (matches != null){
@@ -1108,13 +1148,21 @@ public class ReminderManager extends AppCompatActivity implements
                 taskField.setText(text);
             }
         }
+
         if (requestCode == Constants.REQUEST_CODE_SELECTED_MELODY) {
             if (resultCode == RESULT_OK){
                 melody = data.getStringExtra(Constants.FILE_PICKED);
                 if (melody != null) {
                     File musicFile = new File(melody);
-                    Messages.toast(ReminderManager.this, getString(R.string.selected_melody) +
-                            " " + musicFile.getName());
+
+                    String str = getString(R.string.selected_melody) +
+                            " " + musicFile.getName();
+                    showSnackbar(str, R.string.dismiss, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            melody = null;
+                        }
+                    });
                 }
             }
         }
@@ -1123,9 +1171,20 @@ public class ReminderManager extends AppCompatActivity implements
             if (resultCode == RESULT_OK){
                 radius = data.getIntExtra(Constants.SELECTED_RADIUS, -1);
                 if (radius != -1) {
-                    Messages.toast(ReminderManager.this,
-                            String.format(getString(R.string.selected_radius_meters), radius));
-                    mapOut.recreateMarker(radius);
+                    String str = String.format(getString(R.string.selected_radius_meters), radius);
+                    showSnackbar(str, R.string.dismiss, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            radius = -1;
+                        }
+                    });
+                    if (isLocationAttached()) {
+                        map.recreateMarker(radius);
+                    }
+                    if (isLocationOutAttached()) {
+                        mapOut.recreateMarker(radius);
+                        pointRadius.setProgress(radius);
+                    }
                 }
             }
         }
@@ -1133,37 +1192,16 @@ public class ReminderManager extends AppCompatActivity implements
         if (requestCode == Constants.REQUEST_CODE_SELECTED_COLOR) {
             if (resultCode == RESULT_OK){
                 int position = data.getIntExtra(Constants.SELECTED_LED_COLOR, -1);
-                String selColor = null;
-                if (position == 0) {
-                    ledColor = LED.WHITE;
-                    selColor = getString(R.string.white);
-                } else if (position == 1) {
-                    ledColor = LED.RED;
-                    selColor = getString(R.string.red);
-                } else if (position == 2) {
-                    ledColor = LED.GREEN;
-                    selColor = getString(R.string.green);
-                } else if (position == 3) {
-                    ledColor = LED.BLUE;
-                    selColor = getString(R.string.blue);
-                } else if (position == 4) {
-                    ledColor = LED.ORANGE;
-                    selColor = getString(R.string.orange);
-                } else if (position == 5) {
-                    ledColor = LED.YELLOW;
-                    selColor = getString(R.string.yellow);
-                } else if (position == 6) {
-                    ledColor = LED.PINK;
-                    selColor = getString(R.string.pink);
-                } else if (position == 7) {
-                    ledColor = LED.GREEN_LIGHT;
-                    selColor = getString(R.string.light_green);
-                } else if (position == 8) {
-                    ledColor = LED.BLUE_LIGHT;
-                    selColor = getString(R.string.light_blue);
-                }
-                Messages.toast(ReminderManager.this,
-                        String.format(getString(R.string.selected_led_color), selColor));
+                String selColor = LED.getTitle(this, position);
+                ledColor = LED.getLED(position);
+
+                String str = String.format(getString(R.string.selected_led_color), selColor);
+                showSnackbar(str, R.string.dismiss, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ledColor = -1;
+                    }
+                });
             }
         }
     }
@@ -1198,16 +1236,8 @@ public class ReminderManager extends AppCompatActivity implements
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
     protected void onDestroy() {
-        if (mLocList != null) {
-            mLocationManager.removeUpdates(mLocList);
-        }
+        removeUpdates();
         InputMethodManager imm = (InputMethodManager)getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(taskField.getWindowToken(), 0);
@@ -1267,6 +1297,54 @@ public class ReminderManager extends AppCompatActivity implements
         }
     }
 
+    @Override
+    public void showSnackbar(int message, int actionTitle, View.OnClickListener listener) {
+        Snackbar.make(mFab, message, Snackbar.LENGTH_LONG)
+                .setAction(actionTitle, listener)
+                .show();
+    }
+
+    @Override
+    public void showSnackbar(int message) {
+        Snackbar.make(mFab, message, Snackbar.LENGTH_LONG)
+                .show();
+    }
+
+    @Override
+    public void showSnackbar(String message) {
+        Snackbar.make(mFab, message, Snackbar.LENGTH_LONG)
+                .show();
+    }
+
+    @Override
+    public void showSnackbar(String message, int actionTitle, View.OnClickListener listener) {
+        Snackbar.make(mFab, message, Snackbar.LENGTH_LONG)
+                .setAction(actionTitle, listener)
+                .show();
+    }
+
+    private void setLocationUpdates() {
+        if (mLocList != null) {
+            SharedPrefs prefs = new SharedPrefs(getApplicationContext());
+            long time;
+            time = (prefs.loadInt(Prefs.TRACK_TIME) * 1000);
+            int distance;
+            distance = prefs.loadInt(Prefs.TRACK_DISTANCE);
+            if (Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_COARSE_LOCATION) &&
+                    Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_FINE_LOCATION)) {
+                mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time,
+                        distance, mLocList);
+                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time,
+                        distance, mLocList);
+            } else {
+                Permissions.requestPermission(ReminderManager.this,
+                        new String[]{Permissions.ACCESS_FINE_LOCATION,
+                                Permissions.ACCESS_COARSE_LOCATION}, 202);
+            }
+        }
+    }
+
     public class CurrentLocation implements LocationListener {
 
         @Override
@@ -1287,41 +1365,17 @@ public class ReminderManager extends AppCompatActivity implements
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-            mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            SharedPrefs prefs = new SharedPrefs(getApplicationContext());
-            long time = (prefs.loadInt(Prefs.TRACK_TIME) * 1000) * 2;
-            int distance = prefs.loadInt(Prefs.TRACK_DISTANCE) * 2;
-            if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, mLocList);
-            } else {
-                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time, distance, mLocList);
-            }
+            setLocationUpdates();
         }
 
         @Override
         public void onProviderEnabled(String provider) {
-            mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            SharedPrefs prefs = new SharedPrefs(getApplicationContext());
-            long time = (prefs.loadInt(Prefs.TRACK_TIME) * 1000) * 2;
-            int distance = prefs.loadInt(Prefs.TRACK_DISTANCE) * 2;
-            if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, mLocList);
-            } else {
-                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time, distance, mLocList);
-            }
+            setLocationUpdates();
         }
 
         @Override
         public void onProviderDisabled(String provider) {
-            mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            SharedPrefs prefs = new SharedPrefs(getApplicationContext());
-            long time = (prefs.loadInt(Prefs.TRACK_TIME) * 1000) * 2;
-            int distance = prefs.loadInt(Prefs.TRACK_DISTANCE) * 2;
-            if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, mLocList);
-            } else {
-                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time, distance, mLocList);
-            }
+            setLocationUpdates();
         }
     }
 }

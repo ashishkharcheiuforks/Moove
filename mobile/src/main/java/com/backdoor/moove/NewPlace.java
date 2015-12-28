@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.fragments.MapFragment;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.DataBase;
 import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.interfaces.MapListener;
@@ -22,7 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class NewPlace extends AppCompatActivity implements MapListener {
 
-    private ColorSetter cs = new ColorSetter(NewPlace.this);
+    private Coloring cs = new Coloring(NewPlace.this);
     private EditText placeName;
     private SharedPrefs sPrefs = new SharedPrefs(NewPlace.this);
 
@@ -50,10 +50,13 @@ public class NewPlace extends AppCompatActivity implements MapListener {
 
         placeName = (EditText) findViewById(R.id.placeName);
         MapFragment googleMap = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        googleMap.enableTouch(true);
-        googleMap.enableCloseButton(false);
-        googleMap.enablePlaceList(false);
         googleMap.setListener(this);
+        Bundle arg = new Bundle();
+        arg.putBoolean(MapFragment.ENABLE_BACK, false);
+        arg.putBoolean(MapFragment.ENABLE_ZOOM, false);
+        arg.putBoolean(MapFragment.ENABLE_PLACES, false);
+        arg.putBoolean(MapFragment.ENABLE_STYLES, false);
+        //googleMap.setArguments(arg);
         googleMap.moveToMyLocation();
 
         if (id != 0){
@@ -122,17 +125,22 @@ public class NewPlace extends AppCompatActivity implements MapListener {
     }
 
     @Override
-    public void place(LatLng place) {
+    public void placeChanged(LatLng place) {
         this.place = place;
     }
 
     @Override
-    public void onZoomOutClick() {
+    public void onZoomClick(boolean isFull) {
 
     }
 
     @Override
     public void placeName(String name) {
         this.placeTitle = name;
+    }
+
+    @Override
+    public void onBackClick() {
+
     }
 }

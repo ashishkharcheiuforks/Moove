@@ -15,6 +15,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.Transformation;
+import android.view.animation.TranslateAnimation;
 
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.helper.Module;
@@ -44,6 +45,44 @@ public class ViewUtils {
     public static int getColor(Context context, int resource){
         if (Module.isMarshmallow()) return context.getResources().getColor(resource, null);
         return context.getResources().getColor(resource);
+    }
+
+    public static void slideInUp(View view){
+        Animation animation = new TranslateAnimation(Animation.ABSOLUTE, 1, Animation.ABSOLUTE, 1,
+                Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 1);
+        animation.setInterpolator(new AccelerateDecelerateInterpolator());
+        animation.setDuration(400);
+        animation.setFillAfter(true);
+        view.setAnimation(animation);
+        view.setVisibility(View.VISIBLE);
+    }
+
+    public static void slideOutDown(View view){
+        Animation animation = new TranslateAnimation(Animation.ABSOLUTE, 1, Animation.ABSOLUTE, 1,
+                Animation.ABSOLUTE, 1, Animation.ABSOLUTE, 0);
+        animation.setInterpolator(new AccelerateInterpolator()); //and this
+        animation.setDuration(400);
+        view.setAnimation(animation);
+        view.setVisibility(View.GONE);
+    }
+
+    public static void slideOutUp(View view){
+        Animation animation = new TranslateAnimation(Animation.ABSOLUTE, 1, Animation.ABSOLUTE, 1,
+                Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 1);
+        animation.setInterpolator(new DecelerateInterpolator());
+        animation.setDuration(400);
+        view.setAnimation(animation);
+        view.setVisibility(View.GONE);
+    }
+
+    public static void slideInDown(View view){
+        Animation animation = new TranslateAnimation(Animation.ABSOLUTE, 1, Animation.ABSOLUTE, 1,
+                Animation.ABSOLUTE, 1, Animation.ABSOLUTE, 0);
+        animation.setInterpolator(new AccelerateDecelerateInterpolator()); //and this
+        animation.setDuration(400);
+        animation.setFillAfter(true);
+        view.setAnimation(animation);
+        view.setVisibility(View.VISIBLE);
     }
 
     public static void fadeInAnimation(View view){

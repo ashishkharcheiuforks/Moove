@@ -18,10 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.backdoor.moove.core.adapters.RemindersRecyclerAdapter;
-import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.data.ReminderDataProvider;
 import com.backdoor.moove.core.data.ReminderModel;
-import com.backdoor.moove.core.helper.DataBase;
 import com.backdoor.moove.core.helper.Reminder;
 import com.backdoor.moove.core.interfaces.ActionCallbacks;
 import com.backdoor.moove.core.interfaces.RecyclerListener;
@@ -43,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
      */
     private ReminderDataProvider provider;
 
-    FloatingActionButton fab;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +75,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
      * Load data to recycler view.
      */
     public void loaderAdapter() {
-        DataBase db = new DataBase(this);
-        if (!db.isOpen()) {
-            db.open();
-        }
         provider = new ReminderDataProvider(this);
-        provider.setCursor(db.getReminders(Constants.ACTIVE));
-        db.close();
         reloadView();
         RemindersRecyclerAdapter adapter = new RemindersRecyclerAdapter(this, provider);
         adapter.setEventListener(this);
@@ -136,30 +128,31 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
     }
 
     @Override
-    public void onItemSwitched(int position, View view) {
+    public void onItemSwitched(final int position, final View view) {
         Reminder.toggle(provider.getItem(position).getId(), this, this);
         loaderAdapter();
     }
 
     @Override
-    public void onItemClicked(int position, View view) {
+    public void onItemClicked(final int position, final View view) {
         Reminder.edit(provider.getItem(position).getId(), MainActivity.this);
     }
 
     @Override
-    public void onItemLongClicked(int position, View view) {
+    public void onItemLongClicked(final int position, final View view) {
         final CharSequence[] items = {getString(R.string.edit), getString(R.string.delete)};
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setItems(items, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
                 dialog.dismiss();
-                ReminderModel item1 = provider.getItem(item);
+                ReminderModel item1 = provider.getItem(position);
                 switch (item){
                     case 0:
                         Reminder.edit(item1.getId(), MainActivity.this);
                         break;
-                    case 2:
-                        Reminder.moveToTrash(item1.getId(), MainActivity.this, MainActivity.this);
+                    case 1:
+                        Reminder.delete(item1.getId(), MainActivity.this);
+                        showSnackbar(R.string.deleted);
                         loaderAdapter();
                         break;
                 }
@@ -171,6 +164,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
 
     @Override
     public void showSnackbar(int message) {
-        Snackbar.make(fab, message, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(fab, message, Snackbar.LENGTH_LONG)
+                .show();
+    }
+
+    @Override
+    public void showSnackbar(final int message, int actionTitle, View.OnClickListener listener) {
+        Snackbar.make(fab, message, Snackbar.LENGTH_LONG)
+                .setAction(actionTitle, listener)
+                .show();
     }
 }

@@ -10,28 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReminderDataProvider {
-    private Cursor c;
     private List<ReminderModel> data;
     private Context mContext;
     private ReminderModel mLastRemovedData;
     private int mLastRemovedPosition = -1;
-    public static final int VIEW_REMINDER = 15666;
-    public static final int VIEW_SHOPPING_LIST = 15667;
 
     public ReminderDataProvider(Context mContext){
         data = new ArrayList<>();
         this.mContext = mContext;
-    }
-
-    public ReminderDataProvider(Context mContext, Cursor c){
-        data = new ArrayList<>();
-        this.mContext = mContext;
-        this.c = c;
-        load();
-    }
-
-    public void setCursor(Cursor c){
-        this.c = c;
         load();
     }
 
@@ -139,7 +125,7 @@ public class ReminderDataProvider {
         data.clear();
         DataBase db = new DataBase(mContext);
         db.open();
-        Cursor c = db.getReminders(Constants.ACTIVE);
+        Cursor c = db.getAllReminders();
         if (c != null && c.moveToNext()){
             do {
                 String title = c.getString(c.getColumnIndex(DataBase.SUMMARY));
@@ -150,7 +136,7 @@ public class ReminderDataProvider {
                 long startTime = c.getLong(c.getColumnIndex(DataBase.START_TIME));
                 long id = c.getLong(c.getColumnIndex(DataBase._ID));
                 int statusDb = c.getInt(c.getColumnIndex(DataBase.STATUS_DB));
-                int statusList = c.getInt(c.getColumnIndex(DataBase.STATUS_LIST));
+                int statusList = c.getInt(c.getColumnIndex(DataBase.STATUS_REMINDER));
                 double lat = c.getDouble(c.getColumnIndex(DataBase.LATITUDE));
                 double lon = c.getDouble(c.getColumnIndex(DataBase.LONGITUDE));
                 int radius = c.getInt(c.getColumnIndex(DataBase.RADIUS));
@@ -174,7 +160,7 @@ public class ReminderDataProvider {
             String melody = c.getString(c.getColumnIndex(DataBase.MELODY));
             long startTime = c.getLong(c.getColumnIndex(DataBase.START_TIME));
             int statusDb = c.getInt(c.getColumnIndex(DataBase.STATUS_DB));
-            int statusList = c.getInt(c.getColumnIndex(DataBase.STATUS_LIST));
+            int statusList = c.getInt(c.getColumnIndex(DataBase.STATUS_REMINDER));
             double lat = c.getDouble(c.getColumnIndex(DataBase.LATITUDE));
             double lon = c.getDouble(c.getColumnIndex(DataBase.LONGITUDE));
             int radius = c.getInt(c.getColumnIndex(DataBase.RADIUS));

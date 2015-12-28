@@ -30,6 +30,7 @@
         android:id="@+id/itemCard"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        card_view:cardBackgroundColor="@color/themePrimary"
         android:foreground="?android:attr/selectableItemBackground"
         card_view:cardCornerRadius="3dp"
         card_view:cardUseCompatPadding="true"
@@ -71,33 +72,24 @@
                     android:gravity="center_vertical"
                     android:id="@+id/taskText" />
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:singleLine="true"
                     android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
+                    android:text="Type"
+                    android:id="@+id/reminder_type"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:singleLine="true"
-                        android:layout_weight="1"
-                        android:text="Type"
-                        android:id="@+id/reminder_type"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:singleLine="true"
-                        android:focusable="false"
-                        android:layout_weight="0.75"
-                        android:layout_marginLeft="10dp"
-                        android:text="22 Dec 2015 10:40"
-                        android:id="@+id/taskDate" />
-
-                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:singleLine="true"
+                    android:focusable="false"
+                    android:layout_marginTop="5dp"
+                    android:text="22 Dec 2015 10:40"
+                    android:id="@+id/taskDate" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -106,49 +98,13 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:scaleType="center"
-                            android:focusable="false"
-                            android:src="@drawable/circle_blue"
-                            android:id="@+id/taskIcon" />
-
-                        <TextView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="5dp"
-                            android:gravity="center"
-                            android:focusable="false"
-                            android:id="@+id/repeatInterval"
-                            android:background="@drawable/round_view_black"/>
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginLeft="5dp"
-                            android:gravity="center"
-                            android:focusable="false"
-                            android:visibility="visible"
-                            android:id="@+id/leftTime"
-                            android:src="@drawable/drawable_blue"/>
-
-                    </LinearLayout>
-
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/contactGroup"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -156,8 +112,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:focusable="false"
-                        android:layout_weight="1"
-                        android:layout_marginTop="5dp"
+                        android:layout_weight="0.75"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/reminder_contact_name"/>
 
@@ -166,9 +121,8 @@
                         android:layout_height="match_parent"
                         android:singleLine="true"
                         android:focusable="false"
-                        android:layout_weight="0.75"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="5dp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:gravity="center_vertical"
                         android:id="@+id/reminder_phone" />
@@ -176,68 +130,6 @@
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp"
-            android:layout_marginBottom="1dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
-            android:visibility="gone"
-            android:id="@+id/subBackground"
-            android:focusable="false">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/titleContainer"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:singleLine="true"
-                    android:layout_marginTop="2dp"
-                    android:focusable="false"
-                    android:layout_marginLeft="5dp"
-                    android:gravity="center_vertical"
-                    android:id="@+id/shoppingTitle" />
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@android:color/darker_gray"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/todoList"
-                android:layout_width="match_parent"
-                android:overScrollMode="never"
-                android:visibility="visible"
-                android:orientation="vertical"
-                android:divider="@android:color/transparent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:focusable="false"
-                android:fastScrollEnabled="false"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/shoppingTime"
-                android:textSize="18sp"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/blackPrimary"
-                android:drawableLeft="@drawable/ic_alarm_black_24dp"
-                android:drawablePadding="@dimen/reminder_preview_margin_top"/>
-
-        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 

@@ -23,7 +23,7 @@ import com.backdoor.moove.core.adapters.PlaceRecyclerAdapter;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.QuickReturnViewType;
 import com.backdoor.moove.core.data.PlaceDataProvider;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.DataBase;
 import com.backdoor.moove.core.helper.Messages;
 import com.backdoor.moove.core.helper.Permissions;
@@ -36,7 +36,7 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
 
     private RecyclerView listView;
     private LinearLayout emptyItem;
-    private ColorSetter cs = new ColorSetter(PlacesList.this);
+    private Coloring cs = new Coloring(PlacesList.this);
     private FloatingActionButton mFab;
 
     private PlaceDataProvider provider;
@@ -72,11 +72,10 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
             @Override
             public void onClick(View v) {
                 if (LocationUtil.checkGooglePlayServicesAvailability(PlacesList.this)) {
-                    Permissions permissions = new Permissions(PlacesList.this);
-                    if (permissions.checkPermission(Permissions.ACCESS_COURSE_LOCATION)) {
+                    if (Permissions.checkPermission(PlacesList.this, Permissions.ACCESS_COARSE_LOCATION)) {
                         startActivity(new Intent(PlacesList.this, NewPlace.class));
                     } else {
-                        permissions.requestPermission(PlacesList.this, new String[]{Permissions.ACCESS_COURSE_LOCATION,
+                        Permissions.requestPermission(PlacesList.this, new String[]{Permissions.ACCESS_COARSE_LOCATION,
                                 Permissions.ACCESS_FINE_LOCATION}, 101);
                     }
                 }
@@ -177,7 +176,7 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     startActivity(new Intent(PlacesList.this, NewPlace.class));
                 } else {
-                    new Permissions(PlacesList.this).showInfo(PlacesList.this, Permissions.READ_CALENDAR);
+                    Permissions.showInfo(PlacesList.this, Permissions.READ_CALENDAR);
                 }
                 break;
         }

@@ -2,15 +2,6 @@ package com.backdoor.moove.core.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Environment;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Map;
 
 /**
  * Helper class for working with SharedPreferences.
@@ -18,8 +9,8 @@ import java.util.Map;
 public class SharedPrefs {
     private SharedPreferences prefs;
     private Context mContext;
-    public static final String APP_UI_PREFERENCES = "ui_settings";
-    public static final String APP_CHANGES_PREFERENCES = "changes_settings";
+    public static final String MOOVE_PREFS = "moove_prefs";
+    public static final String CHANGES_PREFS = "changes_settings";
     private static int MODE = Context.MODE_PRIVATE;
     public SharedPrefs(Context context){
         this.mContext = context;
@@ -31,7 +22,7 @@ public class SharedPrefs {
      * @param value value.
      */
     public void savePrefs(String stringToSave, String value){
-        prefs = mContext.getSharedPreferences(APP_UI_PREFERENCES, MODE);
+        prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
         SharedPreferences.Editor uiEd = prefs.edit();
         uiEd.putString(stringToSave, value);
         uiEd.commit();
@@ -43,7 +34,7 @@ public class SharedPrefs {
      * @param value value.
      */
     public void saveInt(String stringToSave, int value){
-        prefs = mContext.getSharedPreferences(APP_UI_PREFERENCES, MODE);
+        prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
         SharedPreferences.Editor uiEd = prefs.edit();
         uiEd.putInt(stringToSave, value);
         uiEd.commit();
@@ -55,7 +46,7 @@ public class SharedPrefs {
      * @return
      */
     public int loadInt(String stringToLoad){
-        prefs = mContext.getSharedPreferences(APP_UI_PREFERENCES, MODE);
+        prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
         int x;
         try {
             x = prefs.getInt(stringToLoad, 0);
@@ -71,7 +62,7 @@ public class SharedPrefs {
      * @param value value.
      */
     public void saveLong(String stringToSave, long value){
-        prefs = mContext.getSharedPreferences(APP_UI_PREFERENCES, MODE);
+        prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
         SharedPreferences.Editor uiEd = prefs.edit();
         uiEd.putLong(stringToSave, value);
         uiEd.commit();
@@ -83,7 +74,7 @@ public class SharedPrefs {
      * @return
      */
     public long loadLong(String stringToLoad){
-        prefs = mContext.getSharedPreferences(APP_UI_PREFERENCES, MODE);
+        prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
         long x;
         try {
             x = prefs.getLong(stringToLoad, 1000);
@@ -101,7 +92,7 @@ public class SharedPrefs {
     public String loadPrefs(String stringToLoad){
         String res;
         try {
-            prefs = mContext.getSharedPreferences(APP_UI_PREFERENCES, MODE);
+            prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
             res = prefs.getString(stringToLoad, "");
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -116,7 +107,7 @@ public class SharedPrefs {
      * @return
      */
     public boolean isString(String checkString){
-        prefs = mContext.getSharedPreferences(APP_UI_PREFERENCES, MODE);
+        prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
         return prefs.contains(checkString);
     }
 
@@ -126,7 +117,7 @@ public class SharedPrefs {
      * @param value value.
      */
     public void saveBoolean(String stringToSave, boolean value){
-        prefs = mContext.getSharedPreferences(APP_UI_PREFERENCES, MODE);
+        prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
         SharedPreferences.Editor uiEd = prefs.edit();
         uiEd.putBoolean(stringToSave, value);
         uiEd.commit();
@@ -138,7 +129,7 @@ public class SharedPrefs {
      * @return
      */
     public boolean loadBoolean(String stringToLoad){
-        prefs = mContext.getSharedPreferences(APP_UI_PREFERENCES, MODE);
+        prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
         boolean res;
         try {
             res = prefs.getBoolean(stringToLoad, false);
@@ -149,14 +140,14 @@ public class SharedPrefs {
     }
 
     public void saveVersionBoolean(String stringToSave){
-        prefs = mContext.getSharedPreferences(APP_CHANGES_PREFERENCES, MODE);
+        prefs = mContext.getSharedPreferences(CHANGES_PREFS, MODE);
         SharedPreferences.Editor uiEd = prefs.edit();
         uiEd.putBoolean(stringToSave, true);
         uiEd.commit();
     }
 
     public boolean loadVersionBoolean(String stringToLoad){
-        prefs = mContext.getSharedPreferences(APP_CHANGES_PREFERENCES, MODE);
+        prefs = mContext.getSharedPreferences(CHANGES_PREFS, MODE);
         boolean res;
         try {
             res = prefs.getBoolean(stringToLoad, false);

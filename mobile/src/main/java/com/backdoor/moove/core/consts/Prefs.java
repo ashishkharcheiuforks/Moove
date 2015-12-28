@@ -43,9 +43,8 @@ public class Prefs {
     public final static String REMINDER_IMAGE_BLUR = "reminder_image_blur";
     public static final String USE_DARK_THEME = "dark_theme";
     public static final String IS_24_TIME_FORMAT = "24_hour";
-    public static final String AUTO_LANGUAGE = "auto_language";
-    public static final String VOICE_LANGUAGE = "voice_language";
     public static final String LAST_USED_REMINDER = "last_reminder";
     public static final String RATE_SHOW = "rate_shown";
     public static final String APP_RUNS_COUNT = "app_runs";
+    public static final String FIRST_LOAD = "first_loading";
 }

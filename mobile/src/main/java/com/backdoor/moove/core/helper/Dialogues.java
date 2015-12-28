@@ -17,6 +17,7 @@ import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.LED;
 import com.backdoor.moove.core.consts.Language;
 import com.backdoor.moove.core.consts.Prefs;
+import com.google.android.gms.maps.GoogleMap;
 
 import java.util.ArrayList;
 
@@ -36,10 +37,6 @@ import java.util.ArrayList;
  * limitations under the License.
  */
 public class Dialogues {
-
-    public interface OnCategorySelectListener {
-        void onCategory(String catId, String title);
-    }
 
     /**
      * AlertDialog for selecting application screen orientation.
@@ -229,88 +226,29 @@ public class Dialogues {
      * AlertDialog for selecting LED indicator color for events.
      *
      * @param context     application context.
-     * @param prefsToSave Preference key to save result.
      */
-    public static void ledColor(final Context context, final String prefsToSave) {
+    public static void ledColor(final Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setCancelable(false);
         builder.setTitle(context.getString(R.string.led_color));
-        String[] colors = new String[]{context.getString(R.string.white),
-                context.getString(R.string.red),
-                context.getString(R.string.green),
-                context.getString(R.string.blue),
-                context.getString(R.string.orange),
-                context.getString(R.string.yellow),
-                context.getString(R.string.pink),
-                context.getString(R.string.light_green),
-                context.getString(R.string.light_blue)};
+
+        String[] colors = new String[LED.NUM_OF_LEDS];
+        for (int i = 0; i < LED.NUM_OF_LEDS; i++) {
+            colors[i] = LED.getTitle(context, i);
+        }
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_list_item_single_choice, colors);
 
         SharedPrefs prefs = new SharedPrefs(context);
-        int position;
-        int color = prefs.loadInt(prefsToSave);
-        switch (color) {
-            case LED.WHITE:
-                position = 0;
-                break;
-            case LED.RED:
-                position = 1;
-                break;
-            case LED.GREEN:
-                position = 2;
-                break;
-            case LED.BLUE:
-                position = 3;
-                break;
-            case LED.ORANGE:
-                position = 4;
-                break;
-            case LED.YELLOW:
-                position = 5;
-                break;
-            case LED.PINK:
-                position = 6;
-                break;
-            case LED.GREEN_LIGHT:
-                position = 7;
-                break;
-            case LED.BLUE_LIGHT:
-                position = 8;
-                break;
-            default:
-                position = 0;
-                break;
-        }
+        int position = prefs.loadInt(Prefs.LED_COLOR);
 
         builder.setSingleChoiceItems(adapter, position, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which != -1) {
                     SharedPrefs prefs = new SharedPrefs(context);
-                    String locale = Language.ENGLISH;
-                    if (which == 0) {
-                        prefs.saveInt(prefsToSave, LED.WHITE);
-                    } else if (which == 1) {
-                        prefs.saveInt(prefsToSave, LED.RED);
-                    } else if (which == 2) {
-                        prefs.saveInt(prefsToSave, LED.GREEN);
-                    } else if (which == 3) {
-                        prefs.saveInt(prefsToSave, LED.BLUE);
-                    } else if (which == 4) {
-                        prefs.saveInt(prefsToSave, LED.ORANGE);
-                    } else if (which == 5) {
-                        prefs.saveInt(prefsToSave, LED.YELLOW);
-                    } else if (which == 6) {
-                        prefs.saveInt(prefsToSave, LED.PINK);
-                    } else if (which == 7) {
-                        prefs.saveInt(prefsToSave, LED.GREEN_LIGHT);
-                    } else if (which == 8) {
-                        prefs.saveInt(prefsToSave, LED.BLUE_LIGHT);
-                    } else {
-                        prefs.saveInt(prefsToSave, LED.BLUE);
-                    }
+                    prefs.saveInt(Prefs.LED_COLOR, which);
                 }
             }
         });
@@ -404,15 +342,15 @@ public class Dialogues {
                 android.R.layout.simple_list_item_single_choice);
 
         SharedPrefs prefs = new SharedPrefs(context);
-        String type = prefs.loadPrefs(Prefs.MAP_TYPE);
+        int type = prefs.loadInt(Prefs.MAP_TYPE);
         int position;
-        if (type.matches(Constants.MAP_TYPE_NORMAL)) {
+        if (type == GoogleMap.MAP_TYPE_NORMAL) {
             position = 0;
-        } else if (type.matches(Constants.MAP_TYPE_SATELLITE)) {
+        } else if (type == GoogleMap.MAP_TYPE_SATELLITE) {
             position = 1;
-        } else if (type.matches(Constants.MAP_TYPE_HYBRID)) {
+        } else if (type == GoogleMap.MAP_TYPE_HYBRID) {
             position = 2;
-        } else if (type.matches(Constants.MAP_TYPE_TERRAIN)) {
+        } else if (type == GoogleMap.MAP_TYPE_TERRAIN) {
             position = 3;
         } else {
             position = 0;
@@ -424,15 +362,13 @@ public class Dialogues {
                 if (which != -1) {
                     SharedPrefs prefs = new SharedPrefs(context);
                     if (which == 0) {
-                        prefs.savePrefs(Prefs.MAP_TYPE, Constants.MAP_TYPE_NORMAL);
+                        prefs.saveInt(Prefs.MAP_TYPE, GoogleMap.MAP_TYPE_NORMAL);
                     } else if (which == 1) {
-                        prefs.savePrefs(Prefs.MAP_TYPE, Constants.MAP_TYPE_SATELLITE);
+                        prefs.saveInt(Prefs.MAP_TYPE, GoogleMap.MAP_TYPE_SATELLITE);
                     } else if (which == 2) {
-                        prefs.savePrefs(Prefs.MAP_TYPE, Constants.MAP_TYPE_HYBRID);
-                    } else if (which == 3) {
-                        prefs.savePrefs(Prefs.MAP_TYPE, Constants.MAP_TYPE_TERRAIN);
+                        prefs.saveInt(Prefs.MAP_TYPE, GoogleMap.MAP_TYPE_HYBRID);
                     } else {
-                        prefs.savePrefs(Prefs.MAP_TYPE, Constants.MAP_TYPE_NORMAL);
+                        prefs.saveInt(Prefs.MAP_TYPE, GoogleMap.MAP_TYPE_TERRAIN);
                     }
                 }
             }

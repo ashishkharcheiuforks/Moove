@@ -12,7 +12,7 @@ import android.webkit.WebView;
 import android.widget.EditText;
 
 import com.backdoor.moove.R;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 
 /**
  * Show all open source libraries used in project.
@@ -22,7 +22,7 @@ public final class ThanksDialog extends AppCompatActivity {
     /**
      * Helper method initialization.
      */
-    private ColorSetter cSetter = new ColorSetter(ThanksDialog.this);
+    private Coloring cSetter = new Coloring(ThanksDialog.this);
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

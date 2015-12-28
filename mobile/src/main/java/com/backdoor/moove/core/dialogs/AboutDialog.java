@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.consts.Configs;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.utils.AssetsUtil;
 
 /**
@@ -20,7 +20,7 @@ public class AboutDialog extends Activity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ColorSetter cs = new ColorSetter(AboutDialog.this);
+        Coloring cs = new Coloring(AboutDialog.this);
 
         setTheme(cs.getDialogStyle());
         setContentView(R.layout.about_dialog_layout);

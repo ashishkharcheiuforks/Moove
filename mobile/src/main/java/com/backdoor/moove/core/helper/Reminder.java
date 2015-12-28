@@ -50,31 +50,35 @@ public class Reminder {
         DataBase db = new DataBase(context);
         db.open();
         Cursor c = db.getReminder(id);
-        String type = null;
         long startTime = 0;
         int status = Constants.ENABLE;
         if (c != null && c.moveToFirst()) {
             startTime = c.getLong(c.getColumnIndex(DataBase.START_TIME));
             status = c.getInt(c.getColumnIndex(DataBase.STATUS_DB));
         }
-        if (c != null) c.close();
+        if (c != null) {
+            c.close();
+        }
         boolean res;
         if (status == Constants.ENABLE){
             disableReminder(id, context);
+            callbacks.showSnackbar(R.string.reminder_disabled);
             res = true;
         } else {
             if (!LocationUtil.checkLocationEnable(context)){
-                LocationUtil.showLocationAlert(context);
+                LocationUtil.showLocationAlert(context, callbacks);
                 res = false;
             } else {
                 db.setStatus(id, Constants.ENABLE);
-                if (startTime == 0) {
+                if (startTime > 0) {
+                    new PositionDelayReceiver().setAlarm(context, id);
+                    callbacks.showSnackbar(R.string.reminder_tracking_start_delayed);
+                } else {
                     context.startService(new Intent(context, GeolocationService.class)
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     context.startService(new Intent(context, CheckPosition.class)
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                } else {
-                    new PositionDelayReceiver().setAlarm(context, id);
+                    callbacks.showSnackbar(R.string.tracking_start);
                 }
                 res = true;
             }

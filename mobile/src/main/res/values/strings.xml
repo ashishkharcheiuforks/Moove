@@ -130,4 +130,19 @@
     <string name="read_external_storage">Read external storage</string>
     <string name="write_external_storage">Write external storage</string>
     <string name="send_message">Send message</string>
+    <string name="reminder_disabled">Reminder disabled.</string>
+    <string name="reminder_tracking_start_delayed">Reminder tracking start delayed.</string>
+    <string name="tracking_start">Tracking start.</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="cant_read_external_storage">Can\'t read external storage!</string>
+    <string name="cant_access_to_contacts">Can\'t access to contacts book!</string>
+    <string name="cant_access_location_services">Can\'t access location services!</string>
+    <string name="purple">Purple</string>
+    <string name="amber">Amber</string>
+    <string name="cyan">Cyan</string>
+    <string name="lime">Lime</string>
+    <string name="indigo">Indigo</string>
+    <string name="deep_orange">Deep orange</string>
+    <string name="deep_purple">Deep purple</string>
+    <string name="teal">Teal</string>
 </resources>

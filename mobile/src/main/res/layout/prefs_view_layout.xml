@@ -43,6 +43,7 @@
                 android:id="@+id/prefsPrimaryText"
                 android:textSize="@dimen/settings_text_size_primary"
                 android:text="Text"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,17 +89,5 @@
                 android:background="@drawable/drawable_blue"/>
             
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="@dimen/settings_text_size_primary"
-            android:id="@+id/proMask"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/redPrimary"
-            android:visibility="gone"/>
-
     </RelativeLayout>
 </merge>

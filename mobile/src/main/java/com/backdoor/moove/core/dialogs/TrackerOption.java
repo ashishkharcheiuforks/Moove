@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.async.DisableAsync;
 import com.backdoor.moove.core.consts.Prefs;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.SharedPrefs;
 
 public class TrackerOption extends Activity {
@@ -22,7 +22,7 @@ public class TrackerOption extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ColorSetter cs = new ColorSetter(TrackerOption.this);
+        Coloring cs = new Coloring(TrackerOption.this);
         setTheme(cs.getDialogStyle());
         setContentView(R.layout.tracker_settings_layout);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -33,7 +33,7 @@ public class TrackerOption extends Activity {
         radiusValue.setText(sPrefs.loadInt(Prefs.TRACK_DISTANCE) + getString(R.string.m));
 
         radiusBar = (SeekBar) findViewById(R.id.radiusBar);
-        radiusBar.setMax(99);
+        radiusBar.setMax(499);
         radiusBar.setProgress(sPrefs.loadInt(Prefs.TRACK_DISTANCE) - 1);
         radiusBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -56,7 +56,7 @@ public class TrackerOption extends Activity {
         timeValue.setText(sPrefs.loadInt(Prefs.TRACK_TIME) + getString(R.string.s));
 
         timeBar = (SeekBar) findViewById(R.id.timeBar);
-        timeBar.setMax(29);
+        timeBar.setMax(119);
         timeBar.setProgress(sPrefs.loadInt(Prefs.TRACK_TIME) - 1);
         timeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

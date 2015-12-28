@@ -11,7 +11,7 @@ import android.webkit.WebView;
 
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.consts.Prefs;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.views.FloatingEditText;
 
@@ -24,7 +24,7 @@ public class Help extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ColorSetter cSetter = new ColorSetter(Help.this);
+        Coloring cSetter = new Coloring(Help.this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(cSetter.colorPrimaryDark());
         }

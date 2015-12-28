@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.backdoor.moove.core.consts.Constants;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ public class ContactsList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(new ColorSetter(this).colorPrimaryDark());
+            getWindow().setStatusBarColor(new Coloring(this).colorPrimaryDark());
         }
         setContentView(R.layout.contact_picker_layout);
 

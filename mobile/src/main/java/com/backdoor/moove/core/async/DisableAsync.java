@@ -23,27 +23,24 @@ public class DisableAsync extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         DataBase db = new DataBase(mContext);
         db.open();
-        Cursor c = db.getReminders(Constants.ENABLE);
+        Cursor c = db.getAllReminders();
         if (c != null && c.moveToFirst()){
             boolean res = false;
             do {
-                String tp = c.getString(c.getColumnIndex(DataBase.TYPE));
-                if (tp.startsWith(Constants.TYPE_LOCATION) || tp.startsWith(Constants.TYPE_LOCATION_OUT)) {
-                    long startTime = c.getInt(c.getColumnIndex(DataBase.START_TIME));
-                    int isShown = c.getInt(c.getColumnIndex(DataBase.STATUS));
-                    int isDone = c.getInt(c.getColumnIndex(DataBase.STATUS_DB));
-                    if (startTime == 0) {
-                        if (isDone != 1){
+                long startTime = c.getInt(c.getColumnIndex(DataBase.START_TIME));
+                int isShown = c.getInt(c.getColumnIndex(DataBase.STATUS_NOTIFICATION));
+                int isDone = c.getInt(c.getColumnIndex(DataBase.STATUS_DB));
+                if (startTime == 0) {
+                    if (isDone == Constants.ENABLE){
+                        if (isShown != Constants.SHOWN) {
+                            res = true;
+                        }
+                    }
+                } else {
+                    if (TimeUtil.isCurrent(startTime)) {
+                        if (isDone == Constants.ENABLE){
                             if (isShown != Constants.SHOWN) {
                                 res = true;
-                            }
-                        }
-                    } else {
-                        if (TimeUtil.isCurrent(startTime)) {
-                            if (isDone != 1){
-                                if (isShown != Constants.SHOWN) {
-                                    res = true;
-                                }
                             }
                         }
                     }

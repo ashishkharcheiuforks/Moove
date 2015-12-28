@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.data.SpinnerItem;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 
 import java.util.ArrayList;
 
@@ -22,13 +22,13 @@ public class TitleNavigationAdapter extends BaseAdapter {
     private TextView txtTitle;
     private ArrayList<SpinnerItem> spinnerNavItem;
     private Context context;
-    private ColorSetter cs;
+    private Coloring cs;
 
     public TitleNavigationAdapter(Context context,
                                   ArrayList<SpinnerItem> spinnerNavItem) {
         this.spinnerNavItem = spinnerNavItem;
         this.context = context;
-        cs = new ColorSetter(context);
+        cs = new Coloring(context);
     }
 
     @Override

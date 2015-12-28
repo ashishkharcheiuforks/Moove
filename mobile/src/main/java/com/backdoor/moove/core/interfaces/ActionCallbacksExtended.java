@@ -1,6 +1,6 @@
 package com.backdoor.moove.core.interfaces;
 
-import com.google.android.gms.maps.model.LatLng;
+import android.view.View;
 
 /**
  * Copyright 2015 Nazar Suhovich
@@ -17,9 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public interface MapListener {
-    void placeChanged(LatLng place);
-    void onZoomClick(boolean isFull);
-    void onBackClick();
-    void placeName(String name);
+public interface ActionCallbacksExtended extends ActionCallbacks {
+    void showSnackbar(String message);
+    void showSnackbar(String message, int actionTitle, View.OnClickListener listener);
 }

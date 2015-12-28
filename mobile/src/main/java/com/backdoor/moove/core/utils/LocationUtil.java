@@ -1,7 +1,6 @@
 package com.backdoor.moove.core.utils;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,8 +10,10 @@ import android.location.Geocoder;
 import android.location.LocationManager;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
 
 import com.backdoor.moove.R;
+import com.backdoor.moove.core.interfaces.ActionCallbacks;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -24,13 +25,6 @@ import java.util.Locale;
  * Helper class for work with user coordinates.
  */
 public class LocationUtil {
-
-    /**
-     * Status constants for location reminder type.
-     */
-    public static final int ACTIVE = 0;
-    public static final int SHOWN = 1;
-    public static final int LOCKED = 2;
 
     /**
      * Check if user enable on device any location service.
@@ -50,25 +44,14 @@ public class LocationUtil {
      * Show dialog for enabling location service on device.
      * @param context application context.
      */
-    public static void showLocationAlert(final Context context){
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-        alertDialog.setTitle("GPS");
-        alertDialog.setMessage(R.string.gps_is_not_enabled);
-
-        alertDialog.setPositiveButton(context.getString(R.string.settings), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
+    public static void showLocationAlert(final Context context, ActionCallbacks callbacks){
+        callbacks.showSnackbar(R.string.gps_is_not_enabled, R.string.settings, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 context.startActivity(intent);
             }
         });
-
-        alertDialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        alertDialog.show();
     }
 
     /**

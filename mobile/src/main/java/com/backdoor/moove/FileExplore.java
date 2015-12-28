@@ -18,7 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.backdoor.moove.core.consts.Constants;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.Messages;
 import com.backdoor.moove.core.helper.Sound;
 import com.backdoor.moove.core.utils.ViewUtils;
@@ -37,7 +37,6 @@ public class FileExplore extends AppCompatActivity implements View.OnClickListen
 
 	// Check if the first level of the directory structure is the one showing
 	private Boolean firstLvl = true;
-    private boolean isDark = false;
 
 	private Item[] fileList;
 	private File path = new File(Environment.getExternalStorageDirectory() + "");
@@ -56,7 +55,7 @@ public class FileExplore extends AppCompatActivity implements View.OnClickListen
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(new ColorSetter(this).colorPrimaryDark());
+            getWindow().setStatusBarColor(new Coloring(this).colorPrimaryDark());
         }
 		setContentView(R.layout.activity_file_chooser);
 
@@ -66,8 +65,6 @@ public class FileExplore extends AppCompatActivity implements View.OnClickListen
         toolbar.setNavigationIcon(R.drawable.ic_clear_white_24dp);
 
         list = (ListView) findViewById(R.id.list);
-
-        isDark = true;
 
         buttonContainer = (LinearLayout) findViewById(R.id.buttonContainer);
         buttonContainer.setVisibility(View.GONE);
@@ -178,18 +175,18 @@ public class FileExplore extends AppCompatActivity implements View.OnClickListen
                     currentMelody.setText(chosenFile);
                 }
             }
-            playButton.setImageResource(R.drawable.ic_pause_black_24dp);
+            playButton.setImageResource(R.drawable.ic_pause_white_24dp);
         }
     }
 
     private void pause(){
         sound.pause();
-        playButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+        playButton.setImageResource(R.drawable.ic_play_arrow_white_24dp);
     }
 
     private void stop(){
         sound.stop();
-        playButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+        playButton.setImageResource(R.drawable.ic_play_arrow_white_24dp);
     }
 
     private void loadFileList() {
@@ -261,19 +258,19 @@ public class FileExplore extends AppCompatActivity implements View.OnClickListen
 
     private int getFileIcon(String file){
         if (isMelody(file))
-            return isDark ? R.drawable.ic_music_note_white_24dp : R.drawable.ic_music_note_black_24dp;
+            return R.drawable.ic_music_note_white_24dp;
         else if (isPicture(file))
-            return isDark ? R.drawable.ic_image_white_24dp : R.drawable.ic_image_black_24dp;
+            return R.drawable.ic_image_white_24dp;
         else if (isMovie(file))
-            return isDark ? R.drawable.ic_movie_white_24dp : R.drawable.ic_movie_black_24dp;
+            return R.drawable.ic_movie_white_24dp;
         else if (isGif(file))
-            return isDark ? R.drawable.ic_gif_white_24dp : R.drawable.ic_gif_black_24dp;
+            return R.drawable.ic_gif_white_24dp;
         else if (isArchive(file))
-            return isDark ? R.drawable.ic_storage_white_24dp : R.drawable.ic_storage_black_24dp;
+            return R.drawable.ic_storage_white_24dp;
         else if (isAndroid(file))
-            return isDark ? R.drawable.ic_android_white_24dp : R.drawable.ic_android_black_24dp;
+            return R.drawable.ic_android_white_24dp;
         else
-            return isDark ? R.drawable.ic_insert_drive_file_white_24dp : R.drawable.ic_insert_drive_file_black_24dp;
+            return R.drawable.ic_insert_drive_file_white_24dp;
     }
 
     private boolean isPicture(String file){
@@ -304,17 +301,20 @@ public class FileExplore extends AppCompatActivity implements View.OnClickListen
     }
 
     private int getDirectoryIcon(){
-        return isDark ? R.drawable.ic_folder_white_24dp : R.drawable.ic_folder_black_24dp;
+        return R.drawable.ic_folder_white_24dp;
     }
 
     private int getUndoIcon(){
-        return isDark ? R.drawable.ic_undo_white_24dp : R.drawable.ic_undo_black_24dp;
+        return R.drawable.ic_undo_white_24dp;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                if (sound.isPlaying()) {
+                    stop();
+                }
                 setResult(RESULT_CANCELED);
                 finish();
                 return true;
@@ -325,18 +325,20 @@ public class FileExplore extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onBackPressed() {
-        if (isMelody(chosenFile)) {
+        if (sound.isPlaying()) {
             stop();
-        } else {
-            setResult(RESULT_CANCELED);
-            finish();
         }
+        setResult(RESULT_CANCELED);
+        finish();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.selectButton:
+                if (sound.isPlaying()) {
+                    stop();
+                }
                 if (isMelody(chosenFile)) {
                     stop();
                     Intent intent = new Intent();

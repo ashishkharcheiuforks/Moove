@@ -1,14 +1,17 @@
 package com.backdoor.moove.core.fragments;
 
-import android.content.Context;
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -19,19 +22,24 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.backdoor.moove.R;
+import com.backdoor.moove.core.adapters.PlaceAdapter;
+import com.backdoor.moove.core.async.GeocoderTask;
 import com.backdoor.moove.core.consts.Configs;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.Prefs;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.DataBase;
+import com.backdoor.moove.core.helper.Messages;
 import com.backdoor.moove.core.helper.Module;
+import com.backdoor.moove.core.helper.Permissions;
 import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.interfaces.MapListener;
+import com.backdoor.moove.core.interfaces.SimpleListener;
+import com.backdoor.moove.core.utils.QuickReturnUtils;
 import com.backdoor.moove.core.utils.ViewUtils;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -42,19 +50,23 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapFragment extends Fragment implements View.OnLongClickListener {
+public class MapFragment extends Fragment implements View.OnClickListener {
 
     /**
      * UI elements;
      */
     private GoogleMap map;
     private CardView layersContainer;
+    private CardView styleCard;
+    private CardView placesListCard;
     private AutoCompleteTextView cardSearch;
-    private Spinner placesList;
+    private ImageButton zoomOut;
+    private LinearLayout groupOne, groupTwo, groupThree;
+    private RecyclerView placesList;
+    private LinearLayout emptyItem;
 
     /**
      * Array of user frequently used places;
@@ -65,19 +77,22 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
      * init variables and flags;
      */
     private boolean isTouch = true;
-    private boolean isClose = true;
-    private boolean isAll = true;
-    private boolean isList = true;
+    private boolean isZoom = true;
+    private boolean isBack = true;
+    private boolean isStyles = true;
+    private boolean isPlaces = true;
     private boolean isSearch = true;
+    private boolean isFullscreen = false;
     private String markerTitle;
     private int markerRadius = -1;
+    private int markerStyle = -1;
     private LatLng lastPos;
     private float strokeWidth = 3f;
 
     /**
      * UI helper class;
      */
-    private ColorSetter cSetter;
+    private Coloring cSetter;
 
     /**
      * Arrays of place search results;
@@ -93,10 +108,11 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
     private MapListener listener;
 
     public static final String ENABLE_TOUCH = "enable_touch";
-    public static final String ENABLE_CLOSE = "enable_close";
-    public static final String ENABLE_ALL_UI = "enable_all_ui";
+    public static final String ENABLE_PLACES = "enable_places";
     public static final String ENABLE_SEARCH = "enable_search";
-    public static final String ENABLE_LIST = "enable_list";
+    public static final String ENABLE_STYLES = "enable_styles";
+    public static final String ENABLE_BACK = "enable_back";
+    public static final String ENABLE_ZOOM = "enable_zoom";
 
     public static MapFragment newInstance() {
         return new MapFragment();
@@ -109,7 +125,7 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
      * Set listener for map fragment;
      * @param listener listener for map fragment
      */
-    public void setListener(MapListener listener){
+    public void setListener(MapListener listener) {
         this.listener = listener;
     }
 
@@ -117,7 +133,7 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
      * Set title for markers;
      * @param markerTitle marker title
      */
-    public void setMarkerTitle(String markerTitle){
+    public void setMarkerTitle(String markerTitle) {
         this.markerTitle = markerTitle;
     }
 
@@ -125,7 +141,7 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
      * Set radius for marker;
      * @param markerRadius radius for drawing circle around marker
      */
-    public void setMarkerRadius(int markerRadius){
+    public void setMarkerRadius(int markerRadius) {
         this.markerRadius = markerRadius;
     }
 
@@ -137,8 +153,9 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
      * @param animate animate to marker position
      * @param radius radius for circle around marker
      */
-    public void addMarker(LatLng pos, String title, boolean clear, boolean animate, int radius){
+    public void addMarker(LatLng pos, String title, boolean clear, boolean animate, int radius) {
         if (map != null) {
+            markerRadius = radius;
             if (clear) {
                 map.clear();
             }
@@ -147,15 +164,15 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
             }
             lastPos = pos;
             if (listener != null) {
-                listener.place(pos);
+                listener.placeChanged(pos);
             }
             map.addMarker(new MarkerOptions()
                     .position(pos)
                     .title(title)
-                    .icon(BitmapDescriptorFactory.fromResource(cSetter.getMarkerStyle()))
+                    .icon(BitmapDescriptorFactory.fromResource(cSetter.getMarkerStyle(markerStyle)))
                     .draggable(clear));
             if (radius != -1) {
-                int[] circleColors = cSetter.getMarkerRadiusStyle();
+                int[] circleColors = cSetter.getMarkerRadiusStyle(markerStyle);
                 map.addCircle(new CircleOptions()
                         .center(pos)
                         .radius(radius)
@@ -178,10 +195,12 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
      * @param animate animate to marker position
      * @param radius radius for circle around marker
      */
-    public void addMarker(LatLng pos, String title, boolean clear, int markerStyle, boolean animate, int radius){
+    public void addMarker(LatLng pos, String title, boolean clear, int markerStyle, boolean animate, int radius) {
         if (map != null) {
+            markerRadius = radius;
+            this.markerStyle = markerStyle;
             Log.d(Constants.LOG_TAG, "map not null");
-            if (clear){
+            if (clear) {
                 map.clear();
             }
             if (title == null || title.matches("")) {
@@ -189,7 +208,7 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
             }
             lastPos = pos;
             if (listener != null) {
-                listener.place(pos);
+                listener.placeChanged(pos);
             }
             map.addMarker(new MarkerOptions()
                     .position(pos)
@@ -217,7 +236,7 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
      * Recreate last added marker with new circle radius;
      * @param radius radius for a circle
      */
-    public void recreateMarker(int radius){
+    public void recreateMarker(int radius) {
         markerRadius = radius;
         if (map != null && lastPos != null) {
             map.clear();
@@ -225,15 +244,15 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
                 markerTitle = lastPos.toString();
             }
             if (listener != null) {
-                listener.place(lastPos);
+                listener.placeChanged(lastPos);
             }
             map.addMarker(new MarkerOptions()
                     .position(lastPos)
                     .title(markerTitle)
-                    .icon(BitmapDescriptorFactory.fromResource(cSetter.getMarkerStyle()))
+                    .icon(BitmapDescriptorFactory.fromResource(cSetter.getMarkerStyle(markerStyle)))
                     .draggable(true));
             if (radius != -1) {
-                int[] circleColors = cSetter.getMarkerRadiusStyle();
+                int[] circleColors = cSetter.getMarkerRadiusStyle(markerStyle);
                 map.addCircle(new CircleOptions()
                         .center(lastPos)
                         .radius(radius)
@@ -246,10 +265,42 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
     }
 
     /**
+     * Recreate last added marker with new marker style;
+     * @param style marker style.
+     */
+    public void recreateStyle(int style) {
+        markerStyle = style;
+        if (map != null && lastPos != null) {
+            map.clear();
+            if (markerTitle == null || markerTitle.matches("")) {
+                markerTitle = lastPos.toString();
+            }
+            if (listener != null) {
+                listener.placeChanged(lastPos);
+            }
+            map.addMarker(new MarkerOptions()
+                    .position(lastPos)
+                    .title(markerTitle)
+                    .icon(BitmapDescriptorFactory.fromResource(cSetter.getMarkerStyle(style)))
+                    .draggable(true));
+            if (style >= 0) {
+                int[] circleColors = cSetter.getMarkerRadiusStyle(style);
+                map.addCircle(new CircleOptions()
+                        .center(lastPos)
+                        .radius(markerRadius)
+                        .strokeWidth(strokeWidth)
+                        .fillColor(ViewUtils.getColor(getActivity(), circleColors[0]))
+                        .strokeColor(ViewUtils.getColor(getActivity(), circleColors[1])));
+            }
+            animate(lastPos);
+        }
+    }
+
+    /**
      * Move camera to coordinates;
      * @param pos coordinates
      */
-    public void moveCamera(LatLng pos){
+    public void moveCamera(LatLng pos) {
         if (map != null) {
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 13));
         }
@@ -259,7 +310,7 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
      * Move camera to coordinates with animation;
      * @param latLng coordinates
      */
-    public void animate(LatLng latLng){
+    public void animate(LatLng latLng) {
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, 13);
         if (map != null) {
             map.animateCamera(update);
@@ -269,8 +320,8 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
     /**
      * Move camera to user current coordinates with animation;
      */
-    public void moveToMyLocation(){
-        if (map != null && map.getMyLocation() != null){
+    public void moveToMyLocation() {
+        if (map != null && map.getMyLocation() != null) {
             double lat = map.getMyLocation().getLatitude();
             double lon = map.getMyLocation().getLongitude();
             LatLng pos = new LatLng(lat, lon);
@@ -282,8 +333,8 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
      * Move camera to user current coordinates with animation;
      * @param animate animation flag
      */
-    public void moveToMyLocation(boolean animate){
-        if (map != null && map.getMyLocation() != null){
+    public void moveToMyLocation(boolean animate) {
+        if (map != null && map.getMyLocation() != null) {
             double lat = map.getMyLocation().getLatitude();
             double lon = map.getMyLocation().getLongitude();
             LatLng pos = new LatLng(lat, lon);
@@ -297,46 +348,58 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
      * Enable/Disable on map click listener;
      * @param isTouch flag
      */
-    public void enableTouch(boolean isTouch){
+    public void enableTouch(boolean isTouch) {
         this.isTouch = isTouch;
     }
 
     /**
-     * Enable/Disable close map button;
-     * @param isClose flag
+     * Enable/Disable zoom button on map;
+     * @param isZoom flag
      */
-    public void enableCloseButton(boolean isClose){
-        this.isClose = isClose;
+    public void enableZoom(boolean isZoom) {
+        this.isZoom = isZoom;
     }
 
     /**
-     * Enable/Disable list of user frequently used places;
-     * @param isList flag
+     * Enable/Disable marker style button on map;
+     * @param isStyles flag
      */
-    public void enablePlaceList(boolean isList){
-        this.isList = isList;
+    public void enableStyles(boolean isStyles) {
+        this.isStyles = isStyles;
     }
 
     /**
-     * Method that allows to hide all custom UI;
-     * @param isAll flag to enable/disable additional UI elements.
+     * Enable/Disable search field button on map;
+     * @param isSearch flag
      */
-    public void enableUI(boolean isAll){
-        this.isAll = isAll;
-    }
-
-    /**
-     * Method that allows to search panel;
-     * @param isSearch flag to enable/disable searchBar.
-     */
-    public void enableSearch(boolean isSearch){
+    public void enableSearch(boolean isSearch) {
         this.isSearch = isSearch;
+    }
+
+    /**
+     * Enable/Disable places list button on map;
+     * @param isPlaces flag
+     */
+    public void enablePlaces(boolean isPlaces) {
+        this.isPlaces = isPlaces;
+    }
+
+    /**
+     * Enable/Disable map close button on map;
+     * @param isBack flag
+     */
+    public void enableBack(boolean isBack) {
+        this.isBack = isBack;
+    }
+
+    public boolean isFullscreen() {
+        return isFullscreen;
     }
 
     /**
      * Clear map;
      */
-    public void clear(){
+    public void clear() {
         if (map != null) map.clear();
     }
 
@@ -344,9 +407,15 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
      * On back pressed interface for map;
      * @return
      */
-    public boolean onBackPressed(){
+    public boolean onBackPressed() {
         if (isLayersVisible()) {
-            ViewUtils.hideOver(layersContainer);
+            hideLayers();
+            return false;
+        } else if (isMarkersVisible()) {
+            hideStyles();
+            return false;
+        } else if (isPlacesVisible()) {
+            hidePlaces();
             return false;
         } else {
             return true;
@@ -356,40 +425,37 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        initArguments(getArguments());
+        if (getArguments() != null) {
+            isTouch = getArguments().getBoolean(ENABLE_TOUCH, true);
+            isStyles = getArguments().getBoolean(ENABLE_STYLES, true);
+            isPlaces = getArguments().getBoolean(ENABLE_PLACES, true);
+            isZoom = getArguments().getBoolean(ENABLE_ZOOM, true);
+            isSearch = getArguments().getBoolean(ENABLE_SEARCH, true);
+            isBack = getArguments().getBoolean(ENABLE_BACK, true);
+        }
 
-        View rootView = inflater.inflate(R.layout.fragment_map, container, false);
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        final SharedPrefs sPrefs = new SharedPrefs(getActivity());
-        cSetter = new ColorSetter(getActivity());
+        final SharedPrefs prefs = new SharedPrefs(getActivity());
+        cSetter = new Coloring(getActivity());
+
+        markerRadius = prefs.loadInt(Prefs.LOCATION_RADIUS);
 
         map = ((SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map)).getMap();
         map.getUiSettings().setMyLocationButtonEnabled(false);
-        String type = sPrefs.loadPrefs(Prefs.MAP_TYPE);
-        if (type.matches(Constants.MAP_TYPE_NORMAL)){
-            map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        } else if (type.matches(Constants.MAP_TYPE_SATELLITE)){
-            map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        } else if (type.matches(Constants.MAP_TYPE_HYBRID)){
-            map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        } else if (type.matches(Constants.MAP_TYPE_TERRAIN)){
-            map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-        } else {
-            map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        }
-        map.setMyLocationEnabled(true);
+        int type = prefs.loadInt(Prefs.MAP_TYPE);
+        map.setMapType(type);
+
+        setMyLocation();
 
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                if (isLayersVisible()) {
-                    ViewUtils.hideOver(layersContainer);
-                }
+                hideLayers();
+                hidePlaces();
+                hideStyles();
                 if (isTouch) {
-                    if (!spinnerArray.isEmpty()) {
-                        placesList.setSelection(0);
-                    }
                     addMarker(latLng, markerTitle, true, true, markerRadius);
                 }
             }
@@ -399,120 +465,9 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
             addMarker(lastPos, lastPos.toString(), true, false, markerRadius);
         }
 
-        CardView card = (CardView) rootView.findViewById(R.id.card);
-        CardView card1 = (CardView) rootView.findViewById(R.id.card1);
-        CardView card2 = (CardView) rootView.findViewById(R.id.card2);
-        card.setCardBackgroundColor(cSetter.getCardStyle());
-        card1.setCardBackgroundColor(cSetter.getCardStyle());
-        card2.setCardBackgroundColor(cSetter.getCardStyle());
+        initViews(view);
 
-        layersContainer = (CardView) rootView.findViewById(R.id.layersContainer);
-        layersContainer.setVisibility(View.GONE);
-        layersContainer.setCardBackgroundColor(cSetter.getCardStyle());
-
-        if (Module.isLollipop()){
-            card.setCardElevation(Configs.CARD_ELEVATION);
-            card1.setCardElevation(Configs.CARD_ELEVATION);
-            card2.setCardElevation(Configs.CARD_ELEVATION);
-            layersContainer.setCardElevation(Configs.CARD_ELEVATION);
-        }
-
-        ImageButton cardClear = (ImageButton) rootView.findViewById(R.id.cardClear);
-        ImageButton zoomOut = (ImageButton) rootView.findViewById(R.id.zoomOut);
-        ImageButton layers = (ImageButton) rootView.findViewById(R.id.layers);
-        ImageButton myLocation = (ImageButton) rootView.findViewById(R.id.myLocation);
-
-        cardClear.setOnLongClickListener(this);
-        zoomOut.setOnLongClickListener(this);
-        layers.setOnLongClickListener(this);
-        myLocation.setOnLongClickListener(this);
-
-        zoomOut.setBackgroundColor(cSetter.getBackgroundStyle());
-        layers.setBackgroundColor(cSetter.getBackgroundStyle());
-        myLocation.setBackgroundColor(cSetter.getBackgroundStyle());
-
-        zoomOut.setImageResource(R.drawable.ic_fullscreen_exit_white_24dp);
-        layers.setImageResource(R.drawable.ic_layers_white_24dp);
-        myLocation.setImageResource(R.drawable.ic_my_location_white_24dp);
-
-        cardClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cardSearch.setText("");
-            }
-        });
-        zoomOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onZoomOutClick();
-                }
-            }
-        });
-        layers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isLayersVisible()) {
-                    ViewUtils.hideOver(layersContainer);
-                } else {
-                    ViewUtils.showOver(layersContainer);
-                }
-            }
-        });
-        myLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isLayersVisible()) {
-                    ViewUtils.hideOver(layersContainer);
-                }
-                Location location = map.getMyLocation();
-                if (location != null) {
-                    double lat = location.getLatitude();
-                    double lon = location.getLongitude();
-                    LatLng pos = new LatLng(lat, lon);
-                    animate(pos);
-                }
-            }
-        });
-
-        TextView typeNormal = (TextView) rootView.findViewById(R.id.typeNormal);
-        TextView typeSatellite = (TextView) rootView.findViewById(R.id.typeSatellite);
-        TextView typeHybrid = (TextView) rootView.findViewById(R.id.typeHybrid);
-        TextView typeTerrain = (TextView) rootView.findViewById(R.id.typeTerrain);
-        typeNormal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                sPrefs.savePrefs(Prefs.MAP_TYPE, Constants.MAP_TYPE_NORMAL);
-                ViewUtils.hideOver(layersContainer);
-            }
-        });
-        typeSatellite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                sPrefs.savePrefs(Prefs.MAP_TYPE, Constants.MAP_TYPE_SATELLITE);
-                ViewUtils.hideOver(layersContainer);
-            }
-        });
-        typeHybrid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-                sPrefs.savePrefs(Prefs.MAP_TYPE, Constants.MAP_TYPE_HYBRID);
-                ViewUtils.hideOver(layersContainer);
-            }
-        });
-        typeTerrain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-                sPrefs.savePrefs(Prefs.MAP_TYPE, Constants.MAP_TYPE_TERRAIN);
-                ViewUtils.hideOver(layersContainer);
-            }
-        });
-
-        cardSearch = (AutoCompleteTextView) rootView.findViewById(R.id.cardSearch);
+        cardSearch = (AutoCompleteTextView) view.findViewById(R.id.cardSearch);
         cardSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search_white_24dp, 0, 0, 0);
         cardSearch.setThreshold(3);
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, namesList);
@@ -520,9 +475,7 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
         cardSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (isLayersVisible()) {
-                    ViewUtils.hideOver(layersContainer);
-                }
+                hideLayers();
             }
 
             @Override
@@ -531,7 +484,25 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
                     task.cancel(true);
                 }
                 if (s.length() != 0) {
-                    task = new GeocoderTask(getActivity());
+                    task = new GeocoderTask(getActivity(), new GeocoderTask.GeocoderListener() {
+                        @Override
+                        public void onAddressReceived(List<Address> addresses) {
+                            foundPlaces = addresses;
+
+                            namesList = new ArrayList<>();
+                            namesList.clear();
+                            for (Address selected : addresses) {
+                                String addressText = String.format("%s, %s%s",
+                                        selected.getMaxAddressLineIndex() > 0 ? selected.getAddressLine(0) : "",
+                                        selected.getMaxAddressLineIndex() > 1 ? selected.getAddressLine(1) + ", " : "",
+                                        selected.getCountryName());
+                                namesList.add(addressText);
+                            }
+                            adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, namesList);
+                            cardSearch.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
                     task.execute(s.toString());
                 }
             }
@@ -555,25 +526,190 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
             }
         });
 
+        placesList = (RecyclerView) view.findViewById(R.id.placesList);
         loadPlaces();
 
-        placesList = (Spinner) rootView.findViewById(R.id.placesList);
-        placesList.setBackgroundColor(cSetter.getSpinnerStyle());
+        return view;
+    }
+
+    private void initViews(View view) {
+        groupOne = (LinearLayout) view.findViewById(R.id.groupOne);
+        groupTwo = (LinearLayout) view.findViewById(R.id.groupTwo);
+        groupThree = (LinearLayout) view.findViewById(R.id.groupThree);
+        emptyItem = (LinearLayout) view.findViewById(R.id.emptyItem);
+
+        placesList = (RecyclerView) view.findViewById(R.id.placesList);
+
+        CardView zoomCard = (CardView) view.findViewById(R.id.zoomCard);
+        CardView searchCard = (CardView) view.findViewById(R.id.searchCard);
+        CardView myCard = (CardView) view.findViewById(R.id.myCard);
+        CardView layersCard = (CardView) view.findViewById(R.id.layersCard);
+        CardView placesCard = (CardView) view.findViewById(R.id.placesCard);
+        CardView backCard = (CardView) view.findViewById(R.id.backCard);
+        styleCard = (CardView) view.findViewById(R.id.styleCard);
+        placesListCard = (CardView) view.findViewById(R.id.placesListCard);
+        CardView markersCard = (CardView) view.findViewById(R.id.markersCard);
+        placesListCard.setVisibility(View.GONE);
+        styleCard.setVisibility(View.GONE);
+
+        zoomCard.setCardBackgroundColor(cSetter.getCardStyle());
+        searchCard.setCardBackgroundColor(cSetter.getCardStyle());
+        myCard.setCardBackgroundColor(cSetter.getCardStyle());
+        layersCard.setCardBackgroundColor(cSetter.getCardStyle());
+        placesCard.setCardBackgroundColor(cSetter.getCardStyle());
+        styleCard.setCardBackgroundColor(cSetter.getCardStyle());
+        placesListCard.setCardBackgroundColor(cSetter.getCardStyle());
+        markersCard.setCardBackgroundColor(cSetter.getCardStyle());
+        backCard.setCardBackgroundColor(cSetter.getCardStyle());
+
+        layersContainer = (CardView) view.findViewById(R.id.layersContainer);
+        layersContainer.setVisibility(View.GONE);
+        layersContainer.setCardBackgroundColor(cSetter.getCardStyle());
+
+        if (Module.isLollipop()) {
+            zoomCard.setCardElevation(Configs.CARD_ELEVATION);
+            searchCard.setCardElevation(Configs.CARD_ELEVATION);
+            myCard.setCardElevation(Configs.CARD_ELEVATION);
+            layersContainer.setCardElevation(Configs.CARD_ELEVATION);
+            layersCard.setCardElevation(Configs.CARD_ELEVATION);
+            placesCard.setCardElevation(Configs.CARD_ELEVATION);
+            styleCard.setCardElevation(Configs.CARD_ELEVATION);
+            placesListCard.setCardElevation(Configs.CARD_ELEVATION);
+            markersCard.setCardElevation(Configs.CARD_ELEVATION);
+            backCard.setCardElevation(Configs.CARD_ELEVATION);
+        }
+
+        ImageButton cardClear = (ImageButton) view.findViewById(R.id.cardClear);
+        zoomOut = (ImageButton) view.findViewById(R.id.mapZoom);
+        ImageButton layers = (ImageButton) view.findViewById(R.id.layers);
+        ImageButton myLocation = (ImageButton) view.findViewById(R.id.myLocation);
+        ImageButton markers = (ImageButton) view.findViewById(R.id.markers);
+        ImageButton places = (ImageButton) view.findViewById(R.id.places);
+        ImageButton backButton = (ImageButton) view.findViewById(R.id.backButton);
+
+        cardClear.setOnClickListener(this);
+        zoomOut.setOnClickListener(this);
+        layers.setOnClickListener(this);
+        myLocation.setOnClickListener(this);
+        markers.setOnClickListener(this);
+        places.setOnClickListener(this);
+        backButton.setOnClickListener(this);
+
+        TextView typeNormal = (TextView) view.findViewById(R.id.typeNormal);
+        TextView typeSatellite = (TextView) view.findViewById(R.id.typeSatellite);
+        TextView typeHybrid = (TextView) view.findViewById(R.id.typeHybrid);
+        TextView typeTerrain = (TextView) view.findViewById(R.id.typeTerrain);
+        typeNormal.setOnClickListener(this);
+        typeSatellite.setOnClickListener(this);
+        typeHybrid.setOnClickListener(this);
+        typeTerrain.setOnClickListener(this);
+
+        if (!isPlaces) {
+            placesCard.setVisibility(View.GONE);
+        }
+
+        if (!isBack) {
+            backCard.setVisibility(View.GONE);
+        }
+
+        if (!isSearch) {
+            searchCard.setVisibility(View.GONE);
+        }
+
+        if (!isStyles) {
+            markersCard.setVisibility(View.GONE);
+        }
+
+        if (!isZoom) {
+            zoomCard.setVisibility(View.GONE);
+        }
+
+        loadMarkers();
+    }
+
+    private void loadMarkers() {
+        groupOne.removeAllViewsInLayout();
+        groupTwo.removeAllViewsInLayout();
+        groupThree.removeAllViewsInLayout();
+
+        for (int i = 0; i < Coloring.NUM_OF_MARKERS; i++) {
+            ImageButton ib = new ImageButton(getActivity());
+            ib.setBackgroundResource(android.R.color.transparent);
+            ib.setImageResource(new Coloring(getActivity()).getMarkerStyle(i));
+            ib.setId(i + Coloring.NUM_OF_MARKERS);
+            ib.setOnClickListener(this);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            int px = QuickReturnUtils.dp2px(getActivity(), 2);
+            params.setMargins(px, px, px, px);
+            ib.setLayoutParams(params);
+
+            if (i < 5) {
+                groupOne.addView(ib);
+            } else if (i < 10) {
+                groupTwo.addView(ib);
+            } else {
+                groupThree.addView(ib);
+            }
+        }
+    }
+
+    private void setMapType(int type) {
+        if (map != null) {
+            map.setMapType(type);
+            new SharedPrefs(getActivity()).saveInt(Prefs.MAP_TYPE, type);
+            ViewUtils.hideOver(layersContainer);
+        }
+    }
+
+    private void setMyLocation() {
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED) {
+            Permissions.requestPermission(getActivity(),
+                    new String[]{Permissions.ACCESS_FINE_LOCATION,
+                            Permissions.ACCESS_COARSE_LOCATION}, 205);
+        } else {
+            map.setMyLocationEnabled(true);
+        }
+    }
+
+    private void loadPlaces(){
+        DataBase DB = new DataBase(getActivity());
+        DB.open();
+        Cursor c = DB.queryPlaces();
+        spinnerArray = new ArrayList<>();
+        spinnerArray.clear();
+        if (c != null && c.moveToFirst()){
+            do {
+                String namePlace = c.getString(c.getColumnIndex(DataBase.NAME));
+                spinnerArray.add(namePlace);
+
+            } while (c.moveToNext());
+        } else {
+            spinnerArray.clear();
+        }
+        if (c != null) {
+            c.close();
+        }
+
         if (spinnerArray.isEmpty()){
             placesList.setVisibility(View.GONE);
+            emptyItem.setVisibility(View.VISIBLE);
         } else {
+            emptyItem.setVisibility(View.GONE);
             placesList.setVisibility(View.VISIBLE);
-            ArrayAdapter<String> spinnerArrayAdapter =
-                    new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
-            spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            placesList.setAdapter(spinnerArrayAdapter);
-            placesList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            PlaceAdapter adapter = new PlaceAdapter(getActivity(), spinnerArray);
+            adapter.setEventListener(new SimpleListener() {
                 @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                    if (isLayersVisible()) {
-                        ViewUtils.hideOver(layersContainer);
-                    }
-                    if (position > 0){
+                public void onItemClicked(int position, View view) {
+                    hideLayers();
+                    hidePlaces();
+                    if (position > 0) {
                         String placeName = spinnerArray.get(position);
                         DataBase db = new DataBase(getActivity());
                         db.open();
@@ -591,72 +727,96 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
                 }
 
                 @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                    if (isLayersVisible()) {
-                        ViewUtils.hideOver(layersContainer);
-                    }
+                public void onItemLongClicked(int position, View view) {
+
                 }
             });
-        }
-
-        if (!isAll){
-            card.setVisibility(View.GONE);
-            card1.setVisibility(View.GONE);
-            card2.setVisibility(View.GONE);
-            placesList.setVisibility(View.GONE);
-        }
-
-        if (!isList) {
-            placesList.setVisibility(View.GONE);
-        }
-
-        if (!isClose) {
-            card1.setVisibility(View.GONE);
-        }
-
-        if (!isSearch) {
-            card.setVisibility(View.GONE);
-        }
-
-        return rootView;
-    }
-
-    private void initArguments(Bundle arguments) {
-        if (arguments != null) {
-            isTouch = arguments.getBoolean(ENABLE_TOUCH, true);
-            isAll = arguments.getBoolean(ENABLE_ALL_UI, true);
-            isClose = arguments.getBoolean(ENABLE_CLOSE, true);
-            isList = arguments.getBoolean(ENABLE_LIST, true);
-            isSearch = arguments.getBoolean(ENABLE_SEARCH, true);
+            placesList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            placesList.setAdapter(adapter);
         }
     }
 
-    private void showMessage(String message){
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    private void loadPlaces(){
-        DataBase DB = new DataBase(getActivity());
-        DB.open();
-        Cursor c = DB.queryPlaces();
-        spinnerArray = new ArrayList<>();
-        spinnerArray.clear();
-        spinnerArray.add(getString(R.string.other));
-        if (c != null && c.moveToFirst()){
-            do {
-                String namePlace = c.getString(c.getColumnIndex(DataBase.NAME));
-                spinnerArray.add(namePlace);
-
-            } while (c.moveToNext());
+    private void toggleMarkers() {
+        if (isLayersVisible()) {
+            hideLayers();
+        }
+        if (isPlacesVisible()) {
+            hidePlaces();
+        }
+        if (isMarkersVisible()) {
+            hideStyles();
         } else {
-            spinnerArray.clear();
-        }
-        if (c != null) {
-            c.close();
+            ViewUtils.slideInUp(styleCard);
         }
     }
 
-    private boolean isLayersVisible(){
+    private void hideStyles() {
+        if (isMarkersVisible()) {
+            ViewUtils.slideOutDown(styleCard);
+        }
+    }
+
+    private boolean isMarkersVisible() {
+        return styleCard != null && styleCard.getVisibility() == View.VISIBLE;
+    }
+
+    private void togglePlaces() {
+        if (isMarkersVisible()) {
+            hideStyles();
+        }
+        if (isLayersVisible()) {
+            hideLayers();
+        }
+        if (isPlacesVisible()) {
+            hidePlaces();
+        } else {
+            ViewUtils.slideInUp(placesListCard);
+        }
+    }
+
+    private void hidePlaces() {
+        if (isPlacesVisible()) {
+            ViewUtils.slideOutDown(placesListCard);
+        }
+    }
+
+    private boolean isPlacesVisible() {
+        return placesListCard != null && placesListCard.getVisibility() == View.VISIBLE;
+    }
+
+    private void toggleLayers() {
+        if (isMarkersVisible()) {
+            hideStyles();
+        }
+        if (isPlacesVisible()) {
+            hidePlaces();
+        }
+        if (isLayersVisible()) {
+            hideLayers();
+        } else {
+            ViewUtils.showOver(layersContainer);
+        }
+    }
+
+    private void hideLayers() {
+        if (isLayersVisible()) {
+            ViewUtils.hideOver(layersContainer);
+        }
+    }
+
+    private void zoomClick() {
+        isFullscreen = !isFullscreen;
+        if (listener != null) {
+            listener.onZoomClick(isFullscreen);
+        }
+        if (isFullscreen) {
+            zoomOut.setImageResource(R.drawable.ic_arrow_downward_white_24dp);
+        } else {
+            zoomOut.setImageResource(R.drawable.ic_arrow_upward_white_24dp);
+        }
+    }
+
+    private boolean isLayersVisible() {
         return layersContainer != null && layersContainer.getVisibility() == View.VISIBLE;
     }
 
@@ -666,68 +826,71 @@ public class MapFragment extends Fragment implements View.OnLongClickListener {
     }
 
     @Override
-    public boolean onLongClick(View v) {
-        switch (v.getId()){
-            case R.id.cardClear:
-                showMessage(getActivity().getString(R.string.clear_search_field));
-                return true;
-            case R.id.zoomOut:
-                showMessage(getActivity().getString(R.string.close_map));
-                return true;
-            case R.id.layers:
-                showMessage(getActivity().getString(R.string.change_layer));
-                return true;
-            case R.id.myLocation:
-                showMessage(getActivity().getString(R.string.show_my_location));
-                return true;
-            default:
-                return false;
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 205:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    setMyLocation();
+                } else {
+                    Messages.toast(getActivity(), R.string.cant_access_location_services);
+                }
+                break;
         }
     }
 
-    private class GeocoderTask extends AsyncTask<String, Void, List<Address>> {
-
-        private Context context;
-
-        public GeocoderTask(Context context){
-            this.context = context;
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id >= Coloring.NUM_OF_MARKERS && id < Coloring.NUM_OF_MARKERS * 2) {
+            recreateStyle(v.getId() - Coloring.NUM_OF_MARKERS);
+            hideStyles();
         }
 
-        @Override
-        protected List<Address> doInBackground(String... locationName) {
-            // Creating an instance of Geocoder class
-            Geocoder geocoder = new Geocoder(context);
-            List<Address> addresses = null;
-
-            try {
-                // Getting a maximum of 3 Address that matches the input text
-                addresses = geocoder.getFromLocationName(locationName[0], 3);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return addresses;
-        }
-
-        @Override
-        protected void onPostExecute(List<Address> addresses) {
-            if(addresses == null || addresses.size() == 0){
-                Log.d(Constants.LOG_TAG, "No Location found");
-            } else {
-                foundPlaces = addresses;
-
-                namesList = new ArrayList<>();
-                namesList.clear();
-                for (Address selected:addresses){
-                    String addressText = String.format("%s, %s%s",
-                            selected.getMaxAddressLineIndex() > 0 ? selected.getAddressLine(0) : "",
-                            selected.getMaxAddressLineIndex() > 1 ? selected.getAddressLine(1) + ", " : "",
-                            selected.getCountryName());
-                    namesList.add(addressText);
+        switch (id) {
+            case R.id.cardClear:
+                cardSearch.setText("");
+                break;
+            case R.id.mapZoom:
+                zoomClick();
+                break;
+            case R.id.layers:
+                toggleLayers();
+                break;
+            case R.id.myLocation:
+                hideLayers();
+                if (map != null) {
+                    Location location = map.getMyLocation();
+                    if (location != null) {
+                        double lat = location.getLatitude();
+                        double lon = location.getLongitude();
+                        LatLng pos = new LatLng(lat, lon);
+                        animate(pos);
+                    }
                 }
-                adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, namesList);
-                cardSearch.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
+                break;
+            case R.id.typeNormal:
+                setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                break;
+            case R.id.typeHybrid:
+                setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                break;
+            case R.id.typeSatellite:
+                setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                break;
+            case R.id.typeTerrain:
+                setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                break;
+            case R.id.places:
+                togglePlaces();
+                break;
+            case R.id.markers:
+                toggleMarkers();
+                break;
+            case R.id.backButton:
+                if (listener != null) {
+                    listener.onBackClick();
+                }
+                break;
         }
     }
 }

@@ -9,39 +9,39 @@ import android.widget.TextView;
 
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.consts.Prefs;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.SharedPrefs;
 
 public class MarkerStyle extends Activity implements View.OnClickListener{
-    private RadioButton red_flat, green_flat, blue_flat, yellow_flat, red_simple, green_simple, blue_simple, yellow_simple,
-            red_round, orange_round, green_round, blue_round, deep_purple, deep_orange, indigo, lime;
+    private RadioButton red, green, blue, yellow, greenLight, blueLight, grey, purple,
+            brown, orange, pink, teal, deepPurple, deepOrange, indigo, lime;
     private RadioGroup themeGroup, themeGroup2, themeGroup3, themeGroup4;
     private SharedPrefs sPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ColorSetter cs = new ColorSetter(MarkerStyle.this);
+        Coloring cs = new Coloring(MarkerStyle.this);
         setTheme(cs.getDialogStyle());
         setContentView(R.layout.marker_style_layout);
 
         TextView themeClose = (TextView) findViewById(R.id.themeClose);
         themeClose.setOnClickListener(this);
 
-        red_flat = (RadioButton) findViewById(R.id.red_flat);
-        green_flat = (RadioButton) findViewById(R.id.green_flat);
-        blue_flat = (RadioButton) findViewById(R.id.blue_flat);
-        yellow_flat = (RadioButton) findViewById(R.id.yellow_flat);
-        red_simple = (RadioButton) findViewById(R.id.red_simple);
-        green_simple = (RadioButton) findViewById(R.id.green_simple);
-        blue_simple = (RadioButton) findViewById(R.id.blue_simple);
-        yellow_simple = (RadioButton) findViewById(R.id.yellow_simple);
-        red_round = (RadioButton) findViewById(R.id.red_round);
-        orange_round = (RadioButton) findViewById(R.id.orange_round);
-        green_round = (RadioButton) findViewById(R.id.green_round);
-        blue_round = (RadioButton) findViewById(R.id.blue_round);
-        deep_purple = (RadioButton) findViewById(R.id.deep_purple);
-        deep_orange = (RadioButton) findViewById(R.id.deep_orange);
+        red = (RadioButton) findViewById(R.id.redCheck);
+        green = (RadioButton) findViewById(R.id.greenCheck);
+        blue = (RadioButton) findViewById(R.id.blueCheck);
+        yellow = (RadioButton) findViewById(R.id.yellowCheck);
+        greenLight = (RadioButton) findViewById(R.id.greenLightCheck);
+        blueLight = (RadioButton) findViewById(R.id.blueLightCheck);
+        grey = (RadioButton) findViewById(R.id.greyCheck);
+        purple = (RadioButton) findViewById(R.id.purpleCheck);
+        brown = (RadioButton) findViewById(R.id.brownCheck);
+        orange = (RadioButton) findViewById(R.id.orangeCheck);
+        pink = (RadioButton) findViewById(R.id.pinkCheck);
+        teal = (RadioButton) findViewById(R.id.tealCheck);
+        deepPurple = (RadioButton) findViewById(R.id.deep_purple);
+        deepOrange = (RadioButton) findViewById(R.id.deep_orange);
         indigo = (RadioButton) findViewById(R.id.indigo);
         lime = (RadioButton) findViewById(R.id.lime);
 
@@ -134,92 +134,107 @@ public class MarkerStyle extends Activity implements View.OnClickListener{
     public void setUpRadio(){
         sPrefs = new SharedPrefs(MarkerStyle.this);
         int loaded = sPrefs.loadInt(Prefs.MARKER_STYLE);
-        if (loaded == 1){
-            red_flat.setChecked(true);
-        } else if (loaded == 2){
-            green_flat.setChecked(true);
-        } else if (loaded == 3){
-            blue_flat.setChecked(true);
-        } else if (loaded == 4){
-            yellow_flat.setChecked(true);
-        } else if (loaded == 5){
-            red_simple.setChecked(true);
-        } else if (loaded == 6){
-            green_simple.setChecked(true);
-        } else if (loaded == 7){
-            blue_simple.setChecked(true);
-        } else if (loaded == 8){
-            yellow_simple.setChecked(true);
-        } else if (loaded == 9){
-            red_round.setChecked(true);
-        } else if (loaded == 10){
-            orange_round.setChecked(true);
-        } else if (loaded == 11){
-            green_round.setChecked(true);
-        } else if (loaded == 12){
-            blue_round.setChecked(true);
-        } else if (loaded == 13){
-            deep_purple.setChecked(true);
-        } else if (loaded == 14){
-            deep_orange.setChecked(true);
-        } else if (loaded == 15){
-            indigo.setChecked(true);
-        } else if (loaded == 16){
-            lime.setChecked(true);
-        } else {
-            blue_flat.setChecked(true);
+        switch (loaded) {
+            case 0:
+                red.setChecked(true);
+                break;
+            case 1:
+                green.setChecked(true);
+                break;
+            case 2:
+                blue.setChecked(true);
+                break;
+            case 3:
+                yellow.setChecked(true);
+                break;
+            case 4:
+                greenLight.setChecked(true);
+                break;
+            case 5:
+                blueLight.setChecked(true);
+                break;
+            case 6:
+                grey.setChecked(true);
+                break;
+            case 7:
+                purple.setChecked(true);
+                break;
+            case 8:
+                orange.setChecked(true);
+                break;
+            case 9:
+                pink.setChecked(true);
+                break;
+            case 10:
+                teal.setChecked(true);
+                break;
+            case 11:
+                brown.setChecked(true);
+                break;
+            case 12:
+                deepPurple.setChecked(true);
+                break;
+            case 13:
+                deepOrange.setChecked(true);
+                break;
+            case 14:
+                indigo.setChecked(true);
+                break;
+            case 15:
+                lime.setChecked(true);
+                break;
         }
     }
 
     private void themeColorSwitch(int radio){
         switch (radio){
-            case R.id.red_flat:
+            case R.id.redCheck:
+                saveColor(0);
+                break;
+            case R.id.greenCheck:
                 saveColor(1);
                 break;
-            case R.id.green_flat:
+            case R.id.blueCheck:
                 saveColor(2);
                 break;
-            case R.id.blue_flat:
+            case R.id.yellowCheck:
                 saveColor(3);
                 break;
-            case R.id.yellow_flat:
+            case R.id.greenLightCheck:
                 saveColor(4);
                 break;
-            case R.id.red_simple:
+            case R.id.blueLightCheck:
                 saveColor(5);
                 break;
-            case R.id.green_simple:
+            case R.id.greyCheck:
                 saveColor(6);
                 break;
-            case R.id.blue_simple:
+            case R.id.purpleCheck:
                 saveColor(7);
                 break;
-            case R.id.yellow_simple:
+            case R.id.orangeCheck:
                 saveColor(8);
                 break;
-            case R.id.red_round:
+            case R.id.pinkCheck:
                 saveColor(9);
                 break;
-            case R.id.orange_round:
+            case R.id.tealCheck:
                 saveColor(10);
                 break;
-            case R.id.green_round:
+            case R.id.brownCheck:
                 saveColor(11);
                 break;
-            case R.id.blue_round:
+            case R.id.deep_purple:
                 saveColor(12);
                 break;
-            case R.id.deep_purple:
+            case R.id.deep_orange:
                 saveColor(13);
                 break;
-            case R.id.deep_orange:
+            case R.id.indigo:
                 saveColor(14);
                 break;
-            case R.id.indigo:
-                saveColor(15);
-                break;
             case R.id.lime:
-                saveColor(16);
+                saveColor(15);
                 break;
         }
     }

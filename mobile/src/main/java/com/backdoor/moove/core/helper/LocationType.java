@@ -36,8 +36,6 @@ public class LocationType extends Type {
         } else {
             mContext.startService(new Intent(mContext, GeolocationService.class)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            mContext.startService(new Intent(mContext, CheckPosition.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }
     }
 }

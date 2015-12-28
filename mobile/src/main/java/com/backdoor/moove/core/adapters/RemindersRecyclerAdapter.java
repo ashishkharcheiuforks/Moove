@@ -1,17 +1,12 @@
 package com.backdoor.moove.core.adapters;
 
-import android.app.AlarmManager;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.graphics.Paint;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,19 +17,18 @@ import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.data.ReminderDataProvider;
 import com.backdoor.moove.core.data.ReminderModel;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.Contacts;
 import com.backdoor.moove.core.helper.Module;
 import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.interfaces.RecyclerListener;
 import com.backdoor.moove.core.utils.ReminderUtils;
 import com.backdoor.moove.core.utils.TimeUtil;
-import com.backdoor.moove.core.utils.ViewUtils;
 
 public class RemindersRecyclerAdapter extends RecyclerView.Adapter<RemindersRecyclerAdapter.ViewHolder> {
 
     private Context mContext;
-    private ColorSetter cs;
+    private Coloring cs;
     private ReminderDataProvider provider;
     private RecyclerListener mEventListener;
     private boolean is24;
@@ -43,7 +37,7 @@ public class RemindersRecyclerAdapter extends RecyclerView.Adapter<RemindersRecy
         this.mContext = context;
         this.provider = provider;
         SharedPrefs prefs = new SharedPrefs(context);
-        cs = new ColorSetter(context);
+        cs = new Coloring(context);
         is24 = prefs.loadBoolean(Prefs.IS_24_TIME_FORMAT);
         setHasStableIds(true);
     }
@@ -54,18 +48,17 @@ public class RemindersRecyclerAdapter extends RecyclerView.Adapter<RemindersRecy
         public TextView taskTitle, taskDate, reminder_type, reminder_phone,
                 reminder_contact_name, listHeader;
         public SwitchCompat check;
-        public ImageView taskIcon;
         public CardView itemCard;
 
         public RelativeLayout reminderContainer;
+        public LinearLayout contactGroup;
 
         public ViewHolder(View v) {
             super(v);
             reminderContainer = (RelativeLayout) v.findViewById(R.id.reminderContainer);
+            contactGroup = (LinearLayout) v.findViewById(R.id.contactGroup);
             listHeader = (TextView) v.findViewById(R.id.listHeader);
             check = (SwitchCompat) v.findViewById(R.id.itemCheck);
-            check.setVisibility(View.VISIBLE);
-            taskIcon = (ImageView) v.findViewById(R.id.taskIcon);
             taskDate = (TextView) v.findViewById(R.id.taskDate);
             taskDate.setText("");
             reminder_type = (TextView) v.findViewById(R.id.reminder_type);
@@ -145,8 +138,8 @@ public class RemindersRecyclerAdapter extends RecyclerView.Adapter<RemindersRecy
         holder.taskTitle.setText(title);
         holder.reminder_type.setText(ReminderUtils.getTypeString(mContext, type));
 
-        if (type.matches(Constants.TYPE_LOCATION_CALL) ||
-                type.matches(Constants.TYPE_LOCATION_OUT_CALL)) {
+        if (type.contains(Constants.TYPE_CALL) ||
+                type.contains(Constants.TYPE_MESSAGE)) {
             holder.reminder_phone.setText(number);
             String name = Contacts.getContactNameFromNumber(number, mContext);
             if (name != null) {
@@ -154,15 +147,9 @@ public class RemindersRecyclerAdapter extends RecyclerView.Adapter<RemindersRecy
             } else {
                 holder.reminder_contact_name.setText("");
             }
-        } else if (type.matches(Constants.TYPE_LOCATION_MESSAGE) ||
-                type.matches(Constants.TYPE_LOCATION_OUT_MESSAGE)) {
-            holder.reminder_phone.setText(number);
-            String name = Contacts.getContactNameFromNumber(number, mContext);
-            if (name != null) {
-                holder.reminder_contact_name.setText(name);
-            } else {
-                holder.reminder_contact_name.setText("");
-            }
+            holder.contactGroup.setVisibility(View.VISIBLE);
+        } else {
+            holder.contactGroup.setVisibility(View.GONE);
         }
 
         if (lat != 0.0 || lon != 0.0) {

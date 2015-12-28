@@ -25,7 +25,7 @@ public class DataBase {
     public static final String UUID = "uuid";
     public static final String STATUS = "status";
     public static final String STATUS_DB = "db_status";
-    public static final String STATUS_LIST = "list_status";
+    public static final String STATUS_REMINDER = "list_status";
     public static final String STATUS_NOTIFICATION = "n_status";
     public static final String MELODY = "melody";
     public static final String RADIUS = "radius";
@@ -50,7 +50,7 @@ public class DataBase {
                     GROUP + " VARCHAR(255), " +
                     STATUS + " INTEGER, " +
                     STATUS_DB + " INTEGER, " +
-                    STATUS_LIST + " INTEGER, " +
+                    STATUS_REMINDER + " INTEGER, " +
                     STATUS_NOTIFICATION + " INTEGER, " +
                     RADIUS + " INTEGER, " +
                     NUMBER + " VARCHAR(255), " +
@@ -130,7 +130,7 @@ public class DataBase {
         cv.put(NUMBER, number);
         cv.put(STATUS, Constants.NOT_LOCKED);
         cv.put(STATUS_DB, Constants.ENABLE);
-        cv.put(STATUS_LIST, Constants.ACTIVE);
+        cv.put(STATUS_REMINDER, Constants.ACTIVE);
         cv.put(STATUS_NOTIFICATION, Constants.NOT_SHOWN);
         cv.put(MARKER, 1);
         cv.put(START_TIME, startTime);
@@ -153,7 +153,7 @@ public class DataBase {
         cv.put(NUMBER, number);
         cv.put(STATUS, Constants.NOT_LOCKED);
         cv.put(STATUS_DB, Constants.ENABLE);
-        cv.put(STATUS_LIST, Constants.ACTIVE);
+        cv.put(STATUS_REMINDER, Constants.ACTIVE);
         cv.put(STATUS_NOTIFICATION, Constants.NOT_SHOWN);
         cv.put(MARKER, marker);
         cv.put(START_TIME, startTime);
@@ -176,7 +176,7 @@ public class DataBase {
         args.put(NUMBER, number);
         args.put(STATUS, Constants.NOT_LOCKED);
         args.put(STATUS_DB, Constants.ENABLE);
-        args.put(STATUS_LIST, Constants.ACTIVE);
+        args.put(STATUS_REMINDER, Constants.ACTIVE);
         args.put(STATUS_NOTIFICATION, Constants.NOT_SHOWN);
         args.put(START_TIME, startTime);
         args.put(LATITUDE, latitude);
@@ -197,7 +197,7 @@ public class DataBase {
         args.put(NUMBER, number);
         args.put(STATUS, Constants.NOT_LOCKED);
         args.put(STATUS_DB, Constants.ENABLE);
-        args.put(STATUS_LIST, Constants.ACTIVE);
+        args.put(STATUS_REMINDER, Constants.ACTIVE);
         args.put(STATUS_NOTIFICATION, Constants.NOT_SHOWN);
         args.put(START_TIME, startTime);
         args.put(MARKER, marker);
@@ -237,6 +237,13 @@ public class DataBase {
         return db.update(CURRENT_TABLE_NAME, args, _ID + "=" + rowId, null) > 0;
     }
 
+    public boolean setReminderStatus(long rowId, int status) {
+        openGuard();
+        ContentValues args = new ContentValues();
+        args.put(STATUS_REMINDER, status);
+        return db.update(CURRENT_TABLE_NAME, args, _ID + "=" + rowId, null) > 0;
+    }
+
     public boolean setLocationStatus(long rowId, int status) {
         openGuard();
         ContentValues args = new ContentValues();
@@ -244,14 +251,14 @@ public class DataBase {
         return db.update(CURRENT_TABLE_NAME, args, _ID + "=" + rowId, null) > 0;
     }
 
-    public Cursor queryAllReminders() throws SQLException {
+    public Cursor getAllReminders() throws SQLException {
         openGuard();
         return db.query(CURRENT_TABLE_NAME, null, null, null, null, null, null);
     }
 
     public Cursor getReminders(int status) throws SQLException {
         openGuard();
-        return db.query(CURRENT_TABLE_NAME, null, STATUS_LIST  + "='" + status + "'",
+        return db.query(CURRENT_TABLE_NAME, null, STATUS_REMINDER + "='" + status + "'",
                 null, null, null, null);
     }
 

@@ -15,21 +15,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.backdoor.moove.R;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.Permissions;
 
 import java.util.ArrayList;
 
 public class PermissionsList extends Activity{
 
-    private Permissions permissions;
     private ArrayList<Item> list = new ArrayList<>();
     private ListView musicList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ColorSetter cs = new ColorSetter(PermissionsList.this);
+        Coloring cs = new Coloring(PermissionsList.this);
         setTheme(cs.getDialogStyle());
         setContentView(R.layout.music_list_dilog);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -40,11 +39,11 @@ public class PermissionsList extends Activity{
         musicList = (ListView) findViewById(R.id.musicList);
         musicList.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 
-        permissions = new Permissions(this);
         musicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                permissions.requestPermission(PermissionsList.this, new String[]{list.get(position).getPermission()}, position);
+                Permissions.requestPermission(PermissionsList.this,
+                        new String[]{list.get(position).getPermission()}, position);
             }
         });
 
@@ -56,31 +55,31 @@ public class PermissionsList extends Activity{
 
     private void load(){
         list.clear();
-        if (!permissions.checkPermission(Permissions.ACCESS_COURSE_LOCATION))
-            list.add(new Item(getString(R.string.course_location), Permissions.ACCESS_COURSE_LOCATION));
+        if (!Permissions.checkPermission(PermissionsList.this, Permissions.ACCESS_COARSE_LOCATION))
+            list.add(new Item(getString(R.string.course_location), Permissions.ACCESS_COARSE_LOCATION));
 
-        if (!permissions.checkPermission(Permissions.ACCESS_FINE_LOCATION))
+        if (!Permissions.checkPermission(PermissionsList.this, Permissions.ACCESS_FINE_LOCATION))
             list.add(new Item(getString(R.string.fine_location), Permissions.ACCESS_FINE_LOCATION));
 
-        if (!permissions.checkPermission(Permissions.CALL_PHONE))
+        if (!Permissions.checkPermission(PermissionsList.this, Permissions.CALL_PHONE))
             list.add(new Item(getString(R.string.call_phone), Permissions.CALL_PHONE));
 
-        if (!permissions.checkPermission(Permissions.GET_ACCOUNTS))
+        if (!Permissions.checkPermission(PermissionsList.this, Permissions.GET_ACCOUNTS))
             list.add(new Item(getString(R.string.get_accounts), Permissions.GET_ACCOUNTS));
 
-        if (!permissions.checkPermission(Permissions.READ_PHONE_STATE))
+        if (!Permissions.checkPermission(PermissionsList.this, Permissions.READ_PHONE_STATE))
             list.add(new Item(getString(R.string.read_phone_state), Permissions.READ_PHONE_STATE));
 
-        if (!permissions.checkPermission(Permissions.READ_CONTACTS))
+        if (!Permissions.checkPermission(PermissionsList.this, Permissions.READ_CONTACTS))
             list.add(new Item(getString(R.string.read_contacts), Permissions.READ_CONTACTS));
 
-        if (!permissions.checkPermission(Permissions.SEND_SMS))
+        if (!Permissions.checkPermission(PermissionsList.this, Permissions.SEND_SMS))
             list.add(new Item(getString(R.string.send_sms), Permissions.SEND_SMS));
 
-        if (!permissions.checkPermission(Permissions.READ_EXTERNAL))
+        if (!Permissions.checkPermission(PermissionsList.this, Permissions.READ_EXTERNAL))
             list.add(new Item(getString(R.string.read_external_storage), Permissions.READ_EXTERNAL));
 
-        if (!permissions.checkPermission(Permissions.WRITE_EXTERNAL))
+        if (!Permissions.checkPermission(PermissionsList.this, Permissions.WRITE_EXTERNAL))
             list.add(new Item(getString(R.string.write_external_storage), Permissions.WRITE_EXTERNAL));
 
         Adapter adapter = new Adapter(list, this);

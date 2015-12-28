@@ -61,7 +61,6 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         blurPrefs.setOnClickListener(this);
         blurPrefs.setChecked(sPrefs.loadBoolean(Prefs.REMINDER_IMAGE_BLUR));
         blurPrefs.setEnabled(true);
-        blurPrefs.setProMask(false);
 
         vibrationOptionPrefs = (PrefsView) rootView.findViewById(R.id.vibrationOptionPrefs);
         vibrationOptionPrefs.setOnClickListener(this);
@@ -126,7 +125,7 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         chooseLedColorPrefs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialogues.ledColor(getActivity(), Prefs.LED_COLOR);
+                Dialogues.ledColor(getActivity());
             }
         });
 
@@ -363,7 +362,7 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
                     Intent chooser = Intent.createChooser(intent, getActivity().getString(R.string.select_image));
                     getActivity().startActivityForResult(chooser, Constants.ACTION_REQUEST_GALLERY);
                 } else {
-                    new Permissions(getActivity()).showInfo(getActivity(), Permissions.READ_CALENDAR);
+                    Permissions.showInfo((AppCompatActivity) getActivity(), Permissions.READ_CALENDAR);
                 }
                 break;
         }

@@ -1,5 +1,7 @@
 package com.backdoor.moove.core.interfaces;
 
+import android.view.View;
+
 /**
  * Copyright 2015 Nazar Suhovich
  * <p>
@@ -16,5 +18,6 @@ package com.backdoor.moove.core.interfaces;
  * limitations under the License.
  */
 public interface ActionCallbacks {
+    void showSnackbar(int message, int actionTitle, View.OnClickListener listener);
     void showSnackbar(int message);
 }

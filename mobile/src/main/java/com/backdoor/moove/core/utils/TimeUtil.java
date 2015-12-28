@@ -161,9 +161,8 @@ public class TimeUtil {
         boolean res = false;
         Calendar cc = Calendar.getInstance();
         cc.setTimeInMillis(System.currentTimeMillis());
-        long currentTome = cc.getTimeInMillis();
-        cc.setTimeInMillis(time);
-        if (cc.getTimeInMillis() < currentTome) {
+        long currentTime = cc.getTimeInMillis();
+        if (time < currentTime) {
             res = true;
         }
         return res;

@@ -2,11 +2,6 @@ package com.backdoor.moove.core.consts;
 
 public class Constants {
 
-    public static final String MAP_TYPE_NORMAL = "normal";
-    public static final String MAP_TYPE_SATELLITE = "satellite";
-    public static final String MAP_TYPE_HYBRID = "hybrid";
-    public static final String MAP_TYPE_TERRAIN = "terrain";
-
     public static final String LOG_TAG = "Moove";
     public static final String ITEM_ID_INTENT = "itemId";
 

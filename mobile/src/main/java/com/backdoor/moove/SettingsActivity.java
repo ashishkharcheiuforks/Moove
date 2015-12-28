@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,11 +17,10 @@ import com.backdoor.moove.core.fragments.LocationSettingsFragment;
 import com.backdoor.moove.core.fragments.NotificationSettingsFragment;
 import com.backdoor.moove.core.fragments.OtherSettingsFragment;
 import com.backdoor.moove.core.fragments.SettingsFragment;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.SharedPrefs;
 
 import java.io.File;
-import java.util.Calendar;
 
 /**
  * Custom setting activity.
@@ -29,13 +28,10 @@ import java.util.Calendar;
 public class SettingsActivity extends AppCompatActivity implements
         SettingsFragment.OnHeadlineSelectedListener {
 
-    private ColorSetter cSetter = new ColorSetter(SettingsActivity.this);
-    private boolean isCreate = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cSetter = new ColorSetter(SettingsActivity.this);
+        Coloring cSetter = new Coloring(SettingsActivity.this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(cSetter.colorPrimaryDark());
         }
@@ -73,38 +69,23 @@ public class SettingsActivity extends AppCompatActivity implements
      */
     public void onArticleSelected(int position) {
         if (position == 0){
-            GeneralSettingsFragment newFragment = new GeneralSettingsFragment();
-            Bundle args = new Bundle();
-            newFragment.setArguments(args);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, newFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            attachFragment(new GeneralSettingsFragment());
         } else if (position == 1){
-            NotificationSettingsFragment newFragment = new NotificationSettingsFragment();
-            Bundle args = new Bundle();
-            newFragment.setArguments(args);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, newFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            attachFragment(new NotificationSettingsFragment());
         } else if (position == 2){
-            LocationSettingsFragment newFragment = new LocationSettingsFragment();
-            Bundle args = new Bundle();
-            newFragment.setArguments(args);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, newFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            attachFragment(new LocationSettingsFragment());
         } else if (position == 3){
-            OtherSettingsFragment newFragment = new OtherSettingsFragment();
-            Bundle args = new Bundle();
-            newFragment.setArguments(args);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, newFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            attachFragment(new OtherSettingsFragment());
         }
+    }
+
+    private void attachFragment(Fragment fragment) {
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override

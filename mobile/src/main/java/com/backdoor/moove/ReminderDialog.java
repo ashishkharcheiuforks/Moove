@@ -31,7 +31,7 @@ import com.backdoor.moove.core.consts.Configs;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.Language;
 import com.backdoor.moove.core.consts.Prefs;
-import com.backdoor.moove.core.helper.ColorSetter;
+import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.Contacts;
 import com.backdoor.moove.core.helper.Messages;
 import com.backdoor.moove.core.helper.Module;
@@ -70,7 +70,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
     private Reminder item;
 
     private SharedPrefs sPrefs;
-    private ColorSetter cs = new ColorSetter(ReminderDialog.this);
+    private Coloring cs = new Coloring(ReminderDialog.this);
     private Notifier notifier = new Notifier(ReminderDialog.this);
     private TextToSpeech tts;
 

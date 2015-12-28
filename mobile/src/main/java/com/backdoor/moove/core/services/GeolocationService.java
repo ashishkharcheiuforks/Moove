@@ -1,16 +1,13 @@
 package com.backdoor.moove.core.services;
 
-import android.Manifest;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import com.backdoor.moove.core.consts.Constants;
@@ -32,7 +29,6 @@ public class GeolocationService extends Service {
         int distance = prefs.loadInt(Prefs.TRACK_DISTANCE);
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, mLocList);
         mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time, distance, mLocList);
-        //Toast.makeText(getApplicationContext(), "service start ", Toast.LENGTH_SHORT).show();
         return START_STICKY;
     }
 
@@ -41,7 +37,6 @@ public class GeolocationService extends Service {
         super.onDestroy();
         mLocationManager.removeUpdates(mLocList);
         Log.d(Constants.LOG_TAG, "geo service stop");
-        //Toast.makeText(getApplicationContext(), "service stop ", Toast.LENGTH_SHORT).show();
     }
 
     @Override

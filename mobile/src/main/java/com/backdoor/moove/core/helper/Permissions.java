@@ -3,9 +3,9 @@ package com.backdoor.moove.core.helper;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.v7.app.AppCompatActivity;
 
 
 /**
@@ -28,8 +28,6 @@ import android.os.Build;
 @TargetApi(Build.VERSION_CODES.M)
 public class Permissions {
 
-    private Context mContext;
-
     /**
      * Permission constants.
      */
@@ -43,7 +41,7 @@ public class Permissions {
     public static final String READ_EXTERNAL = Manifest.permission.READ_EXTERNAL_STORAGE;
 
     public static final String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
-    public static final String ACCESS_COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    public static final String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
 
     public static final String READ_PHONE_STATE = Manifest.permission.READ_PHONE_STATE;
     public static final String CALL_PHONE = Manifest.permission.CALL_PHONE;
@@ -52,18 +50,16 @@ public class Permissions {
     
     public static final String MANAGE_DOCUMENTS = Manifest.permission.MANAGE_DOCUMENTS;
 
-    public Permissions(Context context){
-        this.mContext = context;
-    }
-
     /**
      * Check if permission is allowed on Android 6.0 and above.
      * @param permission permission constant.
      * @return boolean
      */
-    public boolean checkPermission(String permission) {
-        if (!Module.isMarshmallow()) return true;
-        return mContext.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+    public static boolean checkPermission(Activity context, String permission) {
+        if (!Module.isMarshmallow()) {
+            return true;
+        }
+        return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
     }
 
     /**
@@ -72,7 +68,7 @@ public class Permissions {
      * @param permission permission constant.
      * @param requestCode request code.
      */
-    public void requestPermission(Activity activity, String[] permission, int requestCode){
+    public static void requestPermission(Activity activity, String[] permission, int requestCode){
         activity.requestPermissions(permission, requestCode);
     }
 
@@ -81,7 +77,7 @@ public class Permissions {
      * @param activity activity.
      * @param permission permission constant.
      */
-    public void showInfo(Activity activity, String permission){
+    public static void showInfo(Activity activity, String permission){
         activity.shouldShowRequestPermissionRationale(permission);
     }
 }

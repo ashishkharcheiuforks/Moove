@@ -21,9 +21,9 @@ public class ReminderModel {
     private final long startTime, id;
     private final double[] place;
 
-    public ReminderModel(String title, String type, String uuId, int status,
+    public ReminderModel(String title, String type, String uuId, int statusDb,
                          long startTime, long id, double[] place, String number,
-                         int statusDb, int radius, String melody){
+                         int status, int radius, String melody){
         this.title = title;
         this.type = type;
         this.startTime = startTime;
