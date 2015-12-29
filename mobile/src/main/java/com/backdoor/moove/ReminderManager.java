@@ -26,8 +26,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -233,9 +231,7 @@ public class ReminderManager extends AppCompatActivity implements
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Animation slide = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
-                toolbar.startAnimation(slide);
-                toolbar.setVisibility(View.VISIBLE);
+                ViewUtils.expand(toolbar);
             }
         }, 500);
 
@@ -244,13 +240,6 @@ public class ReminderManager extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 save();
-            }
-        });
-        mFab.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                ViewUtils.hide(ReminderManager.this, mFab);
-                return false;
             }
         });
 
@@ -367,11 +356,7 @@ public class ReminderManager extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (mFab.getVisibility() == View.GONE) {
-                    ViewUtils.show(ReminderManager.this, mFab);
-                } else {
-                    restoreTask();
-                }
+                restoreTask();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -405,8 +390,7 @@ public class ReminderManager extends AppCompatActivity implements
             case R.id.mapCheck:
                 if (mapCheck.isChecked()) {
                     currentCheck.setChecked(false);
-                    ViewUtils.fadeOutAnimation(specsContainerOut);
-                    ViewUtils.fadeInAnimation(mapContainerOut);
+                    toggleMap();
                     removeUpdates();
                 }
                 break;
@@ -437,9 +421,9 @@ public class ReminderManager extends AppCompatActivity implements
     @Override
     public void onZoomClick(boolean isFull) {
         if (isFull) {
-            ViewUtils.slideOutUp(toolbar);
+            ViewUtils.collapse(toolbar);
         } else {
-            ViewUtils.slideInDown(toolbar);
+            ViewUtils.expand(toolbar);
         }
     }
 
@@ -452,18 +436,17 @@ public class ReminderManager extends AppCompatActivity implements
     public void onBackClick() {
         if (isLocationAttached()) {
             if (map.isFullscreen()) {
-                ViewUtils.slideInDown(toolbar);
+                map.setFullscreen(false);
+                ViewUtils.expand(toolbar);
             }
-            ViewUtils.fadeOutAnimation(mapContainer);
-            ViewUtils.fadeInAnimation(specsContainer);
         }
         if (isLocationOutAttached()) {
             if (mapOut.isFullscreen()) {
-                ViewUtils.slideInDown(toolbar);
+                mapOut.setFullscreen(false);
+                ViewUtils.collapse(toolbar);
             }
-            ViewUtils.fadeOutAnimation(mapContainerOut);
-            ViewUtils.fadeInAnimation(specsContainerOut);
         }
+        toggleMap();
     }
 
     /**
@@ -514,8 +497,7 @@ public class ReminderManager extends AppCompatActivity implements
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewUtils.fadeOutAnimation(specsContainer);
-                ViewUtils.fadeInAnimation(mapContainer);
+                toggleMap();
             }
         });
 
@@ -586,8 +568,7 @@ public class ReminderManager extends AppCompatActivity implements
         if (curPlace != null) {
             if (map != null) {
                 map.addMarker(curPlace, null, true, true, radius);
-                ViewUtils.fadeOutAnimation(specsContainer);
-                ViewUtils.fadeInAnimation(mapContainer);
+                toggleMap();
             }
         }
 
@@ -627,9 +608,41 @@ public class ReminderManager extends AppCompatActivity implements
                 taskField.setText(text);
                 if (map != null) {
                     map.addMarker(new LatLng(latitude, longitude), text, true, true, radius);
-                    ViewUtils.fadeOutAnimation(specsContainer);
-                    ViewUtils.fadeInAnimation(mapContainer);
+                    toggleMap();
                 }
+            }
+        }
+    }
+
+    private boolean isMapVisible() {
+        if (isLocationAttached()) {
+            return mapContainer != null && mapContainer.getVisibility() == View.VISIBLE;
+        }
+        return isLocationOutAttached() && mapContainerOut != null &&
+                mapContainerOut.getVisibility() == View.VISIBLE;
+    }
+
+    private void toggleMap() {
+        if (isLocationAttached()) {
+            if (isMapVisible()) {
+                ViewUtils.fadeOutAnimation(mapContainer);
+                ViewUtils.fadeInAnimation(specsContainer);
+                ViewUtils.show(this, mFab);
+            } else {
+                ViewUtils.fadeOutAnimation(specsContainer);
+                ViewUtils.fadeInAnimation(mapContainer);
+                ViewUtils.hide(this, mFab);
+            }
+        }
+        if (isLocationOutAttached()) {
+            if (isMapVisible()) {
+                ViewUtils.fadeOutAnimation(mapContainerOut);
+                ViewUtils.fadeInAnimation(specsContainerOut);
+                ViewUtils.show(this, mFab);
+            } else {
+                ViewUtils.fadeOutAnimation(specsContainerOut);
+                ViewUtils.fadeInAnimation(mapContainerOut);
+                ViewUtils.hide(this, mFab);
             }
         }
     }
@@ -672,8 +685,9 @@ public class ReminderManager extends AppCompatActivity implements
         mapButtonOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewUtils.fadeOutAnimation(specsContainerOut);
-                ViewUtils.fadeInAnimation(mapContainerOut);
+                if (mapCheck.isChecked()) {
+                    toggleMap();
+                }
                 mapCheck.setChecked(true);
             }
         });
@@ -953,11 +967,6 @@ public class ReminderManager extends AppCompatActivity implements
             return;
         }
 
-        if (mFab.getVisibility() == View.GONE){
-            ViewUtils.show(ReminderManager.this, mFab);
-            return;
-        }
-
         restoreTask();
     }
 
@@ -1068,6 +1077,12 @@ public class ReminderManager extends AppCompatActivity implements
     }
 
     private void detachCurrentView() {
+        if (mFab.getVisibility() != View.VISIBLE) {
+            ViewUtils.show(this, mFab);
+        }
+        if (toolbar.getVisibility() == View.GONE) {
+            ViewUtils.expand(toolbar);
+        }
         if (isLocationAttached()) {
             findViewById(R.id.geolocationlayout).setVisibility(View.GONE);
         }

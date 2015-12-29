@@ -47,41 +47,31 @@ public class ViewUtils {
         return context.getResources().getColor(resource);
     }
 
-    public static void slideInUp(View view){
-        Animation animation = new TranslateAnimation(Animation.ABSOLUTE, 1, Animation.ABSOLUTE, 1,
-                Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 1);
-        animation.setInterpolator(new AccelerateDecelerateInterpolator());
-        animation.setDuration(400);
-        animation.setFillAfter(true);
-        view.setAnimation(animation);
+    public static void slideInUp(Context context, View view){
+        Animation animation = AnimationUtils.loadAnimation(context,
+                R.anim.slide_up);
+        view.startAnimation(animation);
         view.setVisibility(View.VISIBLE);
     }
 
-    public static void slideOutDown(View view){
-        Animation animation = new TranslateAnimation(Animation.ABSOLUTE, 1, Animation.ABSOLUTE, 1,
-                Animation.ABSOLUTE, 1, Animation.ABSOLUTE, 0);
-        animation.setInterpolator(new AccelerateInterpolator()); //and this
-        animation.setDuration(400);
-        view.setAnimation(animation);
+    public static void slideOutDown(Context context, View view){
+        Animation animation = AnimationUtils.loadAnimation(context,
+                R.anim.slide_down);
+        view.startAnimation(animation);
         view.setVisibility(View.GONE);
     }
 
-    public static void slideOutUp(View view){
-        Animation animation = new TranslateAnimation(Animation.ABSOLUTE, 1, Animation.ABSOLUTE, 1,
-                Animation.ABSOLUTE, 0, Animation.ABSOLUTE, 1);
-        animation.setInterpolator(new DecelerateInterpolator());
-        animation.setDuration(400);
-        view.setAnimation(animation);
+    public static void slideOutUp(Context context, View view){
+        Animation animation = AnimationUtils.loadAnimation(context,
+                R.anim.slide_up_out);
+        view.startAnimation(animation);
         view.setVisibility(View.GONE);
     }
 
-    public static void slideInDown(View view){
-        Animation animation = new TranslateAnimation(Animation.ABSOLUTE, 1, Animation.ABSOLUTE, 1,
-                Animation.ABSOLUTE, 1, Animation.ABSOLUTE, 0);
-        animation.setInterpolator(new AccelerateDecelerateInterpolator()); //and this
-        animation.setDuration(400);
-        animation.setFillAfter(true);
-        view.setAnimation(animation);
+    public static void slideInDown(Context context, View view){
+        Animation animation = AnimationUtils.loadAnimation(context,
+                R.anim.slide_down_in);
+        view.startAnimation(animation);
         view.setVisibility(View.VISIBLE);
     }
 
@@ -113,7 +103,7 @@ public class ViewUtils {
 
     public static void hide(View view){
         Animation fadeOut = new AlphaAnimation(1, 0);
-        fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
+        fadeOut.setInterpolator(new AccelerateInterpolator());
         fadeOut.setDuration(400);
         view.setAnimation(fadeOut);
         view.setVisibility(View.INVISIBLE);
@@ -121,7 +111,7 @@ public class ViewUtils {
 
     public static void hideFull(View view){
         Animation fadeOut = new AlphaAnimation(1, 0);
-        fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
+        fadeOut.setInterpolator(new AccelerateInterpolator());
         fadeOut.setDuration(400);
         view.setAnimation(fadeOut);
         view.setVisibility(View.GONE);

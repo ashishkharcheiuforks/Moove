@@ -51,12 +51,6 @@ public class NewPlace extends AppCompatActivity implements MapListener {
         placeName = (EditText) findViewById(R.id.placeName);
         MapFragment googleMap = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         googleMap.setListener(this);
-        Bundle arg = new Bundle();
-        arg.putBoolean(MapFragment.ENABLE_BACK, false);
-        arg.putBoolean(MapFragment.ENABLE_ZOOM, false);
-        arg.putBoolean(MapFragment.ENABLE_PLACES, false);
-        arg.putBoolean(MapFragment.ENABLE_STYLES, false);
-        //googleMap.setArguments(arg);
         googleMap.moveToMyLocation();
 
         if (id != 0){

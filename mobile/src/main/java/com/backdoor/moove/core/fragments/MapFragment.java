@@ -119,6 +119,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     }
 
     public MapFragment() {
+
     }
 
     /**
@@ -143,6 +144,10 @@ public class MapFragment extends Fragment implements View.OnClickListener {
      */
     public void setMarkerRadius(int markerRadius) {
         this.markerRadius = markerRadius;
+    }
+
+    public int getMarkerStyle() {
+        return markerStyle;
     }
 
     /**
@@ -199,7 +204,6 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         if (map != null) {
             markerRadius = radius;
             this.markerStyle = markerStyle;
-            Log.d(Constants.LOG_TAG, "map not null");
             if (clear) {
                 map.clear();
             }
@@ -396,6 +400,10 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         return isFullscreen;
     }
 
+    public void setFullscreen(boolean fullscreen) {
+        isFullscreen = fullscreen;
+    }
+
     /**
      * Clear map;
      */
@@ -425,14 +433,6 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (getArguments() != null) {
-            isTouch = getArguments().getBoolean(ENABLE_TOUCH, true);
-            isStyles = getArguments().getBoolean(ENABLE_STYLES, true);
-            isPlaces = getArguments().getBoolean(ENABLE_PLACES, true);
-            isZoom = getArguments().getBoolean(ENABLE_ZOOM, true);
-            isSearch = getArguments().getBoolean(ENABLE_SEARCH, true);
-            isBack = getArguments().getBoolean(ENABLE_BACK, true);
-        }
 
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
@@ -746,13 +746,13 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         if (isMarkersVisible()) {
             hideStyles();
         } else {
-            ViewUtils.slideInUp(styleCard);
+            ViewUtils.slideInUp(getActivity(), styleCard);
         }
     }
 
     private void hideStyles() {
         if (isMarkersVisible()) {
-            ViewUtils.slideOutDown(styleCard);
+            ViewUtils.slideOutDown(getActivity(), styleCard);
         }
     }
 
@@ -770,13 +770,13 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         if (isPlacesVisible()) {
             hidePlaces();
         } else {
-            ViewUtils.slideInUp(placesListCard);
+            ViewUtils.slideInUp(getActivity(), placesListCard);
         }
     }
 
     private void hidePlaces() {
         if (isPlacesVisible()) {
-            ViewUtils.slideOutDown(placesListCard);
+            ViewUtils.slideOutDown(getActivity(), placesListCard);
         }
     }
 
