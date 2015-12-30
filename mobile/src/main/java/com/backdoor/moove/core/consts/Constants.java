@@ -9,7 +9,7 @@ public class Constants {
     public final static int REQUEST_CODE_CONTACTS = 101;
     public final static int REQUEST_CODE_SELECTED_MELODY = 115;
     public final static int REQUEST_CODE_SELECTED_RADIUS = 116;
-    public final static int REQUEST_CODE_SELECTED_COLOR = 118;
+    public final static int REQUEST_CODE_LED_COLOR = 118;
 
     public final static String SELECTED_CONTACT_NUMBER = "selected_number";
     public final static String SELECTED_MELODY = "selected_melody";
@@ -45,4 +45,6 @@ public class Constants {
     public static final int ACTION_REQUEST_GALLERY = 130;
     public static final String SELECTED_CONTACT_ARRAY = "selected_contacts";
     public static final String SELECTED_CONTACT_NAME = "selected_contact_name";
+    public static final String SELECTED_VOLUME = "selected_volume";
+    public static final int REQUEST_CODE_VOLUME = 120;
 }

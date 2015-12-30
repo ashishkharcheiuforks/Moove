@@ -123,7 +123,7 @@
     <string name="not_delivered">Not delivered</string>
     <string name="cancel">Cancel</string>
     <string name="gps_is_not_enabled">GPS is not enabled!</string>
-    <string name="loading_contacts">Loading contacts...</string>
+    <string name="loading_contacts">Loading contacts…</string>
     <string name="say_something">Say something</string>
     <string name="no_recognizer_found">No recognizer found!</string>
     <string name="no_reminders">No reminders</string>
@@ -145,4 +145,5 @@
     <string name="deep_orange">Deep orange</string>
     <string name="deep_purple">Deep purple</string>
     <string name="teal">Teal</string>
+    <string name="set_volume_for_reminder">Set volume (%s) for reminder</string>
 </resources>

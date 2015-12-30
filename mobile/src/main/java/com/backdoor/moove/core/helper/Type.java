@@ -29,6 +29,8 @@ public class Type {
             String type = c.getString(c.getColumnIndex(DataBase.TYPE));
             int radius = c.getInt(c.getColumnIndex(DataBase.RADIUS));
             int ledColor = c.getInt(c.getColumnIndex(DataBase.LED_COLOR));
+            int marker = c.getInt(c.getColumnIndex(DataBase.MARKER));
+            int volume = c.getInt(c.getColumnIndex(DataBase.VOLUME));
             String melody = c.getString(c.getColumnIndex(DataBase.MELODY));
             String uuId = c.getString(c.getColumnIndex(DataBase.UUID));
             double latitude = c.getDouble(c.getColumnIndex(DataBase.LATITUDE));
@@ -38,7 +40,8 @@ public class Type {
             db.close();
 
             return new Reminder(id, summary, type, melody, uuId,
-                    new double[]{latitude, longitude}, number, radius, due, ledColor);
+                    new double[]{latitude, longitude}, number,
+                    radius, due, ledColor, marker, volume);
         } else return null;
     }
 
@@ -66,9 +69,10 @@ public class Type {
     public long save(Reminder item){
         DataBase db = new DataBase(mContext);
         db.open();
-        long id = db.insertReminder(item.getTitle(), item.getType(), item.getNumber(),
-                item.getStartTime(), item.getPlace()[0], item.getPlace()[1], item.getUuId(),
-                item.getMelody(), item.getRadius(), item.getColor());
+        long id = db.insertReminder(item.getTitle(), item.getType(),
+                item.getNumber(), item.getStartTime(), item.getPlace()[0],
+                item.getPlace()[1], item.getUuId(), item.getMelody(),
+                item.getRadius(), item.getColor(), item.getMarker(), item.getVolume());
         db.close();
         return id;
     }
@@ -82,7 +86,9 @@ public class Type {
         DataBase db = new DataBase(mContext);
         db.open();
         db.updateReminder(id, item.getTitle(), item.getType(), item.getNumber(),
-                item.getStartTime(), item.getPlace()[0], item.getPlace()[1], item.getMelody(), item.getRadius(), item.getColor());
+                item.getStartTime(), item.getPlace()[0], item.getPlace()[1],
+                item.getMelody(), item.getRadius(), item.getColor(), item.getMarker(),
+                item.getVolume());
         db.close();
     }
 }

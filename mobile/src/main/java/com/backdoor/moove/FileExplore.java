@@ -338,15 +338,17 @@ public class FileExplore extends AppCompatActivity implements View.OnClickListen
             case R.id.selectButton:
                 if (sound.isPlaying()) {
                     stop();
-                }
-                if (isMelody(chosenFile)) {
-                    stop();
-                    Intent intent = new Intent();
-                    intent.putExtra(Constants.FILE_PICKED, chosenPath);
-                    setResult(RESULT_OK, intent);
-                    finish();
+                    File file = new File(sound.getLastFile());
+                    if (isMelody(file.getName())) {
+                        sendFile(sound.getLastFile());
+                    }
                 } else {
-                    Messages.toast(FileExplore.this, getString(R.string.this_format_is_not_supported));
+                    if (isMelody(chosenFile)) {
+                        stop();
+                        sendFile(chosenPath);
+                    } else {
+                        Messages.toast(FileExplore.this, getString(R.string.this_format_is_not_supported));
+                    }
                 }
                 break;
             case R.id.playButton:
@@ -356,6 +358,13 @@ public class FileExplore extends AppCompatActivity implements View.OnClickListen
                 stop();
                 break;
         }
+    }
+
+    private void sendFile(String lastFile) {
+        Intent intent = new Intent();
+        intent.putExtra(Constants.FILE_PICKED, lastFile);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     private class Item {

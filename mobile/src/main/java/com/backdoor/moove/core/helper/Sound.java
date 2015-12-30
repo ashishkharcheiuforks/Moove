@@ -35,6 +35,10 @@ public class Sound {
         this.mContext = context;
     }
 
+    public String getLastFile() {
+        return lastFile;
+    }
+
     /**
      * Stop playing melody.
      */

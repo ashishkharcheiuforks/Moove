@@ -122,7 +122,7 @@ public class DataBase {
 
     public long insertReminder(String summary, String type, String number, long startTime,
                                double latitude, double longitude, String uID, String melody,
-                               int radius, int color) {
+                               int radius, int color, int volume) {
         openGuard();
         ContentValues cv = new ContentValues();
         cv.put(SUMMARY, summary);
@@ -140,12 +140,13 @@ public class DataBase {
         cv.put(RADIUS, radius);
         cv.put(MELODY, melody);
         cv.put(LED_COLOR, color);
+        cv.put(VOLUME, volume);
         return db.insert(CURRENT_TABLE_NAME, null, cv);
     }
 
     public long insertReminder(String summary, String type, String number, long startTime,
                                double latitude, double longitude, String uID, String melody,
-                               int radius, int color, int marker) {
+                               int radius, int color, int marker, int volume) {
         openGuard();
         ContentValues cv = new ContentValues();
         cv.put(SUMMARY, summary);
@@ -163,12 +164,13 @@ public class DataBase {
         cv.put(RADIUS, radius);
         cv.put(MELODY, melody);
         cv.put(LED_COLOR, color);
+        cv.put(VOLUME, volume);
         return db.insert(CURRENT_TABLE_NAME, null, cv);
     }
 
     public boolean updateReminder(long rowId, String summary, String type, String number,
                                   long startTime, double latitude, double longitude,
-                                  String melody, int radius, int color) {
+                                  String melody, int radius, int color, int volume) {
         openGuard();
         ContentValues args = new ContentValues();
         args.put(SUMMARY, summary);
@@ -184,12 +186,13 @@ public class DataBase {
         args.put(RADIUS, radius);
         args.put(MELODY, melody);
         args.put(LED_COLOR, color);
+        args.put(VOLUME, volume);
         return db.update(CURRENT_TABLE_NAME, args, _ID + "=" + rowId, null) > 0;
     }
 
     public boolean updateReminder(long rowId, String summary, String type, String number,
                                   long startTime, double latitude, double longitude,
-                                  String melody, int radius, int color, int marker) {
+                                  String melody, int radius, int color, int marker, int volume) {
         openGuard();
         ContentValues args = new ContentValues();
         args.put(SUMMARY, summary);
@@ -206,20 +209,7 @@ public class DataBase {
         args.put(RADIUS, radius);
         args.put(MELODY, melody);
         args.put(LED_COLOR, color);
-        return db.update(CURRENT_TABLE_NAME, args, _ID + "=" + rowId, null) > 0;
-    }
-
-    public boolean updateReminderStartTime(long rowId, long startTime) {
-        openGuard();
-        ContentValues args = new ContentValues();
-        args.put(START_TIME, startTime);
-        return db.update(CURRENT_TABLE_NAME, args, _ID + "=" + rowId, null) > 0;
-    }
-
-    public boolean setUniqueId(long rowId, String uuid) {
-        openGuard();
-        ContentValues args = new ContentValues();
-        args.put(UUID, uuid);
+        args.put(VOLUME, volume);
         return db.update(CURRENT_TABLE_NAME, args, _ID + "=" + rowId, null) > 0;
     }
 
@@ -253,7 +243,7 @@ public class DataBase {
 
     public Cursor getAllReminders() throws SQLException {
         openGuard();
-        return db.query(CURRENT_TABLE_NAME, null, null, null, null, null, null);
+        return db.query(CURRENT_TABLE_NAME, null, null, null, null, null, STATUS_DB + " ASC");
     }
 
     public Cursor getReminders(int status) throws SQLException {
@@ -276,8 +266,8 @@ public class DataBase {
 
     public Cursor getMarkers() throws SQLException {
         openGuard();
-        return db.query(CURRENT_TABLE_NAME, null, GROUP  + "='" + Constants.TYPE_LOCATION +
-                "'" + " OR "+ GROUP + "='" + Constants.TYPE_LOCATION_OUT_MESSAGE + "'" +
+        return db.query(CURRENT_TABLE_NAME, null, TYPE  + "='" + Constants.TYPE_LOCATION +
+                "'" + " OR "+ TYPE + "='" + Constants.TYPE_LOCATION_OUT_MESSAGE + "'" +
                 " AND "+ STATUS_DB + "='" + Constants.ENABLE + "'", null, null, null, null, null);
     }
 

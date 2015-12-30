@@ -30,8 +30,8 @@
             android:layout_below="@+id/dividerTop"
             android:id="@+id/itemsContainer"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingRight="10dp"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp"
             android:gravity="center_vertical"
             android:layout_toLeftOf="@+id/viewContainer">
 

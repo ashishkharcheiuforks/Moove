@@ -44,12 +44,12 @@ import android.widget.TextView;
 import com.backdoor.moove.core.adapters.TitleNavigationAdapter;
 import com.backdoor.moove.core.async.DisableAsync;
 import com.backdoor.moove.core.async.GeocoderTask;
-import com.backdoor.moove.core.consts.Configs;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.LED;
 import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.data.SpinnerItem;
 import com.backdoor.moove.core.dialogs.LedColor;
+import com.backdoor.moove.core.dialogs.SelectVolume;
 import com.backdoor.moove.core.dialogs.TargetRadius;
 import com.backdoor.moove.core.fragments.MapFragment;
 import com.backdoor.moove.core.helper.Coloring;
@@ -126,7 +126,7 @@ public class ReminderManager extends AppCompatActivity implements
     private int myYear = 0;
     private int myMonth = 0;
     private int myDay = 1;
-    private int volume = Configs.MAX_VOLUME;
+    private int volume = -1;
     private long id;
     private String type, melody = null;
     private int radius = -1, ledColor = 0;
@@ -142,7 +142,6 @@ public class ReminderManager extends AppCompatActivity implements
 
     private Type remControl = new Type(this);
     private Reminder item;
-    private Handler handler = new Handler();
     private GeocoderTask task;
 
     @Override
@@ -182,6 +181,9 @@ public class ReminderManager extends AppCompatActivity implements
                                 return true;
                             case R.id.action_custom_color:
                                 chooseLEDColor();
+                                return true;
+                            case R.id.action_volume:
+                                selectVolume();
                                 return true;
                             case MENU_ITEM_DELETE:
                                 deleteReminder();
@@ -270,23 +272,10 @@ public class ReminderManager extends AppCompatActivity implements
         }
     }
 
-    /**
-     * Delayed handler for hiding extra options container.
-     */
-    private void addHandler() {
-        handler.removeCallbacks(runnable);
-        handler.postDelayed(runnable, 5000);
+    private void selectVolume() {
+        Intent i = new Intent(ReminderManager.this, SelectVolume.class);
+        startActivityForResult(i, Constants.REQUEST_CODE_VOLUME);
     }
-
-    /**
-     * Runnable for hiding extra options container.
-     */
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-
-        }
-    };
 
     /**
      * Hide all reminder types layouts.
@@ -349,7 +338,7 @@ public class ReminderManager extends AppCompatActivity implements
      */
     private void chooseLEDColor() {
         Intent i = new Intent(ReminderManager.this, LedColor.class);
-        startActivityForResult(i, Constants.REQUEST_CODE_SELECTED_COLOR);
+        startActivityForResult(i, Constants.REQUEST_CODE_LED_COLOR);
     }
 
     @Override
@@ -907,10 +896,18 @@ public class ReminderManager extends AppCompatActivity implements
                 startTime = -1;
             }
 
+            int marker = -1;
+            if (isLocationAttached()) {
+                marker = map.getMarkerStyle();
+            }
+            if (isLocationOutAttached()) {
+                marker = mapOut.getMarkerStyle();
+            }
+
             Log.d(Constants.LOG_TAG, "Start time " + startTime);
 
             return new Reminder(0, task, type, melody, uuId, new double[]{latitude, longitude},
-                    number, radius, startTime, ledColor);
+                    number, radius, startTime, ledColor, marker, volume);
         } else {
             return null;
         }
@@ -1204,7 +1201,7 @@ public class ReminderManager extends AppCompatActivity implements
             }
         }
 
-        if (requestCode == Constants.REQUEST_CODE_SELECTED_COLOR) {
+        if (requestCode == Constants.REQUEST_CODE_LED_COLOR) {
             if (resultCode == RESULT_OK){
                 int position = data.getIntExtra(Constants.SELECTED_LED_COLOR, -1);
                 String selColor = LED.getTitle(this, position);
@@ -1215,6 +1212,20 @@ public class ReminderManager extends AppCompatActivity implements
                     @Override
                     public void onClick(View v) {
                         ledColor = -1;
+                    }
+                });
+            }
+        }
+
+        if (requestCode == Constants.REQUEST_CODE_VOLUME) {
+            if (resultCode == RESULT_OK){
+                volume = data.getIntExtra(Constants.SELECTED_VOLUME, -1);
+
+                String str = String.format(getString(R.string.set_volume_for_reminder), volume);
+                showSnackbar(str, R.string.dismiss, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        volume = -1;
                     }
                 });
             }

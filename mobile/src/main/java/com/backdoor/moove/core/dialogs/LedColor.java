@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.LED;
-import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.Messages;
 import com.backdoor.moove.core.helper.SharedPrefs;
@@ -26,10 +25,8 @@ public class LedColor extends Activity{
 
     private SharedPrefs sPrefs;
     private ListView musicList;
-    private TextView musicDialogOk;
     private NotificationManagerCompat mNotifyMgr;
     private NotificationCompat.Builder builder;
-    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +35,6 @@ public class LedColor extends Activity{
         setTheme(cs.getDialogStyle());
         setContentView(R.layout.music_list_dilog);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        final Intent intent = getIntent();
-        id = intent.getIntExtra(Constants.ITEM_ID_INTENT, 0);
 
         TextView dialogTitle = (TextView) findViewById(R.id.dialogTitle);
         dialogTitle.setText(getString(R.string.led_color));
@@ -69,22 +63,17 @@ public class LedColor extends Activity{
             }
         });
 
-        musicDialogOk = (TextView) findViewById(R.id.musicDialogOk);
+        TextView musicDialogOk = (TextView) findViewById(R.id.musicDialogOk);
         musicDialogOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = musicList.getCheckedItemPosition();
                 if (position != -1) {
-                    if (id != 4) {
-                        sPrefs = new SharedPrefs(LedColor.this);
-                        sPrefs.saveInt(Prefs.LED_COLOR, LED.getLED(position));
-                    } else {
-                        Intent i = new Intent();
-                        i.putExtra(Constants.SELECTED_LED_COLOR, position);
-                        setResult(RESULT_OK, i);
-                    }
                     mNotifyMgr = NotificationManagerCompat.from(LedColor.this);
                     mNotifyMgr.cancel(1);
+                    Intent i = new Intent();
+                    i.putExtra(Constants.SELECTED_LED_COLOR, position);
+                    setResult(RESULT_OK, i);
                     finish();
                 } else {
                     Messages.toast(LedColor.this, getString(R.string.select_one_of_item));
@@ -94,7 +83,6 @@ public class LedColor extends Activity{
     }
 
     private void showLED(int color){
-        musicDialogOk.setEnabled(false);
         mNotifyMgr = NotificationManagerCompat.from(LedColor.this);
         mNotifyMgr.cancel(1);
         builder = new NotificationCompat.Builder(LedColor.this);
@@ -104,7 +92,6 @@ public class LedColor extends Activity{
             @Override
             public void run() {
                 mNotifyMgr.notify(1, builder.build());
-                musicDialogOk.setEnabled(true);
             }
         }, 3000);
     }

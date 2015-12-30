@@ -21,13 +21,13 @@ import com.backdoor.moove.core.utils.LocationUtil;
 public class Reminder {
 
     private String title, type, uuId, number, melody, group;
-    private int radius, color;
+    private int radius, color, marker, volume;
     private long id, startTime;
     private double[] place;
 
     public Reminder(long id, String title, String type, String melody, String uuId,
                     double[] place, String number, int radius, long startTime,
-                    int color){
+                    int color, int marker, int volume){
         this.id = id;
         this.title = title;
         this.type = type;
@@ -38,6 +38,8 @@ public class Reminder {
         this.radius = radius;
         this.color = color;
         this.startTime = startTime;
+        this.marker = marker;
+        this.volume = volume;
     }
 
     /**
@@ -161,6 +163,14 @@ public class Reminder {
         db.deleteReminder(id);
         db.close();
         disable(context, id);
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public int getMarker() {
+        return marker;
     }
 
     public String getMelody(){

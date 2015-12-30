@@ -19,12 +19,12 @@
         android:text="@string/volume" />
 
     <ImageView
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         android:id="@+id/volumeImage"
         android:layout_marginTop="15dp"
-        android:src="@drawable/ic_volume_up_black_24dp"/>
+        android:src="@drawable/ic_volume_up_white_24dp"/>
 
     <TextView
         android:layout_width="wrap_content"

@@ -3,7 +3,6 @@ package com.backdoor.moove.core.helper;
 import android.content.Context;
 import android.content.Intent;
 
-import com.backdoor.moove.core.services.CheckPosition;
 import com.backdoor.moove.core.services.GeolocationService;
 import com.backdoor.moove.core.services.PositionDelayReceiver;
 
