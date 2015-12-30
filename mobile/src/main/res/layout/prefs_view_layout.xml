@@ -85,8 +85,7 @@
             <View
                 android:id="@+id/prefsView"
                 android:layout_width="@dimen/settings_view_size"
-                android:layout_height="@dimen/settings_view_size"
-                android:background="@drawable/drawable_blue"/>
+                android:layout_height="@dimen/settings_view_size"/>
             
         </LinearLayout>
     </RelativeLayout>

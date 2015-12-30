@@ -251,7 +251,7 @@ public class Coloring {
                 color = R.drawable.marker_blue_light;
                 break;
             case 6:
-                color = R.drawable.marker_grey;
+                color = R.drawable.marker_cyan;
                 break;
             case 7:
                 color = R.drawable.marker_violet;
@@ -266,7 +266,7 @@ public class Coloring {
                 color = R.drawable.marker_teal;
                 break;
             case 11:
-                color = R.drawable.marker_brown;
+                color = R.drawable.marker_amber;
                 break;
             case 12:
                 color = R.drawable.marker_deep_purple;

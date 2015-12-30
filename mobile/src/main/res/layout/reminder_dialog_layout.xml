@@ -40,7 +40,6 @@
             app:civ_borderWidth="4dp"
             app:civ_shadow="true"
             android:visibility="visible"
-            android:background="@drawable/drawable_cyan"
             android:id="@+id/contactPhoto"/>
 
         <TextView
