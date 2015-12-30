@@ -14,7 +14,7 @@
         android:id="@+id/windowBg"
         android:layout_height="match_parent">
 
-        <com.cray.software.justreminder.views.FloatingEditText
+        <com.backdoor.moove.core.views.FloatingEditText
             app:floating_edit_text_highlighted_color="?attr/colorAccent"
             android:layout_width="match_parent"
             android:id="@+id/searchEdit"

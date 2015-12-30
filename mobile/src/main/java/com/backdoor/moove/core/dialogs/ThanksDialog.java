@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.helper.Coloring;
+import com.backdoor.moove.core.views.FloatingEditText;
 
 /**
  * Show all open source libraries used in project.
@@ -56,7 +57,7 @@ public final class ThanksDialog extends AppCompatActivity {
         }
         helpView.loadUrl(url);
 
-        EditText searchEdit = (EditText) findViewById(R.id.searchEdit);
+        FloatingEditText searchEdit = (FloatingEditText) findViewById(R.id.searchEdit);
         searchEdit.setVisibility(View.GONE);
     }
 

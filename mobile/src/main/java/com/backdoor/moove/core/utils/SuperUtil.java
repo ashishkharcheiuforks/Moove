@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.speech.RecognizerIntent;
+import android.widget.Toast;
 
 import com.backdoor.moove.ContactsList;
 import com.backdoor.moove.R;
@@ -142,6 +143,16 @@ public class SuperUtil {
         }
 
         new Async().execute();
+    }
+
+    public static void showMore(Context context) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("market://search?q=pub:Nazar Suhovich"));
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, R.string.could_not_launch_market, Toast.LENGTH_LONG).show();
+        }
     }
 
     /**

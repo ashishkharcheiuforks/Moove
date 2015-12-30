@@ -148,4 +148,6 @@
     <string name="set_volume_for_reminder">Set volume (%s) for reminder</string>
     <string name="directions">Directions</string>
     <string name="places_list_auto_completion">Places list auto completion</string>
+    <string name="more_apps">More apps</string>
+    <string name="could_not_launch_market">Couldn\'t launch market</string>
 </resources>

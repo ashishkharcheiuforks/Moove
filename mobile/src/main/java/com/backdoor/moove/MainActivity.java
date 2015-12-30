@@ -26,6 +26,7 @@ import com.backdoor.moove.core.helper.Reminder;
 import com.backdoor.moove.core.interfaces.ActionCallbacks;
 import com.backdoor.moove.core.interfaces.RecyclerListener;
 import com.backdoor.moove.core.utils.QuickReturnUtils;
+import com.backdoor.moove.core.utils.SuperUtil;
 import com.backdoor.moove.core.views.ReturnScrollListener;
 
 public class MainActivity extends AppCompatActivity implements RecyclerListener, ActionCallbacks {
@@ -124,6 +125,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
                 return true;
             case R.id.action_directions:
                 startActivity(new Intent(MainActivity.this, LocationsMap.class));
+                return true;
+            case R.id.action_more:
+                SuperUtil.showMore(MainActivity.this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
