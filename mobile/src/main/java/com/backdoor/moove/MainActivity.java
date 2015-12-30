@@ -18,36 +18,31 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.backdoor.moove.core.adapters.RemindersRecyclerAdapter;
+import com.backdoor.moove.core.consts.QuickReturnViewType;
 import com.backdoor.moove.core.data.ReminderDataProvider;
 import com.backdoor.moove.core.data.ReminderModel;
+import com.backdoor.moove.core.helper.Module;
 import com.backdoor.moove.core.helper.Reminder;
 import com.backdoor.moove.core.interfaces.ActionCallbacks;
 import com.backdoor.moove.core.interfaces.RecyclerListener;
+import com.backdoor.moove.core.utils.QuickReturnUtils;
+import com.backdoor.moove.core.views.ReturnScrollListener;
 
 public class MainActivity extends AppCompatActivity implements RecyclerListener, ActionCallbacks {
 
-    /**
-     * Recycler view field.
-     */
     private RecyclerView currentList;
-
-    /**
-     * Containers.
-     */
     private LinearLayout emptyItem;
-
-    /**
-     * Reminder data provider for recycler view.
-     */
     private ReminderDataProvider provider;
 
     private FloatingActionButton fab;
+    private Toolbar toolbar;
+    private ReturnScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         emptyItem = (LinearLayout) findViewById(R.id.emptyItem);
@@ -59,8 +54,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
         currentList = (RecyclerView) findViewById(R.id.currentList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         currentList.setLayoutManager(mLayoutManager);
-
-        loaderAdapter();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +75,21 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
         currentList.setHasFixedSize(true);
         currentList.setItemAnimator(new DefaultItemAnimator());
         currentList.setAdapter(adapter);
+
+        if (scrollListener != null) {
+            currentList.removeOnScrollListener(scrollListener);
+        }
+        scrollListener = new ReturnScrollListener.Builder(QuickReturnViewType.FOOTER)
+                .footer(fab)
+                .minFooterTranslation(QuickReturnUtils.dp2px(this, 88))
+                .isSnappable(true)
+                .build();
+
+        if (Module.isLollipop()) {
+            currentList.addOnScrollListener(scrollListener);
+        } else {
+            currentList.setOnScrollListener(scrollListener);
+        }
     }
 
     /**

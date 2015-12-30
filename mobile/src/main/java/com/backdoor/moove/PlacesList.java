@@ -26,6 +26,7 @@ import com.backdoor.moove.core.data.PlaceDataProvider;
 import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.DataBase;
 import com.backdoor.moove.core.helper.Messages;
+import com.backdoor.moove.core.helper.Module;
 import com.backdoor.moove.core.helper.Permissions;
 import com.backdoor.moove.core.interfaces.SimpleListener;
 import com.backdoor.moove.core.utils.LocationUtil;
@@ -97,7 +98,12 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
                 .minFooterTranslation(QuickReturnUtils.dp2px(this, 88))
                 .isSnappable(true)
                 .build();
-        listView.setOnScrollListener(scrollListener);
+
+        if (Module.isLollipop()) {
+            listView.addOnScrollListener(scrollListener);
+        } else {
+            listView.setOnScrollListener(scrollListener);
+        }
     }
 
     private void reloadView() {
