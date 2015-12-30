@@ -85,7 +85,7 @@ public class LocationsMap extends AppCompatActivity implements SimpleListener {
 
     @Override
     public void onBackPressed() {
-        if (fragment.onBackPressed()) {
+        if (!fragment.onBackPressed()) {
             return;
         }
         finish();

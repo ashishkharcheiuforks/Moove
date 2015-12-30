@@ -84,7 +84,11 @@ public class PlaceRecyclerAdapter extends RecyclerView.Adapter<PlaceRecyclerAdap
             itemCard = (CardView) v.findViewById(R.id.itemCard);
             itemCard.setCardBackgroundColor(cs.getCardStyle());
             if (Module.isLollipop()) {
-                itemCard.setCardElevation(Configs.CARD_ELEVATION);
+                if (showMarker) {
+                    itemCard.setCardElevation(0f);
+                } else {
+                    itemCard.setCardElevation(Configs.CARD_ELEVATION);
+                }
             }
 
             v.setOnClickListener(this);

@@ -28,7 +28,7 @@ public class DisableAsync extends AsyncTask<Void, Void, Void> {
             boolean res = false;
             do {
                 long startTime = c.getInt(c.getColumnIndex(DataBase.START_TIME));
-                int isShown = c.getInt(c.getColumnIndex(DataBase.STATUS_NOTIFICATION));
+                int isShown = c.getInt(c.getColumnIndex(DataBase.STATUS_REMINDER));
                 int isDone = c.getInt(c.getColumnIndex(DataBase.STATUS_DB));
                 if (startTime == 0) {
                     if (isDone == Constants.ENABLE){

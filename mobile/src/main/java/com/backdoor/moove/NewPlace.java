@@ -24,6 +24,7 @@ public class NewPlace extends AppCompatActivity implements MapListener {
 
     private Coloring cs = new Coloring(NewPlace.this);
     private EditText placeName;
+    private MapFragment fragment;
     private SharedPrefs sPrefs = new SharedPrefs(NewPlace.this);
 
     private LatLng place;
@@ -43,33 +44,18 @@ public class NewPlace extends AppCompatActivity implements MapListener {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_clear_white_24dp);
 
+
         id = getIntent().getLongExtra(Constants.ITEM_ID_INTENT, 0);
 
         placeName = (EditText) findViewById(R.id.placeName);
 
-        MapFragment fragment = MapFragment.newInstance(false, false, false, false);
+        fragment = MapFragment.newInstance(false, false, false, false);
         fragment.setListener(this);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit();
-
-        if (id != 0){
-            int radius = sPrefs.loadInt(Prefs.LOCATION_RADIUS);
-            DataBase db = new DataBase(NewPlace.this);
-            db.open();
-            Cursor c = db.getPlace(id);
-            if (c != null && c.moveToFirst()){
-                String text = c.getString(c.getColumnIndex(DataBase.NAME));
-                double latitude = c.getDouble(c.getColumnIndex(DataBase.LATITUDE));
-                double longitude = c.getDouble(c.getColumnIndex(DataBase.LONGITUDE));
-                fragment.addMarker(new LatLng(latitude, longitude), text, true, true, radius);
-                placeName.setText(text);
-            }
-            if (c != null) c.close();
-            db.close();
-        }
     }
 
     private void addPlace(){
@@ -118,6 +104,30 @@ public class NewPlace extends AppCompatActivity implements MapListener {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.save_menu, menu);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadPlace();
+    }
+
+    private void loadPlace() {
+        if (id != 0){
+            int radius = sPrefs.loadInt(Prefs.LOCATION_RADIUS);
+            DataBase db = new DataBase(NewPlace.this);
+            db.open();
+            Cursor c = db.getPlace(id);
+            if (c != null && c.moveToFirst()){
+                String text = c.getString(c.getColumnIndex(DataBase.NAME));
+                double latitude = c.getDouble(c.getColumnIndex(DataBase.LATITUDE));
+                double longitude = c.getDouble(c.getColumnIndex(DataBase.LONGITUDE));
+                fragment.addMarker(new LatLng(latitude, longitude), text, true, true, radius);
+                placeName.setText(text);
+            }
+            if (c != null) c.close();
+            db.close();
+        }
     }
 
     @Override
