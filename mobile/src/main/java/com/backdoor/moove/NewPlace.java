@@ -49,9 +49,14 @@ public class NewPlace extends AppCompatActivity implements MapListener {
         id = getIntent().getLongExtra(Constants.ITEM_ID_INTENT, 0);
 
         placeName = (EditText) findViewById(R.id.placeName);
-        MapFragment googleMap = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        googleMap.setListener(this);
-        googleMap.moveToMyLocation();
+
+        MapFragment fragment = MapFragment.newInstance(false, false, false, false);
+        fragment.setListener(this);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
 
         if (id != 0){
             int radius = sPrefs.loadInt(Prefs.LOCATION_RADIUS);
@@ -62,7 +67,7 @@ public class NewPlace extends AppCompatActivity implements MapListener {
                 String text = c.getString(c.getColumnIndex(DataBase.NAME));
                 double latitude = c.getDouble(c.getColumnIndex(DataBase.LATITUDE));
                 double longitude = c.getDouble(c.getColumnIndex(DataBase.LONGITUDE));
-                googleMap.addMarker(new LatLng(latitude, longitude), text, true, true, radius);
+                fragment.addMarker(new LatLng(latitude, longitude), text, true, true, radius);
                 placeName.setText(text);
             }
             if (c != null) c.close();
@@ -116,6 +121,11 @@ public class NewPlace extends AppCompatActivity implements MapListener {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.save_menu, menu);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     @Override

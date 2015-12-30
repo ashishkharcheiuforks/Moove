@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Address;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -114,8 +113,31 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     public static final String ENABLE_BACK = "enable_back";
     public static final String ENABLE_ZOOM = "enable_zoom";
 
-    public static MapFragment newInstance() {
-        return new MapFragment();
+    public static MapFragment newInstance(boolean isTouch, boolean isPlaces,
+                                          boolean isSearch, boolean isStyles,
+                                          boolean isBack, boolean isZoom) {
+        MapFragment fragment = new MapFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(ENABLE_TOUCH, isTouch);
+        args.putBoolean(ENABLE_PLACES, isPlaces);
+        args.putBoolean(ENABLE_SEARCH, isSearch);
+        args.putBoolean(ENABLE_STYLES, isStyles);
+        args.putBoolean(ENABLE_BACK, isBack);
+        args.putBoolean(ENABLE_ZOOM, isZoom);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static MapFragment newInstance(boolean isPlaces, boolean isStyles,
+                                          boolean isBack, boolean isZoom) {
+        MapFragment fragment = new MapFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(ENABLE_PLACES, isPlaces);
+        args.putBoolean(ENABLE_STYLES, isStyles);
+        args.putBoolean(ENABLE_BACK, isBack);
+        args.putBoolean(ENABLE_ZOOM, isZoom);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     public MapFragment() {
@@ -348,54 +370,6 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    /**
-     * Enable/Disable on map click listener;
-     * @param isTouch flag
-     */
-    public void enableTouch(boolean isTouch) {
-        this.isTouch = isTouch;
-    }
-
-    /**
-     * Enable/Disable zoom button on map;
-     * @param isZoom flag
-     */
-    public void enableZoom(boolean isZoom) {
-        this.isZoom = isZoom;
-    }
-
-    /**
-     * Enable/Disable marker style button on map;
-     * @param isStyles flag
-     */
-    public void enableStyles(boolean isStyles) {
-        this.isStyles = isStyles;
-    }
-
-    /**
-     * Enable/Disable search field button on map;
-     * @param isSearch flag
-     */
-    public void enableSearch(boolean isSearch) {
-        this.isSearch = isSearch;
-    }
-
-    /**
-     * Enable/Disable places list button on map;
-     * @param isPlaces flag
-     */
-    public void enablePlaces(boolean isPlaces) {
-        this.isPlaces = isPlaces;
-    }
-
-    /**
-     * Enable/Disable map close button on map;
-     * @param isBack flag
-     */
-    public void enableBack(boolean isBack) {
-        this.isBack = isBack;
-    }
-
     public boolean isFullscreen() {
         return isFullscreen;
     }
@@ -405,15 +379,8 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * Clear map;
-     */
-    public void clear() {
-        if (map != null) map.clear();
-    }
-
-    /**
      * On back pressed interface for map;
-     * @return
+     * @return boolean
      */
     public boolean onBackPressed() {
         if (isLayersVisible()) {
@@ -430,9 +397,23 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private void initArgs() {
+        Bundle args = getArguments();
+        if (args != null) {
+            isTouch = args.getBoolean(ENABLE_TOUCH, true);
+            isPlaces = args.getBoolean(ENABLE_PLACES, true);
+            isSearch = args.getBoolean(ENABLE_SEARCH, true);
+            isStyles = args.getBoolean(ENABLE_STYLES, true);
+            isBack = args.getBoolean(ENABLE_BACK, true);
+            isZoom = args.getBoolean(ENABLE_ZOOM, true);
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        initArgs();
 
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
@@ -858,15 +839,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.myLocation:
                 hideLayers();
-                if (map != null) {
-                    Location location = map.getMyLocation();
-                    if (location != null) {
-                        double lat = location.getLatitude();
-                        double lon = location.getLongitude();
-                        LatLng pos = new LatLng(lat, lon);
-                        animate(pos);
-                    }
-                }
+                moveToMyLocation();
                 break;
             case R.id.typeNormal:
                 setMapType(GoogleMap.MAP_TYPE_NORMAL);
