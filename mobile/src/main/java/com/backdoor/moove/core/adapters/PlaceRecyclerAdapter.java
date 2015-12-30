@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.backdoor.moove.R;
@@ -48,14 +49,18 @@ public class PlaceRecyclerAdapter extends RecyclerView.Adapter<PlaceRecyclerAdap
      */
     private SimpleListener mEventListener;
 
+    private boolean showMarker = false;
+
     /**
      * Adapter constructor.
      * @param context application context.
      * @param provider places data provider.
      */
-    public PlaceRecyclerAdapter(final Context context, final PlaceDataProvider provider) {
+    public PlaceRecyclerAdapter(final Context context, final PlaceDataProvider provider,
+                                boolean showMarker) {
         this.mContext = context;
         this.provider = provider;
+        this.showMarker = showMarker;
         cs = new Coloring(context);
         typeface = AssetsUtil.getLightTypeface(context);
         setHasStableIds(true);
@@ -67,23 +72,14 @@ public class PlaceRecyclerAdapter extends RecyclerView.Adapter<PlaceRecyclerAdap
     public class ViewHolder extends RecyclerView.ViewHolder implements
             View.OnClickListener, View.OnLongClickListener {
 
-        /**
-         * Place title.
-         */
         public TextView textView;
-
-        /**
-         * Item card.
-         */
+        public ImageView markerImage;
         public CardView itemCard;
 
-        /**
-         * View holder constructor.
-         * @param v view.
-         */
         public ViewHolder(final View v) {
             super(v);
             textView = (TextView) v.findViewById(R.id.textView);
+            markerImage = (ImageView) v.findViewById(R.id.markerImage);
             textView.setTypeface(typeface);
             itemCard = (CardView) v.findViewById(R.id.itemCard);
             itemCard.setCardBackgroundColor(cs.getCardStyle());
@@ -123,6 +119,12 @@ public class PlaceRecyclerAdapter extends RecyclerView.Adapter<PlaceRecyclerAdap
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final MarkerModel item = provider.getData().get(position);
         holder.textView.setText(item.getTitle());
+        if (showMarker) {
+            holder.markerImage.setVisibility(View.VISIBLE);
+            holder.markerImage.setImageResource(cs.getMarkerStyle(item.getIcon()));
+        } else {
+            holder.markerImage.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -154,5 +156,9 @@ public class PlaceRecyclerAdapter extends RecyclerView.Adapter<PlaceRecyclerAdap
      */
     public void setEventListener(final SimpleListener eventListener) {
         mEventListener = eventListener;
+    }
+
+    public PlaceDataProvider getProvider() {
+        return provider;
     }
 }

@@ -122,6 +122,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
             case R.id.action_places:
                 startActivity(new Intent(MainActivity.this, PlacesList.class));
                 return true;
+            case R.id.action_directions:
+                startActivity(new Intent(MainActivity.this, LocationsMap.class));
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

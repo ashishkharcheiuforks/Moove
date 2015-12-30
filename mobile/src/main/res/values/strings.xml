@@ -146,4 +146,5 @@
     <string name="deep_purple">Deep purple</string>
     <string name="teal">Teal</string>
     <string name="set_volume_for_reminder">Set volume (%s) for reminder</string>
+    <string name="directions">Directions</string>
 </resources>

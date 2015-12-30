@@ -26,10 +26,13 @@ import android.widget.TextView;
 
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.adapters.PlaceAdapter;
+import com.backdoor.moove.core.adapters.PlaceRecyclerAdapter;
 import com.backdoor.moove.core.async.GeocoderTask;
 import com.backdoor.moove.core.consts.Configs;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.Prefs;
+import com.backdoor.moove.core.data.MarkerModel;
+import com.backdoor.moove.core.data.PlaceDataProvider;
 import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.DataBase;
 import com.backdoor.moove.core.helper.Messages;
@@ -71,6 +74,8 @@ public class MapFragment extends Fragment implements View.OnClickListener {
      * Array of user frequently used places;
      */
     private ArrayList<String> spinnerArray = new ArrayList<>();
+
+    private PlaceRecyclerAdapter placeRecyclerAdapter;
 
     /**
      * init variables and flags;
@@ -144,6 +149,10 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    public void setAdapter(PlaceRecyclerAdapter adapter) {
+        this.placeRecyclerAdapter = adapter;
+    }
+
     /**
      * Set listener for map fragment;
      * @param listener listener for map fragment
@@ -168,6 +177,10 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         this.markerRadius = markerRadius;
     }
 
+    /**
+     * Get currently used marker style.
+     * @return marker code.
+     */
     public int getMarkerStyle() {
         return markerStyle;
     }
@@ -328,7 +341,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
      */
     public void moveCamera(LatLng pos) {
         if (map != null) {
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 13));
+            animate(pos);
         }
     }
 
@@ -660,60 +673,83 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     }
 
     private void loadPlaces(){
-        DataBase DB = new DataBase(getActivity());
-        DB.open();
-        Cursor c = DB.queryPlaces();
-        spinnerArray = new ArrayList<>();
-        spinnerArray.clear();
-        if (c != null && c.moveToFirst()){
-            do {
-                String namePlace = c.getString(c.getColumnIndex(DataBase.NAME));
-                spinnerArray.add(namePlace);
-
-            } while (c.moveToNext());
-        } else {
+        if (placeRecyclerAdapter == null) {
+            DataBase DB = new DataBase(getActivity());
+            DB.open();
+            Cursor c = DB.queryPlaces();
+            spinnerArray = new ArrayList<>();
             spinnerArray.clear();
-        }
-        if (c != null) {
-            c.close();
-        }
+            if (c != null && c.moveToFirst()) {
+                do {
+                    String namePlace = c.getString(c.getColumnIndex(DataBase.NAME));
+                    spinnerArray.add(namePlace);
 
-        if (spinnerArray.isEmpty()){
-            placesList.setVisibility(View.GONE);
-            emptyItem.setVisibility(View.VISIBLE);
-        } else {
-            emptyItem.setVisibility(View.GONE);
-            placesList.setVisibility(View.VISIBLE);
-            PlaceAdapter adapter = new PlaceAdapter(getActivity(), spinnerArray);
-            adapter.setEventListener(new SimpleListener() {
-                @Override
-                public void onItemClicked(int position, View view) {
-                    hideLayers();
-                    hidePlaces();
-                    if (position > 0) {
-                        String placeName = spinnerArray.get(position);
-                        DataBase db = new DataBase(getActivity());
-                        db.open();
-                        Cursor c = db.getPlace(placeName);
-                        if (c != null && c.moveToFirst()) {
-                            double latitude = c.getDouble(c.getColumnIndex(DataBase.LATITUDE));
-                            double longitude = c.getDouble(c.getColumnIndex(DataBase.LONGITUDE));
-                            LatLng latLng = new LatLng(latitude, longitude);
-                            addMarker(latLng, markerTitle, true, true, markerRadius);
-                        }
-                        if (c != null) {
-                            c.close();
+                } while (c.moveToNext());
+            } else {
+                spinnerArray.clear();
+            }
+            if (c != null) {
+                c.close();
+            }
+
+            if (spinnerArray.isEmpty()) {
+                placesList.setVisibility(View.GONE);
+                emptyItem.setVisibility(View.VISIBLE);
+            } else {
+                emptyItem.setVisibility(View.GONE);
+                placesList.setVisibility(View.VISIBLE);
+                PlaceAdapter adapter = new PlaceAdapter(getActivity(), spinnerArray);
+                adapter.setEventListener(new SimpleListener() {
+                    @Override
+                    public void onItemClicked(int position, View view) {
+                        hideLayers();
+                        hidePlaces();
+                        if (position > 0) {
+                            String placeName = spinnerArray.get(position);
+                            DataBase db = new DataBase(getActivity());
+                            db.open();
+                            Cursor c = db.getPlace(placeName);
+                            if (c != null && c.moveToFirst()) {
+                                double latitude = c.getDouble(c.getColumnIndex(DataBase.LATITUDE));
+                                double longitude = c.getDouble(c.getColumnIndex(DataBase.LONGITUDE));
+                                LatLng latLng = new LatLng(latitude, longitude);
+                                addMarker(latLng, markerTitle, true, true, markerRadius);
+                            }
+                            if (c != null) {
+                                c.close();
+                            }
                         }
                     }
-                }
 
-                @Override
-                public void onItemLongClicked(int position, View view) {
+                    @Override
+                    public void onItemLongClicked(int position, View view) {
 
-                }
-            });
-            placesList.setLayoutManager(new LinearLayoutManager(getActivity()));
-            placesList.setAdapter(adapter);
+                    }
+                });
+                placesList.setLayoutManager(new LinearLayoutManager(getActivity()));
+                placesList.setAdapter(adapter);
+            }
+        } else {
+            if (placeRecyclerAdapter.getItemCount() > 0) {
+                emptyItem.setVisibility(View.GONE);
+                placesList.setVisibility(View.VISIBLE);
+                placesList.setLayoutManager(new LinearLayoutManager(getActivity()));
+                placesList.setAdapter(placeRecyclerAdapter);
+                addMarkers(placeRecyclerAdapter.getProvider());
+            } else {
+                placesList.setVisibility(View.GONE);
+                emptyItem.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    private void addMarkers(PlaceDataProvider provider) {
+        List<MarkerModel> list = provider.getData();
+        if (list != null && list.size() > 0) {
+            for (MarkerModel model : list) {
+                addMarker(model.getPosition(), model.getTitle(), false,
+                        model.getIcon(), false, model.getRadius());
+            }
         }
     }
 

@@ -115,6 +115,14 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".LocationsMap"
+            android:configChanges="keyboardHidden|orientation">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <receiver android:name=".core.services.PositionDelayReceiver" />
         <receiver android:name=".core.services.JustBootReceiver">
             <intent-filter>

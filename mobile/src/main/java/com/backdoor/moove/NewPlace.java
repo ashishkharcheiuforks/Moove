@@ -33,7 +33,6 @@ public class NewPlace extends AppCompatActivity implements MapListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(cs.getStyle());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(cs.colorPrimaryDark());
         }
@@ -43,8 +42,6 @@ public class NewPlace extends AppCompatActivity implements MapListener {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_clear_white_24dp);
-
-        findViewById(R.id.windowBackground).setBackgroundColor(cs.getBackgroundStyle());
 
         id = getIntent().getLongExtra(Constants.ITEM_ID_INTENT, 0);
 

@@ -119,26 +119,6 @@ public class Reminder {
     }
 
     /**
-     * Move reminder to trash.
-     * @param id reminder identifier.
-     * @param context application context.
-     */
-    public static void moveToTrash(long id, Context context, ActionCallbacks callbacks){
-        DataBase db = new DataBase(context);
-        if (!db.isOpen()) {
-            db.open();
-        }
-        db.setStatus(id, Constants.ARCHIVE);
-        db.close();
-        disable(context, id);
-        if (callbacks != null) {
-            callbacks.showSnackbar(R.string.deleted);
-        } else {
-            Messages.toast(context, R.string.deleted);
-        }
-    }
-
-    /**
      * Edit reminder.
      * @param id reminder identifier.
      * @param context application context.

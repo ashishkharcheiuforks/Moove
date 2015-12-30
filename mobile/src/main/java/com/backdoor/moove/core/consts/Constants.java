@@ -27,17 +27,14 @@ public class Constants {
     public static final String TYPE_MESSAGE = "message";
     public static final String TYPE_CALL = "call";
 
-    public static final int NOT_LOCKED = 1;
-    public static final int LOCKED = 2;
+    public static final int NOT_LOCKED = 5;
+    public static final int LOCKED = 6;
 
     public static final int SHOWN = 3;
     public static final int NOT_SHOWN = 4;
 
     public static final int ENABLE = 1;
     public static final int DISABLE = 2;
-
-    public static final int ARCHIVE = 3;
-    public static final int ACTIVE = 4;
 
     public static final String FILE_PICKED = "file_selected";
     public static final String DEFAULT = "default";

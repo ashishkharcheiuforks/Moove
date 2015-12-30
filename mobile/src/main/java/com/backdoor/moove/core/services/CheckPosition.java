@@ -56,7 +56,9 @@ public class CheckPosition extends IntentService {
                 int statusRem = c.getInt(c.getColumnIndex(DataBase.STATUS_REMINDER));
                 int radius = c.getInt(c.getColumnIndex(DataBase.RADIUS));
                 int stockRadius = sPrefs.loadInt(Prefs.LOCATION_RADIUS);
-                if (radius == -1) radius = stockRadius;
+                if (radius == -1) {
+                    radius = stockRadius;
+                }
                 if (statusDb == Constants.ENABLE) {
                     if (startTime <= 0) {
                         Location locationB = new Location("point B");
