@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Moove</string>
-    <string name="_2016_nazar_suhovich">2016 Nazar Suhovich</string>
+    <string name="_2016_nazar_suhovich">2016 \u00A9 Nazar Suhovich</string>
     <string name="search">Search</string>
     <string name="action">Action</string>
     <string name="make_call">Make call</string>

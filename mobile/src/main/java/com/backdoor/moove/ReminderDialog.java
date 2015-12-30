@@ -273,17 +273,19 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
         if (imagePrefs.matches(Constants.DEFAULT)){
             if (blur) {
                 Picasso.with(ReminderDialog.this)
                         .load(R.drawable.photo)
-                        .resize(metrics.heightPixels, metrics.widthPixels)
+                        .resize(width, height)
                         .transform(new BlurTransformation(this, 15, 2))
                         .into(bgImage);
             } else {
                 Picasso.with(ReminderDialog.this)
                         .load(R.drawable.photo)
-                        .resize(metrics.heightPixels, metrics.widthPixels)
+                        .resize(width, height)
                         .into(bgImage);
             }
             bgImage.setVisibility(View.VISIBLE);
@@ -293,13 +295,13 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
             if (blur) {
                 Picasso.with(ReminderDialog.this)
                         .load(Uri.parse(imagePrefs))
-                        .resize(metrics.heightPixels, metrics.widthPixels)
+                        .resize(width, height)
                         .transform(new BlurTransformation(this, 15, 2))
                         .into(bgImage);
             } else {
                 Picasso.with(ReminderDialog.this)
                         .load(Uri.parse(imagePrefs))
-                        .resize(metrics.heightPixels, metrics.widthPixels)
+                        .resize(width, height)
                         .into(bgImage);
             }
             bgImage.setVisibility(View.VISIBLE);
