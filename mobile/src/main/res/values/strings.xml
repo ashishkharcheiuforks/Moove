@@ -147,4 +147,5 @@
     <string name="teal">Teal</string>
     <string name="set_volume_for_reminder">Set volume (%s) for reminder</string>
     <string name="directions">Directions</string>
+    <string name="places_list_auto_completion">Places list auto completion</string>
 </resources>

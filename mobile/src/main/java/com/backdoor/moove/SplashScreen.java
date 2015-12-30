@@ -42,13 +42,13 @@ public class SplashScreen extends Activity{
             uiEd.putInt(Prefs.APP_RUNS_COUNT, 0);
             uiEd.putBoolean(Prefs.TRACKING_NOTIFICATION, true);
             uiEd.putBoolean(Prefs.RATE_SHOW, false);
-            uiEd.putBoolean(Prefs.USE_DARK_THEME, false);
             uiEd.putBoolean(Prefs.INFINITE_VIBRATION, false);
             uiEd.putBoolean(Prefs.IS_24_TIME_FORMAT, true);
             uiEd.putBoolean(Prefs.UNLOCK_DEVICE, false);
             uiEd.putBoolean(Prefs.TTS, false);
-            uiEd.putBoolean(Prefs.REMINDER_IMAGE_BLUR, false);
+            uiEd.putBoolean(Prefs.REMINDER_IMAGE_BLUR, true);
             uiEd.putBoolean(Prefs.CUSTOM_SOUND, false);
+            uiEd.putBoolean(Prefs.PLACES_AUTO, true);
             uiEd.commit();
         }
     }
@@ -110,8 +110,8 @@ public class SplashScreen extends Activity{
         if (!sPrefs.isString(Prefs.WEAR_NOTIFICATION)){
             sPrefs.saveBoolean(Prefs.WEAR_NOTIFICATION, false);
         }
-        if (!sPrefs.isString(Prefs.USE_DARK_THEME)){
-            sPrefs.saveBoolean(Prefs.USE_DARK_THEME, false);
+        if (!sPrefs.isString(Prefs.PLACES_AUTO)){
+            sPrefs.saveBoolean(Prefs.PLACES_AUTO, true);
         }
         if (!sPrefs.isString(Prefs.INFINITE_VIBRATION)){
             sPrefs.saveBoolean(Prefs.INFINITE_VIBRATION, false);

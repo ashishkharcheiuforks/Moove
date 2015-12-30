@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,7 +26,6 @@ import com.backdoor.moove.core.consts.QuickReturnViewType;
 import com.backdoor.moove.core.data.PlaceDataProvider;
 import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.DataBase;
-import com.backdoor.moove.core.helper.Messages;
 import com.backdoor.moove.core.helper.Module;
 import com.backdoor.moove.core.helper.Permissions;
 import com.backdoor.moove.core.interfaces.SimpleListener;
@@ -124,7 +124,8 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
             db.open();
             db.deletePlace(id);
             db.close();
-            Messages.toast(this, getString(R.string.deleted));
+            Snackbar.make(mFab, R.string.deleted, Snackbar.LENGTH_LONG)
+                    .show();
             loadPlaces();
         }
     }

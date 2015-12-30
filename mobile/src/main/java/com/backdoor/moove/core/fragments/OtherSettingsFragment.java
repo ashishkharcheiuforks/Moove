@@ -96,7 +96,8 @@ public class OtherSettingsFragment extends Fragment {
             public void onClick(View v) {
                 final Intent emailIntent = new Intent(Intent.ACTION_SEND);
                 emailIntent.setType("plain/text");
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"feedback.cray@gmail.com"});
+                emailIntent.putExtra(Intent.EXTRA_EMAIL,
+                        new String[]{"feedback.cray@gmail.com"});
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Moove");
                 getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
             }
@@ -108,14 +109,19 @@ public class OtherSettingsFragment extends Fragment {
             public void onClick(View v) {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=com.cray.software.justreminderpro");
+                shareIntent.putExtra(Intent.EXTRA_TEXT,
+                        "https://play.google.com/store/apps/details?id=" +
+                                getActivity().getPackageName());
                 getActivity().startActivity(Intent.createChooser(shareIntent, "Share..."));
             }
         });
 
         LinearLayout permissionBlock = (LinearLayout) rootView.findViewById(R.id.permissionBlock);
-        if (Module.isMarshmallow()) permissionBlock.setVisibility(View.VISIBLE);
-        else permissionBlock.setVisibility(View.GONE);
+        if (Module.isMarshmallow()) {
+            permissionBlock.setVisibility(View.VISIBLE);
+        } else {
+            permissionBlock.setVisibility(View.GONE);
+        }
 
         TextView permissionExplain = (TextView) rootView.findViewById(R.id.permissionExplain);
         permissionExplain.setOnClickListener(new View.OnClickListener() {

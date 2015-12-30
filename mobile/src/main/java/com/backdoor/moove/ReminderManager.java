@@ -56,6 +56,7 @@ import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.DataBase;
 import com.backdoor.moove.core.helper.LocationType;
 import com.backdoor.moove.core.helper.Permissions;
+import com.backdoor.moove.core.helper.Place;
 import com.backdoor.moove.core.helper.Reminder;
 import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.helper.Type;
@@ -881,6 +882,10 @@ public class ReminderManager extends AppCompatActivity implements
             if (isNull) {
                 showSnackbar(R.string.no_place_selected);
                 return null;
+            } else {
+                if (sPrefs.loadBoolean(Prefs.PLACES_AUTO)) {
+                    Place.addPlace(this, dest);
+                }
             }
 
             Double latitude = dest.latitude;

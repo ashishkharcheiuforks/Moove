@@ -10,9 +10,7 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 
 import com.backdoor.moove.R;
-import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.helper.Coloring;
-import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.views.FloatingEditText;
 
 import java.util.Locale;
@@ -39,21 +37,15 @@ public class Help extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        SharedPrefs prefs = new SharedPrefs(Help.this);
-        boolean isDark = prefs.loadBoolean(Prefs.USE_DARK_THEME);
-
         helpView = (WebView) findViewById(R.id.helpView);
         String localeCheck = Locale.getDefault().toString().toLowerCase();
         String url;
         if (localeCheck.startsWith("uk")) {
-            if (isDark) url = "file:///android_asset/web_page/index.html";
-            else url = "file:///android_asset/web_page/index_light.html";
+            url = "file:///android_asset/web_page/index.html";
         } else if (localeCheck.startsWith("ru")) {
-            if (isDark) url = "file:///android_asset/web_page/index_ru.html";
-            else url = "file:///android_asset/web_page/index_light_ru.html";
+            url = "file:///android_asset/web_page/index_ru.html";
         } else {
-            if (isDark) url = "file:///android_asset/web_page/index_en.html";
-            else url = "file:///android_asset/web_page/index_light_en.html";
+            url = "file:///android_asset/web_page/index_en.html";
         }
 
         helpView.loadUrl(url);

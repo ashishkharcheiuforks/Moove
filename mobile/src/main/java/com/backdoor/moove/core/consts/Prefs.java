@@ -41,10 +41,10 @@ public class Prefs {
     public final static String CUSTOM_SOUND_FILE = "sound_file";
     public final static String REMINDER_IMAGE = "reminder_image";
     public final static String REMINDER_IMAGE_BLUR = "reminder_image_blur";
-    public static final String USE_DARK_THEME = "dark_theme";
     public static final String IS_24_TIME_FORMAT = "24_hour";
     public static final String LAST_USED_REMINDER = "last_reminder";
     public static final String RATE_SHOW = "rate_shown";
     public static final String APP_RUNS_COUNT = "app_runs";
     public static final String FIRST_LOAD = "first_loading";
+    public static final String PLACES_AUTO = "places_auto";
 }

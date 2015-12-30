@@ -24,6 +24,15 @@
     <com.backdoor.moove.core.views.PrefsView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/autoFill"
+        app:prefs_primary_text="@string/places_list_auto_completion"
+        app:prefs_divider_top="false"
+        app:prefs_type="check"
+        app:prefs_divider_bottom="true"/>
+
+    <com.backdoor.moove.core.views.PrefsView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/radiusPrefs"
         app:prefs_primary_text="@string/radius"
         app:prefs_divider_top="false"

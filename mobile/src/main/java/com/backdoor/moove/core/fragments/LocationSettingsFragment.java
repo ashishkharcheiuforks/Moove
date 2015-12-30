@@ -25,7 +25,7 @@ public class LocationSettingsFragment extends Fragment implements View.OnClickLi
     private SharedPrefs sPrefs;
     private ActionBar ab;
     
-    private PrefsView notificationOptionPrefs, radiusPrefs;
+    private PrefsView notificationOptionPrefs, radiusPrefs, autoFill;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +44,10 @@ public class LocationSettingsFragment extends Fragment implements View.OnClickLi
         notificationOptionPrefs = (PrefsView) rootView.findViewById(R.id.notificationOptionPrefs);
         notificationOptionPrefs.setChecked(sPrefs.loadBoolean(Prefs.TRACKING_NOTIFICATION));
         notificationOptionPrefs.setOnClickListener(this);
+
+        autoFill = (PrefsView) rootView.findViewById(R.id.autoFill);
+        autoFill.setChecked(sPrefs.loadBoolean(Prefs.PLACES_AUTO));
+        autoFill.setOnClickListener(this);
 
         radiusPrefs = (PrefsView) rootView.findViewById(R.id.radiusPrefs);
         radiusPrefs.setOnClickListener(this);
@@ -68,6 +72,17 @@ public class LocationSettingsFragment extends Fragment implements View.OnClickLi
         } else {
             sPrefs.saveBoolean(Prefs.TRACKING_NOTIFICATION, true);
             notificationOptionPrefs.setChecked(true);
+        }
+    }
+
+    private void placesChange (){
+        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
+        if (autoFill.isChecked()){
+            sPrefs.saveBoolean(Prefs.PLACES_AUTO, false);
+            autoFill.setChecked(false);
+        } else {
+            sPrefs.saveBoolean(Prefs.PLACES_AUTO, true);
+            autoFill.setChecked(true);
         }
     }
 
@@ -116,6 +131,9 @@ public class LocationSettingsFragment extends Fragment implements View.OnClickLi
                 getActivity().getApplicationContext()
                         .startActivity(new Intent(getActivity().getApplicationContext(),
                                 MarkerStyle.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                break;
+            case R.id.autoFill:
+                placesChange();
                 break;
         }
     }
