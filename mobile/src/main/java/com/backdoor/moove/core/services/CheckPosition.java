@@ -159,13 +159,15 @@ public class CheckPosition extends IntentService {
         Integer i = (int) (long) id;
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
         builder.setContentText(String.valueOf(roundedDistance));
-        if (shown != Constants.NOT_SHOWN) {
+        if (shown != Constants.SHOWN) {
             builder.setContentTitle(task);
             builder.setContentText(String.valueOf(roundedDistance));
             builder.setSmallIcon(R.drawable.ic_navigation_white_24dp);
+            DataBase db = new DataBase(getApplicationContext());
+            db.open().setStatusNotification(id, Constants.SHOWN);
+            db.close();
         }
         NotificationManager mNotifyMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
         mNotifyMgr.notify(i, builder.build());
     }
 

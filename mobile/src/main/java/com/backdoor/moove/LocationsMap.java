@@ -13,11 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.backdoor.moove.core.adapters.PlaceRecyclerAdapter;
-import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.data.PlaceDataProvider;
 import com.backdoor.moove.core.fragments.MapFragment;
 import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.Permissions;
+import com.backdoor.moove.core.helper.Reminder;
 import com.backdoor.moove.core.interfaces.SimpleListener;
 
 public class LocationsMap extends AppCompatActivity implements SimpleListener {
@@ -58,8 +58,7 @@ public class LocationsMap extends AppCompatActivity implements SimpleListener {
     }
 
     private void editPlace(int position){
-        startActivity(new Intent(this, NewPlace.class)
-                .putExtra(Constants.ITEM_ID_INTENT, provider.getItem(position).getId()));
+        Reminder.edit(provider.getItem(position).getId(), LocationsMap.this);
     }
 
     private void moveToPlace(int position){

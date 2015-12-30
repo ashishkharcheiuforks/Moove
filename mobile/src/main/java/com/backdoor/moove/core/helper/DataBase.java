@@ -224,7 +224,7 @@ public class DataBase {
         return db.update(CURRENT_TABLE_NAME, args, _ID + "=" + rowId, null) > 0;
     }
 
-    public boolean setWidget(long rowId, int id) {
+    public boolean setWidgetId(long rowId, int id) {
         openGuard();
         ContentValues args = new ContentValues();
         args.put(WIDGET_ID, id);

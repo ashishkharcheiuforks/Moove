@@ -8,7 +8,7 @@
     <string name="send_sms">Send SMS</string>
     <string name="phone_number">Phone number</string>
     <string name="select_file">Select file</string>
-    <string name="address">Address...</string>
+    <string name="address">Address…</string>
     <string name="normal">Normal</string>
     <string name="satellite">Satellite</string>
     <string name="hybrid">Hybrid</string>
@@ -19,7 +19,7 @@
     <string name="no_places">No places</string>
     <string name="radius">Radius</string>
     <string name="i_m_use_transport">I\'m use transport</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="do_you_want_ro_rate_this_application">Do you want ro rate this application?</string>
     <string name="never">Never</string>
     <string name="later">Later</string>
@@ -34,10 +34,10 @@
     <string name="marker_style">Marker style</string>
     <string name="tracking_preferences">Tracking preferences</string>
     <string name="distance_notification">Distance notification</string>
-    <string name="look_amp_feel"><![CDATA[Look & feel]]></string>
+    <string name="look_amp_feel">Look &amp; feel</string>
     <string name="background_image">Background image</string>
     <string name="image_blur">Image blur</string>
-    <string name="sound_amp_vibration"><![CDATA[Sound & vibration]]></string>
+    <string name="sound_amp_vibration">Sound &amp; vibration</string>
     <string name="volume">Volume</string>
     <string name="vibrate">Vibrate</string>
     <string name="infinite_vibration">Infinite vibration</string>
@@ -59,7 +59,7 @@
     <string name="open_source_licenses">Open source licenses</string>
     <string name="send_feedback">Send feedback</string>
     <string name="tell_friends">Tell friends</string>
-    <string name="remind_me">Remind me...</string>
+    <string name="remind_me">Remind me…</string>
     <string name="for_lower_battery_using_set_bigger_values">For lower battery using set bigger values</string>
     <string name="delete_all">Delete all</string>
     <string name="melody">Melody</string>
@@ -96,7 +96,7 @@
     <string name="error_sending_message">Error sending message!</string>
     <string name="edit">Edit</string>
     <string name="no_files">No files</string>
-    <string name="this_format_is_not_supported">This format is not supported!</string>
+    <string name="this_format_is_not_supported">This is not melody!</string>
     <string name="contacts">Contacts</string>
     <string name="course_location">Course location</string>
     <string name="fine_location">Fine location</string>
@@ -130,9 +130,9 @@
     <string name="read_external_storage">Read external storage</string>
     <string name="write_external_storage">Write external storage</string>
     <string name="send_message">Send message</string>
-    <string name="reminder_disabled">Reminder disabled.</string>
-    <string name="reminder_tracking_start_delayed">Reminder tracking start delayed.</string>
-    <string name="tracking_start">Tracking start.</string>
+    <string name="reminder_disabled">Reminder disabled</string>
+    <string name="reminder_tracking_start_delayed">Reminder tracking start delayed</string>
+    <string name="tracking_start">Tracking start</string>
     <string name="dismiss">Dismiss</string>
     <string name="cant_read_external_storage">Can\'t read external storage!</string>
     <string name="cant_access_to_contacts">Can\'t access to contacts book!</string>

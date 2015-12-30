@@ -50,9 +50,9 @@ public final class ThanksDialog extends AppCompatActivity {
         }
 
         WebView helpView = (WebView) findViewById(R.id.helpView);
-        String url = "file:///android_asset/files/LICENSE.html";
+        String url = "file:///android_asset/LICENSE.html";
         if (code == 1) {
-            url = "file:///android_asset/files/permissions.html";
+            url = "file:///android_asset/permissions.html";
         }
         helpView.loadUrl(url);
 

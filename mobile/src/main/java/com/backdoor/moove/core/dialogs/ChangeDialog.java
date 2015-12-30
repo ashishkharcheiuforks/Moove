@@ -20,7 +20,7 @@ public class ChangeDialog extends Activity {
         alert.setTitle(getString(R.string.changes));
 
         WebView wv = new WebView(this);
-        String url = "file:///android_asset/files/change_log.html";
+        String url = "file:///android_asset/change_log.html";
         wv.loadUrl(url);
         wv.setWebViewClient(new WebViewClient() {
             @Override
