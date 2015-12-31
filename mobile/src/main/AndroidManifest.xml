@@ -238,6 +238,22 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".StartHelp" />
+
+        <receiver android:name=".core.widgets.LeftDistanceWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/left_distance_widget_info" />
+        </receiver>
+
+        <activity android:name=".core.widgets.LeftDistanceWidgetConfigureActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -231,6 +231,13 @@ public class DataBase {
         return db.update(CURRENT_TABLE_NAME, args, _ID + "=" + rowId, null) > 0;
     }
 
+    public boolean removeWidget(long rowId) {
+        openGuard();
+        ContentValues args = new ContentValues();
+        args.put(WIDGET_ID, -1);
+        return db.update(CURRENT_TABLE_NAME, args, _ID + "=" + rowId, null) > 0;
+    }
+
     public boolean setStatusNotification(long rowId, int status) {
         openGuard();
         ContentValues args = new ContentValues();
@@ -260,6 +267,12 @@ public class DataBase {
     public Cursor getReminders(int status) throws SQLException {
         openGuard();
         return db.query(CURRENT_TABLE_NAME, null, STATUS_DB + "='" + status + "'",
+                null, null, null, null);
+    }
+
+    public Cursor getRemindersWithWidget(int widgetId) throws SQLException {
+        openGuard();
+        return db.query(CURRENT_TABLE_NAME, null, WIDGET_ID + "='" + widgetId + "'",
                 null, null, null, null);
     }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.backdoor.moove.core.consts.Constants;
+import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.DataBase;
 
 import java.util.ArrayList;
@@ -121,12 +122,39 @@ public class ReminderDataProvider {
         return data.get(index);
     }
 
+    public ArrayList<MarkerModel> getListData(){
+        ArrayList<MarkerModel> list = new ArrayList<>();
+        list.clear();
+        DataBase db = new DataBase(mContext);
+        db.open();
+        Cursor c = db.getReminders(Constants.ENABLE);
+        if (c != null && c.moveToFirst()){
+            do {
+                String title = c.getString(c.getColumnIndex(DataBase.SUMMARY));
+                long id = c.getLong(c.getColumnIndex(DataBase._ID));
+                int icon = c.getInt(c.getColumnIndex(DataBase.MARKER));
+
+                if (icon == -1) {
+                    icon = new Coloring(mContext).getMarkerStyle();
+                }
+
+                list.add(new MarkerModel(title, id, icon));
+            } while (c.moveToNext());
+        }
+        if (c != null) {
+            c.close();
+        }
+
+        db.close();
+        return list;
+    }
+
     public void load(){
         data.clear();
         DataBase db = new DataBase(mContext);
         db.open();
         Cursor c = db.getAllReminders();
-        if (c != null && c.moveToNext()){
+        if (c != null && c.moveToFirst()){
             do {
                 String title = c.getString(c.getColumnIndex(DataBase.SUMMARY));
                 String type = c.getString(c.getColumnIndex(DataBase.TYPE));
@@ -152,7 +180,7 @@ public class ReminderDataProvider {
         DataBase db = new DataBase(mContext);
         db.open();
         Cursor c = db.getReminder(id);
-        if (c != null && c.moveToNext()){
+        if (c != null && c.moveToFirst()){
             String title = c.getString(c.getColumnIndex(DataBase.SUMMARY));
             String type = c.getString(c.getColumnIndex(DataBase.TYPE));
             String number = c.getString(c.getColumnIndex(DataBase.NUMBER));

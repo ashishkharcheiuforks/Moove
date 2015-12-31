@@ -150,4 +150,11 @@
     <string name="places_list_auto_completion">Places list auto completion</string>
     <string name="more_apps">More apps</string>
     <string name="could_not_launch_market">Couldn\'t launch market</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
+    <string name="choose_reminder">Choose reminder</string>
+    <string name="at_first_select_reminder">At first select reminder for this widget!</string>
+    <string name="distance_m">%s m</string>
+    <string name="no_reminder">No reminder</string>
 </resources>

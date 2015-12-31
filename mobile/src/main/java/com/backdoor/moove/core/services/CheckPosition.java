@@ -1,13 +1,14 @@
 package com.backdoor.moove.core.services;
 
 import android.app.IntentService;
-import android.app.NotificationManager;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 
 import com.backdoor.moove.R;
 import com.backdoor.moove.ReminderDialog;
@@ -15,8 +16,12 @@ import com.backdoor.moove.core.async.DisableAsync;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.helper.DataBase;
+import com.backdoor.moove.core.helper.Module;
 import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.utils.TimeUtil;
+import com.backdoor.moove.core.utils.ViewUtils;
+import com.backdoor.moove.core.widgets.LeftDistanceWidget;
+import com.backdoor.moove.core.widgets.LeftDistanceWidgetConfigureActivity;
 
 public class CheckPosition extends IntentService {
 
@@ -32,16 +37,18 @@ public class CheckPosition extends IntentService {
 
     @Override
     protected void onHandleIntent(final Intent intent) {
-        double currentLat = intent.getDoubleExtra("lat", 0);
-        double currentLong = intent.getDoubleExtra("lon", 0);
+        double mLat = intent.getDoubleExtra("lat", 0);
+        double mLon = intent.getDoubleExtra("lon", 0);
         Location locationA = new Location("point A");
-        locationA.setLatitude(currentLat);
-        locationA.setLongitude(currentLong);
+        locationA.setLatitude(mLat);
+        locationA.setLongitude(mLon);
         DataBase db = new DataBase(getApplicationContext());
-        SharedPrefs sPrefs = new SharedPrefs(getApplicationContext());
-        boolean isEnabled = sPrefs.loadBoolean(Prefs.TRACKING_NOTIFICATION);
+        SharedPrefs prefs = new SharedPrefs(getApplicationContext());
+        boolean isEnabled = prefs.loadBoolean(Prefs.TRACKING_NOTIFICATION);
+        int stockRadius = prefs.loadInt(Prefs.LOCATION_RADIUS);
+        boolean isWear = prefs.loadBoolean(Prefs.WEAR_NOTIFICATION);
         db.open();
-        Cursor c = db.getAllReminders();
+        Cursor c = db.getReminders(Constants.ENABLE);
         if (c != null && c.moveToFirst()) {
             do{
                 double lat = c.getDouble(c.getColumnIndex(DataBase.LATITUDE));
@@ -51,16 +58,51 @@ public class CheckPosition extends IntentService {
                 String task = c.getString(c.getColumnIndex(DataBase.SUMMARY));
                 String type = c.getString(c.getColumnIndex(DataBase.TYPE));
                 int status = c.getInt(c.getColumnIndex(DataBase.STATUS));
-                int statusDb = c.getInt(c.getColumnIndex(DataBase.STATUS_DB));
                 int statusNot = c.getInt(c.getColumnIndex(DataBase.STATUS_NOTIFICATION));
                 int statusRem = c.getInt(c.getColumnIndex(DataBase.STATUS_REMINDER));
                 int radius = c.getInt(c.getColumnIndex(DataBase.RADIUS));
-                int stockRadius = sPrefs.loadInt(Prefs.LOCATION_RADIUS);
+                int widgetId = c.getInt(c.getColumnIndex(DataBase.WIDGET_ID));
+
                 if (radius == -1) {
                     radius = stockRadius;
                 }
-                if (statusDb == Constants.ENABLE) {
-                    if (startTime <= 0) {
+                if (startTime <= 0) {
+                    Location locationB = new Location("point B");
+                    locationB.setLatitude(lat);
+                    locationB.setLongitude(lon);
+                    float distance = locationA.distanceTo(locationB);
+                    int roundedDistance = Math.round(distance);
+                    if (type.startsWith(Constants.TYPE_LOCATION_OUT)){
+                        if (status == Constants.NOT_LOCKED){
+                            if (roundedDistance < radius) {
+                                db.setLocationStatus(id, Constants.LOCKED);
+                            }
+                        } else {
+                            if (roundedDistance > radius) {
+                                if (statusRem != Constants.SHOWN) {
+                                    showReminder(id, task);
+                                }
+                            } else {
+                                if (isEnabled) {
+                                    showNotification(id, roundedDistance, statusNot, task, isWear);
+                                }
+                                updateWidget(widgetId, roundedDistance);
+                            }
+                        }
+                    } else {
+                        if (roundedDistance <= radius) {
+                            if (statusRem != Constants.SHOWN) {
+                                showReminder(id, task);
+                            }
+                        } else {
+                            if (isEnabled) {
+                                showNotification(id, roundedDistance, statusNot, task, isWear);
+                            }
+                            updateWidget(widgetId, roundedDistance);
+                        }
+                    }
+                } else {
+                    if (TimeUtil.isCurrent(startTime)) {
                         Location locationB = new Location("point B");
                         locationB.setLatitude(lat);
                         locationB.setLongitude(lon);
@@ -68,7 +110,7 @@ public class CheckPosition extends IntentService {
                         int roundedDistance = Math.round(distance);
                         if (type.startsWith(Constants.TYPE_LOCATION_OUT)){
                             if (status == Constants.NOT_LOCKED){
-                                if (roundedDistance < radius) {
+                                if (roundedDistance <= radius) {
                                     db.setLocationStatus(id, Constants.LOCKED);
                                 }
                             } else {
@@ -78,8 +120,9 @@ public class CheckPosition extends IntentService {
                                     }
                                 } else {
                                     if (isEnabled) {
-                                        showNotification(id, roundedDistance, statusNot, task);
+                                        showNotification(id, roundedDistance, statusNot, task, isWear);
                                     }
+                                    updateWidget(widgetId, roundedDistance);
                                 }
                             }
                         } else {
@@ -89,43 +132,9 @@ public class CheckPosition extends IntentService {
                                 }
                             } else {
                                 if (isEnabled) {
-                                    showNotification(id, roundedDistance, statusNot, task);
+                                    showNotification(id, roundedDistance, statusNot, task, isWear);
                                 }
-                            }
-                        }
-                    } else {
-                        if (TimeUtil.isCurrent(startTime)) {
-                            Location locationB = new Location("point B");
-                            locationB.setLatitude(lat);
-                            locationB.setLongitude(lon);
-                            float distance = locationA.distanceTo(locationB);
-                            int roundedDistance = Math.round(distance);
-                            if (type.startsWith(Constants.TYPE_LOCATION_OUT)){
-                                if (status == Constants.NOT_LOCKED){
-                                    if (roundedDistance <= radius) {
-                                        db.setLocationStatus(id, Constants.LOCKED);
-                                    }
-                                } else {
-                                    if (roundedDistance > radius) {
-                                        if (statusRem != Constants.SHOWN) {
-                                            showReminder(id, task);
-                                        }
-                                    } else {
-                                        if (isEnabled) {
-                                            showNotification(id, roundedDistance, statusNot, task);
-                                        }
-                                    }
-                                }
-                            } else {
-                                if (roundedDistance <= radius) {
-                                    if (statusRem != Constants.SHOWN) {
-                                        showReminder(id, task);
-                                    }
-                                } else {
-                                    if (isEnabled) {
-                                        showNotification(id, roundedDistance, statusNot, task);
-                                    }
-                                }
+                                updateWidget(widgetId, roundedDistance);
                             }
                         }
                     }
@@ -134,6 +143,7 @@ public class CheckPosition extends IntentService {
         } else {
             getApplication().stopService(new Intent(getApplicationContext(), GeolocationService.class));
             stopSelf();
+            stopIt();
         }
 
         if (c != null) {
@@ -141,6 +151,18 @@ public class CheckPosition extends IntentService {
         }
 
         db.close();
+
+        stopIt();
+    }
+
+    private void updateWidget(int id, int distance) {
+        Context context = getApplicationContext();
+        LeftDistanceWidgetConfigureActivity.saveDistancePref(context, id, distance);
+
+        Intent intent = new Intent(context, LeftDistanceWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[]{id});
+        context.sendBroadcast(intent);
     }
 
     private void showReminder(long id, String task){
@@ -155,20 +177,52 @@ public class CheckPosition extends IntentService {
         stopIt();
     }
 
-    private void showNotification(long id, int roundedDistance, int shown, String task){
+    private void showNotification(long id, int roundedDistance, int shown, String task, boolean isWear){
         Integer i = (int) (long) id;
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
-        builder.setContentText(String.valueOf(roundedDistance));
+        Context context = getApplicationContext();
+        String content = String.valueOf(roundedDistance);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        builder.setContentText(content);
+
+        if (Module.isLollipop()) {
+            builder.setColor(ViewUtils.getColor(context, R.color.themePrimaryDark));
+        }
+
+        if (isWear) {
+            if (Module.isJellyBean()) {
+                builder.setOnlyAlertOnce(true);
+                builder.setGroup("LOCATION");
+                builder.setGroupSummary(true);
+            }
+        }
+
         if (shown != Constants.SHOWN) {
             builder.setContentTitle(task);
-            builder.setContentText(String.valueOf(roundedDistance));
             builder.setSmallIcon(R.drawable.ic_navigation_white_24dp);
-            DataBase db = new DataBase(getApplicationContext());
+            DataBase db = new DataBase(context);
             db.open().setStatusNotification(id, Constants.SHOWN);
             db.close();
         }
-        NotificationManager mNotifyMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManagerCompat mNotifyMgr = NotificationManagerCompat.from(context);
         mNotifyMgr.notify(i, builder.build());
+
+        if (isWear){
+            if (Module.isJellyBean()) {
+                final NotificationCompat.Builder wearableNotificationBuilder = new NotificationCompat.Builder(context);
+                wearableNotificationBuilder.setSmallIcon(R.drawable.ic_navigation_white_24dp);
+                wearableNotificationBuilder.setContentTitle(task);
+                wearableNotificationBuilder.setContentText(content);
+                wearableNotificationBuilder.setOngoing(false);
+                if (Module.isLollipop()) {
+                    wearableNotificationBuilder.setColor(ViewUtils.getColor(context, R.color.themePrimaryDark));
+                }
+                wearableNotificationBuilder.setOnlyAlertOnce(true);
+                wearableNotificationBuilder.setGroup("LOCATION");
+                wearableNotificationBuilder.setGroupSummary(false);
+                mNotifyMgr.notify(i, wearableNotificationBuilder.build());
+            }
+        }
     }
 
     private void stopIt(){

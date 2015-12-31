@@ -72,6 +72,9 @@ public class Reminder {
                 res = false;
             } else {
                 db.setStatus(id, Constants.ENABLE);
+                db.setReminderStatus(id, Constants.NOT_SHOWN);
+                db.setStatusNotification(id, Constants.NOT_SHOWN);
+                db.setLocationStatus(id, Constants.NOT_LOCKED);
                 if (startTime > 0) {
                     new PositionDelayReceiver().setAlarm(context, id);
                     callbacks.showSnackbar(R.string.reminder_tracking_start_delayed);
@@ -143,6 +146,44 @@ public class Reminder {
         db.deleteReminder(id);
         db.close();
         disable(context, id);
+    }
+
+    /**
+     * Set widget for reminder.
+     * @param reminderId reminder identifier.
+     * @param widgetId appWidget identifier.
+     * @param context application context.
+     */
+    public static void setWidget(Context context, long reminderId, int widgetId) {
+        DataBase db = new DataBase(context);
+        if (!db.isOpen()) {
+            db.open();
+        }
+        db.setWidgetId(reminderId, widgetId);
+        db.close();
+    }
+
+    /**
+     * Remove widget from reminder.
+     * @param widgetId appWidget identifier.
+     * @param context application context.
+     */
+    public static void removeWidget(Context context, int widgetId) {
+        DataBase db = new DataBase(context);
+        if (!db.isOpen()) {
+            db.open();
+        }
+        Cursor c = db.getRemindersWithWidget(widgetId);
+        if (c != null && c.moveToFirst()) {
+            do {
+                long id = c.getLong(c.getColumnIndex(DataBase._ID));
+                db.removeWidget(id);
+            } while (c.moveToNext());
+        }
+        if (c != null) {
+            c.close();
+        }
+        db.close();
     }
 
     public int getVolume() {

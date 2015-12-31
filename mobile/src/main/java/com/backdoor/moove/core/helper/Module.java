@@ -8,6 +8,14 @@ import android.os.Build;
 public class Module {
 
     /**
+     * Check if device runs on JellyBean 2 and above.
+     * @return boolean
+     */
+    public static boolean isJellyBean(){
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
+    }
+
+    /**
      * Check if device runs on Lollipop and above.
      * @return boolean
      */
