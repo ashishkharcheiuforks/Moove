@@ -9,14 +9,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.speech.tts.TextToSpeech;
+import android.support.design.widget.FloatingActionButton;
 import android.telephony.SmsManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -43,10 +42,7 @@ import com.backdoor.moove.core.helper.Type;
 import com.backdoor.moove.core.interfaces.SendListener;
 import com.backdoor.moove.core.services.DeliveredReceiver;
 import com.backdoor.moove.core.services.SendReceiver;
-import com.backdoor.moove.core.utils.ViewUtils;
 import com.backdoor.moove.core.views.RoundImageView;
-import com.backdoor.moove.core.views.TextDrawable;
-import com.melnykov.fab.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.BlurTransformation;
@@ -141,11 +137,6 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         FloatingActionButton buttonEdit = (FloatingActionButton) findViewById(R.id.buttonEdit);
         buttonCall = (FloatingActionButton) findViewById(R.id.buttonCall);
         FloatingActionButton buttonNotification = (FloatingActionButton) findViewById(R.id.buttonNotification);
-        colorify(buttonOk, buttonCall, buttonNotification, buttonEdit);
-        buttonOk.setImageDrawable(ViewUtils.getDrawable(this, R.drawable.ic_done_black_24dp));
-        buttonEdit.setImageDrawable(ViewUtils.getDrawable(this, R.drawable.ic_create_black_24dp));
-        buttonCall.setImageDrawable(ViewUtils.getDrawable(this, R.drawable.ic_call_black_24dp));
-        buttonNotification.setImageDrawable(ViewUtils.getDrawable(this, R.drawable.ic_favorite_black_24dp));
 
         RoundImageView contactPhoto = (RoundImageView) findViewById(R.id.contactPhoto);
         contactPhoto.setVisibility(View.GONE);
@@ -171,7 +162,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
                 if (!sPrefs.loadBoolean(Prefs.SILENT_SMS)) {
                     remText.setText(task + "\n" + number);
                     buttonCall.setVisibility(View.VISIBLE);
-                    buttonCall.setImageDrawable(ViewUtils.getDrawable(this, R.drawable.ic_send_white_24dp));
+                    buttonCall.setImageResource(R.drawable.ic_send_black_24dp);
                 } else {
                     remText.setText(task + "\n" + number);
                     buttonCall.setVisibility(View.GONE);
@@ -335,29 +326,8 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         Reminder.disableReminder(id, ReminderDialog.this);
     }
 
-    private void setTextDrawable(FloatingActionButton button, String text){
-        TextDrawable drawable = TextDrawable.builder()
-                .beginConfig()
-                .textColor(Color.DKGRAY)
-                .useFont(Typeface.DEFAULT)
-                .fontSize(30) /* size in px */
-                .bold()
-                .toUpperCase()
-                .endConfig()
-                .buildRound(text, Color.TRANSPARENT);
-        button.setImageDrawable(drawable);
-    }
-
-    private void colorify(FloatingActionButton... fab){
-        for (FloatingActionButton button : fab){
-            button.setColorNormal(getResources().getColor(R.color.whitePrimary));
-            button.setColorPressed(getResources().getColor(R.color.material_divider));
-        }
-    }
-
     private void showReminder(int i){
         sPrefs = new SharedPrefs(ReminderDialog.this);
-        String type = getType();
         boolean isTTS = sPrefs.loadBoolean(Prefs.TTS);
         if (isMelody == 1) {
             i = 0;
@@ -383,20 +353,6 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
                 }
             }
         }
-    }
-
-    public void openLink(String number) {
-        Telephony.openLink(number, this);
-        notifier.discardNotification(id);
-        make();
-        finish();
-    }
-
-    public void openApplication(String number) {
-        Telephony.openApp(number, this);
-        notifier.discardNotification(id);
-        make();
-        finish();
     }
 
     private void sendSMS(String phoneNumber, String message) {
@@ -489,7 +445,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         } else {
             showReminder(0);
             remText.setText(R.string.error_sending_message);
-            buttonCall.setImageDrawable(ViewUtils.getDrawable(ReminderDialog.this, R.drawable.ic_cached_white_24dp));
+            buttonCall.setImageResource(R.drawable.ic_cached_black_24dp);
             if (buttonCall.getVisibility() == View.GONE) {
                 buttonCall.setVisibility(View.VISIBLE);
             }

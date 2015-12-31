@@ -313,6 +313,13 @@ public class DataBase {
                 null, null, null, null, null);
     }
 
+    public Cursor getPlace(double latitude, double longitude) throws SQLException {
+        openGuard();
+        return db.query(LOCATION_TABLE_NAME, null, LATITUDE  + "=" + latitude +
+                        " AND " + LONGITUDE + "=" + longitude,
+                null, null, null, null, null);
+    }
+
     public Cursor getPlace(long id) throws SQLException {
         openGuard();
         return db.query(LOCATION_TABLE_NAME, null, _ID  + "=" + id, null, null,

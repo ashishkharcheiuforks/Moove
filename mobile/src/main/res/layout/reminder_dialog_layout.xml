@@ -53,23 +53,6 @@
             android:layout_marginTop="@dimen/reminder_margin_top"
             android:layout_gravity="center_horizontal" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/todoList"
-            android:layout_width="match_parent"
-            android:overScrollMode="never"
-            android:visibility="gone"
-            android:layout_marginTop="15dp"
-            android:divider="@android:color/transparent"
-            android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:focusable="false"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="150dp"
-            android:layout_below="@+id/time"
-            android:choiceMode="singleChoice"
-            android:fastScrollEnabled="true"/>
-
         </LinearLayout>
 
     <LinearLayout
@@ -79,30 +62,35 @@
         android:id="@+id/actionContainer"
         android:layout_width="match_parent"
         android:gravity="center"
+        android:layout_marginBottom="16dp"
         android:layout_height="wrap_content">
 
-        <com.melnykov.fab.FloatingActionButton
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/buttonOk"
             android:layout_width="50dp"
             android:layout_margin="@dimen/reminder_margin_top"
+            android:src="@drawable/ic_done_black_24dp"
             android:layout_height="50dp"/>
 
-        <com.melnykov.fab.FloatingActionButton
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/buttonCall"
             android:layout_width="50dp"
             android:layout_margin="@dimen/reminder_margin_top"
+            android:src="@drawable/ic_call_black_24dp"
             android:layout_height="50dp"/>
 
-        <com.melnykov.fab.FloatingActionButton
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/buttonNotification"
             android:layout_width="50dp"
             android:layout_margin="@dimen/reminder_margin_top"
+            android:src="@drawable/ic_favorite_black_24dp"
             android:layout_height="50dp"/>
 
-        <com.melnykov.fab.FloatingActionButton
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/buttonEdit"
             android:layout_width="50dp"
             android:layout_margin="@dimen/reminder_margin_top"
+            android:src="@drawable/ic_create_black_24dp"
             android:layout_height="50dp"/>
 
     </LinearLayout>

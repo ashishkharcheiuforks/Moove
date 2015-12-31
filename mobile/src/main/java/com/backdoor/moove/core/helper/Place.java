@@ -1,6 +1,7 @@
 package com.backdoor.moove.core.helper;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.AsyncTask;
 
 import com.backdoor.moove.core.utils.LocationUtil;
@@ -38,8 +39,13 @@ public class Place {
                 double longitude = params[1];
                 DataBase db = new DataBase(mContext);
                 db.open();
-                String name = LocationUtil.getAddress(mContext, latitude, longitude);
-                db.insertPlace(name, latitude, longitude);
+                Cursor c = db.getPlace(latitude, longitude);
+                if (c == null || !c.moveToFirst()) {
+                    String name = LocationUtil.getAddress(mContext, latitude, longitude);
+                    db.insertPlace(name, latitude, longitude);
+                } else {
+                    c.close();
+                }
                 db.close();
                 return null;
             }

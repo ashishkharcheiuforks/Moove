@@ -61,7 +61,6 @@
     <string name="tell_friends">Tell friends</string>
     <string name="remind_me">Remind me…</string>
     <string name="for_lower_battery_using_set_bigger_values">For lower battery using set bigger values</string>
-    <string name="delete_all">Delete all</string>
     <string name="melody">Melody</string>
     <string name="delete">Delete</string>
     <string name="settings">Settings</string>
@@ -81,10 +80,6 @@
     <string name="white">White</string>
     <string name="turn_screen_off_to_see_led_light">Turn screen off to see LED light!</string>
     <string name="select_one_of_item">Select one of item!</string>
-    <string name="clear_search_field">Clear search field</string>
-    <string name="close_map">Close map</string>
-    <string name="change_layer">Change layer</string>
-    <string name="show_my_location">Show my location</string>
     <string name="empty_field">Empty field!</string>
     <string name="place_out">Place out</string>
     <string name="deleted">Deleted</string>
@@ -121,7 +116,6 @@
     <string name="spanish">Spanish</string>
     <string name="delivered">Delivered</string>
     <string name="not_delivered">Not delivered</string>
-    <string name="cancel">Cancel</string>
     <string name="gps_is_not_enabled">GPS is not enabled!</string>
     <string name="loading_contacts">Loading contacts…</string>
     <string name="say_something">Say something</string>

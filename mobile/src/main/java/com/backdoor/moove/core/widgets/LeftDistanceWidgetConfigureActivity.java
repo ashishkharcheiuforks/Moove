@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -123,7 +124,8 @@ public class LeftDistanceWidgetConfigureActivity extends Activity implements Dia
             Reminder.setWidget(context, reminderId, appWidgetId);
             return true;
         } else {
-            Messages.toast(context, getString(R.string.at_first_select_reminder));
+            //Messages.toast(context, getString(R.string.at_first_select_reminder));
+            Snackbar.make(mAppWidgetText, R.string.at_first_select_reminder, Snackbar.LENGTH_SHORT).show();
             return false;
         }
     }

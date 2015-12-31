@@ -12,7 +12,6 @@ import android.support.v4.app.NotificationManagerCompat;
 
 import com.backdoor.moove.R;
 import com.backdoor.moove.ReminderDialog;
-import com.backdoor.moove.core.async.DisableAsync;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.helper.DataBase;
@@ -143,7 +142,6 @@ public class CheckPosition extends IntentService {
         } else {
             getApplication().stopService(new Intent(getApplicationContext(), GeolocationService.class));
             stopSelf();
-            stopIt();
         }
 
         if (c != null) {
@@ -151,8 +149,6 @@ public class CheckPosition extends IntentService {
         }
 
         db.close();
-
-        stopIt();
     }
 
     private void updateWidget(int id, int distance) {
@@ -174,7 +170,6 @@ public class CheckPosition extends IntentService {
         resultIntent.putExtra(Constants.ITEM_ID_INTENT, id);
         resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplication().startActivity(resultIntent);
-        stopIt();
     }
 
     private void showNotification(long id, int roundedDistance, int shown, String task, boolean isWear){
@@ -184,6 +179,9 @@ public class CheckPosition extends IntentService {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setContentText(content);
+        builder.setContentTitle(task);
+        builder.setSmallIcon(R.drawable.ic_navigation_white_24dp);
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         if (Module.isLollipop()) {
             builder.setColor(ViewUtils.getColor(context, R.color.themePrimaryDark));
@@ -198,8 +196,6 @@ public class CheckPosition extends IntentService {
         }
 
         if (shown != Constants.SHOWN) {
-            builder.setContentTitle(task);
-            builder.setSmallIcon(R.drawable.ic_navigation_white_24dp);
             DataBase db = new DataBase(context);
             db.open().setStatusNotification(id, Constants.SHOWN);
             db.close();
@@ -225,7 +221,4 @@ public class CheckPosition extends IntentService {
         }
     }
 
-    private void stopIt(){
-        new DisableAsync(getApplicationContext()).execute();
-    }
 }

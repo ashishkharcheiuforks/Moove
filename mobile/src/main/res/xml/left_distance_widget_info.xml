@@ -5,6 +5,6 @@
     android:initialLayout="@layout/left_distance_widget"
     android:minHeight="110dp"
     android:minWidth="110dp"
-    android:previewImage="@drawable/example_appwidget_preview"
+    android:previewImage="@drawable/left_distance_preview"
     android:updatePeriodMillis="86400000"
     android:widgetCategory="home_screen|keyguard"></appwidget-provider>
