@@ -64,6 +64,7 @@ import com.backdoor.moove.core.helper.Place;
 import com.backdoor.moove.core.helper.Reminder;
 import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.helper.Type;
+import com.backdoor.moove.core.helper.Widget;
 import com.backdoor.moove.core.interfaces.ActionCallbacksExtended;
 import com.backdoor.moove.core.interfaces.MapListener;
 import com.backdoor.moove.core.services.GeolocationService;
@@ -585,6 +586,7 @@ public class ReminderManager extends AppCompatActivity implements
         if (id != 0 && isSame()) {
             String text, number, remType;
             double latitude, longitude;
+            int style;
             if (item != null){
                 text = item.getTitle();
                 number = item.getNumber();
@@ -592,6 +594,9 @@ public class ReminderManager extends AppCompatActivity implements
                 latitude = item.getPlace()[0];
                 longitude = item.getPlace()[1];
                 radius = item.getRadius();
+                volume = item.getVolume();
+                ledColor = item.getColor();
+                style = item.getMarker();
 
                 if (item.getStartTime() > 0) {
                     cal.setTimeInMillis(item.getStartTime());
@@ -617,7 +622,7 @@ public class ReminderManager extends AppCompatActivity implements
                 Log.d(Constants.LOG_TAG, "Lat " + latitude + ", " + longitude);
                 taskField.setText(text);
                 if (map != null) {
-                    map.addMarker(new LatLng(latitude, longitude), text, true, true, radius);
+                    map.addMarker(new LatLng(latitude, longitude), text, true, style, true, radius);
                     toggleMap();
                 }
             }
@@ -762,6 +767,7 @@ public class ReminderManager extends AppCompatActivity implements
         if (id != 0 && isSame()) {
             String text, number, remType;
             double latitude, longitude;
+            int style;
             if (item != null){
                 text = item.getTitle();
                 number = item.getNumber();
@@ -769,6 +775,9 @@ public class ReminderManager extends AppCompatActivity implements
                 latitude = item.getPlace()[0];
                 longitude = item.getPlace()[1];
                 radius = item.getRadius();
+                volume = item.getVolume();
+                ledColor = item.getColor();
+                style = item.getMarker();
 
                 if (item.getStartTime() > 0) {
                     cal.set(myYear, myMonth, myDay, myHour, myMinute);
@@ -795,7 +804,7 @@ public class ReminderManager extends AppCompatActivity implements
                 taskField.setText(text);
                 LatLng pos = new LatLng(latitude, longitude);
                 if (mapOut != null) {
-                    mapOut.addMarker(pos, text, true, true, radius);
+                    mapOut.addMarker(pos, text, true, style, true, radius);
                 }
                 mapLocation.setText(LocationUtil.getAddress(pos.latitude, pos.longitude));
                 mapCheck.setChecked(true);
@@ -930,6 +939,7 @@ public class ReminderManager extends AppCompatActivity implements
             }
 
             Log.d(Constants.LOG_TAG, "Start time " + startTime);
+            Log.d(Constants.LOG_TAG, "Marker " + marker);
 
             return new Reminder(0, task, type, melody, uuId, new double[]{latitude, longitude},
                     number, radius, startTime, ledColor, marker, volume);
@@ -1292,6 +1302,8 @@ public class ReminderManager extends AppCompatActivity implements
         InputMethodManager imm = (InputMethodManager)getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(taskField.getWindowToken(), 0);
+
+        Widget.updateWidgets(ReminderManager.this);
         super.onDestroy();
     }
 
