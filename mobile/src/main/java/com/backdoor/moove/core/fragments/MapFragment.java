@@ -196,6 +196,9 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     public void addMarker(LatLng pos, String title, boolean clear, boolean animate, int radius) {
         if (map != null) {
             markerRadius = radius;
+            if (markerRadius == -1) {
+                markerRadius = new SharedPrefs(getActivity()).loadInt(Prefs.LOCATION_RADIUS);
+            }
             if (clear) {
                 map.clear();
             }
@@ -211,15 +214,13 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                     .title(title)
                     .icon(BitmapDescriptorFactory.fromResource(cSetter.getMarkerStyle(markerStyle)))
                     .draggable(clear));
-            if (radius != -1) {
-                int[] circleColors = cSetter.getMarkerRadiusStyle(markerStyle);
-                map.addCircle(new CircleOptions()
-                        .center(pos)
-                        .radius(radius)
-                        .strokeWidth(strokeWidth)
-                        .fillColor(ViewUtils.getColor(getActivity(), circleColors[0]))
-                        .strokeColor(ViewUtils.getColor(getActivity(), circleColors[1])));
-            }
+            int[] circleColors = cSetter.getMarkerRadiusStyle(markerStyle);
+            map.addCircle(new CircleOptions()
+                    .center(pos)
+                    .radius(markerRadius)
+                    .strokeWidth(strokeWidth)
+                    .fillColor(ViewUtils.getColor(getActivity(), circleColors[0]))
+                    .strokeColor(ViewUtils.getColor(getActivity(), circleColors[1])));
             if (animate) {
                 animate(pos);
             }
@@ -238,6 +239,9 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     public void addMarker(LatLng pos, String title, boolean clear, int markerStyle, boolean animate, int radius) {
         if (map != null) {
             markerRadius = radius;
+            if (markerRadius == -1) {
+                markerRadius = new SharedPrefs(getActivity()).loadInt(Prefs.LOCATION_RADIUS);
+            }
             this.markerStyle = markerStyle;
             if (clear) {
                 map.clear();
@@ -254,15 +258,13 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                     .title(title)
                     .icon(BitmapDescriptorFactory.fromResource(cSetter.getMarkerStyle(markerStyle)))
                     .draggable(clear));
-            if (radius != -1) {
-                int[] circleColors = cSetter.getMarkerRadiusStyle(markerStyle);
-                map.addCircle(new CircleOptions()
-                        .center(pos)
-                        .radius(radius)
-                        .strokeWidth(strokeWidth)
-                        .fillColor(ViewUtils.getColor(getActivity(), circleColors[0]))
-                        .strokeColor(ViewUtils.getColor(getActivity(), circleColors[1])));
-            }
+            int[] circleColors = cSetter.getMarkerRadiusStyle(markerStyle);
+            map.addCircle(new CircleOptions()
+                    .center(pos)
+                    .radius(markerRadius)
+                    .strokeWidth(strokeWidth)
+                    .fillColor(ViewUtils.getColor(getActivity(), circleColors[0]))
+                    .strokeColor(ViewUtils.getColor(getActivity(), circleColors[1])));
             if (animate) {
                 animate(pos);
             }
@@ -277,6 +279,9 @@ public class MapFragment extends Fragment implements View.OnClickListener {
      */
     public void recreateMarker(int radius) {
         markerRadius = radius;
+        if (markerRadius == -1) {
+            markerRadius = new SharedPrefs(getActivity()).loadInt(Prefs.LOCATION_RADIUS);
+        }
         if (map != null && lastPos != null) {
             map.clear();
             if (markerTitle == null || markerTitle.matches("")) {
@@ -290,15 +295,13 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                     .title(markerTitle)
                     .icon(BitmapDescriptorFactory.fromResource(cSetter.getMarkerStyle(markerStyle)))
                     .draggable(true));
-            if (radius != -1) {
-                int[] circleColors = cSetter.getMarkerRadiusStyle(markerStyle);
-                map.addCircle(new CircleOptions()
-                        .center(lastPos)
-                        .radius(radius)
-                        .strokeWidth(strokeWidth)
-                        .fillColor(ViewUtils.getColor(getActivity(), circleColors[0]))
-                        .strokeColor(ViewUtils.getColor(getActivity(), circleColors[1])));
-            }
+            int[] circleColors = cSetter.getMarkerRadiusStyle(markerStyle);
+            map.addCircle(new CircleOptions()
+                    .center(lastPos)
+                    .radius(markerRadius)
+                    .strokeWidth(strokeWidth)
+                    .fillColor(ViewUtils.getColor(getActivity(), circleColors[0]))
+                    .strokeColor(ViewUtils.getColor(getActivity(), circleColors[1])));
             animate(lastPos);
         }
     }
@@ -324,6 +327,9 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                     .draggable(true));
             if (style >= 0) {
                 int[] circleColors = cSetter.getMarkerRadiusStyle(style);
+                if (markerRadius == -1) {
+                    markerRadius = new SharedPrefs(getActivity()).loadInt(Prefs.LOCATION_RADIUS);
+                }
                 map.addCircle(new CircleOptions()
                         .center(lastPos)
                         .radius(markerRadius)

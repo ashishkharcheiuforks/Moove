@@ -5,11 +5,14 @@
     android:padding="@dimen/widget_margin">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/markerImage"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
         android:src="@drawable/marker_blue"
-        android:alpha="0.5"
+        android:alpha="1"
         android:scaleType="center"/>
 
     <LinearLayout
@@ -25,9 +28,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="@string/appwidget_text"
+            android:text="@string/reminder"
             android:textColor="#ffffff"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="italic" />
 
         <TextView
@@ -37,7 +40,7 @@
             android:layout_marginTop="15dp"
             android:text="1200 m"
             android:textColor="#ffffff"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold|italic" />
 
     </LinearLayout>

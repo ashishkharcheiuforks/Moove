@@ -21,9 +21,7 @@
         <item name="colorAccent">@color/greenPrimary</item>
     </style>
 
-    <style name="HomeDarkTranslucent" parent="Theme.AppCompat.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="colorPrimaryDark">@color/themePrimaryDark</item>
+    <style name="HomeDarkTranslucent" parent="HomeDark">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>

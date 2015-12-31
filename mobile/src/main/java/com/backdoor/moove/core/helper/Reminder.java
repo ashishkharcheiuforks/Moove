@@ -151,29 +151,29 @@ public class Reminder {
     /**
      * Set widget for reminder.
      * @param reminderId reminder identifier.
-     * @param widgetId appWidget identifier.
+     * @param prefs appWidget preferences key.
      * @param context application context.
      */
-    public static void setWidget(Context context, long reminderId, int widgetId) {
+    public static void setWidget(Context context, long reminderId, String prefs) {
         DataBase db = new DataBase(context);
         if (!db.isOpen()) {
             db.open();
         }
-        db.setWidgetId(reminderId, widgetId);
+        db.setWidgetId(reminderId, prefs);
         db.close();
     }
 
     /**
      * Remove widget from reminder.
-     * @param widgetId appWidget identifier.
+     * @param prefs appWidget preferences key.
      * @param context application context.
      */
-    public static void removeWidget(Context context, int widgetId) {
+    public static void removeWidget(Context context, String prefs) {
         DataBase db = new DataBase(context);
         if (!db.isOpen()) {
             db.open();
         }
-        Cursor c = db.getRemindersWithWidget(widgetId);
+        Cursor c = db.getRemindersWithWidget(prefs);
         if (c != null && c.moveToFirst()) {
             do {
                 long id = c.getLong(c.getColumnIndex(DataBase._ID));

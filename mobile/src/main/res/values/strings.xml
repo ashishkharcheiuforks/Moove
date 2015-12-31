@@ -151,4 +151,6 @@
     <string name="at_first_select_reminder">At first select reminder for this widget!</string>
     <string name="distance_m">%s m</string>
     <string name="no_reminder">No reminder</string>
+    <string name="to_go_only_distance">To go (only distance)</string>
+    <string name="to_go">To go</string>
 </resources>

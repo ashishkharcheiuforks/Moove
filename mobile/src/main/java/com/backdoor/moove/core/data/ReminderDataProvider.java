@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.backdoor.moove.core.consts.Constants;
-import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.DataBase;
 
 import java.util.ArrayList;
@@ -135,7 +134,7 @@ public class ReminderDataProvider {
                 int icon = c.getInt(c.getColumnIndex(DataBase.MARKER));
 
                 if (icon == -1) {
-                    icon = new Coloring(mContext).getMarkerStyle();
+                    icon = 0;
                 }
 
                 list.add(new MarkerModel(title, id, icon));

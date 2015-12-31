@@ -2,6 +2,7 @@ package com.backdoor.moove.core.services;
 
 import android.app.IntentService;
 import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,10 +18,13 @@ import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.helper.DataBase;
 import com.backdoor.moove.core.helper.Module;
 import com.backdoor.moove.core.helper.SharedPrefs;
+import com.backdoor.moove.core.helper.Widget;
 import com.backdoor.moove.core.utils.TimeUtil;
 import com.backdoor.moove.core.utils.ViewUtils;
 import com.backdoor.moove.core.widgets.LeftDistanceWidget;
 import com.backdoor.moove.core.widgets.LeftDistanceWidgetConfigureActivity;
+import com.backdoor.moove.core.widgets.SimpleWidget;
+import com.backdoor.moove.core.widgets.SimpleWidgetConfigureActivity;
 
 public class CheckPosition extends IntentService {
 
@@ -60,7 +64,7 @@ public class CheckPosition extends IntentService {
                 int statusNot = c.getInt(c.getColumnIndex(DataBase.STATUS_NOTIFICATION));
                 int statusRem = c.getInt(c.getColumnIndex(DataBase.STATUS_REMINDER));
                 int radius = c.getInt(c.getColumnIndex(DataBase.RADIUS));
-                int widgetId = c.getInt(c.getColumnIndex(DataBase.WIDGET_ID));
+                String widgetId = c.getString(c.getColumnIndex(DataBase.WIDGET_ID));
 
                 if (radius == -1) {
                     radius = stockRadius;
@@ -151,14 +155,12 @@ public class CheckPosition extends IntentService {
         db.close();
     }
 
-    private void updateWidget(int id, int distance) {
+    private void updateWidget(String prefsKey, int distance) {
         Context context = getApplicationContext();
-        LeftDistanceWidgetConfigureActivity.saveDistancePref(context, id, distance);
+        LeftDistanceWidgetConfigureActivity.saveDistancePref(context, prefsKey, distance);
+        SimpleWidgetConfigureActivity.saveDistancePref(context, prefsKey, distance);
 
-        Intent intent = new Intent(context, LeftDistanceWidget.class);
-        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[]{id});
-        context.sendBroadcast(intent);
+        Widget.updateWidgets(context);
     }
 
     private void showReminder(long id, String task){

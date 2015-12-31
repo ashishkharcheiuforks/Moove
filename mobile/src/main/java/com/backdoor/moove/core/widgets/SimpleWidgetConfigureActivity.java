@@ -9,41 +9,43 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.backdoor.moove.R;
+import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.data.MarkerModel;
 import com.backdoor.moove.core.data.ReminderDataProvider;
-import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.Reminder;
 
 import java.util.ArrayList;
 
 /**
- * The configuration screen for the {@link LeftDistanceWidget LeftDistanceWidget} AppWidget.
+ * The configuration screen for the {@link SimpleWidget SimpleWidget} AppWidget.
  */
-public class LeftDistanceWidgetConfigureActivity extends Activity implements DialogInterface.OnDismissListener {
+public class SimpleWidgetConfigureActivity extends Activity implements DialogInterface.OnDismissListener {
 
-    private static final String PREFS_NAME = "com.backdoor.moove.core.widgets.LeftDistanceWidget";
-    private static final String PREF_PREFIX_KEY = "appwidget_";
-    private static final String PREF_ICON_KEY = "appwidget_icon_";
-    public static final String PREF_DISTANCE_KEY = "appwidget_distance_";
+    private static final String PREFS_NAME = "com.backdoor.moove.core.widgets.SimpleWidget";
+    public static final String PREF_PREFIX_KEY = "appwidget_";
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     private long reminderId;
+    private String title;
     TextView mAppWidgetText;
     View.OnClickListener mOnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
-            final Context context = LeftDistanceWidgetConfigureActivity.this;
+            final Context context = SimpleWidgetConfigureActivity.this;
 
             if (!saveReminderPref(context, mAppWidgetId)) {
                 return;
             }
 
+            // It is the responsibility of the configuration activity to update the app widget
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            LeftDistanceWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
+            SimpleWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
 
+            // Make sure we pass back the original appWidgetId
             Intent resultValue = new Intent();
             resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
             setResult(RESULT_OK, resultValue);
@@ -53,7 +55,7 @@ public class LeftDistanceWidgetConfigureActivity extends Activity implements Dia
 
     View.OnClickListener chooseClick = new View.OnClickListener() {
         public void onClick(View v) {
-            final Context context = LeftDistanceWidgetConfigureActivity.this;
+            final Context context = SimpleWidgetConfigureActivity.this;
 
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setCancelable(true);
@@ -73,9 +75,8 @@ public class LeftDistanceWidgetConfigureActivity extends Activity implements Dia
                     if (which != -1) {
                         MarkerModel model = list.get(which);
                         reminderId = model.getId();
-                        String title = model.getTitle();
-                        saveTitlePref(context, mAppWidgetId, title);
-                        saveIconPref(context, mAppWidgetId, model.getIcon());
+                        title = model.getTitle();
+                        Log.d(Constants.LOG_TAG, "Reminder id " + model.getId());
                     }
                 }
             });
@@ -86,37 +87,25 @@ public class LeftDistanceWidgetConfigureActivity extends Activity implements Dia
                 }
             });
             AlertDialog dialog = builder.create();
-            dialog.setOnDismissListener(LeftDistanceWidgetConfigureActivity.this);
+            dialog.setOnDismissListener(SimpleWidgetConfigureActivity.this);
             dialog.show();
         }
     };
 
-    public LeftDistanceWidgetConfigureActivity() {
+    public SimpleWidgetConfigureActivity() {
         super();
     }
 
     // Write the prefix to the SharedPreferences object for this widget
-    static void saveTitlePref(Context context, int appWidgetId, String text) {
+    public static void saveDistancePref(Context context, String key, int distance) {
         SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
-        prefs.putString(PREF_PREFIX_KEY + appWidgetId, text);
-        prefs.apply();
-    }
-
-    static void saveIconPref(Context context, int appWidgetId, int icon) {
-        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
-        prefs.putInt(PREF_ICON_KEY + appWidgetId, icon);
-        prefs.apply();
-    }
-
-    public static void saveDistancePref(Context context, String prefsKey, int distance) {
-        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
-        prefs.putInt(prefsKey, distance);
+        prefs.putInt(key, distance);
         prefs.apply();
     }
 
     private boolean saveReminderPref(Context context, int appWidgetId) {
         if (reminderId > 0) {
-            Reminder.setWidget(context, reminderId, PREF_DISTANCE_KEY + appWidgetId);
+            Reminder.setWidget(context, reminderId, PREF_PREFIX_KEY + appWidgetId);
             return true;
         } else {
             Snackbar.make(mAppWidgetText, R.string.at_first_select_reminder, Snackbar.LENGTH_SHORT).show();
@@ -124,43 +113,19 @@ public class LeftDistanceWidgetConfigureActivity extends Activity implements Dia
         }
     }
 
-    // Read the prefix from the SharedPreferences object for this widget.
-    // If there is no preference saved, get the default from a resource
-    static String loadTitlePref(Context context, int appWidgetId) {
-        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-        String titleValue = prefs.getString(PREF_PREFIX_KEY + appWidgetId, null);
-        if (titleValue != null) {
-            return titleValue;
-        } else {
-            return context.getString(R.string.no_reminder);
-        }
-    }
-
-    static int loadIConPref(Context context, int appWidgetId) {
-        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-        int iconValue = prefs.getInt(PREF_ICON_KEY + appWidgetId, -1);
-        if (iconValue != -1) {
-            return iconValue;
-        } else {
-            return 0;
-        }
-    }
-
     public static int loadDistancePref(Context context, int appWidgetId) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-        int iconValue = prefs.getInt(PREF_DISTANCE_KEY + appWidgetId, -1);
+        int iconValue = prefs.getInt(PREF_PREFIX_KEY + appWidgetId, -1);
         if (iconValue != -1) {
             return iconValue;
         } else {
-            return 0;
+            return -1;
         }
     }
 
     static void deletePref(Context context, int appWidgetId) {
         SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
         prefs.remove(PREF_PREFIX_KEY + appWidgetId);
-        prefs.remove(PREF_ICON_KEY + appWidgetId);
-        prefs.remove(PREF_DISTANCE_KEY + appWidgetId);
         prefs.apply();
     }
 
@@ -172,7 +137,7 @@ public class LeftDistanceWidgetConfigureActivity extends Activity implements Dia
         // out of the widget placement if the user presses the back button.
         setResult(RESULT_CANCELED);
 
-        setContentView(R.layout.left_distance_widget_configure);
+        setContentView(R.layout.simple_widget_configure);
         mAppWidgetText = (TextView) findViewById(R.id.appwidget_text);
         findViewById(R.id.add_button).setOnClickListener(mOnClickListener);
         findViewById(R.id.selectButton).setOnClickListener(chooseClick);
@@ -191,12 +156,12 @@ public class LeftDistanceWidgetConfigureActivity extends Activity implements Dia
             return;
         }
 
-        mAppWidgetText.setText(loadTitlePref(LeftDistanceWidgetConfigureActivity.this, mAppWidgetId));
+        mAppWidgetText.setText(getString(R.string.no_reminder));
     }
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        mAppWidgetText.setText(loadTitlePref(this, mAppWidgetId));
+        mAppWidgetText.setText(title);
     }
 }
 

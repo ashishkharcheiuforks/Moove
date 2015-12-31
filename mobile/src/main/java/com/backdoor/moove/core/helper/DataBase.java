@@ -60,7 +60,7 @@ public class DataBase {
                     START_TIME + " INTEGER, " +
                     VOLUME + " INTEGER, " +
                     LED_COLOR + " INTEGER, " +
-                    WIDGET_ID + " INTEGER, " +
+                    WIDGET_ID + " VARCHAR(255), " +
                     MARKER + " INTEGER, " +
                     LATITUDE + " REAL, " +
                     LONGITUDE + " REAL, " +
@@ -143,7 +143,7 @@ public class DataBase {
         cv.put(MELODY, melody);
         cv.put(LED_COLOR, color);
         cv.put(VOLUME, volume);
-        cv.put(WIDGET_ID, -1);
+        cv.put(WIDGET_ID, "");
         return db.insert(CURRENT_TABLE_NAME, null, cv);
     }
 
@@ -168,7 +168,7 @@ public class DataBase {
         cv.put(MELODY, melody);
         cv.put(LED_COLOR, color);
         cv.put(VOLUME, volume);
-        cv.put(WIDGET_ID, -1);
+        cv.put(WIDGET_ID, "");
         return db.insert(CURRENT_TABLE_NAME, null, cv);
     }
 
@@ -224,17 +224,17 @@ public class DataBase {
         return db.update(CURRENT_TABLE_NAME, args, _ID + "=" + rowId, null) > 0;
     }
 
-    public boolean setWidgetId(long rowId, int id) {
+    public boolean setWidgetId(long rowId, String prefs) {
         openGuard();
         ContentValues args = new ContentValues();
-        args.put(WIDGET_ID, id);
+        args.put(WIDGET_ID, prefs);
         return db.update(CURRENT_TABLE_NAME, args, _ID + "=" + rowId, null) > 0;
     }
 
     public boolean removeWidget(long rowId) {
         openGuard();
         ContentValues args = new ContentValues();
-        args.put(WIDGET_ID, -1);
+        args.put(WIDGET_ID, "");
         return db.update(CURRENT_TABLE_NAME, args, _ID + "=" + rowId, null) > 0;
     }
 
@@ -270,9 +270,9 @@ public class DataBase {
                 null, null, null, null);
     }
 
-    public Cursor getRemindersWithWidget(int widgetId) throws SQLException {
+    public Cursor getRemindersWithWidget(String prefs) throws SQLException {
         openGuard();
-        return db.query(CURRENT_TABLE_NAME, null, WIDGET_ID + "='" + widgetId + "'",
+        return db.query(CURRENT_TABLE_NAME, null, WIDGET_ID + "='" + prefs + "'",
                 null, null, null, null);
     }
 
