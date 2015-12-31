@@ -11,6 +11,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
+import android.transition.TransitionInflater;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +46,15 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (Module.isLollipop()) {
+            Slide slideTransition = new Slide();
+            slideTransition.setSlideEdge(Gravity.LEFT);
+            slideTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
+            getWindow().setReenterTransition(slideTransition);
+            getWindow().setExitTransition(slideTransition);
+        }
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -60,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ReminderManager.class));
+                Intent intent = new Intent(MainActivity.this,ReminderManager.class);
+                startActivity(intent);
             }
         });
     }

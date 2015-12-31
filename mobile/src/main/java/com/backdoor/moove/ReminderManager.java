@@ -21,6 +21,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.transition.Visibility;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,6 +58,7 @@ import com.backdoor.moove.core.fragments.MapFragment;
 import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.DataBase;
 import com.backdoor.moove.core.helper.LocationType;
+import com.backdoor.moove.core.helper.Module;
 import com.backdoor.moove.core.helper.Permissions;
 import com.backdoor.moove.core.helper.Place;
 import com.backdoor.moove.core.helper.Reminder;
@@ -153,6 +157,12 @@ public class ReminderManager extends AppCompatActivity implements
             getWindow().setStatusBarColor(cSetter.colorPrimaryDark());
         }
         setContentView(R.layout.create_edit_layout);
+
+        if (Module.isLollipop()) {
+            Fade enterTransition = new Fade();
+            enterTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
+            getWindow().setEnterTransition(enterTransition);
+        }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -322,7 +332,17 @@ public class ReminderManager extends AppCompatActivity implements
      */
     private void deleteReminder() {
         Reminder.delete(id, this);
-        finish();
+        closeWindow();
+    }
+
+    private void closeWindow() {
+        if (Module.isLollipop()) {
+            Visibility enterTransition = new Slide();
+            enterTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
+            getWindow().setReturnTransition(enterTransition);
+
+            finishAfterTransition();
+        }
     }
 
     /**
@@ -796,7 +816,7 @@ public class ReminderManager extends AppCompatActivity implements
         } else {
             remControl.save(item);
         }
-        finish();
+        closeWindow();
     }
 
     /**
@@ -1013,7 +1033,7 @@ public class ReminderManager extends AppCompatActivity implements
             }
             db.close();
         }
-        finish();
+        closeWindow();
     }
 
     @Override

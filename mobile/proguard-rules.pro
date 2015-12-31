@@ -11,6 +11,7 @@
 -keep class android.support.design.** { *; }
 -keep interface android.support.design.** { *; }
 -keep public class android.support.design.R$* { *; }
+-keep class com.android.vending.billing.**
 
 -dontwarn org.apache.**
 -dontwarn ch.boye.**
