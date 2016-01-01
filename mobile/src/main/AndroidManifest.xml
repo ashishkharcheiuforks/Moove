@@ -268,6 +268,19 @@
                 android:resource="@xml/simple_widget_info" />
         </receiver>
 
+        <service android:name=".core.services.WearService">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+                <action android:name="com.google.android.gms.wearable.CAPABILITY_CHANGED" />
+                <action android:name="com.google.android.gms.wearable.CHANNEL_EVENT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.backdoor.moove.DISMISS" />
+            </intent-filter>
+        </service>
+
         <activity android:name=".core.widgets.SimpleWidgetConfigureActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />

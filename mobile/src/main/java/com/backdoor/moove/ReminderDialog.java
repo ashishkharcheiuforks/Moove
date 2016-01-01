@@ -57,7 +57,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
     private BroadcastReceiver deliveredReceiver, sentReceiver;
 
     private long id;
-    private int color = -1;
+    private int color = -1, volume;
     private int isMelody;
     private String melody, number, name, task, reminderType;
     private int currVolume;
@@ -75,14 +75,6 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         super.onCreate(savedInstanceState);
         sPrefs = new SharedPrefs(ReminderDialog.this);
 
-        AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        currVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
-        int prefsVol = sPrefs.loadInt(Prefs.VOLUME);
-        float volPercent = (float) prefsVol / Configs.MAX_VOLUME;
-        int maxVol = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        int streamVol = (int) (maxVol * volPercent);
-        am.setStreamVolume(AudioManager.STREAM_MUSIC, streamVol, 0);
-
         Intent res = getIntent();
         id = res.getLongExtra(Constants.ITEM_ID_INTENT, 0);
         isMelody = res.getIntExtra("int", 0);
@@ -96,10 +88,22 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
             number = item.getNumber();
             melody = item.getMelody();
             color = item.getColor();
+            volume = item.getVolume();
         } else {
             notifier.discardNotification(id);
             finish();
         }
+
+        AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        currVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+        int prefsVol = sPrefs.loadInt(Prefs.VOLUME);
+        if (volume != -1) {
+            prefsVol = volume;
+        }
+        float volPercent = (float) prefsVol / Configs.MAX_VOLUME;
+        int maxVol = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int streamVol = (int) (maxVol * volPercent);
+        am.setStreamVolume(AudioManager.STREAM_MUSIC, streamVol, 0);
 
         boolean isFull = sPrefs.loadBoolean(Prefs.UNLOCK_DEVICE);
         if (isFull) {

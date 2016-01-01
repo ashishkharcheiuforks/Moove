@@ -28,6 +28,7 @@ import com.backdoor.moove.core.helper.Module;
 import com.backdoor.moove.core.helper.Reminder;
 import com.backdoor.moove.core.interfaces.ActionCallbacks;
 import com.backdoor.moove.core.interfaces.RecyclerListener;
+import com.backdoor.moove.core.services.WearService;
 import com.backdoor.moove.core.utils.QuickReturnUtils;
 import com.backdoor.moove.core.utils.SuperUtil;
 import com.backdoor.moove.core.views.ReturnScrollListener;
@@ -76,6 +77,15 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
                 startActivity(intent);
             }
         });
+
+        startService(new Intent(MainActivity.this, WearService.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopService(new Intent(MainActivity.this, WearService.class));
+        super.onDestroy();
     }
 
     /**
