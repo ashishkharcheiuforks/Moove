@@ -46,5 +46,6 @@ public class Prefs {
     public static final String RATE_SHOW = "rate_shown";
     public static final String APP_RUNS_COUNT = "app_runs";
     public static final String FIRST_LOAD = "first_loading";
+    public static final String WEAR_SERVICE = "wear_service";
     public static final String PLACES_AUTO = "places_auto";
 }

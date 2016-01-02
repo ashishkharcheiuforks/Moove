@@ -153,4 +153,5 @@
     <string name="no_reminder">No reminder</string>
     <string name="to_go_only_distance">To go (only distance)</string>
     <string name="to_go">To go</string>
+    <string name="title_activity_wear_test">WearTest</string>
 </resources>

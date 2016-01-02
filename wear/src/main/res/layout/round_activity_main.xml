@@ -12,5 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="@string/hello_round" />
+        android:padding="15dp"
+        android:textStyle="italic|bold"
+        android:text="@string/wear_service_activated_when_reminder_appears_on_mobile_application_you_also_see_it_on_your_watch" />
 </RelativeLayout>

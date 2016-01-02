@@ -257,7 +257,8 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".core.widgets.SimpleWidget"
+        <receiver
+            android:name=".core.widgets.SimpleWidget"
             android:label="@string/to_go_only_distance">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -286,6 +287,10 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".core.dialogs.WearTest"
+            android:label="@string/title_activity_wear_test"
+            android:theme="@style/HomeDark"></activity>
     </application>
 
 </manifest>

@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.Wearable;
@@ -14,7 +13,7 @@ import com.google.android.gms.wearable.WearableListenerService;
 
 public class WearService extends WearableListenerService
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        ResultCallback<DataApi.DeleteDataItemsResult> {
+        DataApi.DataListener {
     private static final String TAG = "WearServicePhone";
     private GoogleApiClient mGoogleApiClient;
 
@@ -27,7 +26,7 @@ public class WearService extends WearableListenerService
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-        mGoogleApiClient.connect();
+        //mGoogleApiClient.connect();
     }
 
     @Override
@@ -58,13 +57,5 @@ public class WearService extends WearableListenerService
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.d(TAG, "On connection failed");
-    }
-
-    @Override
-    public void onResult(DataApi.DeleteDataItemsResult deleteDataItemsResult) {
-        if (!deleteDataItemsResult.getStatus().isSuccess()) {
-            Log.e(TAG, "dismissWearableNotification(): failed to delete DataItem");
-        }
-        mGoogleApiClient.disconnect();
     }
 }

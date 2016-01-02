@@ -43,11 +43,22 @@ import com.backdoor.moove.core.interfaces.SendListener;
 import com.backdoor.moove.core.services.DeliveredReceiver;
 import com.backdoor.moove.core.services.SendReceiver;
 import com.backdoor.moove.core.views.RoundImageView;
+import com.backdoor.shared.SharedConst;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.DataEvent;
+import com.google.android.gms.wearable.DataEventBuffer;
+import com.google.android.gms.wearable.DataItem;
+import com.google.android.gms.wearable.DataMap;
+import com.google.android.gms.wearable.DataMapItem;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
+import com.google.android.gms.wearable.Wearable;
 import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.BlurTransformation;
 
-public class ReminderDialog extends Activity implements TextToSpeech.OnInitListener, SendListener {
+public class ReminderDialog extends Activity implements TextToSpeech.OnInitListener, SendListener, GoogleApiClient.ConnectionCallbacks, DataApi.DataListener, View.OnClickListener {
 
     private static final int MY_DATA_CHECK_CODE = 111;
 
@@ -69,6 +80,8 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
     private Coloring cs = new Coloring(ReminderDialog.this);
     private Notifier notifier = new Notifier(ReminderDialog.this);
     private TextToSpeech tts;
+
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -149,8 +162,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         remText.setText("");
         String type = getType();
         if (type != null) {
-            if (type.matches(Constants.TYPE_LOCATION_CALL) ||
-                    type.matches(Constants.TYPE_LOCATION_OUT_CALL)) {
+            if (type.contains(Constants.TYPE_CALL)) {
                 contactPhoto.setVisibility(View.VISIBLE);
                 long conID = Contacts.getContactIDFromNumber(number, ReminderDialog.this);
                 Bitmap photo = Contacts.getPhoto(this, conID);
@@ -161,8 +173,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
                 }
                 name = Contacts.getContactNameFromNumber(number, ReminderDialog.this);
                 remText.setText(task + "\n" + name + "\n" + number);
-            } else if (type.matches(Constants.TYPE_LOCATION_MESSAGE) ||
-                    type.matches(Constants.TYPE_LOCATION_OUT_MESSAGE)) {
+            } else if (type.contains(Constants.TYPE_MESSAGE)) {
                 if (!sPrefs.loadBoolean(Prefs.SILENT_SMS)) {
                     remText.setText(task + "\n" + number);
                     buttonCall.setVisibility(View.VISIBLE);
@@ -180,62 +191,17 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
             buttonCall.setVisibility(View.GONE);
         }
 
-        buttonNotification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                make();
-                update(1);
-                if ((task == null || task.trim().matches("")) &&
-                        (number != null && !number.trim().matches(""))) {
-                    notifier.showReminderNotification(name + " " + number, id);
-                } else {
-                    notifier.showReminderNotification(task, id);
-                }
-                finish();
-            }
-        });
+        buttonNotification.setOnClickListener(this);
 
-        buttonOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                make();
-                update(1);
-                finish();
-            }
-        });
+        buttonOk.setOnClickListener(this);
 
-        buttonEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                make();
-                update(1);
-                Reminder.edit(id, ReminderDialog.this);
-                finish();
-            }
-        });
+        buttonEdit.setOnClickListener(this);
 
-        buttonCall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String type = getType();
-                if (type.matches(Constants.TYPE_LOCATION_MESSAGE) ||
-                        type.matches(Constants.TYPE_LOCATION_OUT_MESSAGE)){
-                    sendSMS(number, task);
-                } else {
-                    Telephony.makeCall(number, ReminderDialog.this);
-                }
-                make();
-                update(1);
-                if (!type.contains(Constants.TYPE_MESSAGE)){
-                    finish();
-                }
-            }
-        });
+        buttonCall.setOnClickListener(this);
 
         boolean silentSMS = sPrefs.loadBoolean(Prefs.SILENT_SMS);
         if (type != null) {
-            if (type.matches(Constants.TYPE_MESSAGE) || type.matches(Constants.TYPE_LOCATION_MESSAGE) ||
-                    type.matches(Constants.TYPE_LOCATION_OUT_MESSAGE)) {
+            if (type.contains(Constants.TYPE_MESSAGE)) {
                 if (silentSMS) {
                     sendSMS(number, task);
                 } else {
@@ -258,6 +224,11 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
                 e.printStackTrace();
             }
         }
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(this)
+                .build();
     }
 
     private void loadImage() {
@@ -319,15 +290,9 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         }
     }
 
-    private void update(int i){
-        if (i == 1) {
-            removeFlags();
-        }
-        notifier.discardNotification(id);
-    }
-
     private void make(){
         Reminder.disableReminder(id, ReminderDialog.this);
+        notifier.discardNotification(id);
     }
 
     private void showReminder(int i){
@@ -375,18 +340,6 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
     }
 
-    public void removeFlags(){
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-
-        if (tts != null) {
-            tts.stop();
-            tts.shutdown();
-        }
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (MotionEvent.ACTION_DOWN == event.getAction()){
@@ -403,7 +356,15 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         if (deliveredReceiver != null) {
             unregisterReceiver(deliveredReceiver);
         }
-        removeFlags();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
         AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         am.setStreamVolume(AudioManager.STREAM_MUSIC, currVolume, 0);
         super.onDestroy();
@@ -453,6 +414,112 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
             if (buttonCall.getVisibility() == View.GONE) {
                 buttonCall.setVisibility(View.VISIBLE);
             }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Wearable.DataApi.removeListener(mGoogleApiClient, this);
+        mGoogleApiClient.disconnect();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Wearable.DataApi.addListener(mGoogleApiClient, this);
+
+        boolean silentSMS = sPrefs.loadBoolean(Prefs.SILENT_SMS);
+        if (!silentSMS) {
+            PutDataMapRequest putDataMapReq = PutDataMapRequest.create(SharedConst.WEAR_REMINDER);
+            DataMap map = putDataMapReq.getDataMap();
+            map.putString(SharedConst.KEY_TYPE, getType());
+            map.putString(SharedConst.KEY_TASK, task);
+            PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
+            Wearable.DataApi.putDataItem(mGoogleApiClient, putDataReq);
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onDataChanged(DataEventBuffer dataEventBuffer) {
+        for (DataEvent event : dataEventBuffer) {
+            if (event.getType() == DataEvent.TYPE_CHANGED) {
+                // DataItem changed
+                DataItem item = event.getDataItem();
+                if (item.getUri().getPath().compareTo(SharedConst.PHONE_REMINDER) == 0) {
+                    DataMap dataMap = DataMapItem.fromDataItem(item).getDataMap();
+
+                    int keyCode = dataMap.getInt(SharedConst.REQUEST_KEY);
+                    if (keyCode == SharedConst.KEYCODE_OK) {
+                        ok();
+                    } else if (keyCode == SharedConst.KEYCODE_FAVOURITE) {
+                        showNotification();
+                    } else {
+                        makeCall();
+                    }
+                }
+            } else if (event.getType() == DataEvent.TYPE_DELETED) {
+                // DataItem deleted
+            }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.buttonNotification:
+                showNotification();
+                break;
+            case R.id.buttonOk:
+                ok();
+                break;
+            case R.id.buttonEdit:
+                make();
+                Reminder.edit(id, ReminderDialog.this);
+                finish();
+                break;
+            case R.id.buttonCall:
+                makeCall();
+                break;
+        }
+    }
+
+    private void showNotification() {
+        make();
+        if ((task == null || task.trim().matches("")) &&
+                (number != null && !number.trim().matches(""))) {
+            notifier.showReminderNotification(name + " " + number, id);
+        } else {
+            notifier.showReminderNotification(task, id);
+        }
+        finish();
+    }
+
+    private void ok() {
+        make();
+        finish();
+    }
+
+    private void makeCall() {
+        String type = getType();
+        if (type.contains(Constants.TYPE_MESSAGE)){
+            sendSMS(number, task);
+        } else {
+            Telephony.makeCall(number, ReminderDialog.this);
+        }
+        make();
+        if (!type.contains(Constants.TYPE_MESSAGE)){
+            finish();
         }
     }
 }
