@@ -43,8 +43,7 @@
         </service>
 
         <activity
-            android:name=".ReminderActivity"
-            android:label="@string/title_activity_reminder"></activity>
+            android:name=".ReminderActivity"></activity>
     </application>
 
 </manifest>
