@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.backdoor.moove.R;
-import com.backdoor.moove.core.consts.Configs;
 import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.utils.AssetsUtil;
 
@@ -36,7 +35,7 @@ public class AboutDialog extends Activity {
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             String version = pInfo.versionName;
-            appVersion.setText(getString(R.string.version) + " " + version + " (" + Configs.CODENAME + ")");
+            appVersion.setText(getString(R.string.version) + " " + version);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
