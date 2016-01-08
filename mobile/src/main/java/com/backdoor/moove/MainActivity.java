@@ -31,11 +31,13 @@ import com.backdoor.moove.core.utils.QuickReturnUtils;
 import com.backdoor.moove.core.utils.SuperUtil;
 import com.backdoor.moove.core.views.ReturnScrollListener;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements RecyclerListener, ActionCallbacks {
 
     private RecyclerView currentList;
     private LinearLayout emptyItem;
-    private ReminderDataProvider provider;
+    private ArrayList<ReminderModel> arrayList;
 
     private FloatingActionButton fab;
     private Toolbar toolbar;
@@ -81,9 +83,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
      * Load data to recycler view.
      */
     public void loaderAdapter() {
-        provider = new ReminderDataProvider(this);
+        arrayList = ReminderDataProvider.load(this);
         reloadView();
-        RemindersRecyclerAdapter adapter = new RemindersRecyclerAdapter(this, provider);
+        RemindersRecyclerAdapter adapter = new RemindersRecyclerAdapter(this, arrayList);
         adapter.setEventListener(this);
         currentList.setHasFixedSize(true);
         currentList.setItemAnimator(new DefaultItemAnimator());
@@ -109,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
      * Hide/show recycler view depends on data.
      */
     private void reloadView() {
-        int size = provider.getCount();
+        int size = arrayList.size();
         if (size > 0) {
             currentList.setVisibility(View.VISIBLE);
             emptyItem.setVisibility(View.GONE);
@@ -153,13 +155,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
 
     @Override
     public void onItemSwitched(final int position, final View view) {
-        Reminder.toggle(provider.getItem(position).getId(), this, this);
+        Reminder.toggle(arrayList.get(position).getId(), this, this);
         loaderAdapter();
     }
 
     @Override
     public void onItemClicked(final int position, final View view) {
-        Reminder.edit(provider.getItem(position).getId(), MainActivity.this);
+        Reminder.edit(arrayList.get(position).getId(), MainActivity.this);
     }
 
     @Override
@@ -169,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
         builder.setItems(items, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
                 dialog.dismiss();
-                ReminderModel item1 = provider.getItem(position);
+                ReminderModel item1 = arrayList.get(position);
                 switch (item){
                     case 0:
                         Reminder.edit(item1.getId(), MainActivity.this);

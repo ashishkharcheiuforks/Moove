@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.data.MarkerModel;
 import com.backdoor.moove.core.data.ReminderDataProvider;
-import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.Reminder;
 
 import java.util.ArrayList;
@@ -58,7 +57,7 @@ public class LeftDistanceWidgetConfigureActivity extends Activity implements Dia
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setCancelable(true);
             builder.setTitle(context.getString(R.string.choose_reminder));
-            final ArrayList<MarkerModel> list = new ReminderDataProvider(context).getListData();
+            final ArrayList<MarkerModel> list = ReminderDataProvider.getListData(context);
             ArrayList<String> titles = new ArrayList<>();
             for (MarkerModel item : list) {
                 titles.add(item.getTitle());
@@ -82,7 +81,14 @@ public class LeftDistanceWidgetConfigureActivity extends Activity implements Dia
             builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
+                    if (which != -1) {
+                        dialog.dismiss();
+                        MarkerModel model = list.get(which);
+                        reminderId = model.getId();
+                        String title = model.getTitle();
+                        saveTitlePref(context, mAppWidgetId, title);
+                        saveIconPref(context, mAppWidgetId, model.getIcon());
+                    }
                 }
             });
             AlertDialog dialog = builder.create();

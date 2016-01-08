@@ -9,13 +9,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.backdoor.moove.R;
-import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.data.MarkerModel;
 import com.backdoor.moove.core.data.ReminderDataProvider;
 import com.backdoor.moove.core.helper.Reminder;
@@ -60,7 +58,7 @@ public class SimpleWidgetConfigureActivity extends Activity implements DialogInt
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setCancelable(true);
             builder.setTitle(context.getString(R.string.choose_reminder));
-            final ArrayList<MarkerModel> list = new ReminderDataProvider(context).getListData();
+            final ArrayList<MarkerModel> list = ReminderDataProvider.getListData(context);
             ArrayList<String> titles = new ArrayList<>();
             for (MarkerModel item : list) {
                 titles.add(item.getTitle());
@@ -76,14 +74,18 @@ public class SimpleWidgetConfigureActivity extends Activity implements DialogInt
                         MarkerModel model = list.get(which);
                         reminderId = model.getId();
                         title = model.getTitle();
-                        Log.d(Constants.LOG_TAG, "Reminder id " + model.getId());
                     }
                 }
             });
             builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
+                    if (which != -1) {
+                        dialog.dismiss();
+                        MarkerModel model = list.get(which);
+                        reminderId = model.getId();
+                        title = model.getTitle();
+                    }
                 }
             });
             AlertDialog dialog = builder.create();

@@ -15,7 +15,6 @@ import com.backdoor.moove.R;
 import com.backdoor.moove.core.consts.Configs;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.Prefs;
-import com.backdoor.moove.core.data.ReminderDataProvider;
 import com.backdoor.moove.core.data.ReminderModel;
 import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.Contacts;
@@ -25,15 +24,17 @@ import com.backdoor.moove.core.interfaces.RecyclerListener;
 import com.backdoor.moove.core.utils.ReminderUtils;
 import com.backdoor.moove.core.utils.TimeUtil;
 
+import java.util.ArrayList;
+
 public class RemindersRecyclerAdapter extends RecyclerView.Adapter<RemindersRecyclerAdapter.ViewHolder> {
 
     private Context mContext;
     private Coloring cs;
-    private ReminderDataProvider provider;
+    private ArrayList<ReminderModel> provider;
     private RecyclerListener mEventListener;
     private boolean is24;
 
-    public RemindersRecyclerAdapter(Context context, ReminderDataProvider provider) {
+    public RemindersRecyclerAdapter(Context context, ArrayList<ReminderModel> provider) {
         this.mContext = context;
         this.provider = provider;
         SharedPrefs prefs = new SharedPrefs(context);
@@ -118,7 +119,7 @@ public class RemindersRecyclerAdapter extends RecyclerView.Adapter<RemindersRecy
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final ReminderModel item = provider.getItem(position);
+        final ReminderModel item = provider.get(position);
         String title = item.getTitle();
         String type = item.getType();
         String number = item.getNumber();
@@ -172,12 +173,12 @@ public class RemindersRecyclerAdapter extends RecyclerView.Adapter<RemindersRecy
 
     @Override
     public long getItemId(int position) {
-        return provider.getItem(position).getId();
+        return provider.get(position).getId();
     }
 
     @Override
     public int getItemCount() {
-        return provider.getCount();
+        return provider.size();
     }
 
     public RecyclerListener getEventListener() {
