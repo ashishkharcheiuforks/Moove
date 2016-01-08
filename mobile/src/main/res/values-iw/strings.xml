@@ -143,7 +143,6 @@
     <string name="places_list_auto_completion">"רשימת מילוי אוטומטית של מקומות"</string>
     <string name="more_apps">"עוד אפליקציות"</string>
     <string name="could_not_launch_market">"לא ניתן להפעיל את שוק Play"</string>
-    <string name="appwidget_text">"דוּגמָה"</string>
     <string name="configure">"קביעת תצורה"</string>
     <string name="add_widget">"להוסיף יישומון"</string>
     <string name="choose_reminder">"בחר תזכורת"</string>
@@ -152,9 +151,8 @@
     <string name="no_reminder">"אין תזכורות"</string>
     <string name="to_go_only_distance">"שרידים (רק מרחק)"</string>
     <string name="to_go">"שְׂרִידִים"</string>
-    <string name="title_activity_wear_test">"WearTest"</string>
-    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Your device is not compatible with this application. Here are the problems.</string>
-    <string name="fix">Fix</string>
-    <string name="using_location_services_not_allowed">Using location services not allowed.</string>
-    <string name="play_services_not_found_or_it_is_out_of_date">Play Services not found or it is out of date.</string>
+    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">המכשיר שלך אינו תואם עם יישום זה. הנה הבעיות.</string>
+    <string name="fix">לְתַקֵן</string>
+    <string name="using_location_services_not_allowed">שירותי מיקום באמצעות אסורים.</string>
+    <string name="play_services_not_found_or_it_is_out_of_date">שירותי Google Play לא מצאו או שאינו מעודכן.</string>
 </resources>

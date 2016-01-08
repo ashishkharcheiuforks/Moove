@@ -143,7 +143,6 @@
     <string name="places_list_auto_completion">"地方自动填充列表"</string>
     <string name="more_apps">"更多应用程序"</string>
     <string name="could_not_launch_market">"无法启动游戏市场"</string>
-    <string name="appwidget_text">"例"</string>
     <string name="configure">"配置"</string>
     <string name="add_widget">"添加小工具"</string>
     <string name="choose_reminder">"选择提醒"</string>
@@ -152,9 +151,8 @@
     <string name="no_reminder">"没有提醒"</string>
     <string name="to_go_only_distance">"遗骸（仅距离）"</string>
     <string name="to_go">"遗迹"</string>
-    <string name="title_activity_wear_test">"WearTest"</string>
-    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Your device is not compatible with this application. Here are the problems.</string>
-    <string name="fix">Fix</string>
-    <string name="using_location_services_not_allowed">Using location services not allowed.</string>
-    <string name="play_services_not_found_or_it_is_out_of_date">Play Services not found or it is out of date.</string>
+    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">您的设备不使用这个应用程序兼容。这里的问题。</string>
+    <string name="fix">固定</string>
+    <string name="using_location_services_not_allowed">不允许使用的定位服务。</string>
+    <string name="play_services_not_found_or_it_is_out_of_date">没有找到谷歌播放服务，或者是过时的。</string>
 </resources>

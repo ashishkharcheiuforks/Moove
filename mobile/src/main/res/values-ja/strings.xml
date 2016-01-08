@@ -143,7 +143,6 @@
     <string name="places_list_auto_completion">"場所の自動充填リスト"</string>
     <string name="more_apps">"より多くのアプリケーション"</string>
     <string name="could_not_launch_market">"プレイ市場を起動できませんでした"</string>
-    <string name="appwidget_text">"例"</string>
     <string name="configure">"設定"</string>
     <string name="add_widget">"ウィジェットを追加"</string>
     <string name="choose_reminder">"リマインダーを選択してください"</string>
@@ -152,9 +151,8 @@
     <string name="no_reminder">"いいえリマインダーありません"</string>
     <string name="to_go_only_distance">"遺跡（距離のみ）"</string>
     <string name="to_go">"遺体"</string>
-    <string name="title_activity_wear_test">"WearTest"</string>
-    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Your device is not compatible with this application. Here are the problems.</string>
-    <string name="fix">Fix</string>
-    <string name="using_location_services_not_allowed">Using location services not allowed.</string>
-    <string name="play_services_not_found_or_it_is_out_of_date">Play Services not found or it is out of date.</string>
+    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">お使いのデバイスは、このアプリケーションと互換性がありません。ここで問題があります。</string>
+    <string name="fix">修復</string>
+    <string name="using_location_services_not_allowed">使用して位置情報サービスは許可されていません。</string>
+    <string name="play_services_not_found_or_it_is_out_of_date">グーグルプレイサービスが見つからないか、それが古くなっています。</string>
 </resources>

@@ -143,7 +143,6 @@
     <string name="places_list_auto_completion">"स्थानों की ऑटो भरने सूची"</string>
     <string name="more_apps">"अधिक अप्प्लिकेशन्स"</string>
     <string name="could_not_launch_market">"खेलने के बाजार शुरू नहीं किया जा सका"</string>
-    <string name="appwidget_text">"उदाहरण"</string>
     <string name="configure">"विन्यस्त करें"</string>
     <string name="add_widget">"विजेट जोड़ें"</string>
     <string name="choose_reminder">"अनुस्मारक चुनें"</string>
@@ -152,9 +151,8 @@
     <string name="no_reminder">"कोई अनुस्मारक"</string>
     <string name="to_go_only_distance">"अवशेष (केवल दूरी)"</string>
     <string name="to_go">"अवशेष"</string>
-    <string name="title_activity_wear_test">"WearTest"</string>
-    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Your device is not compatible with this application. Here are the problems.</string>
-    <string name="fix">Fix</string>
-    <string name="using_location_services_not_allowed">Using location services not allowed.</string>
-    <string name="play_services_not_found_or_it_is_out_of_date">Play Services not found or it is out of date.</string>
+    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">आपकी डिवाइस इस आवेदन के साथ संगत नहीं है। यहां समस्याएं हैं।</string>
+    <string name="fix">मरम्मत</string>
+    <string name="using_location_services_not_allowed">का प्रयोग स्थान सेवाओं की अनुमति नहीं है।</string>
+    <string name="play_services_not_found_or_it_is_out_of_date">गूगल प्ले सेवा नहीं मिला या यह तारीख से बाहर है।</string>
 </resources>

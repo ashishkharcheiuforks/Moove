@@ -143,7 +143,6 @@
     <string name="places_list_auto_completion">"Auto vullen lijst van plaatsen"</string>
     <string name="more_apps">"Meer apps"</string>
     <string name="could_not_launch_market">"Kon Play Market niet starten"</string>
-    <string name="appwidget_text">"VOORBEELD"</string>
     <string name="configure">"Configureren"</string>
     <string name="add_widget">"Voeg widget"</string>
     <string name="choose_reminder">"Kies herinnering"</string>
@@ -152,9 +151,8 @@
     <string name="no_reminder">"Geen herinneringen"</string>
     <string name="to_go_only_distance">"Overblijfselen (alleen afstand)"</string>
     <string name="to_go">"Stoffelijk overschot"</string>
-    <string name="title_activity_wear_test">"WearTest"</string>
-    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Your device is not compatible with this application. Here are the problems.</string>
-    <string name="fix">Fix</string>
-    <string name="using_location_services_not_allowed">Using location services not allowed.</string>
-    <string name="play_services_not_found_or_it_is_out_of_date">Play Services not found or it is out of date.</string>
+    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Uw apparaat is niet compatibel met deze toepassing. Hier zijn de problemen.</string>
+    <string name="fix">Reparatie</string>
+    <string name="using_location_services_not_allowed">Met behulp van locatiediensten niet toegestaan.</string>
+    <string name="play_services_not_found_or_it_is_out_of_date">Google Play Services niet gevonden of is verouderd.</string>
 </resources>

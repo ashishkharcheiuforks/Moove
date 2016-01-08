@@ -143,7 +143,6 @@
     <string name="places_list_auto_completion">"Автозаполнение списка мест"</string>
     <string name="more_apps">"Больше приложений"</string>
     <string name="could_not_launch_market">"Не удалось запустить Play Market"</string>
-    <string name="appwidget_text">"ПРИМЕР"</string>
     <string name="configure">"Конфигурировать"</string>
     <string name="add_widget">"Добавить виджет"</string>
     <string name="choose_reminder">"Выберите напоминание"</string>
@@ -152,9 +151,8 @@
     <string name="no_reminder">"Нет напоминаний"</string>
     <string name="to_go_only_distance">"Осталось (только расстояние)"</string>
     <string name="to_go">"Осталось"</string>
-    <string name="title_activity_wear_test">"WearTest"</string>
-    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Your device is not compatible with this application. Here are the problems.</string>
-    <string name="fix">Fix</string>
-    <string name="using_location_services_not_allowed">Using location services not allowed.</string>
-    <string name="play_services_not_found_or_it_is_out_of_date">Play Services not found or it is out of date.</string>
+    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Ваше устройство не совместимо с этим приложением. Вот список проблем.</string>
+    <string name="fix">Исправить</string>
+    <string name="using_location_services_not_allowed">Использование локациооных служб не разрешено.</string>
+    <string name="play_services_not_found_or_it_is_out_of_date">Сервисы Google Play не найдены или устарели.</string>
 </resources>

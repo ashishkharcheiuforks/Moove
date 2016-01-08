@@ -276,7 +276,6 @@
         </activity>
         <activity
             android:name=".core.dialogs.WearTest"
-            android:label="@string/title_activity_wear_test"
             android:theme="@style/HomeDark"></activity>
     </application>
 

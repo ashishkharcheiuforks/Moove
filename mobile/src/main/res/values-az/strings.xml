@@ -143,7 +143,6 @@
     <string name="places_list_auto_completion">"Yerlərin Auto doldurulması siyahısı"</string>
     <string name="more_apps">"Daha apps"</string>
     <string name="could_not_launch_market">"Play lansmanı bilmədi"</string>
-    <string name="appwidget_text">"NÜMUNƏ"</string>
     <string name="configure">"Yapılandır"</string>
     <string name="add_widget">"Widget əlavə et"</string>
     <string name="choose_reminder">"Öyüd-nəsihət seçin"</string>
@@ -152,9 +151,8 @@
     <string name="no_reminder">"No hatırlatıcıları"</string>
     <string name="to_go_only_distance">"Qalıqları (yalnız məsafə)"</string>
     <string name="to_go">"Qalıqları"</string>
-    <string name="title_activity_wear_test">"WearTest"</string>
-    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Your device is not compatible with this application. Here are the problems.</string>
-    <string name="fix">Fix</string>
-    <string name="using_location_services_not_allowed">Using location services not allowed.</string>
-    <string name="play_services_not_found_or_it_is_out_of_date">Play Services not found or it is out of date.</string>
+    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">"Sizin cihaz Bu proqram ilə uyğun deyil. Burada problemlərdir."</string>
+    <string name="fix">"Təmir"</string>
+    <string name="using_location_services_not_allowed">"Istifadə edərək yeri xidmətləri icazə verilmir."</string>
+    <string name="play_services_not_found_or_it_is_out_of_date">"Google Play Services tapılmadı və ya tarixi deyil."</string>
 </resources>

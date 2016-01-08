@@ -143,7 +143,6 @@
     <string name="places_list_auto_completion">"Auto pildymo sąrašas vietų"</string>
     <string name="more_apps">"Daugiau programėlių"</string>
     <string name="could_not_launch_market">"Nepavyko paleisti Play Market"</string>
-    <string name="appwidget_text">"PAVYZDYS"</string>
     <string name="configure">"Konfigūruoti"</string>
     <string name="add_widget">"Pridėti valdikliui"</string>
     <string name="choose_reminder">"Pasirinkite priminimą"</string>
@@ -152,9 +151,8 @@
     <string name="no_reminder">"Nėra Priminimai"</string>
     <string name="to_go_only_distance">"Liekanos (tik atstumas)"</string>
     <string name="to_go">"Palaikai"</string>
-    <string name="title_activity_wear_test">"WearTest"</string>
-    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Your device is not compatible with this application. Here are the problems.</string>
-    <string name="fix">Fix</string>
-    <string name="using_location_services_not_allowed">Using location services not allowed.</string>
-    <string name="play_services_not_found_or_it_is_out_of_date">Play Services not found or it is out of date.</string>
+    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Jūsų prietaisas nėra suderinamas su šia paraiška. Čia yra problemos.</string>
+    <string name="fix">Remontas</string>
+    <string name="using_location_services_not_allowed">Naudojant vietos nustatymo paslaugos neleidžiama.</string>
+    <string name="play_services_not_found_or_it_is_out_of_date">"Google Play Paslaugos nerastas arba jis yra pasenęs."</string>
 </resources>

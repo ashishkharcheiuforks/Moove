@@ -143,7 +143,6 @@
     <string name="places_list_auto_completion">"Joylarda Auto to'ldirish ro'yxati"</string>
     <string name="more_apps">"Yana dasturlar"</string>
     <string name="could_not_launch_market">"Play Market ishga tushirib bo'lmadi"</string>
-    <string name="appwidget_text">"O'RNAK"</string>
     <string name="configure">"MoslashName"</string>
     <string name="add_widget">"Vidjet qo'shish"</string>
     <string name="choose_reminder">"Eslatma tanlang"</string>
@@ -152,9 +151,8 @@
     <string name="no_reminder">"No eslatmalari"</string>
     <string name="to_go_only_distance">"Qoldiqlari (faqat masofa)"</string>
     <string name="to_go">"Qoldiqlar"</string>
-    <string name="title_activity_wear_test">"WearTest"</string>
-    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Your device is not compatible with this application. Here are the problems.</string>
-    <string name="fix">Fix</string>
-    <string name="using_location_services_not_allowed">Using location services not allowed.</string>
-    <string name="play_services_not_found_or_it_is_out_of_date">Play Services not found or it is out of date.</string>
+    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Qurilmangiz bu dastur bilan mos emas. Bu yerda muammolar bor.</string>
+    <string name="fix">Ta'mir</string>
+    <string name="using_location_services_not_allowed">Foydalanish manzil xizmatlari ruxsat yo'q.</string>
+    <string name="play_services_not_found_or_it_is_out_of_date">Google Play Xizmatlar topilmadi yoki uni dolzarb hisoblanadi.</string>
 </resources>

@@ -143,18 +143,16 @@
     <string name="places_list_auto_completion">"Auto uzpildes saraksts ar vietām"</string>
     <string name="more_apps">"Vairāk Apps"</string>
     <string name="could_not_launch_market">"Neizdevās palaist Play Market"</string>
-    <string name="appwidget_text">"PIEMĒRS"</string>
     <string name="configure">"Konfigurēšana"</string>
     <string name="add_widget">"Pievienot logrīku"</string>
     <string name="choose_reminder">"Izvēlieties atgādinājumu"</string>
     <string name="at_first_select_reminder">"Vispirms izvēlieties atgādinājumu par šo widget!"</string>
     <string name="distance_m">"%s m"</string>
     <string name="no_reminder">"Nav atgādinājumi"</string>
-    <string name="to_go_only_distance">"Remains (tikai attālums)"</string>
+    <string name="to_go_only_distance">"Mirstīgās atliekas (tikai attālums)"</string>
     <string name="to_go">"Mirstīgās atliekas"</string>
-    <string name="title_activity_wear_test">"WearTest"</string>
-    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Your device is not compatible with this application. Here are the problems.</string>
-    <string name="fix">Fix</string>
-    <string name="using_location_services_not_allowed">Using location services not allowed.</string>
-    <string name="play_services_not_found_or_it_is_out_of_date">Play Services not found or it is out of date.</string>
+    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Šī ierīce nav saderīga ar šo pieteikumu. Šeit ir problēmas.</string>
+    <string name="fix">Remonts</string>
+    <string name="using_location_services_not_allowed">Izmantojot atrašanās vietas pakalpojumi nav atļauta.</string>
+    <string name="play_services_not_found_or_it_is_out_of_date">Google Play Services nav atrasts vai tas ir novecojis.</string>
 </resources>

@@ -143,18 +143,16 @@
     <string name="places_list_auto_completion">"Lista de enchimento automático de lugares"</string>
     <string name="more_apps">"Mais aplicativos"</string>
     <string name="could_not_launch_market">"Não foi possível iniciar jogo Mercado"</string>
-    <string name="appwidget_text">"EXEMPLO"</string>
     <string name="configure">"Configurar"</string>
     <string name="add_widget">"Adicionar Widget"</string>
     <string name="choose_reminder">"Escolha lembrete"</string>
     <string name="at_first_select_reminder">"Primeiro, selecione um lembrete para este widget!"</string>
     <string name="distance_m">"%s m"</string>
     <string name="no_reminder">"Não há lembretes"</string>
-    <string name="to_go_only_distance">"Remains (somente distância)"</string>
+    <string name="to_go_only_distance">"Permanece (somente distância)"</string>
     <string name="to_go">"Permanece"</string>
-    <string name="title_activity_wear_test">"WearTest"</string>
-    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Your device is not compatible with this application. Here are the problems.</string>
-    <string name="fix">Fix</string>
-    <string name="using_location_services_not_allowed">Using location services not allowed.</string>
-    <string name="play_services_not_found_or_it_is_out_of_date">Play Services not found or it is out of date.</string>
+    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Seu aparelho não é compatível com esta aplicação. Aqui estão os problemas.</string>
+    <string name="fix">Reparar</string>
+    <string name="using_location_services_not_allowed">Usando serviços de localização não é permitido.</string>
+    <string name="play_services_not_found_or_it_is_out_of_date">Serviços do Google Play não foi encontrado ou está fora de data.</string>
 </resources>

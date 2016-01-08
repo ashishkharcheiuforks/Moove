@@ -143,7 +143,6 @@
     <string name="places_list_auto_completion">"Auto popis punjenje mjesta"</string>
     <string name="more_apps">"Više aplikacija"</string>
     <string name="could_not_launch_market">"Nije moguće pokrenuti reprodukcije tržište"</string>
-    <string name="appwidget_text">"PRIMJER"</string>
     <string name="configure">"Konfigurirati"</string>
     <string name="add_widget">"Dodaj widget"</string>
     <string name="choose_reminder">"Odaberite podsjetnik"</string>
@@ -152,9 +151,8 @@
     <string name="no_reminder">"Nema podsjetnika"</string>
     <string name="to_go_only_distance">"Ostaci (samo na daljinu)"</string>
     <string name="to_go">"Ostaci"</string>
-    <string name="title_activity_wear_test">"WearTest"</string>
-    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Your device is not compatible with this application. Here are the problems.</string>
-    <string name="fix">Fix</string>
-    <string name="using_location_services_not_allowed">Using location services not allowed.</string>
-    <string name="play_services_not_found_or_it_is_out_of_date">Play Services not found or it is out of date.</string>
+    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Vaš uređaj nije kompatibilan s tom zahtjevu. Ovdje su problemi.</string>
+    <string name="fix">Popravak</string>
+    <string name="using_location_services_not_allowed">Korištenje usluge lokacije nisu dopušteni.</string>
+    <string name="play_services_not_found_or_it_is_out_of_date">Google Play usluge nije pronađena ili je zastarjela.</string>
 </resources>

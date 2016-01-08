@@ -143,7 +143,6 @@
     <string name="places_list_auto_completion">"Auto zoznam plnenie miest"</string>
     <string name="more_apps">"Ďalšie aplikácie"</string>
     <string name="could_not_launch_market">"Nemožno spustiť prehrávanie Market"</string>
-    <string name="appwidget_text">"Príklad"</string>
     <string name="configure">"Konfigurovať"</string>
     <string name="add_widget">"Pridať widget"</string>
     <string name="choose_reminder">"Vyberte pripomenutie"</string>
@@ -152,9 +151,8 @@
     <string name="no_reminder">"Žiadne pripomienky"</string>
     <string name="to_go_only_distance">"Pozostatky (iba vzdialenosť)"</string>
     <string name="to_go">"Zvyšky"</string>
-    <string name="title_activity_wear_test">"WearTest"</string>
-    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Your device is not compatible with this application. Here are the problems.</string>
-    <string name="fix">Fix</string>
-    <string name="using_location_services_not_allowed">Using location services not allowed.</string>
-    <string name="play_services_not_found_or_it_is_out_of_date">Play Services not found or it is out of date.</string>
+    <string name="your_device_is_not_compatible_with_this_application_here_are_the_problems">Tento prístroj nie je kompatibilný s touto aplikáciou. Tu sú problémy.</string>
+    <string name="fix">Oprava</string>
+    <string name="using_location_services_not_allowed">Používanie umiestnenie služby, ktoré nie sú povolené.</string>
+    <string name="play_services_not_found_or_it_is_out_of_date">Google Play služby nebol nájdený alebo je zastaraný.</string>
 </resources>
