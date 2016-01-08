@@ -72,7 +72,7 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (LocationUtil.checkGooglePlayServicesAvailability(PlacesList.this)) {
+                if (LocationUtil.playServicesFullCheck(PlacesList.this)) {
                     if (Permissions.checkPermission(PlacesList.this, Permissions.ACCESS_COARSE_LOCATION)) {
                         startActivity(new Intent(PlacesList.this, NewPlace.class));
                     } else {

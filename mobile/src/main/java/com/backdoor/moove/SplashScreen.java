@@ -61,14 +61,13 @@ public class SplashScreen extends Activity{
 
         checkPrefs();
 
-        /*sPrefs = new SharedPrefs(SplashScreen.this);
-        if (!sPrefs.loadBoolean(Prefs.FIRST_LOAD)) {
+        SharedPrefs prefs = new SharedPrefs(SplashScreen.this);
+        if (!prefs.loadBoolean(Prefs.FIRST_LOAD)) {
             startActivity(new Intent(SplashScreen.this, StartHelp.class));
         } else {
             startActivity(new Intent(SplashScreen.this, MainActivity.class));
-        }*/
+        }
 
-        startActivity(new Intent(SplashScreen.this, MainActivity.class));
         finish();
     }
 

@@ -55,22 +55,40 @@ public class LocationUtil {
     }
 
     /**
+     * Check if device has installed Google Play Services.
+     * @param a Activity
+     * @return boolean
+     */
+    public static int checkPlay(Activity a) {
+        return GooglePlayServicesUtil.isGooglePlayServicesAvailable(a.getApplicationContext());
+    }
+
+    /**
+     * Show alert dialog for Play Services.
+     * @param a Activity.
+     * @param resultCode result code.
+     */
+    public static void showPlayDialog(Activity a, int resultCode) {
+        Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode, a, 99);
+        dialog.setCancelable(false);
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    /**
      * Check if user has installed Google Play Services.
      * @param a activity.
      * @return boolean
      */
-    public static boolean checkGooglePlayServicesAvailability(Activity a) {
+    public static boolean playServicesFullCheck(Activity a) {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(a.getApplicationContext());
-        if(resultCode != ConnectionResult.SUCCESS) {
-            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode, a, 69);
-            dialog.setCancelable(false);
-            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
+        if (resultCode != ConnectionResult.SUCCESS) {
+            showPlayDialog(a, resultCode);
             return false;
         } else {
             Log.d("GooglePlayServicesUtil", "Result is: " + resultCode);

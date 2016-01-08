@@ -1067,7 +1067,7 @@ public class ReminderManager extends AppCompatActivity implements
         switch (position){
             case 0:
                 detachCurrentView();
-                if (LocationUtil.checkGooglePlayServicesAvailability(ReminderManager.this)) {
+                if (LocationUtil.playServicesFullCheck(ReminderManager.this)) {
                     if (Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_FINE_LOCATION) &&
                             Permissions.checkPermission(ReminderManager.this, Permissions.CALL_PHONE)
                             && Permissions.checkPermission(ReminderManager.this, Permissions.SEND_SMS)
@@ -1086,7 +1086,7 @@ public class ReminderManager extends AppCompatActivity implements
                 break;
             case 1:
                 detachCurrentView();
-                if (LocationUtil.checkGooglePlayServicesAvailability(ReminderManager.this)) {
+                if (LocationUtil.playServicesFullCheck(ReminderManager.this)) {
                     if (Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_FINE_LOCATION) &&
                             Permissions.checkPermission(ReminderManager.this, Permissions.CALL_PHONE)
                             && Permissions.checkPermission(ReminderManager.this, Permissions.SEND_SMS)
