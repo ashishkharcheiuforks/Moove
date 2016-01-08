@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">"Moove"</string>
-    <string name="_2016_nazar_suhovich">"2016 \ u00A9 Nazar Suhovich"</string>
+    <string name="_2016_nazar_suhovich">"2016 \u00A9 Nazar Suhovich"</string>
     <string name="search">"Tìm kiếm"</string>
     <string name="action">"Hoạt động"</string>
     <string name="make_call">"Thực hiện cuộc gọi"</string>
@@ -80,7 +80,7 @@
     <string name="turn_screen_off_to_see_led_light">"Tắt màn hình để xem LED!"</string>
     <string name="select_one_of_item">"Chọn một trong những mặt hàng!"</string>
     <string name="empty_field">"Trống trường!"</string>
-    <string name="place_out" translatable="false">"Đặt ra"</string>
+    <string name="place_out">"Đặt ra"</string>
     <string name="deleted">"Loại bỏ"</string>
     <string name="selected_radius_meters">"Chọn %s mét"</string>
     <string name="no_place_selected">"Nơi không được chọn!"</string>

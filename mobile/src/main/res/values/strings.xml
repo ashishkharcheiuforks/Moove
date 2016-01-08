@@ -81,7 +81,7 @@
     <string name="turn_screen_off_to_see_led_light">Turn off the screen to see LED!</string>
     <string name="select_one_of_item">Select one of items!</string>
     <string name="empty_field">Empty field!</string>
-    <string name="place_out" translatable="false">Place out</string>
+    <string name="place_out">Place out</string>
     <string name="deleted">Removed</string>
     <string name="selected_radius_meters">Selected radius %s meters</string>
     <string name="no_place_selected">The place is not selected!</string>

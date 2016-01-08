@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.backdoor.moove.R;
+import com.backdoor.moove.core.consts.Configs;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.helper.Dialogues;
@@ -48,6 +49,12 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         }
 
         sPrefs = new SharedPrefs(getActivity().getApplicationContext());
+
+        if (Module.isLollipop()) {
+            rootView.findViewById(R.id.imageCard).setElevation(Configs.CARD_ELEVATION);
+            rootView.findViewById(R.id.soundCard).setElevation(Configs.CARD_ELEVATION);
+            rootView.findViewById(R.id.systemCard).setElevation(Configs.CARD_ELEVATION);
+        }
 
         TextView selectImage = (TextView) rootView.findViewById(R.id.selectImage);
         selectImage.setOnClickListener(new View.OnClickListener() {

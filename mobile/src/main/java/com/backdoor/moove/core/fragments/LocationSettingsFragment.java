@@ -12,11 +12,13 @@ import android.widget.TextView;
 
 import com.backdoor.moove.PlacesList;
 import com.backdoor.moove.R;
+import com.backdoor.moove.core.consts.Configs;
 import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.dialogs.MarkerStyle;
 import com.backdoor.moove.core.dialogs.TargetRadius;
 import com.backdoor.moove.core.dialogs.TrackerOption;
 import com.backdoor.moove.core.helper.Dialogues;
+import com.backdoor.moove.core.helper.Module;
 import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.views.PrefsView;
 
@@ -36,6 +38,10 @@ public class LocationSettingsFragment extends Fragment implements View.OnClickLi
         ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if (ab != null){
             ab.setTitle(R.string.location);
+        }
+
+        if (Module.isLollipop()) {
+            rootView.findViewById(R.id.locationCard).setElevation(Configs.CARD_ELEVATION);
         }
 
         TextView mapType = (TextView) rootView.findViewById(R.id.mapType);

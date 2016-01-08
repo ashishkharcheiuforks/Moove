@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">"Moove"</string>
-    <string name="_2016_nazar_suhovich">"2016 \ u00A9 Nazar Suhovich"</string>
+    <string name="_2016_nazar_suhovich">"2016 \u00A9 Nazar Suhovich"</string>
     <string name="search">"A cauta"</string>
     <string name="action">"Acțiune"</string>
     <string name="make_call">"Face apel"</string>
@@ -80,7 +80,7 @@
     <string name="turn_screen_off_to_see_led_light">"Opriți ecranul pentru a vedea LED!"</string>
     <string name="select_one_of_item">"Selectați unul dintre articole!"</string>
     <string name="empty_field">"Câmp gol!"</string>
-    <string name="place_out" translatable="false">"Postați out"</string>
+    <string name="place_out">"Postați out"</string>
     <string name="deleted">"Îndepărtat"</string>
     <string name="selected_radius_meters">"Selectate %s de metri"</string>
     <string name="no_place_selected">"Locul nu este selectat!"</string>

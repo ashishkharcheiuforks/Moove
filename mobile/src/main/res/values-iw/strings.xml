@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">"Moove"</string>
-    <string name="_2016_nazar_suhovich">"2,016 \ u00A9 נזאר Suhovich"</string>
+    <string name="_2016_nazar_suhovich">"2,016 \u00A9 נזאר Suhovich"</string>
     <string name="search">"לְחַפֵּשׂ"</string>
     <string name="action">"פְּעוּלָה"</string>
     <string name="make_call">"בצע שיחה"</string>
@@ -80,7 +80,7 @@
     <string name="turn_screen_off_to_see_led_light">"כבה את המסך כדי לראות LED!"</string>
     <string name="select_one_of_item">"בחר באחת מהפריטים!"</string>
     <string name="empty_field">"שדה ריק!"</string>
-    <string name="place_out" translatable="false">"הנח את"</string>
+    <string name="place_out">"הנח את"</string>
     <string name="deleted">"הוסר"</string>
     <string name="selected_radius_meters">"רדיוס %s מטרים"</string>
     <string name="no_place_selected">"המקום לא נבחר!"</string>

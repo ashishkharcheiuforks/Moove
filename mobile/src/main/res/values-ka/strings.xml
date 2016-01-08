@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">"Moove"</string>
-    <string name="_2016_nazar_suhovich">"2016 \ u00A9 Nazar Suhovich"</string>
+    <string name="_2016_nazar_suhovich">"2016 \u00A9 Nazar Suhovich"</string>
     <string name="search">"ძებნა"</string>
     <string name="action">"აქცია"</string>
     <string name="make_call">"ზარი"</string>
@@ -80,7 +80,7 @@
     <string name="turn_screen_off_to_see_led_light">"გამორთეთ ეკრანზე LED!"</string>
     <string name="select_one_of_item">"აირჩიეთ ერთ-ერთი ელემენტი!"</string>
     <string name="empty_field">"ცარიელი სფეროში!"</string>
-    <string name="place_out" translatable="false">"ადგილი"</string>
+    <string name="place_out">"ადგილი"</string>
     <string name="deleted">"ამოღებულია"</string>
     <string name="selected_radius_meters">"არჩეული %s მეტრი"</string>
     <string name="no_place_selected">"ადგილი არ არის არჩეული!"</string>

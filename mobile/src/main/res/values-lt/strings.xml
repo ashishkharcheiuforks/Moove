@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">"Moove"</string>
-    <string name="_2016_nazar_suhovich">"2016 \ u00a9 Nazar Suhovich"</string>
+    <string name="_2016_nazar_suhovich">"2016 \u00A9 Nazar Suhovich"</string>
     <string name="search">"Leškoti"</string>
     <string name="action">"Veiksmas"</string>
     <string name="make_call">"Paskambinti"</string>
@@ -80,7 +80,7 @@
     <string name="turn_screen_off_to_see_led_light">"Išjunkite ekrano pamatyti LED!"</string>
     <string name="select_one_of_item">"Pasirinkite vieną iš daiktų!"</string>
     <string name="empty_field">"Tuščias laukas!"</string>
-    <string name="place_out" translatable="false">"Vietą iš"</string>
+    <string name="place_out">"Vietą iš"</string>
     <string name="deleted">"Pašalinta"</string>
     <string name="selected_radius_meters">"Pasirinkti %s metrų"</string>
     <string name="no_place_selected">"Ši vieta yra nepažymėtas!"</string>

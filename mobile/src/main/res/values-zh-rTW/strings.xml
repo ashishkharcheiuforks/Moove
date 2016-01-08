@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">"Moove"</string>
-    <string name="_2016_nazar_suhovich">"2016年\ u00A9納扎爾Suhovich"</string>
+    <string name="_2016_nazar_suhovich">"2016年 \u00A9 納扎爾Suhovich"</string>
     <string name="search">"搜索"</string>
     <string name="action">"行動"</string>
     <string name="make_call">"撥打電話"</string>
@@ -80,7 +80,7 @@
     <string name="turn_screen_off_to_see_led_light">"關閉屏幕上看到LED！"</string>
     <string name="select_one_of_item">"選擇項目之一！"</string>
     <string name="empty_field">"空場！"</string>
-    <string name="place_out" translatable="false">"將出"</string>
+    <string name="place_out">"將出"</string>
     <string name="deleted">"刪除"</string>
     <string name="selected_radius_meters">"選擇的半徑%s米"</string>
     <string name="no_place_selected">"這個地方是沒有選擇！"</string>

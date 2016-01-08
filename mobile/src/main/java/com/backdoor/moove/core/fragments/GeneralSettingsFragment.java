@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.backdoor.moove.R;
+import com.backdoor.moove.core.consts.Configs;
 import com.backdoor.moove.core.consts.Prefs;
+import com.backdoor.moove.core.helper.Module;
 import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.views.PrefsView;
 
@@ -33,6 +35,10 @@ public class GeneralSettingsFragment extends Fragment implements View.OnClickLis
 
         getActivity().getIntent().setAction("General attached");
         sPrefs = new SharedPrefs(getActivity().getApplicationContext());
+
+        if (Module.isLollipop()) {
+            rootView.findViewById(R.id.generalCard).setElevation(Configs.CARD_ELEVATION);
+        }
 
         use24TimePrefs = (PrefsView) rootView.findViewById(R.id.use24TimePrefs);
         use24TimePrefs.setChecked(sPrefs.loadBoolean(Prefs.IS_24_TIME_FORMAT));

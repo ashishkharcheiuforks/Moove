@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">"Moove"</string>
-    <string name="_2016_nazar_suhovich">"2016 \ u00A9 Nazar Suhovich"</string>
+    <string name="_2016_nazar_suhovich">"2016 \u00A9 Nazar Suhovich"</string>
     <string name="search">"Qidiruv"</string>
     <string name="action">"Harakat"</string>
     <string name="make_call">"Qo'ng'iroq qiling"</string>
@@ -80,7 +80,7 @@
     <string name="turn_screen_off_to_see_led_light">"LED ko'rish uchun ekran o'chirib qo'ying!"</string>
     <string name="select_one_of_item">"Ni birini tanlash!"</string>
     <string name="empty_field">"Bo'sh joy!"</string>
-    <string name="place_out" translatable="false">"Ijaraga joylashtiring"</string>
+    <string name="place_out">"Ijaraga joylashtiring"</string>
     <string name="deleted">"Ko'targan"</string>
     <string name="selected_radius_meters">"Tanlangan radius %s metr"</string>
     <string name="no_place_selected">"joy tanlab emas!"</string>

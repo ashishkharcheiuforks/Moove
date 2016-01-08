@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">"Moove"</string>
-    <string name="_2016_nazar_suhovich">"2016 \ u00A9ナザールSuhovich"</string>
+    <string name="_2016_nazar_suhovich">"2016 \u00A9 ナザールSuhovich"</string>
     <string name="search">"サーチ"</string>
     <string name="action">"アクション"</string>
     <string name="make_call">"電話をかけます"</string>
@@ -80,7 +80,7 @@
     <string name="turn_screen_off_to_see_led_light">"LEDを確認するには、画面をオフにします！"</string>
     <string name="select_one_of_item">"アイテムのいずれかを選択します！"</string>
     <string name="empty_field">"空のフィールド！"</string>
-    <string name="place_out" translatable="false">"外置き"</string>
+    <string name="place_out">"外置き"</string>
     <string name="deleted">"削除されました"</string>
     <string name="selected_radius_meters">"選択された半径%sメーター"</string>
     <string name="no_place_selected">"場所が選択されていません！"</string>

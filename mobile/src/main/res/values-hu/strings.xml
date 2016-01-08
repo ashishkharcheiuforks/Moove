@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">"Moove"</string>
-    <string name="_2016_nazar_suhovich">"2016 \ u00A9 Nazar Suhovich"</string>
+    <string name="_2016_nazar_suhovich">"2016 \u00A9 Nazar Suhovich"</string>
     <string name="search">"Keresés"</string>
     <string name="action">"Akció"</string>
     <string name="make_call">"Hívni"</string>
@@ -80,7 +80,7 @@
     <string name="turn_screen_off_to_see_led_light">"Kapcsolja ki a képernyőn látni LED!"</string>
     <string name="select_one_of_item">"Válassza ki az egyik elem!"</string>
     <string name="empty_field">"Üres mező!"</string>
-    <string name="place_out" translatable="false">"Vigye el"</string>
+    <string name="place_out">"Vigye el"</string>
     <string name="deleted">"Az eltávolított"</string>
     <string name="selected_radius_meters">"Válogatott %s méter"</string>
     <string name="no_place_selected">"A hely nincs kiválasztva!"</string>

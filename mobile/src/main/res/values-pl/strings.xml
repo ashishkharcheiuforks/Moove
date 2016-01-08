@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">"Moove"</string>
-    <string name="_2016_nazar_suhovich">"2016 \ u00A9 Nazar Suhovich"</string>
+    <string name="_2016_nazar_suhovich">"2016 \u00A9 Nazar Suhovich"</string>
     <string name="search">"Wyszukaj"</string>
     <string name="action">"Akcja"</string>
     <string name="make_call">"Nawiąż poł"</string>
@@ -80,7 +80,7 @@
     <string name="turn_screen_off_to_see_led_light">"Wyłączyć ekran, aby zobaczyć LED!"</string>
     <string name="select_one_of_item">"Wybierz jedną z pozycji!"</string>
     <string name="empty_field">"Puste pole!"</string>
-    <string name="place_out" translatable="false">"Umieść na"</string>
+    <string name="place_out">"Umieść na"</string>
     <string name="deleted">"Oddalony"</string>
     <string name="selected_radius_meters">"Określonym %s metrów"</string>
     <string name="no_place_selected">"To miejsce nie jest zaznaczone!"</string>

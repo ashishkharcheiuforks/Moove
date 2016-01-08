@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">"Moove"</string>
-    <string name="_2016_nazar_suhovich">"2016 \ u00A9 Nazar Suhovich"</string>
+    <string name="_2016_nazar_suhovich">"2016 \u00A9 Nazar Suhovich"</string>
     <string name="search">"Otsing"</string>
     <string name="action">"Action"</string>
     <string name="make_call">"Tee kõne"</string>
@@ -80,7 +80,7 @@
     <string name="turn_screen_off_to_see_led_light">"Lülita ekraan näha LED!"</string>
     <string name="select_one_of_item">"Valige üks punkte!"</string>
     <string name="empty_field">"Tühi väli!"</string>
-    <string name="place_out" translatable="false">"Aseta välja"</string>
+    <string name="place_out">"Aseta välja"</string>
     <string name="deleted">"Eemaldatud"</string>
     <string name="selected_radius_meters">"Valitud %s meetrit"</string>
     <string name="no_place_selected">"Koht ei ole valitud!"</string>

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.backdoor.moove.R;
+import com.backdoor.moove.core.consts.Configs;
 import com.backdoor.moove.core.dialogs.AboutDialog;
 import com.backdoor.moove.core.dialogs.ChangeDialog;
 import com.backdoor.moove.core.dialogs.Help;
@@ -33,6 +34,10 @@ public class OtherSettingsFragment extends Fragment {
         ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if (ab != null){
             ab.setTitle(R.string.other);
+        }
+
+        if (Module.isLollipop()) {
+            rootView.findViewById(R.id.otherCard).setElevation(Configs.CARD_ELEVATION);
         }
 
         TextView about = (TextView) rootView.findViewById(R.id.about);

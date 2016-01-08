@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">"Moove"</string>
-    <string name="_2016_nazar_suhovich">"2016 \ u00A9 नजर Suhovich"</string>
+    <string name="_2016_nazar_suhovich">"2016 \u00A9 नजर Suhovich"</string>
     <string name="search">"खोज"</string>
     <string name="action">"कार्य"</string>
     <string name="make_call">"कॉल करें"</string>
@@ -80,7 +80,7 @@
     <string name="turn_screen_off_to_see_led_light">"एलईडी देखने के लिए स्क्रीन को बंद कर दें!"</string>
     <string name="select_one_of_item">"वस्तुओं में से एक का चयन करें!"</string>
     <string name="empty_field">"खाली जगह!"</string>
-    <string name="place_out" translatable="false">"बाहर की जगह"</string>
+    <string name="place_out">"बाहर की जगह"</string>
     <string name="deleted">"हटाया"</string>
     <string name="selected_radius_meters">"चयनित त्रिज्या %s मीटर"</string>
     <string name="no_place_selected">"जगह का चयन नहीं किया है!"</string>
