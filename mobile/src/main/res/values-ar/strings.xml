@@ -155,4 +155,5 @@
     <string name="fix">"حل"</string>
     <string name="using_location_services_not_allowed">"استخدام خدمات الموقع غير مسموح به."</string>
     <string name="play_services_not_found_or_it_is_out_of_date">"خدمات التشغيل جوجل لم يتم العثور على أو أنها غير محدثة."</string>
+    <string name="buy">Buy</string>
 </resources>

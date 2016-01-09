@@ -155,4 +155,5 @@
     <string name="fix">Oprava</string>
     <string name="using_location_services_not_allowed">Používanie umiestnenie služby, ktoré nie sú povolené.</string>
     <string name="play_services_not_found_or_it_is_out_of_date">Google Play služby nebol nájdený alebo je zastaraný.</string>
+    <string name="buy">Buy</string>
 </resources>

@@ -155,4 +155,5 @@
     <string name="fix">Reparatie</string>
     <string name="using_location_services_not_allowed">Met behulp van locatiediensten niet toegestaan.</string>
     <string name="play_services_not_found_or_it_is_out_of_date">Google Play Services niet gevonden of is verouderd.</string>
+    <string name="buy">Buy</string>
 </resources>

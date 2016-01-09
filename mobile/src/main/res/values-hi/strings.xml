@@ -155,4 +155,5 @@
     <string name="fix">मरम्मत</string>
     <string name="using_location_services_not_allowed">का प्रयोग स्थान सेवाओं की अनुमति नहीं है।</string>
     <string name="play_services_not_found_or_it_is_out_of_date">गूगल प्ले सेवा नहीं मिला या यह तारीख से बाहर है।</string>
+    <string name="buy">Buy</string>
 </resources>

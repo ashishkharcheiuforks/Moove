@@ -156,4 +156,5 @@
     <string name="fix">Fix</string>
     <string name="using_location_services_not_allowed">Using location services not allowed.</string>
     <string name="play_services_not_found_or_it_is_out_of_date">Google Play Services not found or it is out of date.</string>
+    <string name="buy">Buy</string>
 </resources>

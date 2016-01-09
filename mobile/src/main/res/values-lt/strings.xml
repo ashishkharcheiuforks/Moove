@@ -155,4 +155,5 @@
     <string name="fix">Remontas</string>
     <string name="using_location_services_not_allowed">Naudojant vietos nustatymo paslaugos neleidžiama.</string>
     <string name="play_services_not_found_or_it_is_out_of_date">"Google Play Paslaugos nerastas arba jis yra pasenęs."</string>
+    <string name="buy">Buy</string>
 </resources>

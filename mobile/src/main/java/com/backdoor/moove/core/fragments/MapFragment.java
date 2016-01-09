@@ -444,6 +444,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         map = ((SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map)).getMap();
         map.getUiSettings().setMyLocationButtonEnabled(false);
+        map.getUiSettings().setCompassEnabled(true);
         int type = prefs.loadInt(Prefs.MAP_TYPE);
         map.setMapType(type);
 

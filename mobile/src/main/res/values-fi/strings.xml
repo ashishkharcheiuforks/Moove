@@ -155,4 +155,5 @@
     <string name="fix">Korjaus</string>
     <string name="using_location_services_not_allowed">Käyttämällä paikannuspalveluja kielletty.</string>
     <string name="play_services_not_found_or_it_is_out_of_date">Google Play Palvelut ei löydy tai se on vanhentunut.</string>
+    <string name="buy">Buy</string>
 </resources>

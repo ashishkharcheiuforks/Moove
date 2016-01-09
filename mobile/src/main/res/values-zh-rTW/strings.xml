@@ -155,4 +155,5 @@
     <string name="fix">固定</string>
     <string name="using_location_services_not_allowed">不允許使用的定位服務。</string>
     <string name="play_services_not_found_or_it_is_out_of_date">沒有找到谷歌播放服務，或者是過時的。</string>
+    <string name="buy">Buy</string>
 </resources>

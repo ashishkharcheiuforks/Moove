@@ -155,4 +155,5 @@
     <string name="fix">Reparieren</string>
     <string name="using_location_services_not_allowed">Mit Hilfe des Standort nicht erlaubt.</string>
     <string name="play_services_not_found_or_it_is_out_of_date">Google Play-Dienste nicht gefunden, oder es veraltet ist.</string>
+    <string name="buy">Buy</string>
 </resources>

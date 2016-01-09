@@ -155,4 +155,5 @@
     <string name="fix">Исправить</string>
     <string name="using_location_services_not_allowed">Использование локациооных служб не разрешено.</string>
     <string name="play_services_not_found_or_it_is_out_of_date">Сервисы Google Play не найдены или устарели.</string>
+    <string name="buy">Buy</string>
 </resources>

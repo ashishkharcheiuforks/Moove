@@ -150,6 +150,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
             case R.id.action_more:
                 SuperUtil.showMore(MainActivity.this);
                 return true;
+            case R.id.action_donate:
+                startActivity(new Intent(MainActivity.this, DonateActivity.class));
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -155,4 +155,5 @@
     <string name="fix">რემონტი</string>
     <string name="using_location_services_not_allowed">გამოყენება ადგილმდებარეობა მომსახურება არ არის დაშვებული.</string>
     <string name="play_services_not_found_or_it_is_out_of_date">Google Play მომსახურება არ არის ნაპოვნი ან მოძველებულია.</string>
+    <string name="buy">Buy</string>
 </resources>

@@ -155,4 +155,5 @@
     <string name="fix">Sửa chữa</string>
     <string name="using_location_services_not_allowed">Sử dụng dịch vụ định vị không được phép.</string>
     <string name="play_services_not_found_or_it_is_out_of_date">Chơi Dịch vụ Google không tìm thấy hoặc nó là lỗi thời.</string>
+    <string name="buy">Buy</string>
 </resources>

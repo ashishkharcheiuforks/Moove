@@ -155,4 +155,5 @@
     <string name="fix">"Виправити"</string>
     <string name="using_location_services_not_allowed">"Використання сервісів геолокації не дозволено."</string>
     <string name="play_services_not_found_or_it_is_out_of_date">"Сервіси Google Play не виявлено або вони застаріли."</string>
+    <string name="buy">Buy</string>
 </resources>

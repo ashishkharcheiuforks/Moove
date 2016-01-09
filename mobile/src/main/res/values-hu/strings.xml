@@ -155,4 +155,5 @@
     <string name="fix">Javítás</string>
     <string name="using_location_services_not_allowed">A helymeghatározó szolgáltatások használata nem engedélyezett.</string>
     <string name="play_services_not_found_or_it_is_out_of_date">A Google Play szolgáltatások nem talált, vagy elavult.</string>
+    <string name="buy">Buy</string>
 </resources>

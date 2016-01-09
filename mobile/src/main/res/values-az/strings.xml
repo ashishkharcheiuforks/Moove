@@ -155,4 +155,5 @@
     <string name="fix">"Təmir"</string>
     <string name="using_location_services_not_allowed">"Istifadə edərək yeri xidmətləri icazə verilmir."</string>
     <string name="play_services_not_found_or_it_is_out_of_date">"Google Play Services tapılmadı və ya tarixi deyil."</string>
+    <string name="buy">Buy</string>
 </resources>

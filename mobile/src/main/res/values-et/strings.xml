@@ -155,4 +155,5 @@
     <string name="fix">Remondi</string>
     <string name="using_location_services_not_allowed">Kasutades asukohateenused ole lubatud.</string>
     <string name="play_services_not_found_or_it_is_out_of_date">Google Play Teenused ei leitud või see on aegunud.</string>
+    <string name="buy">Buy</string>
 </resources>

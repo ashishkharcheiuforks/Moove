@@ -155,4 +155,5 @@
     <string name="fix">修復</string>
     <string name="using_location_services_not_allowed">使用して位置情報サービスは許可されていません。</string>
     <string name="play_services_not_found_or_it_is_out_of_date">グーグルプレイサービスが見つからないか、それが古くなっています。</string>
+    <string name="buy">Buy</string>
 </resources>
