@@ -156,4 +156,8 @@
     <string name="using_location_services_not_allowed">Naudojant vietos nustatymo paslaugos neleidžiama.</string>
     <string name="play_services_not_found_or_it_is_out_of_date">"Google Play Paslaugos nerastas arba jis yra pasenęs."</string>
     <string name="buy">Buy</string>
+    <string name="title_activity_donate">Padaryti Paremti</string>
+
+    <string name="ga_trackingId">UA-72206185-1</string>
+    <string name="gcm_defaultSenderId">1030696705680</string>
 </resources>

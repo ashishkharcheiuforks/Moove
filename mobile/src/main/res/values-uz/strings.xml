@@ -156,4 +156,8 @@
     <string name="using_location_services_not_allowed">Foydalanish manzil xizmatlari ruxsat yo\'q.</string>
     <string name="play_services_not_found_or_it_is_out_of_date">Google Play Xizmatlar topilmadi yoki uni dolzarb hisoblanadi.</string>
     <string name="buy">Buy</string>
+    <string name="title_activity_donate">Ehson qilish</string>
+
+    <string name="ga_trackingId">UA-72206185-1</string>
+    <string name="gcm_defaultSenderId">1030696705680</string>
 </resources>

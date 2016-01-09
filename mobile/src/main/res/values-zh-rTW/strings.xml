@@ -156,4 +156,7 @@
     <string name="using_location_services_not_allowed">不允許使用的定位服務。</string>
     <string name="play_services_not_found_or_it_is_out_of_date">沒有找到谷歌播放服務，或者是過時的。</string>
     <string name="buy">Buy</string>
+    <string name="title_activity_donate">讓捐贈</string>
+    <string name="ga_trackingId">UA-72206185-1</string>
+    <string name="gcm_defaultSenderId">1030696705680</string>
 </resources>
