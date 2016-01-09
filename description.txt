@@ -1,0 +1,28 @@
+Moove - wherever you go you will not forget.
+
+Create reminders with destination point and continue to do your own business, and when you reach the point of impact, the app will help you.
+
+<b>The application supports two basic types of reminder with extension options</b>
+&#8226;&#8195; Reminder on arrival in a certain place;
+&#8226;&#8195; Reminders when a user leaves a specified location.
+
+★<b>Extension options for each reminder</b>★
+&#8226;&#8195; Sending SMS;
+&#8226;&#8195; Reminder the phone call;
+&#8226;&#8195; Postponing the start of tracking to save battery power;
+&#8226;&#8195; Automatic switching with GPS tracking to over the network and vice versa;
+&#8226;&#8195; Android Wear notification;
+&#8226;&#8195; Application - companion for watches on Android Wear;
+&#8226;&#8195; Customizable LED indication;
+&#8226;&#8195; Select a melody and reminder volume;
+&#8226;&#8195; Highlighting display;
+&#8226;&#8195; Unlocking the screen;
+&#8226;&#8195; Choose your style of marker for each reminder.
+
+Official Web page - https://craysoftware.wordpress.com/
+
+★<b>Permissions used by app</b>★
+&#8226;&#8195; Approximate and exact location - used to track the current position of the user. Tracking data is not stored or transmitted.
+&#8226;&#8195; Read contacts, send text messages and make calls - needs to create reminders with the ability to send SMS or make calls.
+&#8226;&#8195; Internet - you need to download Google Maps.
+&#8226;&#8195; Reading and writing to the memory card - to select the desired reminder melody.

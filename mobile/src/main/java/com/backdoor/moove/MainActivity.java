@@ -30,6 +30,8 @@ import com.backdoor.moove.core.interfaces.RecyclerListener;
 import com.backdoor.moove.core.utils.QuickReturnUtils;
 import com.backdoor.moove.core.utils.SuperUtil;
 import com.backdoor.moove.core.views.ReturnScrollListener;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
 
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
     private FloatingActionButton fab;
     private Toolbar toolbar;
     private ReturnScrollListener scrollListener;
+
+    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
                 startActivity(intent);
             }
         });
+
+        Moove application = (Moove) getApplication();
+        mTracker = application.getDefaultTracker();
     }
 
     /**
@@ -151,6 +158,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
     protected void onResume() {
         super.onResume();
         loaderAdapter();
+        mTracker.setScreenName("Screen~" + getClass().getName());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

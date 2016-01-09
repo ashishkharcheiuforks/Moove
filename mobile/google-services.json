@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_id": "moove-1170",
+    "project_number": "1030696705680",
+    "name": "Moove"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030696705680:android:f083284be02e6113",
+        "client_id": "android:com.backdoor.moove",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.backdoor.moove"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030696705680-b44n381efkv6o4n95mo2snlcmesostob.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.backdoor.moove",
+            "certificate_hash": "051D37DD4F19D7A6B3798668324D49AC9F273672"
+          }
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-72206185-1"
+          }
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

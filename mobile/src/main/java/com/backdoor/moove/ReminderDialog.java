@@ -44,6 +44,8 @@ import com.backdoor.moove.core.services.DeliveredReceiver;
 import com.backdoor.moove.core.services.SendReceiver;
 import com.backdoor.moove.core.views.RoundImageView;
 import com.backdoor.shared.SharedConst;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
@@ -82,6 +84,8 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
     private TextToSpeech tts;
 
     private GoogleApiClient mGoogleApiClient;
+
+    private Tracker mTracker;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -229,6 +233,9 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
                 .build();
+
+        Moove application = (Moove) getApplication();
+        mTracker = application.getDefaultTracker();
     }
 
     private void loadImage() {
@@ -421,6 +428,8 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
     protected void onResume() {
         super.onResume();
         mGoogleApiClient.connect();
+        mTracker.setScreenName("Screen~" + getClass().getName());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

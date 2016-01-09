@@ -75,6 +75,8 @@ import com.backdoor.moove.core.utils.ViewUtils;
 import com.backdoor.moove.core.views.ActionView;
 import com.backdoor.moove.core.views.DateTimeView;
 import com.backdoor.moove.core.views.FloatingEditText;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
@@ -149,6 +151,8 @@ public class ReminderManager extends AppCompatActivity implements
     private Type remControl = new Type(this);
     private Reminder item;
     private GeocoderTask task;
+
+    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -282,6 +286,9 @@ public class ReminderManager extends AppCompatActivity implements
                 spinner.setSelection(1);
             }
         }
+
+        Moove application = (Moove) getApplication();
+        mTracker = application.getDefaultTracker();
     }
 
     private void selectVolume() {
@@ -825,6 +832,8 @@ public class ReminderManager extends AppCompatActivity implements
         } else {
             remControl.save(item);
         }
+        mTracker.setScreenName("Screen~" + getClass().getName());
+        mTracker.send(new HitBuilders.EventBuilder().setCategory("Action").setAction("Save").build());
         closeWindow();
     }
 
@@ -1294,6 +1303,13 @@ public class ReminderManager extends AppCompatActivity implements
             menu.getItem(2).setVisible(true);
         }
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mTracker.setScreenName("Screen~" + getClass().getName());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
