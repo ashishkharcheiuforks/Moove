@@ -32,6 +32,7 @@ public class Purchase {
     String mToken;
     String mOriginalJson;
     String mSignature;
+    String mPrice;
 
     public Purchase(String itemType, String jsonPurchaseInfo, String signature) throws JSONException {
         mItemType = itemType;
@@ -43,8 +44,13 @@ public class Purchase {
         mPurchaseTime = o.optLong("purchaseTime");
         mPurchaseState = o.optInt("purchaseState");
         mDeveloperPayload = o.optString("developerPayload");
+        mPrice = o.optString("price");
         mToken = o.optString("token", o.optString("purchaseToken"));
         mSignature = signature;
+    }
+
+    public String getPrice() {
+        return mPrice;
     }
 
     public String getItemType() { return mItemType; }

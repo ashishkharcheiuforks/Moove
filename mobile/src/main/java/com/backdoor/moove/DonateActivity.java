@@ -1,30 +1,27 @@
 package com.backdoor.moove;
 
-import android.app.PendingIntent;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.android.vending.billing.IInAppBillingService;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.backdoor.moove.core.consts.Constants;
+import com.backdoor.moove.core.iab.IabHelper;
+import com.backdoor.moove.core.iab.IabResult;
+import com.backdoor.moove.core.iab.Inventory;
+import com.backdoor.moove.core.iab.Purchase;
+import com.backdoor.moove.core.iab.SkuDetails;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class DonateActivity extends AppCompatActivity {
+public class DonateActivity extends AppCompatActivity implements IabHelper.QueryInventoryFinishedListener {
 
     private static final int REQUEST_BASE = 1005;
     private static final int REQUEST_STANDARD = 1006;
@@ -45,23 +42,11 @@ public class DonateActivity extends AppCompatActivity {
             symbols[idx] = (char) ('a' + idx - 10);
     }
 
-    private IInAppBillingService mService;
-
-    private ServiceConnection mServiceConn = new ServiceConnection() {
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mService = null;
-        }
-
-        @Override
-        public void onServiceConnected(ComponentName name,
-                                       IBinder service) {
-            mService = IInAppBillingService.Stub.asInterface(service);
-            loadItems();
-        }
-    };
+    private IabHelper mHelper;
 
     private Button buyButton, buyButton1, buyButton2, buyButton3;
+
+    private String mPayload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,120 +71,164 @@ public class DonateActivity extends AppCompatActivity {
                 buyItem(SKU_1, REQUEST_BASE);
             }
         });
-        buyButton.setOnClickListener(new View.OnClickListener() {
+        buyButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 buyItem(SKU_2, REQUEST_STANDARD);
             }
         });
-        buyButton.setOnClickListener(new View.OnClickListener() {
+        buyButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 buyItem(SKU_3, REQUEST_PRO);
             }
         });
-        buyButton.setOnClickListener(new View.OnClickListener() {
+        buyButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 buyItem(SKU_4, REQUEST_TOP);
             }
         });
 
-        Intent serviceIntent =
-                new Intent("com.android.vending.billing.InAppBillingService.BIND");
-        serviceIntent.setPackage("com.android.vending");
-        bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
+        RandomString randomString = new RandomString(36);
+        mPayload = randomString.nextString();
+
+        String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjyOOepL/ahDs5UJd2h6t9QedIM6wVJ6N4FiV65az9W07976iU4/JTOfsKg2Eps4vTqnK/WnvJeQRHFLtaOKz1xAueddFwmVZYJaz2Y0vDvS6ivjC+8CUuAskSysNeFCW8HoBssJMii45Oq45FLHSgqZ9ITh1CC1yMh/ESPsH8/uc0jIjQvX18bbAhorFzAbEemy+nQVf69Edz2uKkw7R0F+eVCvNbxQzy/DlVVb4Jicy5nqLhfn7nsAndu7eTVWTUSFwBjdnr1ezOiONO8yUi+Nzg2mLfS3v6GOxfoV6AKcsrzb+ELBoqnZjLmLZy3MO8nOQ5a2xPJtSOzuEBg4J2QIDAQAB";
+
+        mHelper = new IabHelper(this, base64EncodedPublicKey);
+
+        mHelper.enableDebugLogging(true);
+        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            public void onIabSetupFinished(IabResult result) {
+                Log.d(Constants.LOG_TAG, "Setup finished.");
+
+                if (!result.isSuccess()) {
+                    return;
+                }
+
+                if (mHelper == null) return;
+
+                Log.d(Constants.LOG_TAG, "Setup successful. Querying inventory.");
+
+                List<String> list = new ArrayList<>();
+                list.add(SKU_1);
+                list.add(SKU_2);
+                list.add(SKU_3);
+                list.add(SKU_4);
+                mHelper.queryInventoryAsync(true, list, DonateActivity.this);
+                setWaitScreen(true);
+            }
+        });
+    }
+
+    // Callback for when a purchase is finished
+    IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
+        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+            Log.d(Constants.LOG_TAG, "Purchase finished: " + result + ", purchase: " + purchase);
+
+            // if we were disposed of in the meantime, quit.
+            if (mHelper == null) return;
+
+            if (result.isFailure()) {
+                setWaitScreen(false);
+                return;
+            }
+            if (!verifyDeveloperPayload(purchase)) {
+                setWaitScreen(false);
+                return;
+            }
+
+            Log.d(Constants.LOG_TAG, "Purchase successful.");
+
+            switch (purchase.getSku()) {
+                case SKU_1:
+                    buyButton.setEnabled(false);
+                    setWaitScreen(false);
+                    break;
+                case SKU_2:
+                    buyButton1.setEnabled(false);
+                    setWaitScreen(false);
+                    break;
+                case SKU_3:
+                    buyButton2.setEnabled(false);
+                    setWaitScreen(false);
+                    break;
+                case SKU_4:
+                    buyButton3.setEnabled(false);
+                    setWaitScreen(false);
+                    break;
+            }
+        }
+    };
+
+    private boolean verifyDeveloperPayload(Purchase purchase) {
+        String payload = purchase.getDeveloperPayload();
+        return payload.matches(mPayload);
     }
 
     private void buyItem(String sku, int requestCode) {
-        try {
-            RandomString randomString = new RandomString(36);
-            String payload = randomString.nextString();
-            Bundle buyIntentBundle = mService.getBuyIntent(3, getPackageName(),
-                    sku, "inapp", payload);
-            PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
-            startIntentSenderForResult(pendingIntent.getIntentSender(),
-                    requestCode, new Intent(), Integer.valueOf(0), Integer.valueOf(0),
-                    Integer.valueOf(0));
-        } catch (RemoteException | IntentSender.SendIntentException e) {
-            e.printStackTrace();
-        }
+        mHelper.launchPurchaseFlow(this, sku, requestCode,
+                mPurchaseFinishedListener, mPayload);
     }
 
-    private void loadItems() {
-        ArrayList<String> skuList = new ArrayList<>();
-        skuList.add(SKU_1);
-        skuList.add(SKU_2);
-        skuList.add(SKU_3);
-        skuList.add(SKU_4);
-        Bundle querySkus = new Bundle();
-        querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
-        try {
-            Bundle skuDetails = mService.getSkuDetails(3, getPackageName(), "inapp", querySkus);
-
-            int response = skuDetails.getInt("RESPONSE_CODE");
-            if (response == 0) {
-                ArrayList<String> responseList
-                        = skuDetails.getStringArrayList("DETAILS_LIST");
-
-                if (responseList != null) {
-                    for (String thisResponse : responseList) {
-                        JSONObject object = new JSONObject(thisResponse);
-                        String sku = object.getString("productId");
-                        String price = object.getString("price");
-                        if (sku.equals(SKU_1)) {
-                            buyButton.setText(price);
-                            buyButton.setEnabled(true);
-                        } else if (sku.equals(SKU_2)) {
-                            buyButton1.setText(price);
-                            buyButton1.setEnabled(true);
-                        } else if (sku.equals(SKU_3)) {
-                            buyButton2.setText(price);
-                            buyButton2.setEnabled(true);
-                        } else if (sku.equals(SKU_4)) {
-                            buyButton3.setText(price);
-                            buyButton3.setEnabled(true);
-                        }
-                    }
-                }
-            }
-        } catch (RemoteException | JSONException e) {
-            e.printStackTrace();
-        }
+    void setWaitScreen(boolean set) {
+        findViewById(R.id.waitProgress).setVisibility(set ? View.VISIBLE : View.GONE);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mService != null) {
-            unbindService(mServiceConn);
+        if (mHelper != null) {
+            mHelper.dispose();
+            mHelper = null;
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_BASE:
-                if (resultCode == RESULT_OK) {
-                    buyButton.setEnabled(false);
-                }
-                break;
-            case REQUEST_STANDARD:
-                if (resultCode == RESULT_OK) {
-                    buyButton1.setEnabled(false);
-                }
-                break;
-            case REQUEST_PRO:
-                if (resultCode == RESULT_OK) {
-                    buyButton2.setEnabled(false);
-                }
-                break;
-            case REQUEST_TOP:
-                if (resultCode == RESULT_OK) {
-                    buyButton3.setEnabled(false);
-                }
-                break;
+        Log.d(Constants.LOG_TAG, "onActivityResult(" + requestCode + "," + resultCode + "," + data);
+        if (mHelper == null) return;
+
+        if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
+            super.onActivityResult(requestCode, resultCode, data);
         }
+        else {
+            Log.d(Constants.LOG_TAG, "onActivityResult handled by IABUtil.");
+        }
+    }
+
+    @Override
+    public void onQueryInventoryFinished(IabResult result, Inventory inv) {
+        if (result.isFailure()) {
+            return;
+        }
+
+        if (inv != null) {
+            SkuDetails details = inv.getSkuDetails(SKU_1);
+            if (details != null) {
+                buyButton.setEnabled(true);
+                buyButton.setText(details.getPrice());
+            }
+
+            details = inv.getSkuDetails(SKU_2);
+            if (details != null) {
+                buyButton1.setEnabled(true);
+                buyButton1.setText(details.getPrice());
+            }
+
+            details = inv.getSkuDetails(SKU_3);
+            if (details != null) {
+                buyButton2.setEnabled(true);
+                buyButton2.setText(details.getPrice());
+            }
+
+            details = inv.getSkuDetails(SKU_4);
+            if (details != null) {
+                buyButton3.setEnabled(true);
+                buyButton3.setText(details.getPrice());
+            }
+        }
+        setWaitScreen(false);
     }
 
     public class RandomString {
