@@ -70,12 +70,12 @@ public class StartHelp extends AppCompatActivity {
     }
 
     private boolean checkPermissions() {
-        boolean isPermissions = false;
+        boolean isPermissions = true;
         if (Module.isMarshmallow()) {
             if (Permissions.checkPermission(StartHelp.this, Permissions.ACCESS_COARSE_LOCATION) ||
                     Permissions.checkPermission(StartHelp.this, Permissions.ACCESS_FINE_LOCATION)) {
                 isPermissions = true;
-            }
+            } else isPermissions = false;
         }
         return isPermissions;
     }
