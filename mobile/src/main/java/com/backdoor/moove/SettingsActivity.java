@@ -1,9 +1,11 @@
 package com.backdoor.moove;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import com.backdoor.moove.core.fragments.NotificationSettingsFragment;
 import com.backdoor.moove.core.fragments.OtherSettingsFragment;
 import com.backdoor.moove.core.fragments.SettingsFragment;
 import com.backdoor.moove.core.helper.Coloring;
+import com.backdoor.moove.core.helper.Dialogues;
 import com.backdoor.moove.core.helper.SharedPrefs;
 
 import java.io.File;
@@ -86,6 +89,17 @@ public class SettingsActivity extends AppCompatActivity implements
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 103:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Dialogues.melodyType(SettingsActivity.this, Prefs.CUSTOM_SOUND, 201);
+                }
+                break;
+        }
     }
 
     @Override

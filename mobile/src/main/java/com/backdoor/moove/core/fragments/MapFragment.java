@@ -738,6 +738,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
             if (c != null) {
                 c.close();
             }
+            DB.close();
 
             if (spinnerArray.isEmpty()) {
                 placesList.setVisibility(View.GONE);
@@ -751,21 +752,20 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                     public void onItemClicked(int position, View view) {
                         hideLayers();
                         hidePlaces();
-                        if (position > 0) {
-                            String placeName = spinnerArray.get(position);
-                            DataBase db = new DataBase(getActivity());
-                            db.open();
-                            Cursor c = db.getPlace(placeName);
-                            if (c != null && c.moveToFirst()) {
-                                double latitude = c.getDouble(c.getColumnIndex(DataBase.LATITUDE));
-                                double longitude = c.getDouble(c.getColumnIndex(DataBase.LONGITUDE));
-                                LatLng latLng = new LatLng(latitude, longitude);
-                                addMarker(latLng, markerTitle, true, true, markerRadius);
-                            }
-                            if (c != null) {
-                                c.close();
-                            }
+                        String placeName = spinnerArray.get(position);
+                        DataBase db = new DataBase(getActivity());
+                        db.open();
+                        Cursor c = db.getPlace(placeName);
+                        if (c != null && c.moveToFirst()) {
+                            double latitude = c.getDouble(c.getColumnIndex(DataBase.LATITUDE));
+                            double longitude = c.getDouble(c.getColumnIndex(DataBase.LONGITUDE));
+                            LatLng latLng = new LatLng(latitude, longitude);
+                            addMarker(latLng, markerTitle, true, true, markerRadius);
                         }
+                        if (c != null) {
+                            c.close();
+                        }
+                        db.close();
                     }
 
                     @Override

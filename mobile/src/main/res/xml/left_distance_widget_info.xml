@@ -3,8 +3,9 @@
     android:configure="com.backdoor.moove.core.widgets.LeftDistanceWidgetConfigureActivity"
     android:initialKeyguardLayout="@layout/left_distance_widget"
     android:initialLayout="@layout/left_distance_widget"
-    android:minHeight="110dp"
+    android:minHeight="40dp"
     android:minWidth="110dp"
+    android:resizeMode="horizontal|vertical"
     android:previewImage="@drawable/left_distance_preview"
     android:updatePeriodMillis="86400000"
     android:widgetCategory="home_screen|keyguard"></appwidget-provider>

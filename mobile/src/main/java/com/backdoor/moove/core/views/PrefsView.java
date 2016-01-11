@@ -136,6 +136,7 @@ public class PrefsView extends RelativeLayout {
             return;
         }
         detail.setText(text);
+        detail.setVisibility(VISIBLE);
     }
 
     public void setValueText(String text) {

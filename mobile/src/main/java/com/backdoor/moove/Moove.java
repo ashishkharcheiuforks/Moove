@@ -6,7 +6,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
 /**
- * Copyright 2015 Nazar Suhovich
+ * Copyright 2016 Nazar Suhovich
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

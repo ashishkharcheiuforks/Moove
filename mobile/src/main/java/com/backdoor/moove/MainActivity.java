@@ -3,6 +3,8 @@ package com.backdoor.moove;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,11 +22,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.backdoor.moove.core.adapters.RemindersRecyclerAdapter;
+import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.consts.QuickReturnViewType;
 import com.backdoor.moove.core.data.ReminderDataProvider;
 import com.backdoor.moove.core.data.ReminderModel;
+import com.backdoor.moove.core.dialogs.ChangeDialog;
+import com.backdoor.moove.core.dialogs.RateDialog;
 import com.backdoor.moove.core.helper.Module;
 import com.backdoor.moove.core.helper.Reminder;
+import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.interfaces.ActionCallbacks;
 import com.backdoor.moove.core.interfaces.RecyclerListener;
 import com.backdoor.moove.core.utils.QuickReturnUtils;
@@ -163,6 +169,52 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
         loaderAdapter();
         mTracker.setScreenName("Screen~" + getClass().getName());
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+        showRate();
+        isChangesShown();
+    }
+
+    private void showChanges() {
+        startActivity(new Intent(this, ChangeDialog.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    private void isChangesShown() {
+        SharedPrefs sPrefs = new SharedPrefs(this);
+        PackageInfo pInfo = null;
+        try {
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String version = null;
+        if (pInfo != null) {
+            version = pInfo.versionName;
+        }
+        boolean ranBefore = sPrefs.loadVersionBoolean(version);
+        if (!ranBefore) {
+            sPrefs.saveVersionBoolean(version);
+            showChanges();
+        }
+    }
+
+    private void showRate(){
+        SharedPrefs sPrefs = new SharedPrefs(this);
+
+        if (sPrefs.isString(Prefs.RATE_SHOW)) {
+            if (!sPrefs.loadBoolean(Prefs.RATE_SHOW)) {
+                int counts = sPrefs.loadInt(Prefs.APP_RUNS_COUNT);
+                if (counts < 10) {
+                    sPrefs.saveInt(Prefs.APP_RUNS_COUNT, counts + 1);
+                } else {
+                    sPrefs.saveInt(Prefs.APP_RUNS_COUNT, 0);
+                    startActivity(new Intent(this, RateDialog.class));
+                }
+            }
+        } else {
+            sPrefs.saveBoolean(Prefs.RATE_SHOW, false);
+            sPrefs.saveInt(Prefs.APP_RUNS_COUNT, 0);
+        }
     }
 
     @Override

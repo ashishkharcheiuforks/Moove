@@ -164,10 +164,14 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
                 String path = sPrefs.loadPrefs(Prefs.CUSTOM_SOUND_FILE);
                 if (!path.matches("")) {
                     File sound = new File(path);
-                    String fileName = sound.getName();
-                    int pos = fileName.lastIndexOf(".");
-                    String fileNameS = fileName.substring(0, pos);
-                    chooseSoundPrefs.setDetailText(fileNameS);
+                    if (sound.exists()) {
+                        String fileName = sound.getName();
+                        int pos = fileName.lastIndexOf(".");
+                        String fileNameS = fileName.substring(0, pos);
+                        chooseSoundPrefs.setDetailText(fileNameS);
+                    } else {
+                        chooseSoundPrefs.setDetailText(getActivity().getString(R.string.default_string));
+                    }
                 } else {
                     chooseSoundPrefs.setDetailText(getActivity().getString(R.string.default_string));
                 }
@@ -324,7 +328,13 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
                 infiniteSoundChange();
                 break;
             case R.id.chooseSoundPrefs:
-                Dialogues.melodyType(getActivity(), Prefs.CUSTOM_SOUND, 201);
+                if (Permissions.checkPermission(getActivity(), Permissions.READ_EXTERNAL)) {
+                    Dialogues.melodyType(getActivity(), Prefs.CUSTOM_SOUND, 201);
+                } else {
+                    Permissions.requestPermission(getActivity(),
+                            new String[]{Permissions.READ_EXTERNAL,
+                                    Permissions.WRITE_EXTERNAL}, 103);
+                }
                 break;
             case R.id.infiniteVibrateOptionPrefs:
                 infiniteVibrationChange();
@@ -353,6 +363,12 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
     @Override
     public void onDismiss(DialogInterface dialog) {
         showMelody();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        showMelody();
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
