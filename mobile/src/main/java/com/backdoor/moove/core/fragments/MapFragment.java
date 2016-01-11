@@ -55,7 +55,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+
 public class MapFragment extends Fragment implements View.OnClickListener {
+
+    private static final String HAS_SHOWCASE = "has_showcase";
 
     /**
      * UI elements;
@@ -66,6 +71,9 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     private CardView placesListCard;
     private AutoCompleteTextView cardSearch;
     private ImageButton zoomOut;
+    private ImageButton backButton;
+    private ImageButton places;
+    private ImageButton markers;
     private LinearLayout groupOne, groupTwo, groupThree;
     private RecyclerView placesList;
     private LinearLayout emptyItem;
@@ -416,6 +424,38 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    public void showShowcase() {
+        if (!new SharedPrefs(getActivity()).loadBoolean(HAS_SHOWCASE) && isBack) {
+            new SharedPrefs(getActivity()).saveBoolean(HAS_SHOWCASE, true);
+            Coloring coloring = new Coloring(getActivity());
+            ShowcaseConfig config = new ShowcaseConfig();
+            config.setDelay(350);
+            config.setMaskColor(coloring.colorAccent());
+            config.setContentTextColor(coloring.getColor(R.color.whitePrimary));
+            config.setDismissTextColor(coloring.getColor(R.color.whitePrimary));
+
+            MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity());
+            sequence.setConfig(config);
+
+            sequence.addSequenceItem(zoomOut,
+                    getActivity().getString(R.string.click_to_expand_collapse_map),
+                    getActivity().getString(R.string.got_it));
+
+            sequence.addSequenceItem(backButton,
+                    getActivity().getString(R.string.click_when_add_place),
+                    getActivity().getString(R.string.got_it));
+
+            sequence.addSequenceItem(markers,
+                    getActivity().getString(R.string.select_style_for_marker),
+                    getActivity().getString(R.string.got_it));
+
+            sequence.addSequenceItem(places,
+                    getActivity().getString(R.string.select_place_from_list),
+                    getActivity().getString(R.string.got_it));
+            sequence.start();
+        }
+    }
+
     private void initArgs() {
         Bundle args = getArguments();
         if (args != null) {
@@ -584,9 +624,9 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         zoomOut = (ImageButton) view.findViewById(R.id.mapZoom);
         ImageButton layers = (ImageButton) view.findViewById(R.id.layers);
         ImageButton myLocation = (ImageButton) view.findViewById(R.id.myLocation);
-        ImageButton markers = (ImageButton) view.findViewById(R.id.markers);
-        ImageButton places = (ImageButton) view.findViewById(R.id.places);
-        ImageButton backButton = (ImageButton) view.findViewById(R.id.backButton);
+        markers = (ImageButton) view.findViewById(R.id.markers);
+        places = (ImageButton) view.findViewById(R.id.places);
+        backButton = (ImageButton) view.findViewById(R.id.backButton);
 
         cardClear.setOnClickListener(this);
         zoomOut.setOnClickListener(this);

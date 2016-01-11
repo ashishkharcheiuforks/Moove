@@ -1,5 +1,7 @@
 -libraryjars libs
 
+-printmapping out.map
+
 -keep class android.support.v4.app.** { *; }
 -keep interface android.support.v4.app.** { *; }
 -keep class com.dropbox.** {*;}
@@ -24,8 +26,6 @@
 -dontwarn com.squareup.okhttp.**
 -dontwarn android.support.v8.**
 -dontwarn android.support.design.**
-
--printmapping out.map
 
 -renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable

@@ -160,4 +160,9 @@
 
     <string name="ga_trackingId">UA-72206185-1</string>
     <string name="gcm_defaultSenderId">1030696705680</string>
+    <string name="got_it">FORSTÅET</string>
+    <string name="select_style_for_marker">Vælg stil for markør</string>
+    <string name="click_when_add_place">Klik for at lukke kort og gemme påmindelse</string>
+    <string name="select_place_from_list">Vælg fra listen</string>
+    <string name="click_to_expand_collapse_map">Klik for at udvide / skjul kort</string>
 </resources>

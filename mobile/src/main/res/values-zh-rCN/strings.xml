@@ -159,4 +159,9 @@
     <string name="title_activity_donate">让捐赠</string>
     <string name="ga_trackingId">UA-72206185-1</string>
     <string name="gcm_defaultSenderId">1030696705680</string>
+    <string name="got_it">得到它了</string>
+    <string name="select_style_for_marker">选择风格标志</string>
+    <string name="click_when_add_place">点击关闭地图和保存提醒</string>
+    <string name="select_place_from_list">从列表中选择</string>
+    <string name="click_to_expand_collapse_map">点击展开/折叠地图</string>
 </resources>

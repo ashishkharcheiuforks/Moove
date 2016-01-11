@@ -654,6 +654,9 @@ public class ReminderManager extends AppCompatActivity implements
                 ViewUtils.fadeOutAnimation(specsContainer);
                 ViewUtils.fadeInAnimation(mapContainer);
                 ViewUtils.hide(this, mFab);
+                if (map != null) {
+                    map.showShowcase();
+                }
             }
         }
         if (isLocationOutAttached()) {
@@ -665,6 +668,9 @@ public class ReminderManager extends AppCompatActivity implements
                 ViewUtils.fadeOutAnimation(specsContainerOut);
                 ViewUtils.fadeInAnimation(mapContainerOut);
                 ViewUtils.hide(this, mFab);
+                if (mapOut != null) {
+                    mapOut.showShowcase();
+                }
             }
         }
     }

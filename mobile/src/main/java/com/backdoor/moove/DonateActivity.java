@@ -15,8 +15,6 @@ import com.backdoor.moove.core.iab.Inventory;
 import com.backdoor.moove.core.iab.Purchase;
 import com.backdoor.moove.core.iab.SkuDetails;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -253,16 +251,6 @@ public class DonateActivity extends AppCompatActivity implements IabHelper.Query
             for (int idx = 0; idx < buf.length; ++idx)
                 buf[idx] = symbols[random.nextInt(symbols.length)];
             return new String(buf);
-        }
-
-    }
-
-    public final class SessionIdentifierGenerator {
-
-        private SecureRandom random = new SecureRandom();
-
-        public String nextSessionId() {
-            return new BigInteger(130, random).toString(32);
         }
 
     }

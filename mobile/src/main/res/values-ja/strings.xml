@@ -160,4 +160,9 @@
 
     <string name="ga_trackingId">UA-72206185-1</string>
     <string name="gcm_defaultSenderId">1030696705680</string>
+    <string name="got_it">とった</string>
+    <string name="select_style_for_marker">マーカーのスタイルを選択</string>
+    <string name="click_when_add_place">マップを閉じて、リマインダーを保存します</string>
+    <string name="select_place_from_list">リストから選択</string>
+    <string name="click_to_expand_collapse_map">クリックして拡大/縮小マップ</string>
 </resources>

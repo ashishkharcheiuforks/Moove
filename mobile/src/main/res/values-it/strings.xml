@@ -160,4 +160,9 @@
 
     <string name="ga_trackingId">UA-72206185-1</string>
     <string name="gcm_defaultSenderId">1030696705680</string>
+    <string name="got_it">FATTO</string>
+    <string name="select_style_for_marker">Seleziona lo stile per marcatore</string>
+    <string name="click_when_add_place">Fare clic per chiudere la mappa e salvare promemoria</string>
+    <string name="select_place_from_list">Seleziona dalla lista</string>
+    <string name="click_to_expand_collapse_map">Clicca per espandere / chiudere mappa</string>
 </resources>

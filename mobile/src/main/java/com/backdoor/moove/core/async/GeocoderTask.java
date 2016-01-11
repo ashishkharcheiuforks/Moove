@@ -60,7 +60,7 @@ public class GeocoderTask extends AsyncTask<String, Void, List<Address>> {
         if(addresses == null || addresses.size() == 0){
             Log.d(Constants.LOG_TAG, "No Location found");
         } else {
-            if (mListener != null){
+            if (mListener != null && mContext != null){
                 mListener.onAddressReceived(addresses);
             }
         }

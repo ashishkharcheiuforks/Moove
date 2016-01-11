@@ -22,7 +22,7 @@ public class Coloring {
      * @param color resource.
      * @return Color
      */
-    private int getColor(int color){
+    public int getColor(int color){
         return ViewUtils.getColor(mContext, color);
     }
 
