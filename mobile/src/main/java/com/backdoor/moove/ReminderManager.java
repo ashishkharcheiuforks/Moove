@@ -1024,39 +1024,46 @@ public class ReminderManager extends AppCompatActivity implements
         if (id != 0) {
             DataBase db = new DataBase(this);
             db.open();
-            Cursor c = db.getReminders(Constants.ENABLE);
-            if (c != null && c.moveToFirst()) {
-                ArrayList<String> types = new ArrayList<>();
-                do {
-                    String tp = c.getString(c.getColumnIndex(DataBase.TYPE));
-                    int isDone = c.getInt(c.getColumnIndex(DataBase.STATUS_DB));
-                    if (isDone == Constants.ENABLE) {
-                        types.add(tp);
-                    }
-                } while (c.moveToNext());
-                if (types.contains(Constants.TYPE_LOCATION)) {
-                    startService(new Intent(ReminderManager.this, GeolocationService.class)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                }
-            }
-            if (c != null) {
-                c.close();
-            }
-            c = db.getReminder(id);
+            Cursor c = db.getReminder(id);
             if (c != null && c.moveToFirst()) {
                 long startTime = c.getLong(c.getColumnIndex(DataBase.START_TIME));
                 int status = c.getInt(c.getColumnIndex(DataBase.STATUS_DB));
                 if (status == Constants.ENABLE) {
-                    if (startTime > 0){
+                    if (startTime != 1){
                         new PositionDelayReceiver().setAlarm(this, id);
+                    } else {
+                        if (!SuperUtil.isServiceRunning(ReminderManager.this, GeolocationService.class)) {
+                            startService(new Intent(ReminderManager.this, GeolocationService.class)
+                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                        }
                     }
                 }
-                new DisableAsync(this).execute();
             }
             if (c != null) {
                 c.close();
             }
             db.close();
+        }
+        DataBase db = new DataBase(this);
+        db.open();
+        Cursor c = db.getReminders(Constants.ENABLE);
+        if (c != null && c.moveToFirst()) {
+            int i = 0;
+            do {
+                int isDone = c.getInt(c.getColumnIndex(DataBase.STATUS_DB));
+                if (isDone == Constants.ENABLE) {
+                    i++;
+                }
+            } while (c.moveToNext());
+            if (i > 0) {
+                if (!SuperUtil.isServiceRunning(ReminderManager.this, GeolocationService.class)) {
+                    startService(new Intent(ReminderManager.this, GeolocationService.class)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                }
+            }
+        }
+        if (c != null) {
+            c.close();
         }
         closeWindow();
     }

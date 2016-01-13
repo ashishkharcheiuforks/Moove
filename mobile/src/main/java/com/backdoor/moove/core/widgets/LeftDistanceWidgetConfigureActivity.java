@@ -66,10 +66,11 @@ public class LeftDistanceWidgetConfigureActivity extends Activity implements Dia
             final ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                     android.R.layout.simple_list_item_single_choice, titles);
 
-            builder.setSingleChoiceItems(adapter, 0, new DialogInterface.OnClickListener() {
+            builder.setSingleChoiceItems(adapter, -1, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which != -1) {
+                        dialog.dismiss();
                         MarkerModel model = list.get(which);
                         reminderId = model.getId();
                         String title = model.getTitle();
@@ -122,6 +123,7 @@ public class LeftDistanceWidgetConfigureActivity extends Activity implements Dia
 
     private boolean saveReminderPref(Context context, int appWidgetId) {
         if (reminderId > 0) {
+            saveDistancePref(context, PREF_DISTANCE_KEY + appWidgetId, 1);
             Reminder.setWidget(context, reminderId, PREF_DISTANCE_KEY + appWidgetId);
             return true;
         } else {

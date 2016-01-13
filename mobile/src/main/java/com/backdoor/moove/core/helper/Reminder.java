@@ -13,6 +13,7 @@ import com.backdoor.moove.core.interfaces.ActionCallbacks;
 import com.backdoor.moove.core.services.GeolocationService;
 import com.backdoor.moove.core.services.PositionDelayReceiver;
 import com.backdoor.moove.core.utils.LocationUtil;
+import com.backdoor.moove.core.utils.SuperUtil;
 import com.backdoor.moove.core.widgets.LeftDistanceWidgetConfigureActivity;
 import com.backdoor.moove.core.widgets.SimpleWidgetConfigureActivity;
 
@@ -80,8 +81,11 @@ public class Reminder {
                     new PositionDelayReceiver().setAlarm(context, id);
                     callbacks.showSnackbar(R.string.reminder_tracking_start_delayed);
                 } else {
-                    context.startService(new Intent(context, GeolocationService.class)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    if (!SuperUtil.isServiceRunning(context, GeolocationService.class)) {
+                        context.startService(new Intent(context, GeolocationService.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    }
+
                     callbacks.showSnackbar(R.string.tracking_start);
                 }
                 res = true;

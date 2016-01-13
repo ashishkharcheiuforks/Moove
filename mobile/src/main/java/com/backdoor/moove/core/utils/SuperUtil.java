@@ -1,6 +1,7 @@
 package com.backdoor.moove.core.utils;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -15,9 +16,7 @@ import android.widget.Toast;
 import com.backdoor.moove.ContactsList;
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.consts.Constants;
-import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.helper.Messages;
-import com.backdoor.moove.core.helper.SharedPrefs;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,6 +38,16 @@ import java.util.Comparator;
  * limitations under the License.
  */
 public class SuperUtil {
+
+    public static boolean isServiceRunning(Context context, Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static String getPath(Context context, Uri uri) {
         if ("content".equalsIgnoreCase(uri.getScheme())) {

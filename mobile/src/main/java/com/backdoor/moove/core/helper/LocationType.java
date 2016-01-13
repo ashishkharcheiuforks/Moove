@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.backdoor.moove.core.services.GeolocationService;
 import com.backdoor.moove.core.services.PositionDelayReceiver;
+import com.backdoor.moove.core.utils.SuperUtil;
 
 public class LocationType extends Type {
 
@@ -30,11 +31,13 @@ public class LocationType extends Type {
     }
 
     private void startTracking(long id, Reminder item) {
-        if (item.getStartTime() > 0) {
+        if (item.getStartTime() != -1) {
             new PositionDelayReceiver().setAlarm(mContext, id);
         } else {
-            mContext.startService(new Intent(mContext, GeolocationService.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            if (!SuperUtil.isServiceRunning(mContext, GeolocationService.class)) {
+                mContext.startService(new Intent(mContext, GeolocationService.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
         }
     }
 }
