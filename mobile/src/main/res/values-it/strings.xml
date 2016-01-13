@@ -165,4 +165,5 @@
     <string name="click_when_add_place">Fare clic per chiudere la mappa e salvare promemoria</string>
     <string name="select_place_from_list">Seleziona dalla lista</string>
     <string name="click_to_expand_collapse_map">Clicca per espandere / chiudere mappa</string>
+    <string name="off">Finito</string>
 </resources>

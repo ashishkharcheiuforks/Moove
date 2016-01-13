@@ -134,10 +134,14 @@ public class LeftDistanceWidgetConfigureActivity extends Activity implements Dia
     // If there is no preference saved, get the default from a resource
     static String loadTitlePref(Context context, int appWidgetId) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-        String titleValue = prefs.getString(PREF_PREFIX_KEY + appWidgetId, null);
-        if (titleValue != null) {
-            return titleValue;
-        } else {
+        try {
+            String titleValue = prefs.getString(PREF_PREFIX_KEY + appWidgetId, null);
+            if (titleValue != null) {
+                return titleValue;
+            } else {
+                return context.getString(R.string.no_reminder);
+            }
+        } catch (ClassCastException e) {
             return context.getString(R.string.no_reminder);
         }
     }

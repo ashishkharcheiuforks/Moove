@@ -11,8 +11,9 @@
         android:text="1200 m"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:singleLine="true"
         android:textColor="#ffffff"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:textStyle="bold|italic" />
 
 </RelativeLayout>

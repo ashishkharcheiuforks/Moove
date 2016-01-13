@@ -10,10 +10,11 @@ import com.backdoor.moove.ReminderManager;
 import com.backdoor.moove.core.async.DisableAsync;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.interfaces.ActionCallbacks;
-import com.backdoor.moove.core.services.CheckPosition;
 import com.backdoor.moove.core.services.GeolocationService;
 import com.backdoor.moove.core.services.PositionDelayReceiver;
 import com.backdoor.moove.core.utils.LocationUtil;
+import com.backdoor.moove.core.widgets.LeftDistanceWidgetConfigureActivity;
+import com.backdoor.moove.core.widgets.SimpleWidgetConfigureActivity;
 
 /**
  * Helper class for interaction with reminders.
@@ -75,13 +76,11 @@ public class Reminder {
                 db.setReminderStatus(id, Constants.NOT_SHOWN);
                 db.setStatusNotification(id, Constants.NOT_SHOWN);
                 db.setLocationStatus(id, Constants.NOT_LOCKED);
-                if (startTime > 0) {
+                if (startTime > -1) {
                     new PositionDelayReceiver().setAlarm(context, id);
                     callbacks.showSnackbar(R.string.reminder_tracking_start_delayed);
                 } else {
                     context.startService(new Intent(context, GeolocationService.class)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                    context.startService(new Intent(context, CheckPosition.class)
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     callbacks.showSnackbar(R.string.tracking_start);
                 }
@@ -102,6 +101,16 @@ public class Reminder {
         if (!db.isOpen()) {
             db.open();
         }
+        Cursor c = db.getReminder(id);
+        if (c != null && c.moveToFirst()) {
+            String widgetId = c.getString(c.getColumnIndex(DataBase.WIDGET_ID));
+            if (widgetId != null) {
+                LeftDistanceWidgetConfigureActivity.saveDistancePref(context, widgetId, -1);
+                SimpleWidgetConfigureActivity.saveDistancePref(context, widgetId, -1);
+                Widget.updateWidgets(context);
+            }
+        }
+        if (c != null) c.close();
         db.setStatus(id, Constants.DISABLE);
         db.close();
         disable(context, id);

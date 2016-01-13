@@ -165,4 +165,5 @@
     <string name="click_when_add_place">Націсніце, каб закрыць карту і захаваць напамін</string>
     <string name="select_place_from_list">Абярыце з спісу</string>
     <string name="click_to_expand_collapse_map">Націсніце, каб разгарнуць / згарнуць карту</string>
+    <string name="off">Гатовыя</string>
 </resources>

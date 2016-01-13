@@ -1,11 +1,14 @@
 package com.backdoor.moove.core.widgets;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.backdoor.moove.MainActivity;
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.helper.Reminder;
@@ -24,7 +27,12 @@ public class SimpleWidget extends AppWidgetProvider {
 
         Log.d(Constants.LOG_TAG, "distance " + distance);
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.simple_widget);
-        views.setTextViewText(R.id.leftDistance, String.format(context.getString(R.string.distance_m), distance));
+        views.setTextViewText(R.id.leftDistance, distance <= 0 ? context.getString(R.string.off) :
+                String.format(context.getString(R.string.distance_m), distance));
+
+        Intent configIntent = new Intent(context, MainActivity.class);
+        PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
+        views.setOnClickPendingIntent(R.id.leftDistance, configPendingIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

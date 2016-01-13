@@ -95,18 +95,14 @@ public class DonateActivity extends AppCompatActivity implements IabHelper.Query
 
         mHelper = new IabHelper(this, base64EncodedPublicKey);
 
-        mHelper.enableDebugLogging(true);
+        //mHelper.enableDebugLogging(true);
         mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
             public void onIabSetupFinished(IabResult result) {
-                Log.d(Constants.LOG_TAG, "Setup finished.");
-
                 if (!result.isSuccess()) {
                     return;
                 }
 
                 if (mHelper == null) return;
-
-                Log.d(Constants.LOG_TAG, "Setup successful. Querying inventory.");
 
                 List<String> list = new ArrayList<>();
                 list.add(SKU_1);
@@ -122,8 +118,6 @@ public class DonateActivity extends AppCompatActivity implements IabHelper.Query
     // Callback for when a purchase is finished
     IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
-            Log.d(Constants.LOG_TAG, "Purchase finished: " + result + ", purchase: " + purchase);
-
             // if we were disposed of in the meantime, quit.
             if (mHelper == null) return;
 
@@ -135,8 +129,6 @@ public class DonateActivity extends AppCompatActivity implements IabHelper.Query
                 setWaitScreen(false);
                 return;
             }
-
-            Log.d(Constants.LOG_TAG, "Purchase successful.");
 
             switch (purchase.getSku()) {
                 case SKU_1:
@@ -184,7 +176,6 @@ public class DonateActivity extends AppCompatActivity implements IabHelper.Query
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(Constants.LOG_TAG, "onActivityResult(" + requestCode + "," + resultCode + "," + data);
         if (mHelper == null) return;
 
         if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
@@ -206,37 +197,38 @@ public class DonateActivity extends AppCompatActivity implements IabHelper.Query
             if (details != null) {
                 buyButton.setEnabled(true);
                 buyButton.setText(details.getPrice());
+                Purchase purchase = inv.getPurchase(SKU_1);
+                if (purchase != null) buyButton.setEnabled(false);
             }
 
             details = inv.getSkuDetails(SKU_2);
             if (details != null) {
                 buyButton1.setEnabled(true);
                 buyButton1.setText(details.getPrice());
+                Purchase purchase = inv.getPurchase(SKU_2);
+                if (purchase != null) buyButton1.setEnabled(false);
             }
 
             details = inv.getSkuDetails(SKU_3);
             if (details != null) {
                 buyButton2.setEnabled(true);
                 buyButton2.setText(details.getPrice());
+                Purchase purchase = inv.getPurchase(SKU_3);
+                if (purchase != null) buyButton2.setEnabled(false);
             }
 
             details = inv.getSkuDetails(SKU_4);
             if (details != null) {
                 buyButton3.setEnabled(true);
                 buyButton3.setText(details.getPrice());
+                Purchase purchase = inv.getPurchase(SKU_4);
+                if (purchase != null) buyButton3.setEnabled(false);
             }
         }
         setWaitScreen(false);
     }
 
     public class RandomString {
-
-        /*
-         * static { for (int idx = 0; idx < 10; ++idx) symbols[idx] = (char)
-         * ('0' + idx); for (int idx = 10; idx < 36; ++idx) symbols[idx] =
-         * (char) ('a' + idx - 10); }
-         */
-
         private final Random random = new Random();
 
         private final char[] buf;

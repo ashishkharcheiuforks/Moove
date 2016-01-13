@@ -36,6 +36,9 @@ public class GeolocationService extends Service {
     public void onDestroy() {
         super.onDestroy();
         mLocationManager.removeUpdates(mLocList);
+        mLocList = null;
+        mLocationManager = null;
+        stopService(new Intent(getApplicationContext(), CheckPosition.class));
         Log.d(Constants.LOG_TAG, "geo service stop");
     }
 
@@ -49,55 +52,39 @@ public class GeolocationService extends Service {
         public void onLocationChanged(Location location) {
             double currentLat = location.getLatitude();
             double currentLong = location.getLongitude();
-            getApplicationContext().startService(new Intent(getApplicationContext(), CheckPosition.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startService(new Intent(getApplicationContext(), CheckPosition.class)
+                    //.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     .putExtra("lat", currentLat)
                     .putExtra("lon", currentLong));
         }
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-            mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            SharedPrefs prefs = new SharedPrefs(getApplicationContext());
-            long time;
-            time = (prefs.loadInt(Prefs.TRACK_TIME) * 1000);
-            int distance;
-            distance = prefs.loadInt(Prefs.TRACK_DISTANCE);
-            if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, mLocList);
-            } else {
-                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time, distance, mLocList);
-            }
+            updateListener();
         }
 
         @Override
         public void onProviderEnabled(String provider) {
-            mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            SharedPrefs prefs = new SharedPrefs(getApplicationContext());
-            long time;
-            time = (prefs.loadInt(Prefs.TRACK_TIME) * 1000);
-            int distance;
-            distance = prefs.loadInt(Prefs.TRACK_DISTANCE);
-            if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, mLocList);
-            } else {
-                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time, distance, mLocList);
-            }
+            updateListener();
         }
 
         @Override
         public void onProviderDisabled(String provider) {
-            mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            SharedPrefs prefs = new SharedPrefs(getApplicationContext());
-            long time;
-            time = (prefs.loadInt(Prefs.TRACK_TIME) * 1000);
-            int distance;
-            distance = prefs.loadInt(Prefs.TRACK_DISTANCE);
-            if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, mLocList);
-            } else {
-                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time, distance, mLocList);
-            }
+            updateListener();
+        }
+    }
+
+    private void updateListener() {
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        SharedPrefs prefs = new SharedPrefs(getApplicationContext());
+        long time;
+        time = (prefs.loadInt(Prefs.TRACK_TIME) * 1000);
+        int distance;
+        distance = prefs.loadInt(Prefs.TRACK_DISTANCE);
+        if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, mLocList);
+        } else {
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time, distance, mLocList);
         }
     }
 }

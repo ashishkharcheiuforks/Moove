@@ -165,4 +165,5 @@
     <string name="click_when_add_place">マップを閉じて、リマインダーを保存します</string>
     <string name="select_place_from_list">リストから選択</string>
     <string name="click_to_expand_collapse_map">クリックして拡大/縮小マップ</string>
+    <string name="off">完成</string>
 </resources>

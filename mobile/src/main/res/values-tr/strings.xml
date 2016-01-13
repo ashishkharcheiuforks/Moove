@@ -165,4 +165,5 @@
     <string name="click_when_add_place">Haritayı kapatmak ve hatırlatma kaydetmek için tıklayın</string>
     <string name="select_place_from_list">Listeden Seç</string>
     <string name="click_to_expand_collapse_map">Genişletmek için tıklayın / çöküşü haritası</string>
+    <string name="off">Bitirdi</string>
 </resources>

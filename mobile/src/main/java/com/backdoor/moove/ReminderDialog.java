@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.backdoor.moove.core.async.DisableAsync;
 import com.backdoor.moove.core.consts.Configs;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.Language;
@@ -196,11 +197,8 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         }
 
         buttonNotification.setOnClickListener(this);
-
         buttonOk.setOnClickListener(this);
-
         buttonEdit.setOnClickListener(this);
-
         buttonCall.setOnClickListener(this);
 
         boolean silentSMS = sPrefs.loadBoolean(Prefs.SILENT_SMS);
@@ -357,6 +355,8 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
+
         if (sentReceiver != null) {
             unregisterReceiver(sentReceiver);
         }
@@ -374,7 +374,8 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         }
         AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         am.setStreamVolume(AudioManager.STREAM_MUSIC, currVolume, 0);
-        super.onDestroy();
+
+        new DisableAsync(this).execute();
     }
 
     @Override

@@ -1,13 +1,14 @@
 package com.backdoor.moove.core.widgets;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.widget.RemoteViews;
 
+import com.backdoor.moove.MainActivity;
 import com.backdoor.moove.R;
-import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.Reminder;
 
@@ -20,16 +21,22 @@ public class LeftDistanceWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = LeftDistanceWidgetConfigureActivity.loadTitlePref(context, appWidgetId);
+        String widgetText = LeftDistanceWidgetConfigureActivity.loadTitlePref(context, appWidgetId);
         int icon = LeftDistanceWidgetConfigureActivity.loadIConPref(context, appWidgetId);
         int distance = LeftDistanceWidgetConfigureActivity.loadDistancePref(context, appWidgetId);
 
-        Log.d(Constants.LOG_TAG, "Icon " + icon);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.left_distance_widget);
         views.setTextViewText(R.id.appwidget_text, widgetText);
-        views.setTextViewText(R.id.leftDistance, String.format(context.getString(R.string.distance_m), distance));
+        views.setTextViewText(R.id.leftDistance, distance <= 0 ? context.getString(R.string.off) :
+                String.format(context.getString(R.string.distance_m), distance));
         views.setImageViewResource(R.id.markerImage, new Coloring(context).getMarkerStyle(icon));
+
+        Intent configIntent = new Intent(context, MainActivity.class);
+        PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
+        views.setOnClickPendingIntent(R.id.markerImage, configPendingIntent);
+        views.setOnClickPendingIntent(R.id.leftDistance, configPendingIntent);
+        views.setOnClickPendingIntent(R.id.appwidget_text, configPendingIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

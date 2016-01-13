@@ -165,4 +165,5 @@
     <string name="click_when_add_place">Klik om te sluiten kaart en op te slaan herinnering</string>
     <string name="select_place_from_list">Kies uit de lijst</string>
     <string name="click_to_expand_collapse_map">Klik om uit te breiden / instorting kaart</string>
+    <string name="off">Geëindigd</string>
 </resources>

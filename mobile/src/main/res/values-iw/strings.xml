@@ -165,4 +165,5 @@
     <string name="click_when_add_place">לחץ כדי לסגור המפה ולהציל את התזכורת</string>
     <string name="select_place_from_list">בחר מרשימה</string>
     <string name="click_to_expand_collapse_map">לחץ כדי להרחיב / מפת הקריסה</string>
+    <string name="off">גָמוּר</string>
 </resources>

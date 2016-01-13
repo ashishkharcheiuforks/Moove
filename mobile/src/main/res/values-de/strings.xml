@@ -165,4 +165,5 @@
     <string name="click_when_add_place">Klicken Sie um die Karte zu schließen und Erinnerung</string>
     <string name="select_place_from_list">Aus der Liste wählen</string>
     <string name="click_to_expand_collapse_map">Klicken Sie zum Vergrößern / verdecken Karte</string>
+    <string name="off">Fertig</string>
 </resources>

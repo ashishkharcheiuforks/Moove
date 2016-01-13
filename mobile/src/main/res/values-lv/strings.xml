@@ -165,4 +165,5 @@
     <string name="click_when_add_place">Spiediet, lai aizvērtu karti un saglabāt atgādinājumu</string>
     <string name="select_place_from_list">Izvēlieties no saraksta</string>
     <string name="click_to_expand_collapse_map">Uzklikšķiniet, lai paplašinātu / sakļaut karte</string>
+    <string name="off">Gatavo</string>
 </resources>

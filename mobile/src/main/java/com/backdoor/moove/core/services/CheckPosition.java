@@ -1,8 +1,6 @@
 package com.backdoor.moove.core.services;
 
 import android.app.IntentService;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,6 +8,7 @@ import android.location.Location;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.util.Log;
 
 import com.backdoor.moove.R;
 import com.backdoor.moove.ReminderDialog;
@@ -21,9 +20,7 @@ import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.helper.Widget;
 import com.backdoor.moove.core.utils.TimeUtil;
 import com.backdoor.moove.core.utils.ViewUtils;
-import com.backdoor.moove.core.widgets.LeftDistanceWidget;
 import com.backdoor.moove.core.widgets.LeftDistanceWidgetConfigureActivity;
-import com.backdoor.moove.core.widgets.SimpleWidget;
 import com.backdoor.moove.core.widgets.SimpleWidgetConfigureActivity;
 
 public class CheckPosition extends IntentService {
@@ -33,10 +30,21 @@ public class CheckPosition extends IntentService {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.d(Constants.LOG_TAG, "Start CheckPosition");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(Constants.LOG_TAG, "Stop CheckPosition");
+    }
+
+    @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
-
 
     @Override
     protected void onHandleIntent(final Intent intent) {
@@ -143,24 +151,22 @@ public class CheckPosition extends IntentService {
                     }
                 }
             } while (c.moveToNext());
-        } else {
-            getApplication().stopService(new Intent(getApplicationContext(), GeolocationService.class));
-            stopSelf();
         }
 
         if (c != null) {
             c.close();
         }
-
         db.close();
     }
 
     private void updateWidget(String prefsKey, int distance) {
-        Context context = getApplicationContext();
-        LeftDistanceWidgetConfigureActivity.saveDistancePref(context, prefsKey, distance);
-        SimpleWidgetConfigureActivity.saveDistancePref(context, prefsKey, distance);
+        if (prefsKey != null) {
+            Context context = getApplicationContext();
+            LeftDistanceWidgetConfigureActivity.saveDistancePref(context, prefsKey, distance);
+            SimpleWidgetConfigureActivity.saveDistancePref(context, prefsKey, distance);
 
-        Widget.updateWidgets(context);
+            Widget.updateWidgets(context);
+        }
     }
 
     private void showReminder(long id, String task){

@@ -165,4 +165,5 @@
     <string name="click_when_add_place">Kliknite, da zaprete zemljevida in prihranite opomnik</string>
     <string name="select_place_from_list">Izberite s seznama</string>
     <string name="click_to_expand_collapse_map">Kliknite za razširitev / strni map</string>
+    <string name="off">Končano</string>
 </resources>

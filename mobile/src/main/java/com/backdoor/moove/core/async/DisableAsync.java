@@ -23,39 +23,29 @@ public class DisableAsync extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         DataBase db = new DataBase(mContext);
         db.open();
-        Cursor c = db.getAllReminders();
+        Cursor c = db.getReminders(Constants.ENABLE);
         if (c != null && c.moveToFirst()){
-            boolean res = false;
+            int i = 0;
             do {
                 long startTime = c.getInt(c.getColumnIndex(DataBase.START_TIME));
                 int isShown = c.getInt(c.getColumnIndex(DataBase.STATUS_REMINDER));
-                int isDone = c.getInt(c.getColumnIndex(DataBase.STATUS_DB));
-                if (startTime == 0) {
-                    if (isDone == Constants.ENABLE){
-                        if (isShown != Constants.SHOWN) {
-                            res = true;
-                        }
+                if (startTime == -1) {
+                    if (isShown != Constants.SHOWN) {
+                        i++;
                     }
                 } else {
                     if (TimeUtil.isCurrent(startTime)) {
-                        if (isDone == Constants.ENABLE){
-                            if (isShown != Constants.SHOWN) {
-                                res = true;
-                            }
+                        if (isShown != Constants.SHOWN) {
+                            i++;
                         }
                     }
                 }
             } while (c.moveToNext());
-            if (!res) {
+            if (i == 0) {
                 mContext.stopService(new Intent(mContext, GeolocationService.class));
-                mContext.stopService(new Intent(mContext, CheckPosition.class));
-            } else {
-                mContext.startService(new Intent(mContext, GeolocationService.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         } else {
             mContext.stopService(new Intent(mContext, GeolocationService.class));
-            mContext.stopService(new Intent(mContext, CheckPosition.class));
         }
         if (c != null) {
             c.close();
