@@ -24,11 +24,7 @@ public class GeolocationService extends Service {
         Log.d(Constants.LOG_TAG, "geo service started");
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mLocList = new MyLocation();
-        SharedPrefs prefs = new SharedPrefs(getApplicationContext());
-        long time = (prefs.loadInt(Prefs.TRACK_TIME) * 1000);
-        int distance = prefs.loadInt(Prefs.TRACK_DISTANCE);
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, mLocList);
-        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time, distance, mLocList);
+        updateListener();
         return START_STICKY;
     }
 
@@ -36,7 +32,6 @@ public class GeolocationService extends Service {
     public void onDestroy() {
         super.onDestroy();
         mLocationManager.removeUpdates(mLocList);
-        mLocList = null;
         mLocationManager = null;
         stopService(new Intent(getApplicationContext(), CheckPosition.class));
         Log.d(Constants.LOG_TAG, "geo service stop");
@@ -50,12 +45,12 @@ public class GeolocationService extends Service {
     public class MyLocation implements LocationListener {
         @Override
         public void onLocationChanged(Location location) {
-            double currentLat = location.getLatitude();
-            double currentLong = location.getLongitude();
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
             startService(new Intent(getApplicationContext(), CheckPosition.class)
                     //.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    .putExtra("lat", currentLat)
-                    .putExtra("lon", currentLong));
+                    .putExtra("lat", latitude)
+                    .putExtra("lon", longitude));
         }
 
         @Override
@@ -77,10 +72,8 @@ public class GeolocationService extends Service {
     private void updateListener() {
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         SharedPrefs prefs = new SharedPrefs(getApplicationContext());
-        long time;
-        time = (prefs.loadInt(Prefs.TRACK_TIME) * 1000);
-        int distance;
-        distance = prefs.loadInt(Prefs.TRACK_DISTANCE);
+        long time = (prefs.loadInt(Prefs.TRACK_TIME) * 1000);
+        int distance = prefs.loadInt(Prefs.TRACK_DISTANCE);
         if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, mLocList);
         } else {
