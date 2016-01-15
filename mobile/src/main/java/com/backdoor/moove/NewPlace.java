@@ -49,7 +49,7 @@ public class NewPlace extends AppCompatActivity implements MapListener {
 
         placeName = (EditText) findViewById(R.id.placeName);
 
-        fragment = MapFragment.newInstance(false, false, false, false);
+        fragment = MapFragment.newInstance(false, false, false, false, sPrefs.loadInt(Prefs.MARKER_STYLE));
         fragment.setListener(this);
 
         getSupportFragmentManager().beginTransaction()

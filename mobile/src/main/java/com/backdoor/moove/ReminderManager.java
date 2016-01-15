@@ -306,10 +306,12 @@ public class ReminderManager extends AppCompatActivity implements
         map = new MapFragment();
         map.setListener(this);
         map.setMarkerRadius(sPrefs.loadInt(Prefs.LOCATION_RADIUS));
+        map.setMarkerStyle(sPrefs.loadInt(Prefs.MARKER_STYLE));
 
         mapOut = new MapFragment();
         mapOut.setListener(this);
         mapOut.setMarkerRadius(sPrefs.loadInt(Prefs.LOCATION_RADIUS));
+        mapOut.setMarkerStyle(sPrefs.loadInt(Prefs.MARKER_STYLE));
 
         addFragment(R.id.map, map);
         addFragment(R.id.mapOut, mapOut);

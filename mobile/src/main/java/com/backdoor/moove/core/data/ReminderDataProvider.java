@@ -3,7 +3,6 @@ package com.backdoor.moove.core.data;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.helper.DataBase;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ public class ReminderDataProvider {
         list.clear();
         DataBase db = new DataBase(context);
         db.open();
-        Cursor c = db.getReminders(Constants.ENABLE);
+        Cursor c = db.getAllReminders();
         if (c != null && c.moveToFirst()){
             do {
                 String title = c.getString(c.getColumnIndex(DataBase.SUMMARY));

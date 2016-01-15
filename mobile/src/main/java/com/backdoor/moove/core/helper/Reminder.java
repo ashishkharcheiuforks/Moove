@@ -63,20 +63,22 @@ public class Reminder {
         if (c != null) {
             c.close();
         }
-        boolean res;
         if (status == Constants.ENABLE){
+            db.close();
             disableReminder(id, context);
             callbacks.showSnackbar(R.string.reminder_disabled);
-            res = true;
+            return true;
         } else {
             if (!LocationUtil.checkLocationEnable(context)){
+                db.close();
                 LocationUtil.showLocationAlert(context, callbacks);
-                res = false;
+                return false;
             } else {
                 db.setStatus(id, Constants.ENABLE);
                 db.setReminderStatus(id, Constants.NOT_SHOWN);
                 db.setStatusNotification(id, Constants.NOT_SHOWN);
                 db.setLocationStatus(id, Constants.NOT_LOCKED);
+                db.close();
                 if (startTime > -1) {
                     new PositionDelayReceiver().setAlarm(context, id);
                     callbacks.showSnackbar(R.string.reminder_tracking_start_delayed);
@@ -88,11 +90,9 @@ public class Reminder {
 
                     callbacks.showSnackbar(R.string.tracking_start);
                 }
-                res = true;
+                return true;
             }
         }
-        db.close();
-        return res;
     }
 
     /**

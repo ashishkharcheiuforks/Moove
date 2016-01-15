@@ -125,6 +125,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     public static final String ENABLE_STYLES = "enable_styles";
     public static final String ENABLE_BACK = "enable_back";
     public static final String ENABLE_ZOOM = "enable_zoom";
+    public static final String MARKER_STYLE = "marker_style";
 
     public static MapFragment newInstance(boolean isTouch, boolean isPlaces,
                                           boolean isSearch, boolean isStyles,
@@ -142,13 +143,14 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     }
 
     public static MapFragment newInstance(boolean isPlaces, boolean isStyles,
-                                          boolean isBack, boolean isZoom) {
+                                          boolean isBack, boolean isZoom, int markerStyle) {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
         args.putBoolean(ENABLE_PLACES, isPlaces);
         args.putBoolean(ENABLE_STYLES, isStyles);
         args.putBoolean(ENABLE_BACK, isBack);
         args.putBoolean(ENABLE_ZOOM, isZoom);
+        args.putInt(MARKER_STYLE, markerStyle);
         fragment.setArguments(args);
         return fragment;
     }
@@ -183,6 +185,14 @@ public class MapFragment extends Fragment implements View.OnClickListener {
      */
     public void setMarkerRadius(int markerRadius) {
         this.markerRadius = markerRadius;
+    }
+
+    /**
+     * Set style for marker;
+     * @param markerStyle code of style for marker
+     */
+    public void setMarkerStyle(int markerStyle) {
+        this.markerStyle = markerStyle;
     }
 
     /**
@@ -465,6 +475,8 @@ public class MapFragment extends Fragment implements View.OnClickListener {
             isStyles = args.getBoolean(ENABLE_STYLES, true);
             isBack = args.getBoolean(ENABLE_BACK, true);
             isZoom = args.getBoolean(ENABLE_ZOOM, true);
+            markerStyle = args.getInt(MARKER_STYLE,
+                    new SharedPrefs(getActivity()).loadInt(Prefs.MARKER_STYLE));
         }
     }
 
