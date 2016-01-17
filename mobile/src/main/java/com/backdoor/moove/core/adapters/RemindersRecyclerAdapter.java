@@ -3,13 +3,13 @@ package com.backdoor.moove.core.adapters;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.consts.Configs;
@@ -48,7 +48,7 @@ public class RemindersRecyclerAdapter extends RecyclerView.Adapter<RemindersRecy
 
         public TextView taskTitle, taskDate, reminder_type, reminder_phone,
                 reminder_contact_name, listHeader;
-        public SwitchCompat check;
+        public ToggleButton check;
         public CardView itemCard;
 
         public RelativeLayout reminderContainer;
@@ -59,7 +59,7 @@ public class RemindersRecyclerAdapter extends RecyclerView.Adapter<RemindersRecy
             reminderContainer = (RelativeLayout) v.findViewById(R.id.reminderContainer);
             contactGroup = (LinearLayout) v.findViewById(R.id.contactGroup);
             listHeader = (TextView) v.findViewById(R.id.listHeader);
-            check = (SwitchCompat) v.findViewById(R.id.itemCheck);
+            check = (ToggleButton) v.findViewById(R.id.itemCheck);
             taskDate = (TextView) v.findViewById(R.id.taskDate);
             taskDate.setText("");
             reminder_type = (TextView) v.findViewById(R.id.reminder_type);

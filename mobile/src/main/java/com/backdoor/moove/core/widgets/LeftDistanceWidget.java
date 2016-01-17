@@ -34,9 +34,7 @@ public class LeftDistanceWidget extends AppWidgetProvider {
 
         Intent configIntent = new Intent(context, MainActivity.class);
         PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
-        views.setOnClickPendingIntent(R.id.markerImage, configPendingIntent);
-        views.setOnClickPendingIntent(R.id.leftDistance, configPendingIntent);
-        views.setOnClickPendingIntent(R.id.appwidget_text, configPendingIntent);
+        views.setOnClickPendingIntent(R.id.widgetBg, configPendingIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

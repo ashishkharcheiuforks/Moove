@@ -41,11 +41,11 @@
     <string name="vibrate">"Вибрировать"</string>
     <string name="infinite_vibration">"Бесконечная вибрация"</string>
     <string name="sound_in_silent_mode">"Звук в беззвучном режиме"</string>
-    <string name="infinite_sound_loop">"Бесконечная мелодия (повтоорение)"</string>
+    <string name="infinite_sound_loop">"Бесконечная мелодия (повторение)"</string>
     <string name="voice_notification_tts">"Уведомление голосом (TTS)"</string>
     <string name="voice_language">"Язык голоса"</string>
     <string name="notification">"Уведомление"</string>
-    <string name="awake_screen">"Пробудитесь экран"</string>
+    <string name="awake_screen">"Пробудить экран"</string>
     <string name="unlock_screen">"Разблокировать экран"</string>
     <string name="send_sms_automatically">"Отправить SMS автоматически"</string>
     <string name="led_notification">"Светодиодное уведомление"</string>
