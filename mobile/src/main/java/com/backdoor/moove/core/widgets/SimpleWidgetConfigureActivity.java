@@ -31,6 +31,7 @@ public class SimpleWidgetConfigureActivity extends Activity implements DialogInt
     private long reminderId;
     private String title;
     TextView mAppWidgetText;
+
     View.OnClickListener mOnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
             final Context context = SimpleWidgetConfigureActivity.this;

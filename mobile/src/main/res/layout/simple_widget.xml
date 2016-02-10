@@ -9,7 +9,7 @@
         android:id="@+id/leftDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1200 m"
+        android:text="@string/off"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:singleLine="true"

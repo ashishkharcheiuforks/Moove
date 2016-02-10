@@ -29,6 +29,7 @@ import com.backdoor.moove.core.data.ReminderModel;
 import com.backdoor.moove.core.dialogs.ChangeDialog;
 import com.backdoor.moove.core.dialogs.RateDialog;
 import com.backdoor.moove.core.helper.Module;
+import com.backdoor.moove.core.helper.Permissions;
 import com.backdoor.moove.core.helper.Reminder;
 import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.interfaces.ActionCallbacks;
@@ -83,8 +84,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,ReminderManager.class);
-                startActivity(intent);
+                if (Permissions.checkPermission(MainActivity.this, Permissions.WRITE_EXTERNAL)) {
+                    Intent intent = new Intent(MainActivity.this, ReminderManager.class);
+                    startActivity(intent);
+                } else {
+                    Permissions.requestPermission(MainActivity.this,
+                            new String[]{Permissions.WRITE_EXTERNAL}, 1116);
+                }
             }
         });
 

@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
@@ -9,8 +8,8 @@ android {
         applicationId "com.backdoor.moove"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 8
-        versionName "1.0.8"
+        versionCode 9
+        versionName "1.0.7"
         multiDexEnabled true
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
@@ -38,7 +37,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable false
             zipAlignEnabled true
@@ -78,3 +77,5 @@ dependencies {
     compile 'com.github.deano2390:MaterialShowcaseView:1.0.5'
     compile project(':shared')
 }
+
+apply plugin: 'com.google.gms.google-services'
