@@ -384,11 +384,15 @@ public class MapFragment extends Fragment implements View.OnClickListener {
      * Move camera to user current coordinates with animation;
      */
     public void moveToMyLocation() {
-        if (map != null && map.getMyLocation() != null) {
-            double lat = map.getMyLocation().getLatitude();
-            double lon = map.getMyLocation().getLongitude();
-            LatLng pos = new LatLng(lat, lon);
-            animate(pos);
+        try {
+            if (map != null && map.getMyLocation() != null) {
+                double lat = map.getMyLocation().getLatitude();
+                double lon = map.getMyLocation().getLongitude();
+                LatLng pos = new LatLng(lat, lon);
+                animate(pos);
+            }
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
         }
     }
 
@@ -496,6 +500,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         map = ((SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map)).getMap();
         map.getUiSettings().setMyLocationButtonEnabled(false);
+
         map.getUiSettings().setCompassEnabled(true);
         int type = prefs.loadInt(Prefs.MAP_TYPE);
         map.setMapType(type);
@@ -717,15 +722,19 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setMyLocation() {
-        if (ActivityCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                        PackageManager.PERMISSION_GRANTED) {
-            Permissions.requestPermission(getActivity(),
-                    new String[]{Permissions.ACCESS_FINE_LOCATION,
-                            Permissions.ACCESS_COARSE_LOCATION}, 205);
+        if (Module.isMarshmallow()) {
+            if (ActivityCompat.checkSelfPermission(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION) !=
+                    PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(getActivity(),
+                            Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                            PackageManager.PERMISSION_GRANTED) {
+                Permissions.requestPermission(getActivity(),
+                        new String[]{Permissions.ACCESS_FINE_LOCATION,
+                                Permissions.ACCESS_COARSE_LOCATION}, 205);
+            } else {
+                map.setMyLocationEnabled(true);
+            }
         } else {
             map.setMyLocationEnabled(true);
         }
