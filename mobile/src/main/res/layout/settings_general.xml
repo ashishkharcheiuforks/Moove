@@ -6,41 +6,41 @@
     android:scrollbars="none">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/settings_margin"
         android:layout_marginRight="@dimen/settings_margin"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
 
         <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            app:cardBackgroundColor="@color/themePrimaryDark"
             android:id="@+id/generalCard"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/themePrimaryDark">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="8dp">
 
                 <com.backdoor.moove.core.views.PrefsView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/use24TimePrefs"
-                    app:prefs_primary_text="@string/_24_hour_time_format"
-                    app:prefs_divider_top="false"
-                    app:prefs_type="check"
-                    app:prefs_divider_bottom="true"/>
-
-                <com.backdoor.moove.core.views.PrefsView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/wearEnablePrefs"
-                    app:prefs_primary_text="@string/android_wear_notification"
+                    app:prefs_divider_bottom="true"
                     app:prefs_divider_top="false"
-                    app:prefs_type="check"
-                    app:prefs_divider_bottom="false"/>
+                    app:prefs_primary_text="@string/_24_hour_time_format"
+                    app:prefs_type="check" />
+
+                <com.backdoor.moove.core.views.PrefsView
+                    android:id="@+id/wearEnablePrefs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="false"
+                    app:prefs_divider_top="false"
+                    app:prefs_primary_text="@string/android_wear_notification"
+                    app:prefs_type="check" />
 
             </LinearLayout>
 

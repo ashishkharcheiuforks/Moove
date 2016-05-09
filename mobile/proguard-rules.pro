@@ -1,5 +1,3 @@
--libraryjars libs
-
 -printmapping out.map
 
 -keep class android.support.v4.app.** { *; }

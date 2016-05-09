@@ -6,76 +6,76 @@
     tools:context="com.backdoor.moove.StartHelp">
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/app_name"
-        android:id="@+id/textView2"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="34dp" />
+        android:layout_marginTop="34dp"
+        android:text="@string/app_name"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/your_device_is_not_compatible_with_this_application_here_are_the_problems"
-        android:id="@+id/textView3"
         android:layout_below="@+id/textView2"
-        android:padding="10dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="85dp" />
+        android:layout_marginTop="85dp"
+        android:padding="10dp"
+        android:text="@string/your_device_is_not_compatible_with_this_application_here_are_the_problems"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
         android:layout_below="@+id/textView3"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_marginBottom="15dp"
             android:id="@+id/serviceShow"
-            android:visibility="gone"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:visibility="gone">
 
             <Button
+                android:id="@+id/servicesFix"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:id="@+id/servicesFix"
-                android:text="@string/fix"/>
+                android:text="@string/fix" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/servicesFix"
-                android:text="@string/play_services_not_found_or_it_is_out_of_date"
-                android:layout_centerVertical="true"/>
+                android:text="@string/play_services_not_found_or_it_is_out_of_date" />
 
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="match_parent"
             android:id="@+id/locationShow"
-            android:visibility="gone"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <Button
+                android:id="@+id/permissionsFix"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:id="@+id/permissionsFix"
-                android:text="@string/fix"/>
+                android:text="@string/fix" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/permissionsFix"
-                android:text="@string/using_location_services_not_allowed"
-                android:layout_centerVertical="true"/>
+                android:text="@string/using_location_services_not_allowed" />
 
         </RelativeLayout>
 

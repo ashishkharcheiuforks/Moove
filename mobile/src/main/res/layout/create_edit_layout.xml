@@ -1,41 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:fitsSystemWindows="true"
-tools:context="com.backdoor.moove.ReminderManager">
-
-<android.support.design.widget.AppBarLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.backdoor.moove.ReminderManager">
 
-    <include layout="@layout/toolbar_reminder"
-        android:id="@+id/toolbar"/>
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-</android.support.design.widget.AppBarLayout>
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_reminder" />
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.backdoor.moove.ReminderManager"
         tools:showIn="@layout/activity_main">
 
-        <include layout="@layout/reminder_location_layout"/>
-        <include layout="@layout/reminder_location_out_layout"/>
+        <include layout="@layout/reminder_location_layout" />
+
+        <include layout="@layout/reminder_location_out_layout" />
 
     </RelativeLayout>
 
-<android.support.design.widget.FloatingActionButton
-    android:id="@+id/fab"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom|center"
-    android:layout_margin="@dimen/fab_margin"
-    android:src="@drawable/ic_done_white_24dp" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_done_white_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>

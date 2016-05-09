@@ -9,24 +9,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:textSize="25sp"
-        android:text="@string/configure" />
+        android:text="@string/configure"
+        android:textSize="25sp" />
 
     <Button
         android:id="@+id/selectButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/choose_reminder" />
 
     <TextView
         android:id="@+id/appwidget_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/add_button"
