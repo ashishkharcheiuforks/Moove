@@ -341,9 +341,8 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
                 if (Permissions.checkPermission(getActivity(), Permissions.READ_EXTERNAL)) {
                     Dialogues.melodyType(getActivity(), Prefs.CUSTOM_SOUND, 201);
                 } else {
-                    Permissions.requestPermission(getActivity(),
-                            new String[]{Permissions.READ_EXTERNAL,
-                                    Permissions.WRITE_EXTERNAL}, 103);
+                    Permissions.requestPermission(getActivity(), 103,
+                            Permissions.READ_EXTERNAL, Permissions.WRITE_EXTERNAL);
                 }
                 break;
             case R.id.infiniteVibrateOptionPrefs:

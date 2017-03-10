@@ -24,6 +24,7 @@ import android.os.Build;
  *
  * Helper class for checking app permissions on Android 6.0 Marshmallow and above.
  */
+
 @TargetApi(Build.VERSION_CODES.M)
 public class Permissions {
 
@@ -49,34 +50,35 @@ public class Permissions {
     
     public static final String MANAGE_DOCUMENTS = Manifest.permission.MANAGE_DOCUMENTS;
 
-    /**
-     * Check if permission is allowed on Android 6.0 and above.
-     * @param permission permission constant.
-     * @return boolean
-     */
-    public static boolean checkPermission(Activity context, String permission) {
+    public static boolean checkPermission(Activity a, String... permissions) {
         if (!Module.isMarshmallow()) {
             return true;
         }
-        return context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+        boolean res = true;
+        for (String string : permissions) {
+            if (a.checkSelfPermission(string) != PackageManager.PERMISSION_GRANTED) {
+                res = false;
+            }
+        }
+        return res;
     }
 
-    /**
-     * Ask user for a permission.
-     * @param activity activity.
-     * @param permission permission constant.
-     * @param requestCode request code.
-     */
-    public static void requestPermission(Activity activity, String[] permission, int requestCode){
-        activity.requestPermissions(permission, requestCode);
+    public static boolean checkPermission(Activity a, String permission) {
+        return !Module.isMarshmallow() || a.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
     }
 
-    /**
-     * Show info about permission.
-     * @param activity activity.
-     * @param permission permission constant.
-     */
-    public static void showInfo(Activity activity, String permission){
-        activity.shouldShowRequestPermissionRationale(permission);
+    public static void requestPermission(Activity a, int requestCode, String... permission){
+        int size = permission.length;
+        if (size == 1) {
+            a.requestPermissions(permission, requestCode);
+        } else {
+            String[] array = new String[size];
+            System.arraycopy(permission, 0, array, 0, size);
+            a.requestPermissions(array, requestCode);
+        }
+    }
+
+    public static void showInfo(Activity a, String permission){
+        a.shouldShowRequestPermissionRationale(permission);
     }
 }

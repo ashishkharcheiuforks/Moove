@@ -45,7 +45,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.backdoor.moove.core.adapters.TitleNavigationAdapter;
-import com.backdoor.moove.core.async.DisableAsync;
 import com.backdoor.moove.core.async.GeocoderTask;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.LED;
@@ -181,16 +180,14 @@ public class ReminderManager extends AppCompatActivity implements
                                 save();
                                 return true;
                             case R.id.action_custom_melody:
-                                if (Permissions.checkPermission(ReminderManager.this, Permissions.MANAGE_DOCUMENTS) &&
-                                        Permissions.checkPermission(ReminderManager.this, Permissions.READ_EXTERNAL)) {
+                                if (Permissions.checkPermission(ReminderManager.this, Permissions.MANAGE_DOCUMENTS, Permissions.READ_EXTERNAL)) {
                                     startActivityForResult(new Intent(ReminderManager.this, FileExplore.class),
                                             Constants.REQUEST_CODE_SELECTED_MELODY);
                                 } else {
-                                    Permissions.requestPermission(ReminderManager.this,
-                                            new String[]{Permissions.MANAGE_DOCUMENTS,
-                                                    Permissions.READ_EXTERNAL}, 200);
+                                    Permissions.requestPermission(ReminderManager.this, 200,
+                                            Permissions.MANAGE_DOCUMENTS,
+                                            Permissions.READ_EXTERNAL);
                                 }
-
                                 return true;
                             case R.id.action_custom_radius:
                                 selectRadius();
@@ -385,6 +382,7 @@ public class ReminderManager extends AppCompatActivity implements
 
     /**
      * Check if selected reminder in spinner matches type that was edited.
+     *
      * @return Boolean
      */
     private boolean isSame() {
@@ -419,13 +417,11 @@ public class ReminderManager extends AppCompatActivity implements
 
     private void removeUpdates() {
         if (mLocList != null) {
-            if (Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_COARSE_LOCATION) &&
-                    Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_FINE_LOCATION)) {
+            if (Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_COARSE_LOCATION, Permissions.ACCESS_FINE_LOCATION)) {
                 mLocationManager.removeUpdates(mLocList);
             } else {
-                Permissions.requestPermission(ReminderManager.this,
-                        new String[]{Permissions.ACCESS_FINE_LOCATION,
-                                Permissions.ACCESS_COARSE_LOCATION}, 201);
+                Permissions.requestPermission(ReminderManager.this, 201,
+                        Permissions.ACCESS_FINE_LOCATION, Permissions.ACCESS_COARSE_LOCATION);
             }
         }
     }
@@ -491,9 +487,9 @@ public class ReminderManager extends AppCompatActivity implements
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    ViewUtils.expand(delayLayout);
+                    delayLayout.setVisibility(View.VISIBLE);
                 } else {
-                    ViewUtils.collapse(delayLayout);
+                    delayLayout.setVisibility(View.GONE);
                 }
             }
         });
@@ -523,8 +519,7 @@ public class ReminderManager extends AppCompatActivity implements
 
         searchField = (AutoCompleteTextView) findViewById(R.id.searchField);
         searchField.setThreshold(3);
-        adapter = new ArrayAdapter<>(
-                ReminderManager.this, android.R.layout.simple_dropdown_item_1line, namesList);
+        adapter = new ArrayAdapter<>(ReminderManager.this, android.R.layout.simple_dropdown_item_1line, namesList);
         adapter.setNotifyOnChange(true);
         searchField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -570,7 +565,7 @@ public class ReminderManager extends AppCompatActivity implements
 
         final Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
-        if (myYear > 0){
+        if (myYear > 0) {
             cal.set(myYear, myMonth, myDay, myHour, myMinute);
 
         } else {
@@ -596,7 +591,7 @@ public class ReminderManager extends AppCompatActivity implements
             String text, number, remType;
             double latitude, longitude;
             int style;
-            if (item != null){
+            if (item != null) {
                 text = item.getTitle();
                 number = item.getNumber();
                 remType = item.getType();
@@ -609,17 +604,16 @@ public class ReminderManager extends AppCompatActivity implements
 
                 if (item.getStartTime() > 0) {
                     cal.setTimeInMillis(item.getStartTime());
-
                     dateViewLocation.setDateTime(cal.getTimeInMillis());
                     attackDelay.setChecked(true);
                 } else {
                     attackDelay.setChecked(false);
                 }
 
-                if (remType.matches(Constants.TYPE_LOCATION_CALL) || remType.matches(Constants.TYPE_LOCATION_MESSAGE)){
+                if (remType.matches(Constants.TYPE_LOCATION_CALL) || remType.matches(Constants.TYPE_LOCATION_MESSAGE)) {
                     actionViewLocation.setAction(true);
                     actionViewLocation.setNumber(number);
-                    if (remType.matches(Constants.TYPE_LOCATION_CALL)){
+                    if (remType.matches(Constants.TYPE_LOCATION_CALL)) {
                         actionViewLocation.setType(ActionView.TYPE_CALL);
                     } else {
                         actionViewLocation.setType(ActionView.TYPE_MESSAGE);
@@ -699,9 +693,9 @@ public class ReminderManager extends AppCompatActivity implements
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    ViewUtils.expand(delayLayoutOut);
+                    delayLayoutOut.setVisibility(View.VISIBLE);
                 } else {
-                    ViewUtils.collapse(delayLayoutOut);
+                    delayLayoutOut.setVisibility(View.GONE);
                 }
             }
         });
@@ -735,7 +729,7 @@ public class ReminderManager extends AppCompatActivity implements
         pointRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                radiusMark.setText(String.format(getString(R.string.selected_radius_meters), progress));
+                radiusMark.setText(String.format(getString(R.string.selected_radius_meters), String.valueOf(progress)));
             }
 
             @Override
@@ -758,7 +752,7 @@ public class ReminderManager extends AppCompatActivity implements
 
         final Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
-        if (myYear > 0){
+        if (myYear > 0) {
             cal.set(myYear, myMonth, myDay, myHour, myMinute);
         } else {
             myYear = cal.get(Calendar.YEAR);
@@ -783,7 +777,7 @@ public class ReminderManager extends AppCompatActivity implements
             String text, number, remType;
             double latitude, longitude;
             int style;
-            if (item != null){
+            if (item != null) {
                 text = item.getTitle();
                 number = item.getNumber();
                 remType = item.getType();
@@ -804,10 +798,10 @@ public class ReminderManager extends AppCompatActivity implements
                 }
 
                 if (remType.matches(Constants.TYPE_LOCATION_OUT_CALL) ||
-                        remType.matches(Constants.TYPE_LOCATION_OUT_MESSAGE)){
+                        remType.matches(Constants.TYPE_LOCATION_OUT_MESSAGE)) {
                     actionViewLocationOut.setAction(true);
                     actionViewLocationOut.setNumber(number);
-                    if (remType.matches(Constants.TYPE_LOCATION_OUT_CALL)){
+                    if (remType.matches(Constants.TYPE_LOCATION_OUT_CALL)) {
                         actionViewLocationOut.setType(ActionView.TYPE_CALL);
                     } else {
                         actionViewLocationOut.setType(ActionView.TYPE_MESSAGE);
@@ -835,7 +829,7 @@ public class ReminderManager extends AppCompatActivity implements
         if (item == null) {
             return;
         }
-        if (id != 0){
+        if (id != 0) {
             remControl.save(id, item);
         } else {
             remControl.save(item);
@@ -847,6 +841,7 @@ public class ReminderManager extends AppCompatActivity implements
 
     /**
      * Check if location reminder type layout visible.
+     *
      * @return Boolean
      */
     private boolean isLocationAttached() {
@@ -856,6 +851,7 @@ public class ReminderManager extends AppCompatActivity implements
 
     /**
      * Check if location out reminder type layout visible.
+     *
      * @return Boolean
      */
     private boolean isLocationOutAttached() {
@@ -865,12 +861,13 @@ public class ReminderManager extends AppCompatActivity implements
 
     /**
      * Get reminder type string.
+     *
      * @return String
      */
-    private String getType(){
+    private String getType() {
         String type;
-        if (remControl.getType().startsWith(Constants.TYPE_LOCATION_OUT)){
-            if (actionViewLocationOut.hasAction()){
+        if (remControl.getType().startsWith(Constants.TYPE_LOCATION_OUT)) {
+            if (actionViewLocationOut.hasAction()) {
                 if (actionViewLocationOut.getType() == ActionView.TYPE_CALL) {
                     type = Constants.TYPE_LOCATION_OUT_CALL;
                 } else {
@@ -880,7 +877,7 @@ public class ReminderManager extends AppCompatActivity implements
                 type = Constants.TYPE_LOCATION_OUT;
             }
         } else {
-            if (actionViewLocation.hasAction()){
+            if (actionViewLocation.hasAction()) {
                 if (actionViewLocation.getType() == ActionView.TYPE_CALL) {
                     type = Constants.TYPE_LOCATION_CALL;
                 } else {
@@ -895,6 +892,7 @@ public class ReminderManager extends AppCompatActivity implements
 
     /**
      * Create reminder object.
+     *
      * @return Reminder object
      */
     private Reminder getData() {
@@ -966,13 +964,13 @@ public class ReminderManager extends AppCompatActivity implements
     }
 
 
-
     /**
      * Get number for reminder.
+     *
      * @return String
      */
     private String getNumber() {
-        if (isLocationAttached() && actionViewLocation.hasAction()){
+        if (isLocationAttached() && actionViewLocation.hasAction()) {
             return actionViewLocation.getNumber();
         } else if (isLocationOutAttached() && actionViewLocationOut.hasAction()) {
             return actionViewLocationOut.getNumber();
@@ -983,10 +981,11 @@ public class ReminderManager extends AppCompatActivity implements
 
     /**
      * Check if number inserted.
+     *
      * @return Boolean
      */
-    private boolean checkNumber(){
-        if (isLocationAttached() && actionViewLocation.hasAction()){
+    private boolean checkNumber() {
+        if (isLocationAttached() && actionViewLocation.hasAction()) {
             boolean is = actionViewLocation.getNumber().matches("");
             if (is) {
                 actionViewLocation.showError();
@@ -1022,7 +1021,7 @@ public class ReminderManager extends AppCompatActivity implements
     /**
      * Restore currently edited reminder.
      */
-    private void restoreTask(){
+    private void restoreTask() {
         if (id != 0) {
             DataBase db = new DataBase(this);
             db.open();
@@ -1031,7 +1030,7 @@ public class ReminderManager extends AppCompatActivity implements
                 long startTime = c.getLong(c.getColumnIndex(DataBase.START_TIME));
                 int status = c.getInt(c.getColumnIndex(DataBase.STATUS_DB));
                 if (status == Constants.ENABLE) {
-                    if (startTime != 1){
+                    if (startTime != 1) {
                         new PositionDelayReceiver().setAlarm(this, id);
                     } else {
                         if (!SuperUtil.isServiceRunning(ReminderManager.this, GeolocationService.class)) {
@@ -1084,25 +1083,24 @@ public class ReminderManager extends AppCompatActivity implements
 
     /**
      * Show reminder layout.
+     *
      * @param position spinner position.
      */
-    private void switchIt(int position){
+    private void switchIt(int position) {
         radius = -1;
-        switch (position){
+        switch (position) {
             case 0:
                 detachCurrentView();
                 if (LocationUtil.playServicesFullCheck(ReminderManager.this)) {
-                    if (Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_FINE_LOCATION) &&
-                            Permissions.checkPermission(ReminderManager.this, Permissions.CALL_PHONE)
-                            && Permissions.checkPermission(ReminderManager.this, Permissions.SEND_SMS)
-                            && Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_COARSE_LOCATION)
-                            && Permissions.checkPermission(ReminderManager.this, Permissions.READ_CONTACTS)) {
+                    if (Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_FINE_LOCATION,
+                            Permissions.CALL_PHONE, Permissions.SEND_SMS, Permissions.ACCESS_COARSE_LOCATION,
+                            Permissions.READ_CONTACTS)) {
                         attachLocation();
                     } else {
-                        Permissions.requestPermission(ReminderManager.this,
-                                        new String[]{Permissions.ACCESS_COARSE_LOCATION,
-                                                Permissions.ACCESS_FINE_LOCATION, Permissions.CALL_PHONE,
-                                                Permissions.SEND_SMS, Permissions.READ_CONTACTS}, 105);
+                        Permissions.requestPermission(ReminderManager.this, 105,
+                                Permissions.ACCESS_COARSE_LOCATION,
+                                Permissions.ACCESS_FINE_LOCATION, Permissions.CALL_PHONE,
+                                Permissions.SEND_SMS, Permissions.READ_CONTACTS);
                     }
                 } else {
                     spinner.setSelection(0);
@@ -1111,17 +1109,15 @@ public class ReminderManager extends AppCompatActivity implements
             case 1:
                 detachCurrentView();
                 if (LocationUtil.playServicesFullCheck(ReminderManager.this)) {
-                    if (Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_FINE_LOCATION) &&
-                            Permissions.checkPermission(ReminderManager.this, Permissions.CALL_PHONE)
-                            && Permissions.checkPermission(ReminderManager.this, Permissions.SEND_SMS)
-                            && Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_COARSE_LOCATION)
-                            && Permissions.checkPermission(ReminderManager.this, Permissions.READ_CONTACTS)) {
+                    if (Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_FINE_LOCATION,
+                            Permissions.CALL_PHONE, Permissions.SEND_SMS, Permissions.ACCESS_COARSE_LOCATION,
+                            Permissions.READ_CONTACTS)) {
                         attachLocationOut();
                     } else {
-                        Permissions.requestPermission(ReminderManager.this,
-                                        new String[]{Permissions.ACCESS_COARSE_LOCATION,
-                                                Permissions.ACCESS_FINE_LOCATION, Permissions.CALL_PHONE,
-                                                Permissions.SEND_SMS, Permissions.READ_CONTACTS}, 106);
+                        Permissions.requestPermission(ReminderManager.this, 106,
+                                Permissions.ACCESS_COARSE_LOCATION,
+                                Permissions.ACCESS_FINE_LOCATION, Permissions.CALL_PHONE,
+                                Permissions.SEND_SMS, Permissions.READ_CONTACTS);
                     }
                 } else {
                     spinner.setSelection(0);
@@ -1150,30 +1146,30 @@ public class ReminderManager extends AppCompatActivity implements
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        switch (requestCode){
+        switch (requestCode) {
             case 105:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     attachLocation();
                 } else {
                     spinner.setSelection(0);
                 }
                 break;
             case 106:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     attachLocationOut();
                 } else {
                     spinner.setSelection(0);
                 }
                 break;
             case 107:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     SuperUtil.selectContact(ReminderManager.this, Constants.REQUEST_CODE_CONTACTS);
                 } else {
                     showSnackbar(R.string.cant_access_to_contacts);
                 }
                 break;
             case 200:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startActivityForResult(new Intent(ReminderManager.this, FileExplore.class),
                             Constants.REQUEST_CODE_SELECTED_MELODY);
                 } else {
@@ -1181,14 +1177,14 @@ public class ReminderManager extends AppCompatActivity implements
                 }
                 break;
             case 201:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     removeUpdates();
                 } else {
                     showSnackbar(R.string.cant_access_location_services);
                 }
                 break;
             case 202:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     setLocationUpdates();
                 } else {
                     showSnackbar(R.string.cant_access_location_services);
@@ -1203,10 +1199,10 @@ public class ReminderManager extends AppCompatActivity implements
             if (resultCode == RESULT_OK) {
                 //Use Data to get string
                 String number = data.getStringExtra(Constants.SELECTED_CONTACT_NUMBER);
-                if (isLocationAttached() && actionViewLocation.hasAction()){
+                if (isLocationAttached() && actionViewLocation.hasAction()) {
                     actionViewLocation.setNumber(number);
                 }
-                if (isLocationOutAttached() && actionViewLocationOut.hasAction()){
+                if (isLocationOutAttached() && actionViewLocationOut.hasAction()) {
                     actionViewLocationOut.setNumber(number);
                 }
             }
@@ -1214,20 +1210,18 @@ public class ReminderManager extends AppCompatActivity implements
 
         if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
             ArrayList matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            if (matches != null){
+            if (matches != null) {
                 String text = matches.get(0).toString();
                 taskField.setText(text);
             }
         }
 
         if (requestCode == Constants.REQUEST_CODE_SELECTED_MELODY) {
-            if (resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
                 melody = data.getStringExtra(Constants.FILE_PICKED);
                 if (melody != null) {
                     File musicFile = new File(melody);
-
-                    String str = getString(R.string.selected_melody) +
-                            " " + musicFile.getName();
+                    String str = getString(R.string.selected_melody) + " " + musicFile.getName();
                     showSnackbar(str, R.string.dismiss, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -1239,10 +1233,10 @@ public class ReminderManager extends AppCompatActivity implements
         }
 
         if (requestCode == Constants.REQUEST_CODE_SELECTED_RADIUS) {
-            if (resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
                 radius = data.getIntExtra(Constants.SELECTED_RADIUS, -1);
                 if (radius != -1) {
-                    String str = String.format(getString(R.string.selected_radius_meters), radius);
+                    String str = String.format(getString(R.string.selected_radius_meters), String.valueOf(radius));
                     showSnackbar(str, R.string.dismiss, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -1261,7 +1255,7 @@ public class ReminderManager extends AppCompatActivity implements
         }
 
         if (requestCode == Constants.REQUEST_CODE_LED_COLOR) {
-            if (resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
                 int position = data.getIntExtra(Constants.SELECTED_LED_COLOR, -1);
                 String selColor = LED.getTitle(this, position);
                 ledColor = LED.getLED(position);
@@ -1277,10 +1271,10 @@ public class ReminderManager extends AppCompatActivity implements
         }
 
         if (requestCode == Constants.REQUEST_CODE_VOLUME) {
-            if (resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
                 volume = data.getIntExtra(Constants.SELECTED_VOLUME, -1);
 
-                String str = String.format(getString(R.string.set_volume_for_reminder), volume);
+                String str = String.format(getString(R.string.set_volume_for_reminder), String.valueOf(volume));
                 showSnackbar(str, R.string.dismiss, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1295,11 +1289,11 @@ public class ReminderManager extends AppCompatActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.create_menu, menu);
-        if (isLocationAttached()){
+        if (isLocationAttached()) {
             menu.getItem(1).setVisible(true);
         }
         sPrefs = new SharedPrefs(ReminderManager.this);
-        if (sPrefs.loadBoolean(Prefs.LED_STATUS)){
+        if (sPrefs.loadBoolean(Prefs.LED_STATUS)) {
             menu.getItem(2).setVisible(true);
         }
         if (id != 0) {
@@ -1310,11 +1304,11 @@ public class ReminderManager extends AppCompatActivity implements
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (isLocationAttached()){
+        if (isLocationAttached()) {
             menu.getItem(1).setVisible(true);
         }
         sPrefs = new SharedPrefs(ReminderManager.this);
-        if (sPrefs.loadBoolean(Prefs.LED_STATUS)){
+        if (sPrefs.loadBoolean(Prefs.LED_STATUS)) {
             menu.getItem(2).setVisible(true);
         }
         return super.onPrepareOptionsMenu(menu);
@@ -1330,7 +1324,7 @@ public class ReminderManager extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         removeUpdates();
-        InputMethodManager imm = (InputMethodManager)getSystemService(
+        InputMethodManager imm = (InputMethodManager) getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(taskField.getWindowToken(), 0);
 
@@ -1347,7 +1341,7 @@ public class ReminderManager extends AppCompatActivity implements
 
         namesList = new ArrayList<>();
         namesList.clear();
-        for (Address selected:addresses){
+        for (Address selected : addresses) {
             String addressText = String.format("%s, %s%s",
                     selected.getMaxAddressLineIndex() > 0 ? selected.getAddressLine(0) : "",
                     selected.getMaxAddressLineIndex() > 1 ? selected.getAddressLine(1) + ", " : "",
@@ -1356,7 +1350,7 @@ public class ReminderManager extends AppCompatActivity implements
         }
         adapter = new ArrayAdapter<>(
                 ReminderManager.this, android.R.layout.simple_dropdown_item_1line, namesList);
-        if (isLocationAttached()){
+        if (isLocationAttached()) {
             searchField.setAdapter(adapter);
         }
         adapter.notifyDataSetChanged();
@@ -1377,7 +1371,7 @@ public class ReminderManager extends AppCompatActivity implements
 
     @Override
     public void onActionChange(boolean b) {
-        if (!b){
+        if (!b) {
             taskField.setHint(getString(R.string.remind_me));
         }
     }
@@ -1424,22 +1418,21 @@ public class ReminderManager extends AppCompatActivity implements
             time = (prefs.loadInt(Prefs.TRACK_TIME) * 1000);
             int distance;
             distance = prefs.loadInt(Prefs.TRACK_DISTANCE);
-            if (Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_COARSE_LOCATION) &&
-                    Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_FINE_LOCATION)) {
+            if (Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_COARSE_LOCATION,
+                    Permissions.ACCESS_FINE_LOCATION)) {
                 mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                 mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time,
                         distance, mLocList);
                 mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time,
                         distance, mLocList);
             } else {
-                Permissions.requestPermission(ReminderManager.this,
-                        new String[]{Permissions.ACCESS_FINE_LOCATION,
-                                Permissions.ACCESS_COARSE_LOCATION}, 202);
+                Permissions.requestPermission(ReminderManager.this, 202,
+                        Permissions.ACCESS_FINE_LOCATION, Permissions.ACCESS_COARSE_LOCATION);
             }
         }
     }
 
-    public class CurrentLocation implements LocationListener {
+    private class CurrentLocation implements LocationListener {
 
         @Override
         public void onLocationChanged(Location location) {

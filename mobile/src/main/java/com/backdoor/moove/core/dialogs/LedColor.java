@@ -19,11 +19,9 @@ import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.LED;
 import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.Messages;
-import com.backdoor.moove.core.helper.SharedPrefs;
 
 public class LedColor extends Activity{
 
-    private SharedPrefs sPrefs;
     private ListView musicList;
     private NotificationManagerCompat mNotifyMgr;
     private NotificationCompat.Builder builder;
@@ -35,7 +33,7 @@ public class LedColor extends Activity{
         setTheme(cs.getDialogStyle());
         setContentView(R.layout.music_list_dilog);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
+        findViewById(R.id.windowBackground).setBackgroundColor(cs.getBackgroundStyle());
         TextView dialogTitle = (TextView) findViewById(R.id.dialogTitle);
         dialogTitle.setText(getString(R.string.led_color));
 
@@ -50,8 +48,6 @@ public class LedColor extends Activity{
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(LedColor.this,
                 android.R.layout.simple_list_item_single_choice, colors);
         musicList.setAdapter(adapter);
-
-        sPrefs = new SharedPrefs(LedColor.this);
 
         musicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

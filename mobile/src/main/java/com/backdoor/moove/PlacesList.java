@@ -76,8 +76,8 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
                     if (Permissions.checkPermission(PlacesList.this, Permissions.ACCESS_COARSE_LOCATION)) {
                         startActivity(new Intent(PlacesList.this, NewPlace.class));
                     } else {
-                        Permissions.requestPermission(PlacesList.this, new String[]{Permissions.ACCESS_COARSE_LOCATION,
-                                Permissions.ACCESS_FINE_LOCATION}, 101);
+                        Permissions.requestPermission(PlacesList.this, 101, Permissions.ACCESS_COARSE_LOCATION,
+                                Permissions.ACCESS_FINE_LOCATION);
                     }
                 }
             }

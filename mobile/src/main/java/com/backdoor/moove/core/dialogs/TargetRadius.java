@@ -31,7 +31,7 @@ public class TargetRadius extends Activity {
         setTheme(cs.getDialogStyle());
         setContentView(R.layout.radius_dialog_layout);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
+        findViewById(R.id.windowBackground).setBackgroundColor(cs.getBackgroundStyle());
         sPrefs = new SharedPrefs(TargetRadius.this);
         Intent intent = getIntent();
         i = intent.getIntExtra("item", 0);

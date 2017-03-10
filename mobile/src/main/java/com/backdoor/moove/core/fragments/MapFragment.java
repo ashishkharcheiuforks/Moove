@@ -729,9 +729,8 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                     ActivityCompat.checkSelfPermission(getActivity(),
                             Manifest.permission.ACCESS_COARSE_LOCATION) !=
                             PackageManager.PERMISSION_GRANTED) {
-                Permissions.requestPermission(getActivity(),
-                        new String[]{Permissions.ACCESS_FINE_LOCATION,
-                                Permissions.ACCESS_COARSE_LOCATION}, 205);
+                Permissions.requestPermission(getActivity(), 205,
+                        Permissions.ACCESS_FINE_LOCATION, Permissions.ACCESS_COARSE_LOCATION);
             } else {
                 map.setMyLocationEnabled(true);
             }

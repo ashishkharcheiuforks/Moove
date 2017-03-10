@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
                     Intent intent = new Intent(MainActivity.this, ReminderManager.class);
                     startActivity(intent);
                 } else {
-                    Permissions.requestPermission(MainActivity.this,
-                            new String[]{Permissions.WRITE_EXTERNAL}, 1116);
+                    Permissions.requestPermission(MainActivity.this, 1116,
+                            Permissions.WRITE_EXTERNAL);
                 }
             }
         });

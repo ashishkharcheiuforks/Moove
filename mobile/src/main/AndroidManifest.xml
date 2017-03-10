@@ -136,14 +136,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".core.dialogs.AboutDialog"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/HomeDarkDialog">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".core.dialogs.ChangeDialog"
             android:configChanges="keyboardHidden|orientation"
             android:theme="@style/HomeDarkDialog">

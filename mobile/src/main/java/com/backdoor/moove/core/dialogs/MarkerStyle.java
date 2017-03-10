@@ -24,7 +24,7 @@ public class MarkerStyle extends Activity implements View.OnClickListener{
         Coloring cs = new Coloring(MarkerStyle.this);
         setTheme(cs.getDialogStyle());
         setContentView(R.layout.marker_style_layout);
-
+        findViewById(R.id.windowBackground).setBackgroundColor(cs.getBackgroundStyle());
         TextView themeClose = (TextView) findViewById(R.id.themeClose);
         themeClose.setOnClickListener(this);
 

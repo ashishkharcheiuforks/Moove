@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.backdoor.moove.core.consts.Prefs;
-import com.backdoor.moove.core.helper.Module;
 import com.backdoor.moove.core.helper.Permissions;
 import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.utils.LocationUtil;
@@ -34,9 +33,8 @@ public class StartHelp extends AppCompatActivity {
         permissionsFix.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Permissions.requestPermission(StartHelp.this,
-                        new String[]{Permissions.ACCESS_COARSE_LOCATION,
-                                Permissions.ACCESS_FINE_LOCATION}, 200);
+                Permissions.requestPermission(StartHelp.this, 200, Permissions.ACCESS_COARSE_LOCATION,
+                        Permissions.ACCESS_FINE_LOCATION);
             }
         });
 
@@ -70,14 +68,8 @@ public class StartHelp extends AppCompatActivity {
     }
 
     private boolean checkPermissions() {
-        boolean isPermissions = true;
-        if (Module.isMarshmallow()) {
-            if (Permissions.checkPermission(StartHelp.this, Permissions.ACCESS_COARSE_LOCATION) ||
-                    Permissions.checkPermission(StartHelp.this, Permissions.ACCESS_FINE_LOCATION)) {
-                isPermissions = true;
-            } else isPermissions = false;
-        }
-        return isPermissions;
+        return Permissions.checkPermission(StartHelp.this, Permissions.ACCESS_COARSE_LOCATION,
+                Permissions.ACCESS_FINE_LOCATION);
     }
 
     private boolean checkDevice() {

@@ -28,7 +28,7 @@ public class SelectVolume extends Activity {
         setTheme(cs.getDialogStyle());
         setContentView(R.layout.volume_dialog_layout);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
+        findViewById(R.id.windowBackground).setBackgroundColor(cs.getBackgroundStyle());
         SharedPrefs sPrefs = new SharedPrefs(SelectVolume.this);
 
         radiusValue = (TextView) findViewById(R.id.radiusValue);
