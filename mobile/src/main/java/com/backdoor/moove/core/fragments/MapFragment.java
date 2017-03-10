@@ -46,6 +46,7 @@ import com.backdoor.moove.core.utils.ViewUtils;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
@@ -98,6 +99,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     private String markerTitle;
     private int markerRadius = -1;
     private int markerStyle = -1;
+    private int type;
     private LatLng lastPos;
     private float strokeWidth = 3f;
 
@@ -126,6 +128,27 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     public static final String ENABLE_BACK = "enable_back";
     public static final String ENABLE_ZOOM = "enable_zoom";
     public static final String MARKER_STYLE = "marker_style";
+    private OnMapReadyCallback mMapReadyCallback = new OnMapReadyCallback() {
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+            map = googleMap;
+            map.getUiSettings().setMyLocationButtonEnabled(false);
+            map.getUiSettings().setCompassEnabled(true);
+            map.setMapType(type);
+            setMyLocation();
+            map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    hideLayers();
+                    hidePlaces();
+                    hideStyles();
+                    if (isTouch) {
+                        addMarker(latLng, markerTitle, true, true, markerRadius);
+                    }
+                }
+            });
+        }
+    };
 
     public static MapFragment newInstance(boolean isTouch, boolean isPlaces,
                                           boolean isSearch, boolean isStyles,
@@ -487,38 +510,15 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         initArgs();
-
         View view = inflater.inflate(R.layout.fragment_map, container, false);
-
         final SharedPrefs prefs = new SharedPrefs(getActivity());
         cSetter = new Coloring(getActivity());
-
+        type = prefs.loadInt(Prefs.MAP_TYPE);
         markerRadius = prefs.loadInt(Prefs.LOCATION_RADIUS);
-
-        map = ((SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.map)).getMap();
-        map.getUiSettings().setMyLocationButtonEnabled(false);
-
-        map.getUiSettings().setCompassEnabled(true);
-        int type = prefs.loadInt(Prefs.MAP_TYPE);
-        map.setMapType(type);
-
-        setMyLocation();
-
-        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                hideLayers();
-                hidePlaces();
-                hideStyles();
-                if (isTouch) {
-                    addMarker(latLng, markerTitle, true, true, markerRadius);
-                }
-            }
-        });
-
+        ((SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.map))
+                .getMapAsync(mMapReadyCallback);
         if (lastPos != null) {
             addMarker(lastPos, lastPos.toString(), true, false, markerRadius);
         }

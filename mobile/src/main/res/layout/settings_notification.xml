@@ -236,6 +236,15 @@
                     app:prefs_type="check" />
 
                 <com.backdoor.moove.core.views.PrefsView
+                    android:id="@+id/silentCallOptionPrefs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_divider_top="false"
+                    app:prefs_primary_text="@string/make_call_automatically"
+                    app:prefs_type="check" />
+
+                <com.backdoor.moove.core.views.PrefsView
                     android:id="@+id/ledPrefs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

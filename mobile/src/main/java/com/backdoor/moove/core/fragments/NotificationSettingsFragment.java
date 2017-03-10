@@ -36,26 +36,21 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
     private PrefsView blurPrefs, vibrationOptionPrefs, infiniteVibrateOptionPrefs,
             soundOptionPrefs, infiniteSoundOptionPrefs, ttsPrefs, wakeScreenOptionPrefs, 
             unlockScreenPrefs, silentSMSOptionPrefs, ledPrefs, chooseSoundPrefs,
-            chooseLedColorPrefs;
+            chooseLedColorPrefs, silentCallOptionPrefs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View rootView =  inflater.inflate(R.layout.settings_notification, container, false);
-
         ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if (ab != null){
             ab.setTitle(R.string.notification);
         }
-
         sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-
         if (Module.isLollipop()) {
             rootView.findViewById(R.id.imageCard).setElevation(Configs.CARD_ELEVATION);
             rootView.findViewById(R.id.soundCard).setElevation(Configs.CARD_ELEVATION);
             rootView.findViewById(R.id.systemCard).setElevation(Configs.CARD_ELEVATION);
         }
-
         TextView selectImage = (TextView) rootView.findViewById(R.id.selectImage);
         selectImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +95,10 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         silentSMSOptionPrefs = (PrefsView) rootView.findViewById(R.id.silentSMSOptionPrefs);
         silentSMSOptionPrefs.setOnClickListener(this);
         silentSMSOptionPrefs.setChecked(sPrefs.loadBoolean(Prefs.SILENT_SMS));
+
+        silentCallOptionPrefs = (PrefsView) rootView.findViewById(R.id.silentCallOptionPrefs);
+        silentCallOptionPrefs.setOnClickListener(this);
+        silentCallOptionPrefs.setChecked(sPrefs.loadBoolean(Prefs.SILENT_CALL));
 
         chooseSoundPrefs = (PrefsView) rootView.findViewById(R.id.chooseSoundPrefs);
         chooseSoundPrefs.setOnClickListener(this);
@@ -281,6 +280,17 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         }
     }
 
+    private void silentCallChange (){
+        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
+        if (silentCallOptionPrefs.isChecked()){
+            sPrefs.saveBoolean(Prefs.SILENT_CALL, false);
+            silentCallOptionPrefs.setChecked(false);
+        } else {
+            sPrefs.saveBoolean(Prefs.SILENT_CALL, true);
+            silentCallOptionPrefs.setChecked(true);
+        }
+    }
+
     private void wakeChange (){
         sPrefs = new SharedPrefs(getActivity().getApplicationContext());
         if (wakeScreenOptionPrefs.isChecked()){
@@ -357,6 +367,9 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
             case R.id.ledPrefs:
                 ledChange();
                 break;
+            case R.id.silentCallOptionPrefs:
+                silentCallChange();
+                break;
         }
     }
 
@@ -385,7 +398,7 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
                     Intent chooser = Intent.createChooser(intent, getActivity().getString(R.string.select_image));
                     getActivity().startActivityForResult(chooser, Constants.ACTION_REQUEST_GALLERY);
                 } else {
-                    Permissions.showInfo((AppCompatActivity) getActivity(), Permissions.READ_CALENDAR);
+                    Permissions.showInfo(getActivity(), Permissions.READ_CALENDAR);
                 }
                 break;
         }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Moove</string>
-    <string name="_2016_nazar_suhovich">2016 \u00A9 Nazar Suhovich</string>
+    <string name="_2016_nazar_suhovich">2017 \u00A9 Nazar Suhovich</string>
     <string name="search">Search</string>
     <string name="action">Action</string>
     <string name="make_call">Make call</string>
@@ -164,4 +164,6 @@
     <string name="select_place_from_list">Select from list</string>
     <string name="click_to_expand_collapse_map">Click to expand/collapse map</string>
     <string name="off">Finished</string>
+    <string name="make_call_automatically">Make call automatically</string>
+    <string name="all_permissions_are_enabled">All permissions are enabled</string>
 </resources>

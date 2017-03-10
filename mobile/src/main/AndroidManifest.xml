@@ -20,6 +20,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
@@ -30,6 +31,7 @@
     <uses-permission android:name="android.permission.NETWORK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.vending.BILLING" />
@@ -165,61 +167,35 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".core.dialogs.PermissionsList"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/HomeDarkDialog">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+
         <activity
             android:name=".core.dialogs.RateDialog"
             android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/HomeDarkDialog">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/HomeDarkDialog" />
+
         <activity
             android:name=".core.dialogs.SelectVolume"
             android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/HomeDarkDialog">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/HomeDarkDialog" />
+
         <activity
             android:name=".ContactsList"
-            android:configChanges="keyboardHidden|orientation">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:configChanges="keyboardHidden|orientation" />
+
         <activity
             android:name=".core.dialogs.LedColor"
             android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/HomeDarkDialog">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/HomeDarkDialog" />
+
         <activity
             android:name=".core.dialogs.MarkerStyle"
             android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/HomeDarkDialog">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/HomeDarkDialog" />
+
         <activity
             android:name=".FileExplore"
             android:configChanges="keyboardHidden|orientation|keyboard"
-            android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="stateHidden" />
 
         <service android:name=".core.services.GeolocationService" />
         <service android:name=".core.services.TaskButlerService" />
@@ -274,7 +250,7 @@
             android:theme="@style/HomeDark" />
         <activity
             android:name=".DonateActivity"
-            android:label="@string/title_activity_donate"></activity>
+            android:label="@string/title_activity_donate" />
     </application>
 
 </manifest>

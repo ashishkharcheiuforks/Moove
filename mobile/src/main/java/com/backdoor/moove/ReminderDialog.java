@@ -61,7 +61,8 @@ import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.BlurTransformation;
 
-public class ReminderDialog extends Activity implements TextToSpeech.OnInitListener, SendListener, GoogleApiClient.ConnectionCallbacks, DataApi.DataListener, View.OnClickListener {
+public class ReminderDialog extends Activity implements TextToSpeech.OnInitListener, SendListener,
+        GoogleApiClient.ConnectionCallbacks, DataApi.DataListener, View.OnClickListener {
 
     private static final int MY_DATA_CHECK_CODE = 111;
 
@@ -202,10 +203,19 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         buttonCall.setOnClickListener(this);
 
         boolean silentSMS = sPrefs.loadBoolean(Prefs.SILENT_SMS);
+        boolean silentCall = sPrefs.loadBoolean(Prefs.SILENT_CALL);
         if (type != null) {
             if (type.contains(Constants.TYPE_MESSAGE)) {
                 if (silentSMS) {
                     sendSMS(number, task);
+                } else {
+                    showReminder(1);
+                }
+            } else if (type.contains(Constants.TYPE_CALL)) {
+                if (silentCall) {
+                    Telephony.makeCall(number, ReminderDialog.this);
+                    make();
+                    finish();
                 } else {
                     showReminder(1);
                 }

@@ -49,7 +49,7 @@ public class Notifier {
         Intent notificationIntent = new Intent(mContext, ReminderDialog.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        PendingIntent intent = PendingIntent.getActivity(mContext, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent intent = PendingIntent.getActivity(mContext, (int) itemId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(intent);
         builder.setAutoCancel(false);
         builder.setPriority(NotificationCompat.PRIORITY_MAX);
@@ -165,7 +165,7 @@ public class Notifier {
         notificationIntent.putExtra("int", 1);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        PendingIntent intent = PendingIntent.getActivity(mContext, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent intent = PendingIntent.getActivity(mContext, (int) itemId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         builder = new NotificationCompat.Builder(mContext);
         builder.setContentTitle(task);

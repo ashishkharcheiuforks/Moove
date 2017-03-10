@@ -26,6 +26,7 @@ public class Prefs {
     public static final String WAKE_STATUS = "wake_status";
     public static final String INFINITE_SOUND = "infinite_sound";
     public static final String SILENT_SMS = "silent_sms";
+    public static final String SILENT_CALL = "silent_call";
     public static final String LED_STATUS = "led_status";
     public static final String LED_COLOR = "led_color";
     public static final String MARKER_STYLE = "marker_style";
