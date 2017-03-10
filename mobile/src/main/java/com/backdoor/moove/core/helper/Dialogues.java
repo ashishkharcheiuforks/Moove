@@ -11,12 +11,12 @@ import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.backdoor.moove.FileExplore;
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.LED;
 import com.backdoor.moove.core.consts.Language;
 import com.backdoor.moove.core.consts.Prefs;
+import com.backdoor.moove.core.file_explorer.FileExplorerActivity;
 import com.google.android.gms.maps.GoogleMap;
 
 import java.util.ArrayList;
@@ -204,7 +204,7 @@ public class Dialogues {
                     } else {
                         prefs.saveBoolean(prefsToSave, true);
                         dialog.dismiss();
-                        context.startActivityForResult(new Intent(context, FileExplore.class), requestCode);
+                        context.startActivityForResult(new Intent(context, FileExplorerActivity.class), requestCode);
                     }
                 }
             }

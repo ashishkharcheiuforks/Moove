@@ -53,6 +53,7 @@ import com.backdoor.moove.core.data.SpinnerItem;
 import com.backdoor.moove.core.dialogs.LedColor;
 import com.backdoor.moove.core.dialogs.SelectVolume;
 import com.backdoor.moove.core.dialogs.TargetRadius;
+import com.backdoor.moove.core.file_explorer.FileExplorerActivity;
 import com.backdoor.moove.core.fragments.MapFragment;
 import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.DataBase;
@@ -180,8 +181,8 @@ public class ReminderManager extends AppCompatActivity implements
                                 save();
                                 return true;
                             case R.id.action_custom_melody:
-                                if (Permissions.checkPermission(ReminderManager.this, Permissions.MANAGE_DOCUMENTS, Permissions.READ_EXTERNAL)) {
-                                    startActivityForResult(new Intent(ReminderManager.this, FileExplore.class),
+                                if (Permissions.checkPermission(ReminderManager.this, Permissions.READ_EXTERNAL)) {
+                                    startActivityForResult(new Intent(ReminderManager.this, FileExplorerActivity.class),
                                             Constants.REQUEST_CODE_SELECTED_MELODY);
                                 } else {
                                     Permissions.requestPermission(ReminderManager.this, 200,
@@ -1170,7 +1171,7 @@ public class ReminderManager extends AppCompatActivity implements
                 break;
             case 200:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startActivityForResult(new Intent(ReminderManager.this, FileExplore.class),
+                    startActivityForResult(new Intent(ReminderManager.this, FileExplorerActivity.class),
                             Constants.REQUEST_CODE_SELECTED_MELODY);
                 } else {
                     showSnackbar(R.string.cant_read_external_storage);
