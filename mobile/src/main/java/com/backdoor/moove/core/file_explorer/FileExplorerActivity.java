@@ -56,7 +56,6 @@ public class FileExplorerActivity extends AppCompatActivity {
 
     private ArrayList<String> str = new ArrayList<>();
     private Boolean firstLvl = true;
-    private boolean isDark = false;
     private boolean mFilter;
 
     private ArrayList<FileDataItem> mDataList;
@@ -170,7 +169,7 @@ public class FileExplorerActivity extends AppCompatActivity {
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.ic_clear_white_24dp);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
     }
 
     private void initSearch() {

@@ -38,7 +38,7 @@ public class LocationsMap extends AppCompatActivity implements SimpleListener {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.ic_clear_white_24dp);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         toolbar.setTitle(R.string.directions);
 
         fragment = MapFragment.newInstance(false, true, false, false, false, false);

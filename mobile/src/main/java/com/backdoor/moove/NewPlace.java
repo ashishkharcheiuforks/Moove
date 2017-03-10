@@ -42,7 +42,7 @@ public class NewPlace extends AppCompatActivity implements MapListener {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.ic_clear_white_24dp);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
 
 
         id = getIntent().getLongExtra(Constants.ITEM_ID_INTENT, 0);

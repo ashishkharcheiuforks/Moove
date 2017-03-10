@@ -106,7 +106,6 @@ public class ContactsList extends AppCompatActivity {
                                     String number = (String) numbers[item];
                                     int index = number.indexOf(":");
                                     number = number.substring(index + 2);
-                                    //selectedNumber.setText(number);
                                     Intent intent = new Intent();
                                     intent.putExtra(Constants.SELECTED_CONTACT_NUMBER, number);
                                     intent.putExtra(Constants.SELECTED_CONTACT_NAME, name);
@@ -122,7 +121,6 @@ public class ContactsList extends AppCompatActivity {
                     } else if (c.getCount() == 1) {
                         if (c.moveToFirst()) {
                             String number = c.getString(phoneIdx);
-                            //selectedNumber.setText(number);
                             Intent intent = new Intent();
                             intent.putExtra(Constants.SELECTED_CONTACT_NUMBER, number);
                             intent.putExtra(Constants.SELECTED_CONTACT_NAME, name);
