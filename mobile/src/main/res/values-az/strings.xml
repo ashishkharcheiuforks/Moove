@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Siyahıdan seçin</string>
     <string name="click_to_expand_collapse_map">Genişləndirmək üçün Basın / dağılması xəritəsi</string>
     <string name="off">Bitmiş</string>
+    <string name="all_permissions_are_enabled">Bütün icazələrin effektiv</string>
+    <string name="make_call_automatically">Avtomatik zəng</string>
+    <string name="not_music_file">Bir melodiya fayl</string>
+    <string name="type_to_search">Axtarış yazın</string>
+    <string name="up">Ayağa</string>
 </resources>

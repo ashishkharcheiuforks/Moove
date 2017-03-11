@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Абярыце з спісу</string>
     <string name="click_to_expand_collapse_map">Націсніце, каб разгарнуць / згарнуць карту</string>
     <string name="off">Гатовыя</string>
+    <string name="all_permissions_are_enabled">Усе дазволы ўключаны</string>
+    <string name="make_call_automatically">Патэлефанаваць аўтаматычна</string>
+    <string name="not_music_file">Ня файл мелодыі</string>
+    <string name="type_to_search">Калі ласка, увядзіце запыт для пошуку</string>
+    <string name="up">Уверх</string>
 </resources>

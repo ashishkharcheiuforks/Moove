@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Vælg fra listen</string>
     <string name="click_to_expand_collapse_map">Klik for at udvide / skjul kort</string>
     <string name="off">Færdig</string>
+    <string name="all_permissions_are_enabled">Alle tilladelser er aktiveret</string>
+    <string name="make_call_automatically">Gør kalder automatisk</string>
+    <string name="not_music_file">Ikke en melodi fil</string>
+    <string name="type_to_search">Skriv for at søge</string>
+    <string name="up">Op</string>
 </resources>

@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Kies uit de lijst</string>
     <string name="click_to_expand_collapse_map">Klik om uit te breiden / instorting kaart</string>
     <string name="off">Geëindigd</string>
+    <string name="all_permissions_are_enabled">Alle machtigingen zijn ingeschakeld</string>
+    <string name="make_call_automatically">Maak automatisch een oproep</string>
+    <string name="not_music_file">Niet een melodie bestand</string>
+    <string name="type_to_search">Typ om te zoeken</string>
+    <string name="up">Omhoog</string>
 </resources>

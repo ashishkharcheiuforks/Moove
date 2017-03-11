@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Odaberite s popisa</string>
     <string name="click_to_expand_collapse_map">Kliknite za proširenje / kolaps karta</string>
     <string name="off">Gotovi</string>
+    <string name="all_permissions_are_enabled">Sve dozvole su omogućene</string>
+    <string name="make_call_automatically">Provjerite poziv automatski</string>
+    <string name="not_music_file">Nije melodija datoteka</string>
+    <string name="type_to_search">Upišite za pretraživanje</string>
+    <string name="up">Gore</string>
 </resources>

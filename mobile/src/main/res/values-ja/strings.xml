@@ -166,4 +166,9 @@
     <string name="select_place_from_list">リストから選択</string>
     <string name="click_to_expand_collapse_map">クリックして拡大/縮小マップ</string>
     <string name="off">完成</string>
+    <string name="all_permissions_are_enabled">すべての権限が有効になっています</string>
+    <string name="make_call_automatically">自動的に電話をかける</string>
+    <string name="not_music_file">メロディファイルではない</string>
+    <string name="type_to_search">タイプして検索する</string>
+    <string name="up">アップ</string>
 </resources>

@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Valitse listalta</string>
     <string name="click_to_expand_collapse_map">Klikkaa expand / collapse kartta</string>
     <string name="off">Valmiit</string>
+    <string name="all_permissions_are_enabled">Kaikki käyttöoikeudet ovat käytössä</string>
+    <string name="make_call_automatically">Soittaminen automaattisesti</string>
+    <string name="not_music_file">Ei melodia tiedosto</string>
+    <string name="type_to_search">Kirjoita haku</string>
+    <string name="up">Ylös</string>
 </resources>

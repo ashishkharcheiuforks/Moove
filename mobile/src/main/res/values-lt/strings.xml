@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Pasirinkite iš sąrašo</string>
     <string name="click_to_expand_collapse_map">Spustelėkite, norėdami išplėsti / sutraukti žemėlapis</string>
     <string name="off">Baigta</string>
+    <string name="all_permissions_are_enabled">Visi leidimai įjungtas</string>
+    <string name="make_call_automatically">Paskambinti automatiškai</string>
+    <string name="not_music_file">Ne melodija failą</string>
+    <string name="type_to_search">Įveskite paieškos</string>
+    <string name="up">Aukštyn</string>
 </resources>

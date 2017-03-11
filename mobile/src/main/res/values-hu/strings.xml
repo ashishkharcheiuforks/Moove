@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Válassza ki a listából</string>
     <string name="click_to_expand_collapse_map">Kattintson a expand / térkép</string>
     <string name="off">Befejezett</string>
+    <string name="all_permissions_are_enabled">Minden engedély engedélyezett</string>
+    <string name="make_call_automatically">Hívni automatikusan</string>
+    <string name="not_music_file">Nem egy dallamot fájl</string>
+    <string name="type_to_search">Írja be a keresett</string>
+    <string name="up">Fel</string>
 </resources>

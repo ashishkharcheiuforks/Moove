@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Выберите из списка</string>
     <string name="click_to_expand_collapse_map">Нажмите, чтобы развернуть / свернуть карту</string>
     <string name="off">Завершено</string>
+    <string name="all_permissions_are_enabled">Все разрешения включены</string>
+    <string name="make_call_automatically">Автоматический вызов</string>
+    <string name="not_music_file">Не файл мелодии</string>
+    <string name="type_to_search">Введите поисковый запрос</string>
+    <string name="up">Вверх</string>
 </resources>

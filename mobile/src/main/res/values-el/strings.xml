@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Επιλέξτε από τη λίστα</string>
     <string name="click_to_expand_collapse_map">Κάντε κλικ για να επεκτείνετε / κατάρρευση χάρτη</string>
     <string name="off">Πεπερασμένος</string>
+    <string name="all_permissions_are_enabled">Όλα τα δικαιώματα έχουν ενεργοποιηθεί</string>
+    <string name="make_call_automatically">Βεβαιωθείτε καλέσει αυτόματα</string>
+    <string name="not_music_file">Δεν είναι ένα αρχείο μελωδία</string>
+    <string name="type_to_search">Πληκτρολογήστε για αναζήτηση</string>
+    <string name="up">Πάνω</string>
 </resources>

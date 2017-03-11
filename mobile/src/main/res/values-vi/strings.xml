@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Chọn từ danh sách</string>
     <string name="click_to_expand_collapse_map">Nhấn vào đây để mở rộng / bản đồ sụp đổ</string>
     <string name="off">Đã kết thúc</string>
+    <string name="all_permissions_are_enabled">Tất cả quyền đã được bật</string>
+    <string name="make_call_automatically">Thực hiện cuộc gọi tự động</string>
+    <string name="not_music_file">Không phải là một tập tin giai điệu</string>
+    <string name="type_to_search">Nhập để tìm kiếm</string>
+    <string name="up">Lên</string>
 </resources>

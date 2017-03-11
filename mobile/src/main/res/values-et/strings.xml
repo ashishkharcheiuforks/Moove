@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Vali nimekirjast</string>
     <string name="click_to_expand_collapse_map">Vajuta laiendada / kokkuvarisemine kaart</string>
     <string name="off">Lõppenud</string>
+    <string name="all_permissions_are_enabled">Kõik õigused on lubatud</string>
+    <string name="make_call_automatically">Teha kõne automaatselt</string>
+    <string name="not_music_file">Ei meloodia faili</string>
+    <string name="type_to_search">Tüüp otsida</string>
+    <string name="up">üles</string>
 </resources>

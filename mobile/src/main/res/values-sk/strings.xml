@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Vyberte zo zoznamu</string>
     <string name="click_to_expand_collapse_map">Kliknutím rozbaľte / zbaliť mapa</string>
     <string name="off">Dokončené</string>
+    <string name="all_permissions_are_enabled">Sú povolené všetky oprávnenia</string>
+    <string name="make_call_automatically">Volať automaticky</string>
+    <string name="not_music_file">Nejedná sa o súbor melódie</string>
+    <string name="type_to_search">Zadajte hľadaný výraz</string>
+    <string name="up">Hore</string>
 </resources>

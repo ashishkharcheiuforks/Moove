@@ -165,4 +165,9 @@
     <string name="select_place_from_list">从列表中选择</string>
     <string name="click_to_expand_collapse_map">点击展开/折叠地图</string>
     <string name="off">完成</string>
+    <string name="all_permissions_are_enabled">已启用所有权限</string>
+    <string name="make_call_automatically">自动拨打电话</string>
+    <string name="not_music_file">不是旋律文件</string>
+    <string name="type_to_search">键入以进行搜索</string>
+    <string name="up">向上</string>
 </resources>

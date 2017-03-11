@@ -166,4 +166,9 @@
     <string name="select_place_from_list">सूची से चयन करें</string>
     <string name="click_to_expand_collapse_map">विस्तार के लिए क्लिक करें / ढहने नक्शा</string>
     <string name="off">समाप्त</string>
+    <string name="all_permissions_are_enabled">सभी अनुमतियां सक्षम हैं</string>
+    <string name="make_call_automatically">कॉल को स्वचालित रूप से बनाएं</string>
+    <string name="not_music_file">नहीं एक माधुर्य फ़ाइल</string>
+    <string name="type_to_search">खोजने के लिए लिखें</string>
+    <string name="up">ऊपर</string>
 </resources>

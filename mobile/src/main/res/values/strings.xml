@@ -169,4 +169,6 @@
     <string name="type_to_search">Type to search</string>
     <string name="not_music_file">Not a melody file</string>
     <string name="up">Up</string>
+    <string name="ga_trackingId">UA-72206185-1</string>
+    <string name="gcm_defaultSenderId">1030696705680</string>
 </resources>

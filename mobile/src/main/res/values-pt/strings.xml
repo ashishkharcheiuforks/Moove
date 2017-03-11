@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Escolher da lista</string>
     <string name="click_to_expand_collapse_map">Clique para expandir / map colapso</string>
     <string name="off">Acabado</string>
+    <string name="all_permissions_are_enabled">Todas as permissões estão ativadas</string>
+    <string name="make_call_automatically">Fazer chamada automaticamente</string>
+    <string name="not_music_file">Não é um arquivo de melodia</string>
+    <string name="type_to_search">Escreva para pesquisar</string>
+    <string name="up">Acima</string>
 </resources>

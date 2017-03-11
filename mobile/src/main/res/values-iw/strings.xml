@@ -166,4 +166,9 @@
     <string name="select_place_from_list">בחר מרשימה</string>
     <string name="click_to_expand_collapse_map">לחץ כדי להרחיב / מפת הקריסה</string>
     <string name="off">גָמוּר</string>
+    <string name="all_permissions_are_enabled">כל ההרשאות מופעלות</string>
+    <string name="make_call_automatically">לבצע שיחה באופן אוטומטי</string>
+    <string name="not_music_file">לא קובץ מנגינה</string>
+    <string name="type_to_search">הקלד לחיפוש</string>
+    <string name="up">לְמַעלָה</string>
 </resources>

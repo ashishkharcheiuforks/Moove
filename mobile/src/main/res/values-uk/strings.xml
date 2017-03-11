@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Оберіть із списку</string>
     <string name="click_to_expand_collapse_map">Натисніть, щоб розгорнути / згорнути карту</string>
     <string name="off">Завершено</string>
+    <string name="all_permissions_are_enabled">Всі дозволи включені</string>
+    <string name="make_call_automatically">Зателефонувати автоматично</string>
+    <string name="not_music_file">Не файл мелодії</string>
+    <string name="type_to_search">Введіть запит для пошуку</string>
+    <string name="up">Вгору</string>
 </resources>

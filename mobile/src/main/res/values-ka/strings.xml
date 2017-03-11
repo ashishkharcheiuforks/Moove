@@ -166,4 +166,9 @@
     <string name="select_place_from_list">აირჩიეთ სიიდან</string>
     <string name="click_to_expand_collapse_map">დაწკაპეთ გაფართოებას / ჩამოიშალა რუკა</string>
     <string name="off">დასრულდა</string>
+    <string name="all_permissions_are_enabled">ყველა უფლება საშუალება</string>
+    <string name="make_call_automatically">ზარი ავტომატურად</string>
+    <string name="not_music_file">არ მელოდიას ფაილი</string>
+    <string name="type_to_search">ტიპი მოძიება</string>
+    <string name="up">გოლი და</string>
 </resources>

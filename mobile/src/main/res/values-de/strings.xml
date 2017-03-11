@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Aus der Liste wählen</string>
     <string name="click_to_expand_collapse_map">Klicken Sie zum Vergrößern / verdecken Karte</string>
     <string name="off">Fertig</string>
+    <string name="all_permissions_are_enabled">Alle Berechtigungen sind aktiviert</string>
+    <string name="make_call_automatically">Anruf automatisch anrufen</string>
+    <string name="not_music_file">Nicht eine Melodie-Datei</string>
+    <string name="type_to_search">Tippe um zu suchen</string>
+    <string name="up">Oben</string>
 </resources>

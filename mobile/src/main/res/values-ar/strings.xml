@@ -166,4 +166,9 @@
     <string name="select_place_from_list">اختر من القائمة</string>
     <string name="click_to_expand_collapse_map">انقر فوق لتوسيع / خريطة الانهيار</string>
     <string name="off">تم الانتهاء من</string>
+    <string name="all_permissions_are_enabled">يتم تمكين كافة الأذونات</string>
+    <string name="make_call_automatically">إجراء مكالمة تلقائيا</string>
+    <string name="not_music_file">ليس ملف لحن</string>
+    <string name="type_to_search">اكتب للبحث</string>
+    <string name="up">إلى أعلى</string>
 </resources>

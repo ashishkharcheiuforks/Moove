@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Selectare din listă</string>
     <string name="click_to_expand_collapse_map">Faceți clic pentru a extinde / colaps hartă</string>
     <string name="off">Terminat</string>
+    <string name="all_permissions_are_enabled">Toate permisiunile sunt activate</string>
+    <string name="make_call_automatically">Efectuați un apel automat</string>
+    <string name="not_music_file">Nu este un fișier melodie</string>
+    <string name="type_to_search">Tastați pentru a căuta</string>
+    <string name="up">Sus</string>
 </resources>

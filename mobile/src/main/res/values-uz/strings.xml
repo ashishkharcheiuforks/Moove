@@ -166,4 +166,9 @@
     <string name="select_place_from_list">Ro\'yxatdan tanlang</string>
     <string name="click_to_expand_collapse_map">Kengaytirish uchun bosing / ixchamlashtirish xarita</string>
     <string name="off">Tugatdi</string>
+    <string name="all_permissions_are_enabled">Barcha ruxsatlar yoqadi</string>
+    <string name="make_call_automatically">Avtomatik ravishda qo\'ng\'iroq qilish</string>
+    <string name="not_music_file">Emas, balki bir musiqa fayli</string>
+    <string name="type_to_search">Go\'ng\'iroq qilish kiriting</string>
+    <string name="up">Qadar</string>
 </resources>
