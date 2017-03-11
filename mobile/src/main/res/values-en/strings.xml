@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Moove</string>
-    <string name="_2016_nazar_suhovich">2016 \u00A9 Nazar Suhovich</string>
+    <string name="_2016_nazar_suhovich">2017 © Nazar Suhovich</string>
     <string name="search">Search</string>
     <string name="action">Action</string>
     <string name="make_call">Make call</string>
@@ -159,8 +159,6 @@
     <string name="buy">Buy</string>
     <string name="title_activity_donate">Donate</string>
 
-    <string name="ga_trackingId">UA-72206185-1</string>
-    <string name="gcm_defaultSenderId">1030696705680</string>
     <string name="got_it">GOT IT</string>
     <string name="select_style_for_marker">Select style for marker</string>
     <string name="click_when_add_place">Click to close map and save reminder</string>

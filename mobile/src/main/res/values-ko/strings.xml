@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">"Moove"</string>
-    <string name="_2016_nazar_suhovich">"2016 \u00A9 나자르 Suhovich"</string>
+    <string name="_2016_nazar_suhovich">\"2017 © 나자르 Suhovich\"</string>
     <string name="search">"수색"</string>
     <string name="action">"동작"</string>
     <string name="make_call">"전화 걸기"</string>
@@ -158,8 +158,6 @@
     <string name="buy">Buy</string>
     <string name="title_activity_donate">기부</string>
 
-    <string name="ga_trackingId">UA-72206185-1</string>
-    <string name="gcm_defaultSenderId">1030696705680</string>
     <string name="got_it">알았다</string>
     <string name="select_style_for_marker">마커를 선택 스타일</string>
     <string name="click_when_add_place">지도를 닫고 알림을 저장합니다</string>

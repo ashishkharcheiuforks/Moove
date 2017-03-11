@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">"Moove"</string>
-    <string name="_2016_nazar_suhovich">"2016 \u00A9 Nazar Suhovich"</string>
+    <string name="_2016_nazar_suhovich">\"2017 © Nazar Suhovich\"</string>
     <string name="search">"Axtarış"</string>
     <string name="action">"Fəaliyyət"</string>
     <string name="make_call">"Zəng edin"</string>
@@ -158,8 +158,6 @@
     <string name="buy">Buy</string>
     <string name="title_activity_donate">Ianə vermək</string>
 
-    <string name="ga_trackingId">UA-72206185-1</string>
-    <string name="gcm_defaultSenderId">1030696705680</string>
     <string name="got_it">ANLADIM</string>
     <string name="select_style_for_marker">Marker üçün seçin stil</string>
     <string name="click_when_add_place">Xəritə yaxın və öyüd-nəsihət saxlamaq üçün basın</string>
