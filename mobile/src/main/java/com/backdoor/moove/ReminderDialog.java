@@ -64,6 +64,8 @@ import jp.wasabeef.picasso.transformations.BlurTransformation;
 public class ReminderDialog extends Activity implements TextToSpeech.OnInitListener, SendListener,
         GoogleApiClient.ConnectionCallbacks, DataApi.DataListener, View.OnClickListener {
 
+    private static final String TAG = "ReminderDialog";
+
     private static final int MY_DATA_CHECK_CODE = 111;
 
     private FloatingActionButton buttonCall;
@@ -97,7 +99,6 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         Intent res = getIntent();
         id = res.getLongExtra(Constants.ITEM_ID_INTENT, 0);
         isMelody = res.getIntExtra("int", 0);
-
         reminder = new Type(this);
 
         item = reminder.getItem(id);

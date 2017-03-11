@@ -25,6 +25,8 @@ import com.backdoor.moove.core.widgets.SimpleWidgetConfigureActivity;
 
 public class CheckPosition extends IntentService {
 
+    private static final String TAG = CheckPosition.class.getSimpleName();
+
     public CheckPosition() {
         super("CheckPosition");
     }
@@ -73,7 +75,6 @@ public class CheckPosition extends IntentService {
                 int statusRem = c.getInt(c.getColumnIndex(DataBase.STATUS_REMINDER));
                 int radius = c.getInt(c.getColumnIndex(DataBase.RADIUS));
                 String widgetId = c.getString(c.getColumnIndex(DataBase.WIDGET_ID));
-
                 if (radius == -1) {
                     radius = stockRadius;
                 }
@@ -176,8 +177,8 @@ public class CheckPosition extends IntentService {
         Intent resultIntent = new Intent(getApplicationContext(), ReminderDialog.class);
         resultIntent.putExtra("taskDialog", task);
         resultIntent.putExtra(Constants.ITEM_ID_INTENT, id);
-        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getApplication().startActivity(resultIntent);
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        startActivity(resultIntent);
     }
 
     private void showNotification(long id, int roundedDistance, int shown, String task, boolean isWear){
