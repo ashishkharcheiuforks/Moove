@@ -30,6 +30,15 @@ public class NewPlace extends AppCompatActivity implements MapListener {
     private LatLng place;
     private String placeTitle;
     private long id;
+    private Item mItem;
+    private MapFragment.MapCallback mMapCallback = new MapFragment.MapCallback() {
+        @Override
+        public void onMapReady() {
+            if (mItem != null) {
+                fragment.addMarker(mItem.pos, mItem.title, true, true, mItem.radius);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +53,12 @@ public class NewPlace extends AppCompatActivity implements MapListener {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
 
-
         id = getIntent().getLongExtra(Constants.ITEM_ID_INTENT, 0);
-
         placeName = (EditText) findViewById(R.id.placeName);
 
         fragment = MapFragment.newInstance(false, false, false, false, sPrefs.loadInt(Prefs.MARKER_STYLE));
         fragment.setListener(this);
-
+        fragment.setMapReadyCallback(mMapCallback);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
@@ -122,7 +129,7 @@ public class NewPlace extends AppCompatActivity implements MapListener {
                 String text = c.getString(c.getColumnIndex(DataBase.NAME));
                 double latitude = c.getDouble(c.getColumnIndex(DataBase.LATITUDE));
                 double longitude = c.getDouble(c.getColumnIndex(DataBase.LONGITUDE));
-                fragment.addMarker(new LatLng(latitude, longitude), text, true, true, radius);
+                mItem = new Item(text, new LatLng(latitude, longitude), radius);
                 placeName.setText(text);
             }
             if (c != null) c.close();
@@ -153,5 +160,18 @@ public class NewPlace extends AppCompatActivity implements MapListener {
     @Override
     public void onBackClick() {
 
+    }
+
+    private class Item {
+
+        private final String title;
+        private final LatLng pos;
+        private final int radius;
+
+        public Item(String title, LatLng pos, int radius) {
+            this.title = title;
+            this.pos = pos;
+            this.radius = radius;
+        }
     }
 }

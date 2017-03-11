@@ -93,6 +93,8 @@ public class ReminderManager extends AppCompatActivity implements
         DateTimeView.OnSelectListener, ActionView.OnActionListener,
         CompoundButton.OnCheckedChangeListener, ActionCallbacksExtended {
 
+    private static final String TAG = "ReminderManager";
+
     /**
      * Location reminder variables.
      */
@@ -153,6 +155,29 @@ public class ReminderManager extends AppCompatActivity implements
     private GeocoderTask task;
 
     private Tracker mTracker;
+
+    private Item mItem;
+    private boolean isReady;
+    private boolean isReadyOut;
+    private MapFragment.MapCallback mMapCallback = new MapFragment.MapCallback() {
+        @Override
+        public void onMapReady() {
+            Log.d(TAG, "onMapReady: " + mItem);
+            isReady = true;
+            if (mItem != null) {
+                map.addMarker(mItem.pos, mItem.title, true, mItem.style, true, mItem.radius);
+            }
+        }
+    };
+    private MapFragment.MapCallback mMapOutCallback = new MapFragment.MapCallback() {
+        @Override
+        public void onMapReady() {
+            isReadyOut = true;
+            if (mItem != null) {
+                mapOut.addMarker(mItem.pos, mItem.title, true, mItem.style, true, mItem.radius);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -303,11 +328,13 @@ public class ReminderManager extends AppCompatActivity implements
 
         map = new MapFragment();
         map.setListener(this);
+        map.setMapReadyCallback(mMapCallback);
         map.setMarkerRadius(sPrefs.loadInt(Prefs.LOCATION_RADIUS));
         map.setMarkerStyle(sPrefs.loadInt(Prefs.MARKER_STYLE));
 
         mapOut = new MapFragment();
         mapOut.setListener(this);
+        mapOut.setMapReadyCallback(mMapOutCallback);
         mapOut.setMarkerRadius(sPrefs.loadInt(Prefs.LOCATION_RADIUS));
         mapOut.setMarkerStyle(sPrefs.loadInt(Prefs.MARKER_STYLE));
 
@@ -625,10 +652,11 @@ public class ReminderManager extends AppCompatActivity implements
 
                 Log.d(Constants.LOG_TAG, "Lat " + latitude + ", " + longitude);
                 taskField.setText(text);
-                if (map != null) {
-                    map.addMarker(new LatLng(latitude, longitude), text, true, style, true, radius);
-                    toggleMap();
+                mItem = new Item(text, new LatLng(latitude, longitude), radius, style);
+                if (isReady) {
+                    map.addMarker(mItem.pos, mItem.title, true, mItem.style, true, mItem.radius);
                 }
+                toggleMap();
             }
         }
     }
@@ -813,8 +841,9 @@ public class ReminderManager extends AppCompatActivity implements
 
                 taskField.setText(text);
                 LatLng pos = new LatLng(latitude, longitude);
-                if (mapOut != null) {
-                    mapOut.addMarker(pos, text, true, style, true, radius);
+                mItem = new Item(text, pos, radius, style);
+                if (isReadyOut) {
+                    mapOut.addMarker(mItem.pos, mItem.title, true, mItem.style, true, mItem.radius);
                 }
                 mapLocation.setText(LocationUtil.getAddress(pos.latitude, pos.longitude));
                 mapCheck.setChecked(true);
@@ -1464,6 +1493,21 @@ public class ReminderManager extends AppCompatActivity implements
         @Override
         public void onProviderDisabled(String provider) {
             setLocationUpdates();
+        }
+    }
+
+    private class Item {
+
+        private final String title;
+        private final LatLng pos;
+        private final int radius;
+        private final int style;
+
+        public Item(String title, LatLng pos, int radius, int style) {
+            this.title = title;
+            this.pos = pos;
+            this.radius = radius;
+            this.style = style;
         }
     }
 }

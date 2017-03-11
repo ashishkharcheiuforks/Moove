@@ -107,6 +107,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
      * UI helper class;
      */
     private Coloring cSetter;
+    private MapCallback mCallback;
 
     /**
      * Arrays of place search results;
@@ -128,6 +129,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     public static final String ENABLE_BACK = "enable_back";
     public static final String ENABLE_ZOOM = "enable_zoom";
     public static final String MARKER_STYLE = "marker_style";
+
     private OnMapReadyCallback mMapReadyCallback = new OnMapReadyCallback() {
         @Override
         public void onMapReady(GoogleMap googleMap) {
@@ -147,6 +149,9 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                     }
                 }
             });
+            if (mCallback != null) {
+                mCallback.onMapReady();
+            }
         }
     };
 
@@ -180,6 +185,10 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     public MapFragment() {
 
+    }
+
+    public void setMapReadyCallback(MapCallback callback) {
+        this.mCallback = callback;
     }
 
     public void setAdapter(PlaceRecyclerAdapter adapter) {
@@ -968,5 +977,9 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
         }
+    }
+
+    public interface MapCallback {
+        void onMapReady();
     }
 }

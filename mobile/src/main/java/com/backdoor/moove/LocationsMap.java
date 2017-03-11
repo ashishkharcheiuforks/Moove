@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.backdoor.moove.core.adapters.PlaceRecyclerAdapter;
+import com.backdoor.moove.core.data.MarkerModel;
 import com.backdoor.moove.core.data.PlaceDataProvider;
 import com.backdoor.moove.core.fragments.MapFragment;
 import com.backdoor.moove.core.helper.Coloring;
@@ -26,6 +27,18 @@ public class LocationsMap extends AppCompatActivity implements SimpleListener {
 
     private PlaceDataProvider provider;
     private MapFragment fragment;
+    private MapFragment.MapCallback mMapCallback = new MapFragment.MapCallback() {
+        @Override
+        public void onMapReady() {
+            showMarkers();
+        }
+    };
+
+    private void showMarkers() {
+        for (MarkerModel markerModel : provider.getData()) {
+            fragment.addMarker(markerModel.getPosition(), markerModel.getTitle(), false, markerModel.getIcon(), false, markerModel.getRadius());
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +56,7 @@ public class LocationsMap extends AppCompatActivity implements SimpleListener {
 
         fragment = MapFragment.newInstance(false, true, false, false, false, false);
         fragment.setAdapter(loadPlaces());
+        fragment.setMapReadyCallback(mMapCallback);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
