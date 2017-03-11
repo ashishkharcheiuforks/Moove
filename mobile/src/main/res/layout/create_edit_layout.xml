@@ -12,9 +12,73 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include
+        <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            layout="@layout/toolbar_reminder" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat">
+
+            <LinearLayout
+                android:id="@+id/navContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Spinner
+                    android:id="@+id/navSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="center|left"
+                    android:gravity="center|left" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <com.backdoor.moove.core.views.FloatingEditText
+                android:id="@+id/task_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_toLeftOf="@+id/insertVoice"
+                android:hint="@string/remind_me"
+                android:inputType="textMultiLine"
+                android:maxHeight="72dp"
+                android:maxLength="300"
+                android:singleLine="false"
+                android:maxLines="1"
+                android:textColor="@color/whitePrimary"
+                android:textColorHint="@color/whitePrimary"
+                android:textSize="23sp"
+                app:floating_edit_text_color="@color/whitePrimary"
+                app:floating_edit_text_highlighted_color="?attr/colorAccent">
+
+                <requestFocus />
+            </com.backdoor.moove.core.views.FloatingEditText>
+
+            <ImageButton
+                android:id="@+id/insertVoice"
+                style="@style/Widget.AppCompat.ActionButton"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_mic_white_24dp" />
+
+        </RelativeLayout>
 
     </android.support.design.widget.AppBarLayout>
 
