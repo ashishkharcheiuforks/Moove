@@ -13,6 +13,15 @@
 -keep public class android.support.design.R$* { *; }
 -keep class com.android.vending.billing.**
 
+-dontnote org.apache.**
+-dontnote ch.boye.**
+-dontnote org.json.**
+-dontnote jp.wasabeef.**
+-dontnote com.squareup.okhttp.**
+-dontnote com.backdoor.**
+-dontnote com.google.**
+-dontnote uk.co.**
+
 -dontwarn org.apache.**
 -dontwarn ch.boye.**
 -dontwarn com.google.android.gms.**
