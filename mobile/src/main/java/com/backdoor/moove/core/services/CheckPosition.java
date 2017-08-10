@@ -63,7 +63,7 @@ public class CheckPosition extends IntentService {
         db.open();
         Cursor c = db.getReminders(Constants.ENABLE);
         if (c != null && c.moveToFirst()) {
-            do{
+            do {
                 double lat = c.getDouble(c.getColumnIndex(DataBase.LATITUDE));
                 double lon = c.getDouble(c.getColumnIndex(DataBase.LONGITUDE));
                 long id = c.getLong(c.getColumnIndex(DataBase._ID));
@@ -84,8 +84,8 @@ public class CheckPosition extends IntentService {
                     locationB.setLongitude(lon);
                     float distance = locationA.distanceTo(locationB);
                     int roundedDistance = Math.round(distance);
-                    if (type.startsWith(Constants.TYPE_LOCATION_OUT)){
-                        if (status == Constants.NOT_LOCKED){
+                    if (type.startsWith(Constants.TYPE_LOCATION_OUT)) {
+                        if (status == Constants.NOT_LOCKED) {
                             if (roundedDistance < radius) {
                                 db.setLocationStatus(id, Constants.LOCKED);
                             }
@@ -120,8 +120,8 @@ public class CheckPosition extends IntentService {
                         locationB.setLongitude(lon);
                         float distance = locationA.distanceTo(locationB);
                         int roundedDistance = Math.round(distance);
-                        if (type.startsWith(Constants.TYPE_LOCATION_OUT)){
-                            if (status == Constants.NOT_LOCKED){
+                        if (type.startsWith(Constants.TYPE_LOCATION_OUT)) {
+                            if (status == Constants.NOT_LOCKED) {
                                 if (roundedDistance <= radius) {
                                     db.setLocationStatus(id, Constants.LOCKED);
                                 }
@@ -170,7 +170,7 @@ public class CheckPosition extends IntentService {
         }
     }
 
-    private void showReminder(long id, String task){
+    private void showReminder(long id, String task) {
         DataBase db = new DataBase(getApplicationContext());
         db.open().setReminderStatus(id, Constants.SHOWN);
         db.close();
@@ -181,7 +181,7 @@ public class CheckPosition extends IntentService {
         startActivity(resultIntent);
     }
 
-    private void showNotification(long id, int roundedDistance, int shown, String task, boolean isWear){
+    private void showNotification(long id, int roundedDistance, int shown, String task, boolean isWear) {
         Integer i = (int) (long) id;
         Context context = getApplicationContext();
         String content = String.valueOf(roundedDistance);
@@ -212,7 +212,7 @@ public class CheckPosition extends IntentService {
         NotificationManagerCompat mNotifyMgr = NotificationManagerCompat.from(context);
         mNotifyMgr.notify(i, builder.build());
 
-        if (isWear){
+        if (isWear) {
             if (Module.isJellyBean()) {
                 final NotificationCompat.Builder wearableNotificationBuilder = new NotificationCompat.Builder(context);
                 wearableNotificationBuilder.setSmallIcon(R.drawable.ic_navigation_white_24dp);

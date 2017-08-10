@@ -48,13 +48,13 @@ public class NewPlace extends AppCompatActivity implements MapListener {
         }
         setContentView(R.layout.new_place_activity_layout);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
 
         id = getIntent().getLongExtra(Constants.ITEM_ID_INTENT, 0);
-        placeName = (EditText) findViewById(R.id.placeName);
+        placeName = findViewById(R.id.placeName);
 
         fragment = MapFragment.newInstance(false, false, false, false, sPrefs.loadInt(Prefs.MARKER_STYLE));
         fragment.setListener(this);
@@ -65,10 +65,10 @@ public class NewPlace extends AppCompatActivity implements MapListener {
                 .commit();
     }
 
-    private void addPlace(){
-        if (place != null){
+    private void addPlace() {
+        if (place != null) {
             String task = placeName.getText().toString().trim();
-            if (task.matches("")){
+            if (task.matches("")) {
                 task = placeTitle;
             }
             if (task == null || task.matches("")) {
@@ -80,7 +80,7 @@ public class NewPlace extends AppCompatActivity implements MapListener {
 
             DataBase db = new DataBase(NewPlace.this);
             db.open();
-            if (id != 0){
+            if (id != 0) {
                 db.updatePlace(id, task, latitude, longitude);
             } else {
                 db.insertPlace(task, latitude, longitude);
@@ -120,12 +120,12 @@ public class NewPlace extends AppCompatActivity implements MapListener {
     }
 
     private void loadPlace() {
-        if (id != 0){
+        if (id != 0) {
             int radius = sPrefs.loadInt(Prefs.LOCATION_RADIUS);
             DataBase db = new DataBase(NewPlace.this);
             db.open();
             Cursor c = db.getPlace(id);
-            if (c != null && c.moveToFirst()){
+            if (c != null && c.moveToFirst()) {
                 String text = c.getString(c.getColumnIndex(DataBase.NAME));
                 double latitude = c.getDouble(c.getColumnIndex(DataBase.LATITUDE));
                 double longitude = c.getDouble(c.getColumnIndex(DataBase.LONGITUDE));

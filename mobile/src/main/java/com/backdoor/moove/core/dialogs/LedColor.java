@@ -20,7 +20,7 @@ import com.backdoor.moove.core.consts.LED;
 import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.Messages;
 
-public class LedColor extends Activity{
+public class LedColor extends Activity {
 
     private ListView musicList;
     private NotificationManagerCompat mNotifyMgr;
@@ -34,10 +34,10 @@ public class LedColor extends Activity{
         setContentView(R.layout.music_list_dilog);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         findViewById(R.id.windowBackground).setBackgroundColor(cs.getBackgroundStyle());
-        TextView dialogTitle = (TextView) findViewById(R.id.dialogTitle);
+        TextView dialogTitle = findViewById(R.id.dialogTitle);
         dialogTitle.setText(getString(R.string.led_color));
 
-        musicList = (ListView) findViewById(R.id.musicList);
+        musicList = findViewById(R.id.musicList);
         musicList.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 
         String[] colors = new String[LED.NUM_OF_LEDS];
@@ -59,7 +59,7 @@ public class LedColor extends Activity{
             }
         });
 
-        TextView musicDialogOk = (TextView) findViewById(R.id.musicDialogOk);
+        TextView musicDialogOk = findViewById(R.id.musicDialogOk);
         musicDialogOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +78,7 @@ public class LedColor extends Activity{
         });
     }
 
-    private void showLED(int color){
+    private void showLED(int color) {
         mNotifyMgr = NotificationManagerCompat.from(LedColor.this);
         mNotifyMgr.cancel(1);
         builder = new NotificationCompat.Builder(LedColor.this);

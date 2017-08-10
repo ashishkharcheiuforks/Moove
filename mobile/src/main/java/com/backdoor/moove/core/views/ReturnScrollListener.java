@@ -50,10 +50,10 @@ public class ReturnScrollListener extends RecyclerView.OnScrollListener {
             listener.onScrollStateChanged(recyclerView, newState);
         }
 
-        if(newState == RecyclerView.SCROLL_STATE_IDLE && mIsSnappable){
+        if (newState == RecyclerView.SCROLL_STATE_IDLE && mIsSnappable) {
 
-            int midHeader = -mMinHeaderTranslation/2;
-            int midFooter = mMinFooterTranslation/2;
+            int midHeader = -mMinHeaderTranslation / 2;
+            int midFooter = mMinFooterTranslation / 2;
 
             switch (mQuickReturnViewType) {
                 case HEADER:
@@ -159,10 +159,10 @@ public class ReturnScrollListener extends RecyclerView.OnScrollListener {
 //        Log.d(getClass().getSimpleName(), "onScroll() : mMinHeaderTranslation - "+mMinHeaderTranslation);
 //        Log.d(getClass().getSimpleName(), "onScroll() : mMinFooterTranslation - "+mMinFooterTranslation);
 
-        if(diff != 0){
-            switch (mQuickReturnViewType){
+        if (diff != 0) {
+            switch (mQuickReturnViewType) {
                 case HEADER:
-                    if(diff < 0){ // scrolling down
+                    if (diff < 0) { // scrolling down
                         mHeaderDiffTotal = Math.max(mHeaderDiffTotal + diff, mMinHeaderTranslation);
                     } else { // scrolling up
                         mHeaderDiffTotal = Math.min(Math.max(mHeaderDiffTotal + diff, mMinHeaderTranslation), 0);
@@ -171,7 +171,7 @@ public class ReturnScrollListener extends RecyclerView.OnScrollListener {
                     mHeader.setTranslationY(mHeaderDiffTotal);
                     break;
                 case FOOTER:
-                    if(diff < 0){ // scrolling down
+                    if (diff < 0) { // scrolling down
                         mFooterDiffTotal = Math.max(mFooterDiffTotal + diff, -mMinFooterTranslation);
                     } else { // scrolling up
                         mFooterDiffTotal = Math.min(Math.max(mFooterDiffTotal + diff, -mMinFooterTranslation), 0);
@@ -180,7 +180,7 @@ public class ReturnScrollListener extends RecyclerView.OnScrollListener {
                     mFooter.setTranslationY(-mFooterDiffTotal);
                     break;
                 case BOTH:
-                    if(diff < 0){ // scrolling down
+                    if (diff < 0) { // scrolling down
                         mHeaderDiffTotal = Math.max(mHeaderDiffTotal + diff, mMinHeaderTranslation);
                         mFooterDiffTotal = Math.max(mFooterDiffTotal + diff, -mMinFooterTranslation);
                     } else { // scrolling up
@@ -192,11 +192,11 @@ public class ReturnScrollListener extends RecyclerView.OnScrollListener {
                     mFooter.setTranslationY(-mFooterDiffTotal);
                     break;
                 case TWITTER:
-                    if(diff < 0){ // scrolling down
-                        if(scrollY > -mMinHeaderTranslation)
+                    if (diff < 0) { // scrolling down
+                        if (scrollY > -mMinHeaderTranslation)
                             mHeaderDiffTotal = Math.max(mHeaderDiffTotal + diff, mMinHeaderTranslation);
 
-                        if(scrollY > mMinFooterTranslation)
+                        if (scrollY > mMinFooterTranslation)
                             mFooterDiffTotal = Math.max(mFooterDiffTotal + diff, -mMinFooterTranslation);
                     } else { // scrolling up
                         mHeaderDiffTotal = Math.min(Math.max(mHeaderDiffTotal + diff, mMinHeaderTranslation), 0);
@@ -238,37 +238,37 @@ public class ReturnScrollListener extends RecyclerView.OnScrollListener {
             mQuickReturnViewType = quickReturnViewType;
         }
 
-        public Builder header(View header){
+        public Builder header(View header) {
             mHeader = header;
             return this;
         }
 
-        public Builder minHeaderTranslation(int minHeaderTranslation){
+        public Builder minHeaderTranslation(int minHeaderTranslation) {
             mMinHeaderTranslation = minHeaderTranslation;
             return this;
         }
 
-        public Builder footer(View footer){
+        public Builder footer(View footer) {
             mFooter = footer;
             return this;
         }
 
-        public Builder minFooterTranslation(int minFooterTranslation){
+        public Builder minFooterTranslation(int minFooterTranslation) {
             mMinFooterTranslation = minFooterTranslation;
             return this;
         }
 
-        public Builder columnCount(int columnCount){
+        public Builder columnCount(int columnCount) {
             mColumnCount = columnCount;
             return this;
         }
 
-        public Builder isSnappable(boolean isSnappable){
+        public Builder isSnappable(boolean isSnappable) {
             mIsSnappable = isSnappable;
             return this;
         }
 
-        public Builder isGrid(boolean isGrid){
+        public Builder isGrid(boolean isGrid) {
             this.isGrid = isGrid;
             return this;
         }

@@ -28,7 +28,7 @@ public class Help extends AppCompatActivity {
         }
         setContentView(R.layout.help_layout);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setLogo(R.drawable.ic_help_white_24dp);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -37,7 +37,7 @@ public class Help extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        helpView = (WebView) findViewById(R.id.helpView);
+        helpView = findViewById(R.id.helpView);
         String localeCheck = Locale.getDefault().toString().toLowerCase();
         String url;
         if (localeCheck.startsWith("uk")) {
@@ -50,7 +50,7 @@ public class Help extends AppCompatActivity {
 
         helpView.loadUrl(url);
 
-        FloatingEditText searchEdit = (FloatingEditText) findViewById(R.id.searchEdit);
+        FloatingEditText searchEdit = findViewById(R.id.searchEdit);
         searchEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

@@ -143,7 +143,7 @@ public class SimpleWidgetConfigureActivity extends Activity implements DialogInt
         setResult(RESULT_CANCELED);
 
         setContentView(R.layout.simple_widget_configure);
-        mAppWidgetText = (TextView) findViewById(R.id.appwidget_text);
+        mAppWidgetText = findViewById(R.id.appwidget_text);
         findViewById(R.id.add_button).setOnClickListener(mOnClickListener);
         findViewById(R.id.selectButton).setOnClickListener(chooseClick);
 

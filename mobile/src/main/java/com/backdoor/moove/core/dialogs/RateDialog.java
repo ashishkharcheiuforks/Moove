@@ -32,7 +32,7 @@ public class RateDialog extends Activity {
         findViewById(R.id.windowBackground).setBackgroundColor(cs.getBackgroundStyle());
         sharedPrefs = new SharedPrefs(RateDialog.this);
 
-        TextView buttonRate = (TextView) findViewById(R.id.buttonRate);
+        TextView buttonRate = findViewById(R.id.buttonRate);
         buttonRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,7 +42,7 @@ public class RateDialog extends Activity {
             }
         });
 
-        TextView rateLater = (TextView) findViewById(R.id.rateLater);
+        TextView rateLater = findViewById(R.id.rateLater);
         rateLater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +52,7 @@ public class RateDialog extends Activity {
             }
         });
 
-        TextView rateNever = (TextView) findViewById(R.id.rateNever);
+        TextView rateNever = findViewById(R.id.rateNever);
         rateNever.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

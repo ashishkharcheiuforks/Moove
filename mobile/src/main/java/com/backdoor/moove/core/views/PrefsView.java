@@ -28,21 +28,21 @@ import com.backdoor.moove.R;
  * limitations under the License.
  */
 public class PrefsView extends RelativeLayout {
-    
-    int check = 0;
-    int text = 2;
-    int view = 1;
-    int none = 3;
 
-    CheckBox checkBox;
-    TextView title;
-    TextView detail;
-    TextView prefsValue;
-    View dividerTop, dividerBottom, prefsView;
-    
-    boolean isChecked;
-    int viewType = check;
-    
+    private int check = 0;
+    private int text = 2;
+    private int view = 1;
+    private int none = 3;
+
+    private CheckBox checkBox;
+    private TextView title;
+    private TextView detail;
+    private TextView prefsValue;
+    private View dividerTop, dividerBottom, prefsView;
+
+    private boolean isChecked;
+    private int viewType = check;
+
     public PrefsView(Context context) {
         super(context);
         init(context, null);
@@ -61,10 +61,10 @@ public class PrefsView extends RelativeLayout {
     private void init(Context context, AttributeSet attrs) {
         View.inflate(context, R.layout.prefs_view_layout, this);
         setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
-        title = (TextView) findViewById(R.id.prefsPrimaryText);
-        detail = (TextView) findViewById(R.id.prefsSecondaryText);
-        prefsValue = (TextView) findViewById(R.id.prefsValue);
-        checkBox = (CheckBox) findViewById(R.id.prefsCheck);
+        title = findViewById(R.id.prefsPrimaryText);
+        detail = findViewById(R.id.prefsSecondaryText);
+        prefsValue = findViewById(R.id.prefsValue);
+        checkBox = findViewById(R.id.prefsCheck);
 
         dividerTop = findViewById(R.id.dividerTop);
         dividerBottom = findViewById(R.id.dividerBottom);
@@ -80,7 +80,7 @@ public class PrefsView extends RelativeLayout {
             boolean divTop = false;
             boolean divBottom = false;
             int res = 0;
-            
+
             try {
                 titleText = a.getString(R.styleable.PrefsView_prefs_primary_text);
                 detailText = a.getString(R.styleable.PrefsView_prefs_secondary_text);
@@ -131,7 +131,7 @@ public class PrefsView extends RelativeLayout {
     }
 
     public void setDetailText(String text) {
-        if (text == null){
+        if (text == null) {
             detail.setVisibility(GONE);
             return;
         }
@@ -142,7 +142,7 @@ public class PrefsView extends RelativeLayout {
     public void setValueText(String text) {
         prefsValue.setText(text);
     }
-    
+
     public void setViewResource(@DrawableRes int resource) {
         if (resource != 0) {
             prefsView.setBackgroundResource(resource);
@@ -164,10 +164,10 @@ public class PrefsView extends RelativeLayout {
         title.setEnabled(enabled);
     }
 
-    public boolean isChecked(){
+    public boolean isChecked() {
         return isChecked;
     }
-    
+
     public void setDividerTop(boolean divider) {
         if (divider) {
             dividerTop.setVisibility(VISIBLE);

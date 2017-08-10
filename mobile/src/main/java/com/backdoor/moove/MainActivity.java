@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
     private ArrayList<ReminderModel> arrayList;
 
     private FloatingActionButton fab;
-    private Toolbar toolbar;
     private ReturnScrollListener scrollListener;
 
     private Tracker mTracker;
@@ -61,26 +60,26 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
 
         if (Module.isLollipop()) {
             Slide slideTransition = new Slide();
-            slideTransition.setSlideEdge(Gravity.LEFT);
+            slideTransition.setSlideEdge(Gravity.START);
             slideTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
             getWindow().setReenterTransition(slideTransition);
             getWindow().setExitTransition(slideTransition);
         }
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        emptyItem = (LinearLayout) findViewById(R.id.emptyItem);
+        emptyItem = findViewById(R.id.emptyItem);
         emptyItem.setVisibility(View.VISIBLE);
 
-        ImageView emptyImage = (ImageView) findViewById(R.id.emptyImage);
+        ImageView emptyImage = findViewById(R.id.emptyImage);
         emptyImage.setImageResource(R.drawable.ic_alarm_off_48px_white);
 
-        currentList = (RecyclerView) findViewById(R.id.currentList);
+        currentList = findViewById(R.id.currentList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         currentList.setLayoutManager(mLayoutManager);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -204,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
         }
     }
 
-    private void showRate(){
+    private void showRate() {
         SharedPrefs sPrefs = new SharedPrefs(this);
 
         if (sPrefs.isString(Prefs.RATE_SHOW)) {
@@ -242,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
             public void onClick(DialogInterface dialog, int item) {
                 dialog.dismiss();
                 ReminderModel item1 = arrayList.get(position);
-                switch (item){
+                switch (item) {
                     case 0:
                         Reminder.edit(item1.getId(), MainActivity.this);
                         break;

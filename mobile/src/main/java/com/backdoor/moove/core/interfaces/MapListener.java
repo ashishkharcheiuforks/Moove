@@ -19,7 +19,10 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public interface MapListener {
     void placeChanged(LatLng place);
+
     void onZoomClick(boolean isFull);
+
     void onBackClick();
+
     void placeName(String name);
 }

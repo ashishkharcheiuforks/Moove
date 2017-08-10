@@ -28,23 +28,23 @@ public class LocationUtil {
 
     /**
      * Check if user enable on device any location service.
+     *
      * @param context application context.
      * @return boolean
      */
-    public static boolean checkLocationEnable(Context context){
+    public static boolean checkLocationEnable(Context context) {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        boolean isGPSEnabled = locationManager
-                .isProviderEnabled(LocationManager.GPS_PROVIDER);
-        boolean isNetworkEnabled = locationManager
-                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         return !(!isGPSEnabled && !isNetworkEnabled);
     }
 
     /**
      * Show dialog for enabling location service on device.
+     *
      * @param context application context.
      */
-    public static void showLocationAlert(final Context context, ActionCallbacks callbacks){
+    public static void showLocationAlert(final Context context, ActionCallbacks callbacks) {
         callbacks.showSnackbar(R.string.gps_is_not_enabled, R.string.settings, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +56,7 @@ public class LocationUtil {
 
     /**
      * Check if device has installed Google Play Services.
+     *
      * @param a Activity
      * @return boolean
      */
@@ -65,7 +66,8 @@ public class LocationUtil {
 
     /**
      * Show alert dialog for Play Services.
-     * @param a Activity.
+     *
+     * @param a          Activity.
      * @param resultCode result code.
      */
     public static void showPlayDialog(Activity a, int resultCode) {
@@ -82,6 +84,7 @@ public class LocationUtil {
 
     /**
      * Check if user has installed Google Play Services.
+     *
      * @param a activity.
      * @return boolean
      */
@@ -98,23 +101,25 @@ public class LocationUtil {
 
     /**
      * Get shorter string coordinates.
-     * @param latitude latitude.
+     *
+     * @param latitude  latitude.
      * @param longitude longitude.
      * @return parsed latitude and longitude to String
      */
-    public static String getAddress(double latitude, double longitude){
+    public static String getAddress(double latitude, double longitude) {
         return String.format("%.5f", latitude) + ", " +
                 String.format("%.5f", longitude);
     }
 
     /**
      * Get address from coordinates.
+     *
      * @param context application context.
-     * @param lat latitude.
-     * @param lon longitude.
+     * @param lat     latitude.
+     * @param lon     longitude.
      * @return address string
      */
-    public static String getAddress(Context context, double lat, double lon){
+    public static String getAddress(Context context, double lat, double lon) {
         String place = null;
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         try {

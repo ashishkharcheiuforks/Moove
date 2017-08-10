@@ -51,24 +51,24 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
         }
         setContentView(R.layout.places_activity_layout);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         toolbar.setTitle(getString(R.string.places));
 
-        emptyItem = (LinearLayout) findViewById(R.id.emptyItem);
+        emptyItem = findViewById(R.id.emptyItem);
         emptyItem.setVisibility(View.VISIBLE);
 
-        TextView emptyText = (TextView) findViewById(R.id.emptyText);
+        TextView emptyText = findViewById(R.id.emptyText);
         emptyText.setText(getString(R.string.no_places));
 
-        ImageView emptyImage = (ImageView) findViewById(R.id.emptyImage);
+        ImageView emptyImage = findViewById(R.id.emptyImage);
         emptyImage.setImageResource(R.drawable.place_white);
 
-        listView = (RecyclerView) findViewById(R.id.currentList);
+        listView = findViewById(R.id.currentList);
 
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab = findViewById(R.id.fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +84,7 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
         });
     }
 
-    private void loadPlaces(){
+    private void loadPlaces() {
         provider = new PlaceDataProvider(this, true);
         reloadView();
         PlaceRecyclerAdapter adapter = new PlaceRecyclerAdapter(this, provider, false);
@@ -108,7 +108,7 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
 
     private void reloadView() {
         int size = provider.getCount();
-        if (size > 0){
+        if (size > 0) {
             listView.setVisibility(View.VISIBLE);
             emptyItem.setVisibility(View.GONE);
         } else {
@@ -117,7 +117,7 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
         }
     }
 
-    private void deletePlace(int position){
+    private void deletePlace(int position) {
         long id = provider.getItem(position).getId();
         if (id != 0) {
             DataBase db = new DataBase(this);
@@ -130,7 +130,7 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
         }
     }
 
-    private void editPlace(int position){
+    private void editPlace(int position) {
         startActivity(new Intent(this, NewPlace.class)
                 .putExtra(Constants.ITEM_ID_INTENT, provider.getItem(position).getId()));
     }
@@ -178,9 +178,9 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
+        switch (requestCode) {
             case 101:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startActivity(new Intent(PlacesList.this, NewPlace.class));
                 } else {
                     Permissions.showInfo(PlacesList.this, Permissions.READ_CALENDAR);

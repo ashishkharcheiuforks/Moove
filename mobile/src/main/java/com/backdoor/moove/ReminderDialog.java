@@ -114,7 +114,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
             finish();
         }
 
-        AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         currVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
         int prefsVol = sPrefs.loadInt(Prefs.VOLUME);
         if (volume != -1) {
@@ -138,13 +138,13 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
 
         boolean isWake = sPrefs.loadBoolean(Prefs.WAKE_STATUS);
         if (isWake) {
-            PowerManager.WakeLock screenLock = ((PowerManager)getSystemService(POWER_SERVICE)).newWakeLock(
+            PowerManager.WakeLock screenLock = ((PowerManager) getSystemService(POWER_SERVICE)).newWakeLock(
                     PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
             screenLock.acquire();
             screenLock.release();
         }
 
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setTheme(cs.getTransparentStyle());
         setContentView(R.layout.reminder_dialog_layout);
 
@@ -152,20 +152,20 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
             getWindow().setStatusBarColor(cs.getStatusBarStyle());
         }
 
-        LinearLayout single_container = (LinearLayout) findViewById(R.id.single_container);
+        LinearLayout single_container = findViewById(R.id.single_container);
         single_container.setVisibility(View.VISIBLE);
 
         loadImage();
 
-        FloatingActionButton buttonOk = (FloatingActionButton) findViewById(R.id.buttonOk);
-        FloatingActionButton buttonEdit = (FloatingActionButton) findViewById(R.id.buttonEdit);
-        buttonCall = (FloatingActionButton) findViewById(R.id.buttonCall);
-        FloatingActionButton buttonNotification = (FloatingActionButton) findViewById(R.id.buttonNotification);
+        FloatingActionButton buttonOk = findViewById(R.id.buttonOk);
+        FloatingActionButton buttonEdit = findViewById(R.id.buttonEdit);
+        buttonCall = findViewById(R.id.buttonCall);
+        FloatingActionButton buttonNotification = findViewById(R.id.buttonNotification);
 
-        RoundImageView contactPhoto = (RoundImageView) findViewById(R.id.contactPhoto);
+        RoundImageView contactPhoto = findViewById(R.id.contactPhoto);
         contactPhoto.setVisibility(View.GONE);
 
-        remText = (TextView) findViewById(R.id.remText);
+        remText = findViewById(R.id.remText);
         remText.setText("");
         String type = getType();
         if (type != null) {
@@ -233,7 +233,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
             checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
             try {
                 startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
-            } catch (ActivityNotFoundException e){
+            } catch (ActivityNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -248,7 +248,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
     }
 
     private void loadImage() {
-        ImageView bgImage = (ImageView) findViewById(R.id.bgImage);
+        ImageView bgImage = findViewById(R.id.bgImage);
         bgImage.setVisibility(View.GONE);
         String imagePrefs = sPrefs.loadPrefs(Prefs.REMINDER_IMAGE);
         boolean blur = sPrefs.loadBoolean(Prefs.REMINDER_IMAGE_BLUR);
@@ -257,7 +257,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
-        if (imagePrefs.matches(Constants.DEFAULT)){
+        if (imagePrefs.matches(Constants.DEFAULT)) {
             if (blur) {
                 Picasso.with(ReminderDialog.this)
                         .load(R.drawable.photo)
@@ -271,7 +271,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
                         .into(bgImage);
             }
             bgImage.setVisibility(View.VISIBLE);
-        } else if (imagePrefs.matches(Constants.NONE)){
+        } else if (imagePrefs.matches(Constants.NONE)) {
             bgImage.setVisibility(View.GONE);
         } else {
             if (blur) {
@@ -290,14 +290,14 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         }
     }
 
-    private String getType(){
+    private String getType() {
         if (reminderType != null) {
             return reminderType;
         } else {
-            if (item != null){
+            if (item != null) {
                 return item.getType();
             } else {
-                if (id != 0){
+                if (id != 0) {
                     return reminder.getItem(id).getType();
                 } else {
                     return "";
@@ -306,12 +306,12 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         }
     }
 
-    private void make(){
+    private void make() {
         Reminder.disableReminder(id, ReminderDialog.this);
         notifier.discardNotification(id);
     }
 
-    private void showReminder(int i){
+    private void showReminder(int i) {
         sPrefs = new SharedPrefs(ReminderDialog.this);
         boolean isTTS = sPrefs.loadBoolean(Prefs.TTS);
         if (isMelody == 1) {
@@ -333,7 +333,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
                 installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
                 try {
                     startActivity(installTTSIntent);
-                } catch (ActivityNotFoundException e){
+                } catch (ActivityNotFoundException e) {
                     e.printStackTrace();
                 }
             }
@@ -348,7 +348,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
                 new Intent(SENT), 0);
         PendingIntent deliveredPI = PendingIntent.getBroadcast(ReminderDialog.this,
                 0, new Intent(DELIVERED), 0);
-        
+
         registerReceiver(sentReceiver = new SendReceiver(this), new IntentFilter(SENT));
         registerReceiver(deliveredReceiver = new DeliveredReceiver(), new IntentFilter(DELIVERED));
 
@@ -358,7 +358,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (MotionEvent.ACTION_DOWN == event.getAction()){
+        if (MotionEvent.ACTION_DOWN == event.getAction()) {
             notifier.discardMedia();
         }
         return super.onTouchEvent(event);
@@ -398,12 +398,12 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
     @Override
     public void onInit(int status) {
         sPrefs = new SharedPrefs(ReminderDialog.this);
-        if(status == TextToSpeech.SUCCESS){
+        if (status == TextToSpeech.SUCCESS) {
             int result = tts.setLanguage(new Language().getLocale(ReminderDialog.this));
-            if(result == TextToSpeech.LANG_MISSING_DATA ||
-                    result == TextToSpeech.LANG_NOT_SUPPORTED){
+            if (result == TextToSpeech.LANG_MISSING_DATA ||
+                    result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("error", "This Language is not supported");
-            } else{
+            } else {
                 if (task != null && !task.matches("")) {
                     try {
                         Thread.sleep(1000);
@@ -489,8 +489,6 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
                         makeCall();
                     }
                 }
-            } else if (event.getType() == DataEvent.TYPE_DELETED) {
-                // DataItem deleted
             }
         }
     }
@@ -533,13 +531,13 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
 
     private void makeCall() {
         String type = getType();
-        if (type.contains(Constants.TYPE_MESSAGE)){
+        if (type.contains(Constants.TYPE_MESSAGE)) {
             sendSMS(number, task);
         } else {
             Telephony.makeCall(number, ReminderDialog.this);
         }
         make();
-        if (!type.contains(Constants.TYPE_MESSAGE)){
+        if (!type.contains(Constants.TYPE_MESSAGE)) {
             finish();
         }
     }

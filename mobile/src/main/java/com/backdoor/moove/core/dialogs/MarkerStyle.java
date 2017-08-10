@@ -12,7 +12,7 @@ import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.SharedPrefs;
 
-public class MarkerStyle extends Activity implements View.OnClickListener{
+public class MarkerStyle extends Activity implements View.OnClickListener {
     private RadioButton red, green, blue, yellow, greenLight, blueLight, grey, purple,
             brown, orange, pink, teal, deepPurple, deepOrange, indigo, lime;
     private RadioGroup themeGroup, themeGroup2, themeGroup3, themeGroup4;
@@ -25,30 +25,30 @@ public class MarkerStyle extends Activity implements View.OnClickListener{
         setTheme(cs.getDialogStyle());
         setContentView(R.layout.marker_style_layout);
         findViewById(R.id.windowBackground).setBackgroundColor(cs.getBackgroundStyle());
-        TextView themeClose = (TextView) findViewById(R.id.themeClose);
+        TextView themeClose = findViewById(R.id.themeClose);
         themeClose.setOnClickListener(this);
 
-        red = (RadioButton) findViewById(R.id.redCheck);
-        green = (RadioButton) findViewById(R.id.greenCheck);
-        blue = (RadioButton) findViewById(R.id.blueCheck);
-        yellow = (RadioButton) findViewById(R.id.yellowCheck);
-        greenLight = (RadioButton) findViewById(R.id.greenLightCheck);
-        blueLight = (RadioButton) findViewById(R.id.blueLightCheck);
-        grey = (RadioButton) findViewById(R.id.greyCheck);
-        purple = (RadioButton) findViewById(R.id.purpleCheck);
-        brown = (RadioButton) findViewById(R.id.brownCheck);
-        orange = (RadioButton) findViewById(R.id.orangeCheck);
-        pink = (RadioButton) findViewById(R.id.pinkCheck);
-        teal = (RadioButton) findViewById(R.id.tealCheck);
-        deepPurple = (RadioButton) findViewById(R.id.deep_purple);
-        deepOrange = (RadioButton) findViewById(R.id.deep_orange);
-        indigo = (RadioButton) findViewById(R.id.indigo);
-        lime = (RadioButton) findViewById(R.id.lime);
+        red = findViewById(R.id.redCheck);
+        green = findViewById(R.id.greenCheck);
+        blue = findViewById(R.id.blueCheck);
+        yellow = findViewById(R.id.yellowCheck);
+        greenLight = findViewById(R.id.greenLightCheck);
+        blueLight = findViewById(R.id.blueLightCheck);
+        grey = findViewById(R.id.greyCheck);
+        purple = findViewById(R.id.purpleCheck);
+        brown = findViewById(R.id.brownCheck);
+        orange = findViewById(R.id.orangeCheck);
+        pink = findViewById(R.id.pinkCheck);
+        teal = findViewById(R.id.tealCheck);
+        deepPurple = findViewById(R.id.deep_purple);
+        deepOrange = findViewById(R.id.deep_orange);
+        indigo = findViewById(R.id.indigo);
+        lime = findViewById(R.id.lime);
 
-        themeGroup = (RadioGroup) findViewById(R.id.themeGroup);
-        themeGroup2 = (RadioGroup) findViewById(R.id.themeGroup2);
-        themeGroup3 = (RadioGroup) findViewById(R.id.themeGroup3);
-        themeGroup4 = (RadioGroup) findViewById(R.id.themeGroup4);
+        themeGroup = findViewById(R.id.themeGroup);
+        themeGroup2 = findViewById(R.id.themeGroup2);
+        themeGroup3 = findViewById(R.id.themeGroup3);
+        themeGroup4 = findViewById(R.id.themeGroup4);
 
         themeGroup.clearCheck();
         themeGroup2.clearCheck();
@@ -131,7 +131,7 @@ public class MarkerStyle extends Activity implements View.OnClickListener{
         }
     };
 
-    public void setUpRadio(){
+    public void setUpRadio() {
         sPrefs = new SharedPrefs(MarkerStyle.this);
         int loaded = sPrefs.loadInt(Prefs.MARKER_STYLE);
         switch (loaded) {
@@ -186,8 +186,8 @@ public class MarkerStyle extends Activity implements View.OnClickListener{
         }
     }
 
-    private void themeColorSwitch(int radio){
-        switch (radio){
+    private void themeColorSwitch(int radio) {
+        switch (radio) {
             case R.id.redCheck:
                 saveColor(0);
                 break;
@@ -251,7 +251,7 @@ public class MarkerStyle extends Activity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.themeClose:
                 finish();
                 break;

@@ -237,6 +237,11 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="e319ad50eeab199ac7860c9873cac1803c44386c"
+            />
         <activity
             android:name=".core.dialogs.WearTest"
             android:theme="@style/HomeDark" />

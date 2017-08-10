@@ -15,7 +15,7 @@ public class DisableAsync extends AsyncTask<Void, Void, Void> {
 
     private Context mContext;
 
-    public DisableAsync(Context context){
+    public DisableAsync(Context context) {
         this.mContext = context;
     }
 
@@ -24,7 +24,7 @@ public class DisableAsync extends AsyncTask<Void, Void, Void> {
         DataBase db = new DataBase(mContext);
         db.open();
         Cursor c = db.getReminders(Constants.ENABLE);
-        if (c != null && c.moveToFirst()){
+        if (c != null && c.moveToFirst()) {
             int i = 0;
             do {
                 long startTime = c.getInt(c.getColumnIndex(DataBase.START_TIME));

@@ -54,8 +54,8 @@ public class TitleNavigationAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.list_item_navigation, null);
         }
 
-        imgIcon = (ImageView) convertView.findViewById(R.id.imgIcon);
-        txtTitle = (TextView) convertView.findViewById(R.id.txtTitle);
+        imgIcon = convertView.findViewById(R.id.imgIcon);
+        txtTitle = convertView.findViewById(R.id.txtTitle);
 
         imgIcon.setImageResource(spinnerNavItem.get(position).getIcon());
         imgIcon.setVisibility(View.GONE);
@@ -73,11 +73,11 @@ public class TitleNavigationAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.list_item_navigation, null);
         }
 
-        RelativeLayout itemBg = (RelativeLayout) convertView.findViewById(R.id.itemBg);
+        RelativeLayout itemBg = convertView.findViewById(R.id.itemBg);
         itemBg.setBackgroundColor(cs.getSpinnerStyle());
 
-        imgIcon = (ImageView) convertView.findViewById(R.id.imgIcon);
-        txtTitle = (TextView) convertView.findViewById(R.id.txtTitle);
+        imgIcon = convertView.findViewById(R.id.imgIcon);
+        txtTitle = convertView.findViewById(R.id.txtTitle);
 
         imgIcon.setImageResource(spinnerNavItem.get(position).getIcon());
         txtTitle.setTextColor(context.getResources().getColor(R.color.whitePrimary));

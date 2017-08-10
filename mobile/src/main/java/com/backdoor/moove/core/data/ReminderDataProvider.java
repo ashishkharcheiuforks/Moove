@@ -2,6 +2,7 @@ package com.backdoor.moove.core.data;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.annotation.Nullable;
 
 import com.backdoor.moove.core.helper.DataBase;
 
@@ -9,13 +10,13 @@ import java.util.ArrayList;
 
 public class ReminderDataProvider {
 
-    public static ArrayList<MarkerModel> getListData(Context context){
+    public static ArrayList<MarkerModel> getListData(Context context) {
         ArrayList<MarkerModel> list = new ArrayList<>();
         list.clear();
         DataBase db = new DataBase(context);
         db.open();
         Cursor c = db.getAllReminders();
-        if (c != null && c.moveToFirst()){
+        if (c != null && c.moveToFirst()) {
             do {
                 String title = c.getString(c.getColumnIndex(DataBase.SUMMARY));
                 long id = c.getLong(c.getColumnIndex(DataBase._ID));
@@ -36,12 +37,12 @@ public class ReminderDataProvider {
         return list;
     }
 
-    public static ArrayList<ReminderModel> load(Context context){
+    public static ArrayList<ReminderModel> load(Context context) {
         ArrayList<ReminderModel> list = new ArrayList<>();
         DataBase db = new DataBase(context);
         db.open();
         Cursor c = db.getAllReminders();
-        if (c != null && c.moveToFirst()){
+        if (c != null && c.moveToFirst()) {
             do {
                 String title = c.getString(c.getColumnIndex(DataBase.SUMMARY));
                 String type = c.getString(c.getColumnIndex(DataBase.TYPE));
@@ -68,12 +69,13 @@ public class ReminderDataProvider {
         return list;
     }
 
-    public static ReminderModel getItem(Context mContext, long id){
+    @Nullable
+    public static ReminderModel getItem(Context mContext, long id) {
         ReminderModel item = null;
         DataBase db = new DataBase(mContext);
         db.open();
         Cursor c = db.getReminder(id);
-        if (c != null && c.moveToFirst()){
+        if (c != null && c.moveToFirst()) {
             String title = c.getString(c.getColumnIndex(DataBase.SUMMARY));
             String type = c.getString(c.getColumnIndex(DataBase.TYPE));
             String number = c.getString(c.getColumnIndex(DataBase.NUMBER));

@@ -39,7 +39,7 @@ public class SettingsActivity extends AppCompatActivity implements
             getWindow().setStatusBarColor(cSetter.colorPrimaryDark());
         }
         setContentView(R.layout.category_layout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -68,16 +68,17 @@ public class SettingsActivity extends AppCompatActivity implements
 
     /**
      * Attach settings fragment.
+     *
      * @param position list position.
      */
     public void onArticleSelected(int position) {
-        if (position == 0){
+        if (position == 0) {
             attachFragment(new GeneralSettingsFragment());
-        } else if (position == 1){
+        } else if (position == 1) {
             attachFragment(new NotificationSettingsFragment());
-        } else if (position == 2){
+        } else if (position == 2) {
             attachFragment(new LocationSettingsFragment());
-        } else if (position == 3){
+        } else if (position == 3) {
             attachFragment(new OtherSettingsFragment());
         }
     }
@@ -104,7 +105,7 @@ public class SettingsActivity extends AppCompatActivity implements
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
+        switch (requestCode) {
             case 201:
                 if (resultCode == RESULT_OK) {
                     new SharedPrefs(this).saveBoolean(Prefs.CUSTOM_SOUND, true);

@@ -19,5 +19,6 @@ import android.view.View;
  */
 public interface ActionCallbacksExtended extends ActionCallbacks {
     void showSnackbar(String message);
+
     void showSnackbar(String message, int actionTitle, View.OnClickListener listener);
 }

@@ -33,8 +33,9 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.ViewHolder> 
 
     /**
      * Adapter constructor.
+     *
      * @param context application context.
-     * @param array places data provider.
+     * @param array   places data provider.
      */
     public PlaceAdapter(final Context context, ArrayList<String> array) {
         this.array = array;
@@ -55,11 +56,12 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.ViewHolder> 
 
         /**
          * View holder constructor.
+         *
          * @param v view.
          */
         public ViewHolder(final View v) {
             super(v);
-            textView = (TextView) v.findViewById(R.id.text1);
+            textView = v.findViewById(R.id.text1);
             textView.setTypeface(typeface);
 
             v.setOnClickListener(this);
@@ -103,6 +105,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.ViewHolder> 
 
     /**
      * Get current action listener.
+     *
      * @return Action listener.
      */
     public SimpleListener getEventListener() {
@@ -111,6 +114,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.ViewHolder> 
 
     /**
      * Set action listener for adapter.
+     *
      * @param eventListener action listener.
      */
     public void setEventListener(final SimpleListener eventListener) {

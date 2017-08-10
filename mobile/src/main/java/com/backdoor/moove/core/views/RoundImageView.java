@@ -1,6 +1,5 @@
 package com.backdoor.moove.core.views;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -18,15 +17,15 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.widget.ImageView;
 
 import com.backdoor.moove.R;
 
 
-public class RoundImageView extends ImageView{
+public class RoundImageView extends AppCompatImageView {
     private static final String TAG = RoundImageView.class.getSimpleName();
 
     // Default property values
@@ -72,16 +71,11 @@ public class RoundImageView extends ImageView{
         init(context, attrs, defStyleAttr);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public RoundImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(context, attrs, defStyleAttr);
-    }
-
     /**
      * Initializes paint objects and sets desired attributes.
-     * @param context Context
-     * @param attrs Attributes
+     *
+     * @param context  Context
+     * @param attrs    Attributes
      * @param defStyle Default Style
      */
     private void init(Context context, AttributeSet attrs, int defStyle) {
@@ -95,7 +89,7 @@ public class RoundImageView extends ImageView{
         paintSelectorBorder.setAntiAlias(true);
 
         // Enable software rendering on HoneyComb and up. (needed for shadow)
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
             setLayerType(LAYER_TYPE_SOFTWARE, null);
 
         // Load the styled attributes and set their properties
@@ -107,14 +101,14 @@ public class RoundImageView extends ImageView{
         shadowEnabled = attributes.getBoolean(R.styleable.RoundImageView_civ_shadow, SHADOW_ENABLED);
 
         // Set border properties, if enabled
-        if(hasBorder) {
+        if (hasBorder) {
             int defaultBorderSize = (int) (2 * context.getResources().getDisplayMetrics().density + 0.5f);
             setBorderWidth(attributes.getDimensionPixelOffset(R.styleable.RoundImageView_civ_borderWidth, defaultBorderSize));
             setBorderColor(attributes.getColor(R.styleable.RoundImageView_civ_borderColor, Color.WHITE));
         }
 
         // Set selector properties, if enabled
-        if(hasSelector) {
+        if (hasSelector) {
             int defaultSelectorSize = (int) (2 * context.getResources().getDisplayMetrics().density + 0.5f);
             setSelectorColor(attributes.getColor(R.styleable.RoundImageView_civ_selectorColor, Color.TRANSPARENT));
             setSelectorStrokeWidth(attributes.getDimensionPixelOffset(R.styleable.RoundImageView_civ_selectorStrokeWidth, defaultSelectorSize));
@@ -122,7 +116,7 @@ public class RoundImageView extends ImageView{
         }
 
         // Set shadow properties, if enabled
-        if(shadowEnabled) {
+        if (shadowEnabled) {
             shadowRadius = attributes.getFloat(R.styleable.RoundImageView_civ_shadowRadius, SHADOW_RADIUS);
             shadowDx = attributes.getFloat(R.styleable.RoundImageView_civ_shadowDx, SHADOW_DX);
             shadowDy = attributes.getFloat(R.styleable.RoundImageView_civ_shadowDy, SHADOW_DY);
@@ -136,11 +130,12 @@ public class RoundImageView extends ImageView{
 
     /**
      * Sets the CircularImageView's border width in pixels.
+     *
      * @param borderWidth Width in pixels for the border.
      */
     public void setBorderWidth(int borderWidth) {
         this.borderWidth = borderWidth;
-        if(paintBorder != null)
+        if (paintBorder != null)
             paintBorder.setStrokeWidth(borderWidth);
         requestLayout();
         invalidate();
@@ -148,6 +143,7 @@ public class RoundImageView extends ImageView{
 
     /**
      * Sets the CircularImageView's basic border color.
+     *
      * @param borderColor The new color (including alpha) to set the border.
      */
     public void setBorderColor(int borderColor) {
@@ -159,6 +155,7 @@ public class RoundImageView extends ImageView{
     /**
      * Sets the color of the selector to be draw over the
      * CircularImageView. Be sure to provide some opacity.
+     *
      * @param selectorColor The color (including alpha) to set for the selector overlay.
      */
     public void setSelectorColor(int selectorColor) {
@@ -169,6 +166,7 @@ public class RoundImageView extends ImageView{
     /**
      * Sets the stroke width to be drawn around the CircularImageView
      * during click events when the selector is enabled.
+     *
      * @param selectorStrokeWidth Width in pixels for the selector stroke.
      */
     public void setSelectorStrokeWidth(int selectorStrokeWidth) {
@@ -180,6 +178,7 @@ public class RoundImageView extends ImageView{
     /**
      * Sets the stroke color to be drawn around the CircularImageView
      * during click events when the selector is enabled.
+     *
      * @param selectorStrokeColor The color (including alpha) to set for the selector stroke.
      */
     public void setSelectorStrokeColor(int selectorStrokeColor) {
@@ -190,6 +189,7 @@ public class RoundImageView extends ImageView{
 
     /**
      * Enables a dark shadow for this CircularImageView.
+     *
      * @param enabled Set to true to draw a shadow or false to disable it.
      */
     public void setShadowEnabled(boolean enabled) {
@@ -200,10 +200,11 @@ public class RoundImageView extends ImageView{
     /**
      * Enables a dark shadow for this CircularImageView.
      * If the radius is set to 0, the shadow is removed.
+     *
      * @param radius Radius for the shadow to extend to.
-     * @param dx Horizontal shadow offset.
-     * @param dy Vertical shadow offset.
-     * @param color The color of the shadow to apply.
+     * @param dx     Horizontal shadow offset.
+     * @param dy     Vertical shadow offset.
+     * @param color  The color of the shadow to apply.
      */
     public void setShadow(float radius, float dx, float dy, int color) {
         shadowRadius = radius;
@@ -216,17 +217,17 @@ public class RoundImageView extends ImageView{
     @Override
     public void onDraw(Canvas canvas) {
         // Don't draw anything without an image
-        if(image == null)
+        if (image == null)
             return;
 
         // Nothing to draw (Empty bounds)
-        if(image.getHeight() == 0 || image.getWidth() == 0)
+        if (image.getHeight() == 0 || image.getWidth() == 0)
             return;
 
         // Update shader if canvas size has changed
         int oldCanvasSize = canvasSize;
         canvasSize = getWidth() < getHeight() ? getWidth() : getHeight();
-        if(oldCanvasSize != canvasSize)
+        if (oldCanvasSize != canvasSize)
             updateBitmapShader();
 
         // Apply shader to paint
@@ -239,14 +240,13 @@ public class RoundImageView extends ImageView{
         int center = canvasSize / 2;
 
 
-        if(hasSelector && isSelected) { // Draw the selector stroke & apply the selector filter, if applicable
+        if (hasSelector && isSelected) { // Draw the selector stroke & apply the selector filter, if applicable
             outerWidth = selectorStrokeWidth;
             center = (canvasSize - (outerWidth * 2)) / 2;
 
             paint.setColorFilter(selectorFilter);
             canvas.drawCircle(center + outerWidth, center + outerWidth, ((canvasSize - (outerWidth * 2)) / 2) + outerWidth - 4.0f, paintSelectorBorder);
-        }
-        else if(hasBorder) { // If no selector was drawn, draw a border and clear the filter instead... if enabled
+        } else if (hasBorder) { // If no selector was drawn, draw a border and clear the filter instead... if enabled
             outerWidth = borderWidth;
             center = (canvasSize - (outerWidth * 2)) / 2;
 
@@ -254,8 +254,7 @@ public class RoundImageView extends ImageView{
             RectF rekt = new RectF(0 + outerWidth / 2, 0 + outerWidth / 2, canvasSize - outerWidth / 2, canvasSize - outerWidth / 2);
             canvas.drawArc(rekt, 360, 360, false, paintBorder);
             //canvas.drawCircle(center + outerWidth, center + outerWidth, ((canvasSize - (outerWidth * 2)) / 2) + outerWidth - 4.0f, paintBorder);
-        }
-        else // Clear the color filter if no selector nor border were drawn
+        } else // Clear the color filter if no selector nor border were drawn
             paint.setColorFilter(null);
 
         // Draw the circular image itself
@@ -265,13 +264,13 @@ public class RoundImageView extends ImageView{
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         // Check for clickable state and do nothing if disabled
-        if(!this.isClickable()) {
+        if (!this.isClickable()) {
             this.isSelected = false;
             return super.onTouchEvent(event);
         }
 
         // Set selected state based on Motion Event
-        switch(event.getAction()) {
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 this.isSelected = true;
                 break;
@@ -294,7 +293,7 @@ public class RoundImageView extends ImageView{
 
         // Extract a Bitmap out of the drawable & set it as the main shader
         image = drawableToBitmap(getDrawable());
-        if(canvasSize > 0)
+        if (canvasSize > 0)
             updateBitmapShader();
     }
 
@@ -304,7 +303,7 @@ public class RoundImageView extends ImageView{
 
         // Extract a Bitmap out of the drawable & set it as the main shader
         image = drawableToBitmap(getDrawable());
-        if(canvasSize > 0)
+        if (canvasSize > 0)
             updateBitmapShader();
     }
 
@@ -314,7 +313,7 @@ public class RoundImageView extends ImageView{
 
         // Extract a Bitmap out of the drawable & set it as the main shader
         image = drawableToBitmap(getDrawable());
-        if(canvasSize > 0)
+        if (canvasSize > 0)
             updateBitmapShader();
     }
 
@@ -324,7 +323,7 @@ public class RoundImageView extends ImageView{
 
         // Extract a Bitmap out of the drawable & set it as the main shader
         image = bm;
-        if(canvasSize > 0)
+        if (canvasSize > 0)
             updateBitmapShader();
     }
 
@@ -343,12 +342,10 @@ public class RoundImageView extends ImageView{
         if (specMode == MeasureSpec.EXACTLY) {
             // The parent has determined an exact size for the child.
             result = specSize;
-        }
-        else if (specMode == MeasureSpec.AT_MOST) {
+        } else if (specMode == MeasureSpec.AT_MOST) {
             // The child can be as large as it wants up to the specified size.
             result = specSize;
-        }
-        else {
+        } else {
             // The parent has not imposed any constraint on the child.
             result = canvasSize;
         }
@@ -385,6 +382,7 @@ public class RoundImageView extends ImageView{
 
     /**
      * Convert a drawable object into a Bitmap.
+     *
      * @param drawable Drawable to extract a Bitmap from.
      * @return A Bitmap created from the drawable parameter.
      */
@@ -417,7 +415,8 @@ public class RoundImageView extends ImageView{
     }
 
     // TODO TEST REMOVE
-    public void setIconModeEnabled(boolean e) {}
+    public void setIconModeEnabled(boolean e) {
+    }
 
     /**
      * Re-initializes the shader texture used to fill in
@@ -429,7 +428,7 @@ public class RoundImageView extends ImageView{
 
         shader = new BitmapShader(image, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
 
-        if(canvasSize != image.getWidth() || canvasSize != image.getHeight()) {
+        if (canvasSize != image.getWidth() || canvasSize != image.getHeight()) {
             Matrix matrix = new Matrix();
             float scale = (float) canvasSize / (float) image.getWidth();
             matrix.setScale(scale, scale);

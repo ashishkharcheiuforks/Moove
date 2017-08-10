@@ -25,7 +25,7 @@ import com.backdoor.moove.core.widgets.SimpleWidget;
  */
 public class Widget {
 
-    public static void updateWidgets(Context context){
+    public static void updateWidgets(Context context) {
         Intent intent = new Intent(context, LeftDistanceWidget.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         int ids[] = AppWidgetManager.getInstance(context).getAppWidgetIds(new

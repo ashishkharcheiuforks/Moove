@@ -51,64 +51,69 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
             rootView.findViewById(R.id.soundCard).setElevation(Configs.CARD_ELEVATION);
             rootView.findViewById(R.id.systemCard).setElevation(Configs.CARD_ELEVATION);
         }
-        TextView selectImage = (TextView) rootView.findViewById(R.id.selectImage);
+        TextView selectImage = rootView.findViewById(R.id.selectImage);
         selectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialogues.imageDialog(getActivity(), null);
+                Dialogues.imageDialog(getActivity(), new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+
+                    }
+                });
             }
         });
 
-        blurPrefs = (PrefsView) rootView.findViewById(R.id.blurPrefs);
+        blurPrefs = rootView.findViewById(R.id.blurPrefs);
         blurPrefs.setOnClickListener(this);
         blurPrefs.setChecked(sPrefs.loadBoolean(Prefs.REMINDER_IMAGE_BLUR));
         blurPrefs.setEnabled(true);
 
-        vibrationOptionPrefs = (PrefsView) rootView.findViewById(R.id.vibrationOptionPrefs);
+        vibrationOptionPrefs = rootView.findViewById(R.id.vibrationOptionPrefs);
         vibrationOptionPrefs.setOnClickListener(this);
         vibrationOptionPrefs.setChecked(sPrefs.loadBoolean(Prefs.VIBRATION_STATUS));
 
-        infiniteVibrateOptionPrefs = (PrefsView) rootView.findViewById(R.id.infiniteVibrateOptionPrefs);
+        infiniteVibrateOptionPrefs = rootView.findViewById(R.id.infiniteVibrateOptionPrefs);
         infiniteVibrateOptionPrefs.setOnClickListener(this);
         infiniteVibrateOptionPrefs.setChecked(sPrefs.loadBoolean(Prefs.INFINITE_VIBRATION));
 
-        soundOptionPrefs = (PrefsView) rootView.findViewById(R.id.soundOptionPrefs);
+        soundOptionPrefs = rootView.findViewById(R.id.soundOptionPrefs);
         soundOptionPrefs.setOnClickListener(this);
         soundOptionPrefs.setChecked(sPrefs.loadBoolean(Prefs.SILENT_SOUND));
 
-        infiniteSoundOptionPrefs = (PrefsView) rootView.findViewById(R.id.infiniteSoundOptionPrefs);
+        infiniteSoundOptionPrefs = rootView.findViewById(R.id.infiniteSoundOptionPrefs);
         infiniteSoundOptionPrefs.setOnClickListener(this);
         infiniteSoundOptionPrefs.setChecked(sPrefs.loadBoolean(Prefs.INFINITE_SOUND));
 
-        ttsPrefs = (PrefsView) rootView.findViewById(R.id.ttsPrefs);
+        ttsPrefs = rootView.findViewById(R.id.ttsPrefs);
         ttsPrefs.setOnClickListener(this);
         ttsPrefs.setChecked(sPrefs.loadBoolean(Prefs.TTS));
 
-        wakeScreenOptionPrefs = (PrefsView) rootView.findViewById(R.id.wakeScreenOptionPrefs);
+        wakeScreenOptionPrefs = rootView.findViewById(R.id.wakeScreenOptionPrefs);
         wakeScreenOptionPrefs.setOnClickListener(this);
         wakeScreenOptionPrefs.setChecked(sPrefs.loadBoolean(Prefs.WAKE_STATUS));
 
-        unlockScreenPrefs = (PrefsView) rootView.findViewById(R.id.unlockScreenPrefs);
+        unlockScreenPrefs = rootView.findViewById(R.id.unlockScreenPrefs);
         unlockScreenPrefs.setOnClickListener(this);
         unlockScreenPrefs.setChecked(sPrefs.loadBoolean(Prefs.UNLOCK_DEVICE));
 
-        silentSMSOptionPrefs = (PrefsView) rootView.findViewById(R.id.silentSMSOptionPrefs);
+        silentSMSOptionPrefs = rootView.findViewById(R.id.silentSMSOptionPrefs);
         silentSMSOptionPrefs.setOnClickListener(this);
         silentSMSOptionPrefs.setChecked(sPrefs.loadBoolean(Prefs.SILENT_SMS));
 
-        silentCallOptionPrefs = (PrefsView) rootView.findViewById(R.id.silentCallOptionPrefs);
+        silentCallOptionPrefs = rootView.findViewById(R.id.silentCallOptionPrefs);
         silentCallOptionPrefs.setOnClickListener(this);
         silentCallOptionPrefs.setChecked(sPrefs.loadBoolean(Prefs.SILENT_CALL));
 
-        chooseSoundPrefs = (PrefsView) rootView.findViewById(R.id.chooseSoundPrefs);
+        chooseSoundPrefs = rootView.findViewById(R.id.chooseSoundPrefs);
         chooseSoundPrefs.setOnClickListener(this);
 
         showMelody();
 
-        TextView volume = (TextView) rootView.findViewById(R.id.volume);
+        TextView volume = rootView.findViewById(R.id.volume);
         volume.setOnClickListener(this);
 
-        locale = (TextView) rootView.findViewById(R.id.locale);
+        locale = rootView.findViewById(R.id.locale);
         locale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,8 +121,8 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
             }
         });
 
-        ledPrefs = (PrefsView) rootView.findViewById(R.id.ledPrefs);
-        chooseLedColorPrefs = (PrefsView) rootView.findViewById(R.id.chooseLedColorPrefs);
+        ledPrefs = rootView.findViewById(R.id.ledPrefs);
+        chooseLedColorPrefs = rootView.findViewById(R.id.chooseLedColorPrefs);
 
         checkVibrate();
 

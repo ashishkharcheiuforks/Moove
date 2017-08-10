@@ -29,7 +29,7 @@ public class LeftDistanceWidget extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.left_distance_widget);
         views.setTextViewText(R.id.appwidget_text, widgetText);
         views.setTextViewText(R.id.leftDistance, distance <= 0 ? context.getString(R.string.off) :
-                String.format(context.getString(R.string.distance_m), distance));
+                String.format(context.getString(R.string.distance_m), String.valueOf(distance)));
         views.setImageViewResource(R.id.markerImage, new Coloring(context).getMarkerStyle(icon));
 
         Intent configIntent = new Intent(context, MainActivity.class);

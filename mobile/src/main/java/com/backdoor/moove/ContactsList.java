@@ -40,7 +40,7 @@ public class ContactsList extends AppCompatActivity {
         }
         setContentView(R.layout.contact_picker_layout);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -49,7 +49,7 @@ public class ContactsList extends AppCompatActivity {
         Intent intent = getIntent();
         final ArrayList<String> contacts = intent.getStringArrayListExtra(Constants.SELECTED_CONTACT_ARRAY);
 
-        searchField = (EditText) findViewById(R.id.searchField);
+        searchField = findViewById(R.id.searchField);
         searchField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -68,7 +68,7 @@ public class ContactsList extends AppCompatActivity {
             }
         });
 
-        ListView contactsList = (ListView) findViewById(R.id.contactsList);
+        ListView contactsList = findViewById(R.id.contactsList);
         adapter = new ArrayAdapter<>(ContactsList.this, android.R.layout.simple_list_item_1, contacts);
         contactsList.setAdapter(adapter);
 
@@ -140,7 +140,7 @@ public class ContactsList extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        InputMethodManager imm = (InputMethodManager)getSystemService(
+        InputMethodManager imm = (InputMethodManager) getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(searchField.getWindowToken(), 0);
         super.onPause();

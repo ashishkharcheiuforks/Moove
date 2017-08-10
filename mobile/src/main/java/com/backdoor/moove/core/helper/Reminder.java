@@ -29,7 +29,7 @@ public class Reminder {
 
     public Reminder(long id, String title, String type, String melody, String uuId,
                     double[] place, String number, int radius, long startTime,
-                    int color, int marker, int volume){
+                    int color, int marker, int volume) {
         this.id = id;
         this.title = title;
         this.type = type;
@@ -46,11 +46,12 @@ public class Reminder {
 
     /**
      * Toggle reminder status.
-     * @param id reminder identifier.
+     *
+     * @param id      reminder identifier.
      * @param context application context.
      * @return boolean
      */
-    public static boolean toggle(long id, Context context, ActionCallbacks callbacks){
+    public static boolean toggle(long id, Context context, ActionCallbacks callbacks) {
         DataBase db = new DataBase(context);
         db.open();
         Cursor c = db.getReminder(id);
@@ -63,13 +64,13 @@ public class Reminder {
         if (c != null) {
             c.close();
         }
-        if (status == Constants.ENABLE){
+        if (status == Constants.ENABLE) {
             db.close();
             disableReminder(id, context);
             callbacks.showSnackbar(R.string.reminder_disabled);
             return true;
         } else {
-            if (!LocationUtil.checkLocationEnable(context)){
+            if (!LocationUtil.checkLocationEnable(context)) {
                 db.close();
                 LocationUtil.showLocationAlert(context, callbacks);
                 return false;
@@ -97,10 +98,11 @@ public class Reminder {
 
     /**
      * Disable reminder.
-     * @param id reminder identifier.
+     *
+     * @param id      reminder identifier.
      * @param context application context.
      */
-    public static void disableReminder(long id, Context context){
+    public static void disableReminder(long id, Context context) {
         DataBase db = new DataBase(context);
         if (!db.isOpen()) {
             db.open();
@@ -122,8 +124,9 @@ public class Reminder {
 
     /**
      * Disable all available reminder notifications.
+     *
      * @param context application context.
-     * @param id reminder identifier.
+     * @param id      reminder identifier.
      */
     private static void disable(Context context, long id) {
         NotificationManager mNotifyMgr =
@@ -136,10 +139,11 @@ public class Reminder {
 
     /**
      * Edit reminder.
-     * @param id reminder identifier.
+     *
+     * @param id      reminder identifier.
      * @param context application context.
      */
-    public static void edit(long id, Context context){
+    public static void edit(long id, Context context) {
         disable(context, id);
         Intent intentId = new Intent(context, ReminderManager.class);
         intentId.putExtra(Constants.EDIT_ID, id);
@@ -148,7 +152,8 @@ public class Reminder {
 
     /**
      * Delete reminder from application.
-     * @param id reminder identifier.
+     *
+     * @param id      reminder identifier.
      * @param context application context.
      */
     public static void delete(long id, Context context) {
@@ -163,9 +168,10 @@ public class Reminder {
 
     /**
      * Set widget for reminder.
+     *
      * @param reminderId reminder identifier.
-     * @param prefs appWidget preferences key.
-     * @param context application context.
+     * @param prefs      appWidget preferences key.
+     * @param context    application context.
      */
     public static void setWidget(Context context, long reminderId, String prefs) {
         DataBase db = new DataBase(context);
@@ -178,7 +184,8 @@ public class Reminder {
 
     /**
      * Remove widget from reminder.
-     * @param prefs appWidget preferences key.
+     *
+     * @param prefs   appWidget preferences key.
      * @param context application context.
      */
     public static void removeWidget(Context context, String prefs) {
@@ -207,75 +214,75 @@ public class Reminder {
         return marker;
     }
 
-    public String getMelody(){
+    public String getMelody() {
         return melody;
     }
 
-    public void setMelody(String melody){
+    public void setMelody(String melody) {
         this.melody = melody;
     }
 
-    public int getRadius(){
+    public int getRadius() {
         return radius;
     }
 
-    public void setRadius(int radius){
+    public void setRadius(int radius) {
         this.radius = radius;
     }
 
-    public int getColor(){
+    public int getColor() {
         return color;
     }
 
-    public void setColor(int color){
+    public void setColor(int color) {
         this.color = color;
     }
 
-    public double[] getPlace(){
+    public double[] getPlace() {
         return place;
     }
 
-    public void  setPlace(double[] place){
+    public void setPlace(double[] place) {
         this.place = place;
     }
 
-    public long getId(){
+    public long getId() {
         return id;
     }
 
-    public void setId(long id){
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title){
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getType(){
+    public String getType() {
         return type;
     }
 
-    public void setType(String type){
+    public void setType(String type) {
         this.type = type;
     }
 
-    public String getUuId(){
+    public String getUuId() {
         return uuId;
     }
 
-    public void setUuId(String uuId){
+    public void setUuId(String uuId) {
         this.uuId = uuId;
     }
 
-    public String getNumber(){
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(String number){
+    public void setNumber(String number) {
         this.number = number;
     }
 

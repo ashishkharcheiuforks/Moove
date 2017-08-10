@@ -26,17 +26,17 @@ public class LocationSettingsFragment extends Fragment implements View.OnClickLi
 
     private SharedPrefs sPrefs;
     private ActionBar ab;
-    
+
     private PrefsView notificationOptionPrefs, radiusPrefs, autoFill;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView =  inflater.inflate(R.layout.settings_location, container, false);
+        View rootView = inflater.inflate(R.layout.settings_location, container, false);
         sPrefs = new SharedPrefs(getActivity().getApplicationContext());
 
-        ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if (ab != null){
+        ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (ab != null) {
             ab.setTitle(R.string.location);
         }
 
@@ -44,35 +44,35 @@ public class LocationSettingsFragment extends Fragment implements View.OnClickLi
             rootView.findViewById(R.id.locationCard).setElevation(Configs.CARD_ELEVATION);
         }
 
-        TextView mapType = (TextView) rootView.findViewById(R.id.mapType);
+        TextView mapType = rootView.findViewById(R.id.mapType);
         mapType.setOnClickListener(this);
 
-        notificationOptionPrefs = (PrefsView) rootView.findViewById(R.id.notificationOptionPrefs);
+        notificationOptionPrefs = rootView.findViewById(R.id.notificationOptionPrefs);
         notificationOptionPrefs.setChecked(sPrefs.loadBoolean(Prefs.TRACKING_NOTIFICATION));
         notificationOptionPrefs.setOnClickListener(this);
 
-        autoFill = (PrefsView) rootView.findViewById(R.id.autoFill);
+        autoFill = rootView.findViewById(R.id.autoFill);
         autoFill.setChecked(sPrefs.loadBoolean(Prefs.PLACES_AUTO));
         autoFill.setOnClickListener(this);
 
-        radiusPrefs = (PrefsView) rootView.findViewById(R.id.radiusPrefs);
+        radiusPrefs = rootView.findViewById(R.id.radiusPrefs);
         radiusPrefs.setOnClickListener(this);
 
-        TextView places = (TextView) rootView.findViewById(R.id.places);
+        TextView places = rootView.findViewById(R.id.places);
         places.setOnClickListener(this);
 
-        TextView tracker = (TextView) rootView.findViewById(R.id.tracker);
+        TextView tracker = rootView.findViewById(R.id.tracker);
         tracker.setOnClickListener(this);
 
-        TextView markerStyle = (TextView) rootView.findViewById(R.id.markerStyle);
+        TextView markerStyle = rootView.findViewById(R.id.markerStyle);
         markerStyle.setOnClickListener(this);
 
         return rootView;
     }
 
-    private void notificationChange (){
+    private void notificationChange() {
         sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-        if (notificationOptionPrefs.isChecked()){
+        if (notificationOptionPrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.TRACKING_NOTIFICATION, false);
             notificationOptionPrefs.setChecked(false);
         } else {
@@ -81,9 +81,9 @@ public class LocationSettingsFragment extends Fragment implements View.OnClickLi
         }
     }
 
-    private void placesChange (){
+    private void placesChange() {
         sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-        if (autoFill.isChecked()){
+        if (autoFill.isChecked()) {
             sPrefs.saveBoolean(Prefs.PLACES_AUTO, false);
             autoFill.setChecked(false);
         } else {
@@ -103,8 +103,8 @@ public class LocationSettingsFragment extends Fragment implements View.OnClickLi
     @Override
     public void onDetach() {
         super.onDetach();
-        ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if (ab != null){
+        ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (ab != null) {
             ab.setTitle(R.string.settings);
         }
     }

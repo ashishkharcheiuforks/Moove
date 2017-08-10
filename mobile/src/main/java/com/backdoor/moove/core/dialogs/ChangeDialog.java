@@ -46,7 +46,7 @@ public class ChangeDialog extends Activity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (alertDialog != null && alertDialog.isShowing()){
+        if (alertDialog != null && alertDialog.isShowing()) {
             alertDialog.dismiss();
         }
         finish();

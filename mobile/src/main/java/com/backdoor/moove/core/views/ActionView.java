@@ -66,20 +66,20 @@ public class ActionView extends LinearLayout {
         View.inflate(context, R.layout.action_view_layout, this);
         setOrientation(VERTICAL);
 
-        actionBlock = (LinearLayout) findViewById(R.id.actionBlock);
+        actionBlock = findViewById(R.id.actionBlock);
         actionBlock.setVisibility(View.GONE);
 
-        actionCheck = (CheckBox) findViewById(R.id.actionCheck);
+        actionCheck = findViewById(R.id.actionCheck);
         actionCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b){
+                if (b) {
                     ViewUtils.showOver(actionBlock);
-                    selectNumber = (ImageButton) findViewById(R.id.selectNumber);
+                    selectNumber = findViewById(R.id.selectNumber);
                     selectNumber.setOnClickListener(contactClick);
                     selectNumber.setImageResource(R.drawable.ic_person_add_white_24dp);
 
-                    numberView = (EditText) findViewById(R.id.numberView);
+                    numberView = findViewById(R.id.numberView);
                     numberView.setFocusableInTouchMode(true);
                     numberView.setOnFocusChangeListener(new OnFocusChangeListener() {
                         @Override
@@ -98,19 +98,19 @@ public class ActionView extends LinearLayout {
                         public void onClick(View v) {
                             imm = (InputMethodManager) activity.getSystemService(
                                     Context.INPUT_METHOD_SERVICE);
-                            if (!imm.isActive(numberView)){
+                            if (!imm.isActive(numberView)) {
                                 imm.showSoftInput(numberView, 0);
                             }
                         }
                     });
 
-                    callAction = (RadioButton) findViewById(R.id.callAction);
+                    callAction = findViewById(R.id.callAction);
                     callAction.setChecked(true);
-                    messageAction = (RadioButton) findViewById(R.id.messageAction);
+                    messageAction = findViewById(R.id.messageAction);
                     messageAction.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                            if (listener != null){
+                            if (listener != null) {
                                 listener.onTypeChange(b);
                             }
                         }
@@ -118,7 +118,7 @@ public class ActionView extends LinearLayout {
                 } else {
                     ViewUtils.hideOver(actionBlock);
                 }
-                if (listener != null){
+                if (listener != null) {
                     listener.onActionChange(b);
                 }
             }
@@ -133,21 +133,21 @@ public class ActionView extends LinearLayout {
         this.listener = listener;
     }
 
-    public boolean hasAction(){
+    public boolean hasAction() {
         return actionCheck.isChecked();
     }
 
-    public void setAction(boolean action){
+    public void setAction(boolean action) {
         actionCheck.setChecked(action);
     }
 
-    public void showError(){
+    public void showError() {
         numberView.setError(activity.getString(R.string.empty_field));
     }
 
-    public int getType(){
-        if (hasAction()){
-            if (callAction.isChecked()){
+    public int getType() {
+        if (hasAction()) {
+            if (callAction.isChecked()) {
                 return TYPE_CALL;
             } else {
                 return TYPE_MESSAGE;
@@ -157,19 +157,19 @@ public class ActionView extends LinearLayout {
         }
     }
 
-    public void setType(int type){
-        if (type == TYPE_CALL){
+    public void setType(int type) {
+        if (type == TYPE_CALL) {
             callAction.setChecked(true);
         } else {
             messageAction.setChecked(true);
         }
     }
 
-    public String getNumber(){
+    public String getNumber() {
         return numberView.getText().toString().trim();
     }
 
-    public void setNumber(String number){
+    public void setNumber(String number) {
         numberView.setText(number);
     }
 
@@ -187,8 +187,9 @@ public class ActionView extends LinearLayout {
         }
     };
 
-    public interface OnActionListener{
+    public interface OnActionListener {
         void onActionChange(boolean b);
+
         void onTypeChange(boolean type);
     }
 }

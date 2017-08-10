@@ -194,7 +194,7 @@ public class ReminderManager extends AppCompatActivity implements
             getWindow().setEnterTransition(enterTransition);
         }
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         toolbar.setOnMenuItemClickListener(
@@ -232,9 +232,9 @@ public class ReminderManager extends AppCompatActivity implements
                     }
                 });
 
-        navContainer = (LinearLayout) findViewById(R.id.navContainer);
-        spinner = (Spinner) findViewById(R.id.navSpinner);
-        taskField = (FloatingEditText) findViewById(R.id.task_message);
+        navContainer = findViewById(R.id.navContainer);
+        spinner = findViewById(R.id.navSpinner);
+        taskField = findViewById(R.id.task_message);
         taskField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -252,7 +252,7 @@ public class ReminderManager extends AppCompatActivity implements
             }
         });
 
-        ImageButton insertVoice = (ImageButton) findViewById(R.id.insertVoice);
+        ImageButton insertVoice = findViewById(R.id.insertVoice);
         insertVoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -276,7 +276,7 @@ public class ReminderManager extends AppCompatActivity implements
             }
         }, 500);
 
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab = findViewById(R.id.fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -499,18 +499,18 @@ public class ReminderManager extends AppCompatActivity implements
     private void attachLocation() {
         taskField.setHint(getString(R.string.remind_me));
 
-        LinearLayout geolocationlayout = (LinearLayout) findViewById(R.id.geolocationlayout);
+        LinearLayout geolocationlayout = findViewById(R.id.geolocationlayout);
         ViewUtils.fadeInAnimation(geolocationlayout);
 
         remControl = new LocationType(this, Constants.TYPE_LOCATION);
 
-        delayLayout = (LinearLayout) findViewById(R.id.delayLayout);
-        mapContainer = (RelativeLayout) findViewById(R.id.mapContainer);
-        specsContainer = (ScrollView) findViewById(R.id.specsContainer);
+        delayLayout = findViewById(R.id.delayLayout);
+        mapContainer = findViewById(R.id.mapContainer);
+        specsContainer = findViewById(R.id.specsContainer);
         delayLayout.setVisibility(View.GONE);
         mapContainer.setVisibility(View.GONE);
 
-        attackDelay = (CheckBox) findViewById(R.id.attackDelay);
+        attackDelay = findViewById(R.id.attackDelay);
         attackDelay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -526,8 +526,8 @@ public class ReminderManager extends AppCompatActivity implements
             ViewUtils.expand(delayLayout);
         }
 
-        ImageButton clearField = (ImageButton) findViewById(R.id.clearButton);
-        ImageButton mapButton = (ImageButton) findViewById(R.id.mapButton);
+        ImageButton clearField = findViewById(R.id.clearButton);
+        ImageButton mapButton = findViewById(R.id.mapButton);
 
         clearField.setImageResource(R.drawable.ic_backspace_white_24dp);
         mapButton.setImageResource(R.drawable.ic_map_white_24dp);
@@ -545,7 +545,7 @@ public class ReminderManager extends AppCompatActivity implements
             }
         });
 
-        searchField = (AutoCompleteTextView) findViewById(R.id.searchField);
+        searchField = findViewById(R.id.searchField);
         searchField.setThreshold(3);
         adapter = new ArrayAdapter<>(ReminderManager.this, android.R.layout.simple_dropdown_item_1line, namesList);
         adapter.setNotifyOnChange(true);
@@ -587,7 +587,7 @@ public class ReminderManager extends AppCompatActivity implements
             }
         });
 
-        actionViewLocation = (ActionView) findViewById(R.id.actionViewLocation);
+        actionViewLocation = findViewById(R.id.actionViewLocation);
         actionViewLocation.setListener(this);
         actionViewLocation.setActivity(this);
 
@@ -604,7 +604,7 @@ public class ReminderManager extends AppCompatActivity implements
             myMinute = cal.get(Calendar.MINUTE);
         }
 
-        DateTimeView dateViewLocation = (DateTimeView) findViewById(R.id.dateViewLocation);
+        DateTimeView dateViewLocation = findViewById(R.id.dateViewLocation);
         dateViewLocation.setListener(this);
         dateViewLocation.setDateTime(cal.getTimeInMillis());
 
@@ -706,18 +706,18 @@ public class ReminderManager extends AppCompatActivity implements
     private void attachLocationOut() {
         taskField.setHint(getString(R.string.remind_me));
 
-        LinearLayout locationOutLayout = (LinearLayout) findViewById(R.id.locationOutLayout);
+        LinearLayout locationOutLayout = findViewById(R.id.locationOutLayout);
         ViewUtils.fadeInAnimation(locationOutLayout);
 
         remControl = new LocationType(this, Constants.TYPE_LOCATION_OUT);
 
-        delayLayoutOut = (LinearLayout) findViewById(R.id.delayLayoutOut);
-        specsContainerOut = (ScrollView) findViewById(R.id.specsContainerOut);
-        mapContainerOut = (RelativeLayout) findViewById(R.id.mapContainerOut);
+        delayLayoutOut = findViewById(R.id.delayLayoutOut);
+        specsContainerOut = findViewById(R.id.specsContainerOut);
+        mapContainerOut = findViewById(R.id.mapContainerOut);
         delayLayoutOut.setVisibility(View.GONE);
         mapContainerOut.setVisibility(View.GONE);
 
-        attachDelayOut = (CheckBox) findViewById(R.id.attachDelayOut);
+        attachDelayOut = findViewById(R.id.attachDelayOut);
         attachDelayOut.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -732,7 +732,7 @@ public class ReminderManager extends AppCompatActivity implements
         if (attachDelayOut.isChecked()) {
             ViewUtils.expand(delayLayoutOut);
         }
-        ImageButton mapButtonOut = (ImageButton) findViewById(R.id.mapButtonOut);
+        ImageButton mapButtonOut = findViewById(R.id.mapButtonOut);
         mapButtonOut.setImageResource(R.drawable.ic_map_white_24dp);
 
         mapButtonOut.setOnClickListener(new View.OnClickListener() {
@@ -744,17 +744,17 @@ public class ReminderManager extends AppCompatActivity implements
                 mapCheck.setChecked(true);
             }
         });
-        currentLocation = (TextView) findViewById(R.id.currentLocation);
-        mapLocation = (TextView) findViewById(R.id.mapLocation);
-        radiusMark = (TextView) findViewById(R.id.radiusMark);
+        currentLocation = findViewById(R.id.currentLocation);
+        mapLocation = findViewById(R.id.mapLocation);
+        radiusMark = findViewById(R.id.radiusMark);
 
-        currentCheck = (RadioButton) findViewById(R.id.currentCheck);
-        mapCheck = (RadioButton) findViewById(R.id.mapCheck);
+        currentCheck = findViewById(R.id.currentCheck);
+        mapCheck = findViewById(R.id.mapCheck);
         currentCheck.setOnCheckedChangeListener(this);
         mapCheck.setOnCheckedChangeListener(this);
         currentCheck.setChecked(true);
 
-        pointRadius = (SeekBar) findViewById(R.id.pointRadius);
+        pointRadius = findViewById(R.id.pointRadius);
         pointRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -775,7 +775,7 @@ public class ReminderManager extends AppCompatActivity implements
             pointRadius.setProgress(sPrefs.loadInt(Prefs.LOCATION_RADIUS));
         }
 
-        actionViewLocationOut = (ActionView) findViewById(R.id.actionViewLocationOut);
+        actionViewLocationOut = findViewById(R.id.actionViewLocationOut);
         actionViewLocationOut.setListener(this);
         actionViewLocationOut.setActivity(this);
 
@@ -791,7 +791,7 @@ public class ReminderManager extends AppCompatActivity implements
             myMinute = cal.get(Calendar.MINUTE);
         }
 
-        DateTimeView dateViewLocationOut = (DateTimeView) findViewById(R.id.dateViewLocationOut);
+        DateTimeView dateViewLocationOut = findViewById(R.id.dateViewLocationOut);
         dateViewLocationOut.setListener(this);
         dateViewLocationOut.setDateTime(cal.getTimeInMillis());
 

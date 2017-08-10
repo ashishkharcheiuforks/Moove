@@ -17,19 +17,19 @@ import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.views.PrefsView;
 
 public class GeneralSettingsFragment extends Fragment implements View.OnClickListener {
-    
+
     private SharedPrefs sPrefs;
     private ActionBar ab;
-    
+
     private PrefsView use24TimePrefs, wearEnablePrefs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView =  inflater.inflate(R.layout.settings_general, container, false);
+        View rootView = inflater.inflate(R.layout.settings_general, container, false);
 
-        ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if (ab != null){
+        ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (ab != null) {
             ab.setTitle(R.string.general);
         }
 
@@ -40,20 +40,20 @@ public class GeneralSettingsFragment extends Fragment implements View.OnClickLis
             rootView.findViewById(R.id.generalCard).setElevation(Configs.CARD_ELEVATION);
         }
 
-        use24TimePrefs = (PrefsView) rootView.findViewById(R.id.use24TimePrefs);
+        use24TimePrefs = rootView.findViewById(R.id.use24TimePrefs);
         use24TimePrefs.setChecked(sPrefs.loadBoolean(Prefs.IS_24_TIME_FORMAT));
         use24TimePrefs.setOnClickListener(this);
 
-        wearEnablePrefs = (PrefsView) rootView.findViewById(R.id.wearEnablePrefs);
+        wearEnablePrefs = rootView.findViewById(R.id.wearEnablePrefs);
         wearEnablePrefs.setChecked(sPrefs.loadBoolean(Prefs.WEAR_NOTIFICATION));
         wearEnablePrefs.setOnClickListener(this);
-        
+
         return rootView;
     }
 
-    private void _24Change (){
+    private void _24Change() {
         sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-        if (use24TimePrefs.isChecked()){
+        if (use24TimePrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.IS_24_TIME_FORMAT, false);
             use24TimePrefs.setChecked(false);
         } else {
@@ -62,9 +62,9 @@ public class GeneralSettingsFragment extends Fragment implements View.OnClickLis
         }
     }
 
-    private void wearChange (){
+    private void wearChange() {
         sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-        if (wearEnablePrefs.isChecked()){
+        if (wearEnablePrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.WEAR_NOTIFICATION, false);
             wearEnablePrefs.setChecked(false);
         } else {
@@ -76,8 +76,8 @@ public class GeneralSettingsFragment extends Fragment implements View.OnClickLis
     @Override
     public void onDetach() {
         super.onDetach();
-        ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if (ab != null){
+        ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (ab != null) {
             ab.setTitle(R.string.settings);
         }
     }

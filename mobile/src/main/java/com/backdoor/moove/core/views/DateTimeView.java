@@ -60,8 +60,8 @@ public class DateTimeView extends RelativeLayout implements DatePickerDialog.OnD
     private void init(Context context, AttributeSet attrs) {
         View.inflate(context, R.layout.date_time_view_layout, this);
         setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
-        date = (TextView) findViewById(R.id.dateField);
-        time = (TextView) findViewById(R.id.timeField);
+        date = findViewById(R.id.dateField);
+        time = findViewById(R.id.timeField);
 
         Typeface medium = AssetsUtil.getMediumTypeface(context);
         date.setTypeface(medium);
@@ -86,6 +86,7 @@ public class DateTimeView extends RelativeLayout implements DatePickerDialog.OnD
 
     /**
      * Set DateTime listener.
+     *
      * @param listener OnSelectListener.
      */
     public void setListener(OnSelectListener listener) {
@@ -94,27 +95,30 @@ public class DateTimeView extends RelativeLayout implements DatePickerDialog.OnD
 
     /**
      * Set date time to view.
+     *
      * @param mills DateTime in mills.
      */
-    public void setDateTime(long mills){
+    public void setDateTime(long mills) {
         this.mills = mills;
         updateDateTime(mills);
     }
 
     /**
      * Update views for DateTime.
+     *
      * @param mills DateTime in mills.
      */
-    private void updateDateTime(long mills){
+    private void updateDateTime(long mills) {
         updateTime(mills);
         updateDate(mills);
     }
 
     /**
      * Update date view.
+     *
      * @param mills date in mills.
      */
-    private void updateDate(long mills){
+    private void updateDate(long mills) {
         final Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(mills);
         if (mills == 0) {
@@ -125,9 +129,10 @@ public class DateTimeView extends RelativeLayout implements DatePickerDialog.OnD
 
     /**
      * Update time view.
+     *
      * @param mills time in mills.
      */
-    private void updateTime(long mills){
+    private void updateTime(long mills) {
         final Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(mills);
         if (mills == 0) {
@@ -187,8 +192,9 @@ public class DateTimeView extends RelativeLayout implements DatePickerDialog.OnD
         updateTime(cal.getTimeInMillis());
     }
 
-    public interface OnSelectListener{
+    public interface OnSelectListener {
         void onDateSelect(long mills, int day, int month, int year);
+
         void onTimeSelect(long mills, int hour, int minute);
     }
 }

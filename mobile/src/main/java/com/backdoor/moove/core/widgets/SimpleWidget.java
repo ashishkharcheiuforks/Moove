@@ -28,7 +28,7 @@ public class SimpleWidget extends AppWidgetProvider {
         Log.d(Constants.LOG_TAG, "distance " + distance);
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.simple_widget);
         views.setTextViewText(R.id.leftDistance, distance <= 0 ? context.getString(R.string.off) :
-                String.format(context.getString(R.string.distance_m), distance));
+                String.format(context.getString(R.string.distance_m), String.valueOf(distance)));
 
         Intent configIntent = new Intent(context, MainActivity.class);
         PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);

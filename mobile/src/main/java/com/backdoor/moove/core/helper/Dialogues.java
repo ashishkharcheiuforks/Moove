@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -44,7 +45,7 @@ public class Dialogues {
      * @param context  application context.
      * @param listener listener for Dialog.
      */
-    public static void imageDialog(final Activity context, DialogInterface.OnDismissListener listener) {
+    public static void imageDialog(final Activity context, @NonNull DialogInterface.OnDismissListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setCancelable(true);
         builder.setTitle(context.getString(R.string.background_image));
@@ -120,22 +121,23 @@ public class Dialogues {
 
     /**
      * Create and AlertDialog with customizable seekbar.
-     * @param context Application context.
-     * @param max seekbar maximum.
-     * @param prefs Preference key for saving result.
-     * @param title title for Dialog.
+     *
+     * @param context  Application context.
+     * @param max      seekbar maximum.
+     * @param prefs    Preference key for saving result.
+     * @param title    title for Dialog.
      * @param listener Dialog action listener.
      */
     public static void dialogWithSeek(final Context context, int max, final String prefs, String title,
-                                      DialogInterface.OnDismissListener listener){
+                                      DialogInterface.OnDismissListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setCancelable(true);
         builder.setTitle(title);
         final SharedPrefs sharedPrefs = new SharedPrefs(context);
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.dialog_seekbar, null);
-        final TextView textView = (TextView) layout.findViewById(R.id.seekValue);
-        SeekBar seekBar = (SeekBar) layout.findViewById(R.id.dialogSeek);
+        final TextView textView = layout.findViewById(R.id.seekValue);
+        SeekBar seekBar = layout.findViewById(R.id.dialogSeek);
         seekBar.setMax(max);
         int progress = sharedPrefs.loadInt(prefs);
         seekBar.setProgress(progress);
@@ -225,7 +227,7 @@ public class Dialogues {
     /**
      * AlertDialog for selecting LED indicator color for events.
      *
-     * @param context     application context.
+     * @param context application context.
      */
     public static void ledColor(final Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

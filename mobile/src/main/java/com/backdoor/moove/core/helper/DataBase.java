@@ -107,7 +107,7 @@ public class DataBase {
         return this;
     }
 
-    public boolean isOpen () {
+    public boolean isOpen() {
         return db != null && db.isOpen();
     }
 
@@ -116,36 +116,11 @@ public class DataBase {
     }
 
     public void close() {
-        if( dbHelper != null )
+        if (dbHelper != null)
             dbHelper.close();
     }
 
     // Reminders database
-
-    public long insertReminder(String summary, String type, String number, long startTime,
-                               double latitude, double longitude, String uID, String melody,
-                               int radius, int color, int volume) {
-        openGuard();
-        ContentValues cv = new ContentValues();
-        cv.put(SUMMARY, summary);
-        cv.put(TYPE, type);
-        cv.put(NUMBER, number);
-        cv.put(STATUS, Constants.NOT_LOCKED);
-        cv.put(STATUS_DB, Constants.ENABLE);
-        cv.put(STATUS_REMINDER, Constants.NOT_SHOWN);
-        cv.put(STATUS_NOTIFICATION, Constants.NOT_SHOWN);
-        cv.put(MARKER, 1);
-        cv.put(START_TIME, startTime);
-        cv.put(LATITUDE, latitude);
-        cv.put(LONGITUDE, longitude);
-        cv.put(UUID, uID);
-        cv.put(RADIUS, radius);
-        cv.put(MELODY, melody);
-        cv.put(LED_COLOR, color);
-        cv.put(VOLUME, volume);
-        cv.put(WIDGET_ID, "");
-        return db.insert(CURRENT_TABLE_NAME, null, cv);
-    }
 
     public long insertReminder(String summary, String type, String number, long startTime,
                                double latitude, double longitude, String uID, String melody,
@@ -170,28 +145,6 @@ public class DataBase {
         cv.put(VOLUME, volume);
         cv.put(WIDGET_ID, "");
         return db.insert(CURRENT_TABLE_NAME, null, cv);
-    }
-
-    public boolean updateReminder(long rowId, String summary, String type, String number,
-                                  long startTime, double latitude, double longitude,
-                                  String melody, int radius, int color, int volume) {
-        openGuard();
-        ContentValues args = new ContentValues();
-        args.put(SUMMARY, summary);
-        args.put(TYPE, type);
-        args.put(NUMBER, number);
-        args.put(STATUS, Constants.NOT_LOCKED);
-        args.put(STATUS_DB, Constants.ENABLE);
-        args.put(STATUS_REMINDER, Constants.NOT_SHOWN);
-        args.put(STATUS_NOTIFICATION, Constants.NOT_SHOWN);
-        args.put(START_TIME, startTime);
-        args.put(LATITUDE, latitude);
-        args.put(LONGITUDE, longitude);
-        args.put(RADIUS, radius);
-        args.put(MELODY, melody);
-        args.put(LED_COLOR, color);
-        args.put(VOLUME, volume);
-        return db.update(CURRENT_TABLE_NAME, args, _ID + "=" + rowId, null) > 0;
     }
 
     public boolean updateReminder(long rowId, String summary, String type, String number,
@@ -278,21 +231,8 @@ public class DataBase {
 
     public Cursor getReminder(long rowId) throws SQLException {
         openGuard();
-        return db.query(CURRENT_TABLE_NAME, null, _ID  + "=" + rowId, null, null, null,
+        return db.query(CURRENT_TABLE_NAME, null, _ID + "=" + rowId, null, null, null,
                 null, null);
-    }
-
-    public Cursor getReminder(String uuID) throws SQLException {
-        openGuard();
-        return db.query(CURRENT_TABLE_NAME, null, UUID  + "='" + uuID + "'", null, null, null,
-                null, null);
-    }
-
-    public Cursor getMarkers() throws SQLException {
-        openGuard();
-        return db.query(CURRENT_TABLE_NAME, null, TYPE  + "='" + Constants.TYPE_LOCATION +
-                "'" + " OR "+ TYPE + "='" + Constants.TYPE_LOCATION_OUT_MESSAGE + "'" +
-                " AND "+ STATUS_DB + "='" + Constants.ENABLE + "'", null, null, null, null, null);
     }
 
     public boolean deleteReminder(long rowId) {
@@ -309,20 +249,20 @@ public class DataBase {
 
     public Cursor getPlace(String name) throws SQLException {
         openGuard();
-        return db.query(LOCATION_TABLE_NAME, null, NAME  + "='" + name + "'",
+        return db.query(LOCATION_TABLE_NAME, null, NAME + "='" + name + "'",
                 null, null, null, null, null);
     }
 
     public Cursor getPlace(double latitude, double longitude) throws SQLException {
         openGuard();
-        return db.query(LOCATION_TABLE_NAME, null, LATITUDE  + "=" + latitude +
+        return db.query(LOCATION_TABLE_NAME, null, LATITUDE + "=" + latitude +
                         " AND " + LONGITUDE + "=" + longitude,
                 null, null, null, null, null);
     }
 
     public Cursor getPlace(long id) throws SQLException {
         openGuard();
-        return db.query(LOCATION_TABLE_NAME, null, _ID  + "=" + id, null, null,
+        return db.query(LOCATION_TABLE_NAME, null, _ID + "=" + id, null, null,
                 null, null, null);
     }
 
@@ -331,7 +271,7 @@ public class DataBase {
         return db.query(LOCATION_TABLE_NAME, null, null, null, null, null, null);
     }
 
-    public long insertPlace (String name, double latitude, double longitude) {
+    public long insertPlace(String name, double latitude, double longitude) {
         openGuard();
         ContentValues cv = new ContentValues();
         cv.put(NAME, name);
@@ -340,19 +280,19 @@ public class DataBase {
         return db.insert(LOCATION_TABLE_NAME, null, cv);
     }
 
-    public boolean updatePlace(long rowId, String name, double latitude, double longitude){
+    public boolean updatePlace(long rowId, String name, double latitude, double longitude) {
         openGuard();
         ContentValues args = new ContentValues();
         args.put(NAME, name);
         args.put(LATITUDE, latitude);
         args.put(LONGITUDE, longitude);
-        return db.update(LOCATION_TABLE_NAME, args,  _ID + "=" + rowId, null) > 0;
+        return db.update(LOCATION_TABLE_NAME, args, _ID + "=" + rowId, null) > 0;
     }
 
     public void openGuard() throws SQLiteException {
-        if(isOpen()) return;
+        if (isOpen()) return;
         open();
-        if(isOpen()) return;
+        if (isOpen()) return;
         //Log.d(LOG_TAG, "open guard failed");
         throw new SQLiteException("Could not open database");
     }

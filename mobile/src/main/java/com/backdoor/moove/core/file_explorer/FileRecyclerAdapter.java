@@ -33,8 +33,6 @@ import java.util.List;
 
 public class FileRecyclerAdapter extends RecyclerView.Adapter<FileRecyclerAdapter.ContactViewHolder> {
 
-    private static final String TAG = "FileRecyclerAdapter";
-
     private Context mContext;
     private List<FileDataItem> mDataList;
 

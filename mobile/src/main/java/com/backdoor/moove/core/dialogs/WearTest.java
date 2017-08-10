@@ -33,12 +33,12 @@ public class WearTest extends AppCompatActivity implements GoogleApiClient.Conne
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wear_test);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button button = (Button) findViewById(R.id.button1);
-        Button button1 = (Button) findViewById(R.id.button2);
-        Button button2 = (Button) findViewById(R.id.button3);
+        Button button = findViewById(R.id.button1);
+        Button button1 = findViewById(R.id.button2);
+        Button button2 = findViewById(R.id.button3);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -5,7 +5,12 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.*;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -38,28 +43,13 @@ import com.backdoor.moove.R;
  */
 public class CircularProgress extends View {
 
-    private static final int MAX_LEVEL = 10000;
-    private static final int ANIMATION_RESOLUTION = 200;
     private static final int SMALL_SIZE = 0;
     private static final int NORMAL_SIZE = 1;
     private static final int LARGE_SIZE = 2;
 
-    private int mMinWidth;
-    private int mMaxWidth;
-    private int mMinHeight;
-    private int mMaxHeight;
-
     private int mColor;
     private int mSize;
     private boolean mIndeterminate;
-    private int mBorderWidth;
-    private RectF arcRectF;
-    private int mMax;
-    private int mProgress;
-    private int mDuration;
-    private boolean mHasAnimation;
-    private boolean mAttached;
-    private long mLastDrawTime;
 
     private IndeterminateProgressDrawable mIndeterminateProgressDrawable;
     private DeterminateProgressDrawable mDeterminateProgressDrawable;
@@ -80,11 +70,8 @@ public class CircularProgress extends View {
         mSize = attributes.getInt(R.styleable.CircularProgress_circular_progress_size, NORMAL_SIZE);
         mIndeterminate = attributes.getBoolean(R.styleable.CircularProgress_circular_progress_indeterminate,
                 getResources().getBoolean(R.bool.circular_progress_indeterminate));
-        mBorderWidth = attributes.getDimensionPixelSize(R.styleable.CircularProgress_circular_progress_border_width,
+        int mBorderWidth = attributes.getDimensionPixelSize(R.styleable.CircularProgress_circular_progress_border_width,
                 getResources().getDimensionPixelSize(R.dimen.circular_progress_border_width));
-        mDuration = attributes.getInteger(R.styleable.CircularProgress_circular_progress_duration, ANIMATION_RESOLUTION);
-        mMax = attributes.getInteger(R.styleable.CircularProgress_circular_progress_max,
-                getResources().getInteger(R.integer.circular_progress_max));
         attributes.recycle();
 
         if (mIndeterminate) {
@@ -101,11 +88,6 @@ public class CircularProgress extends View {
         invalidate();
     }
 
-    public void setIndeterminate(boolean indeterminate) {
-        mIndeterminate = indeterminate;
-        invalidate();
-    }
-
     public void startAnimation() {
         if (getVisibility() != VISIBLE) {
             return;
@@ -115,48 +97,6 @@ public class CircularProgress extends View {
 
     public void stopAnimation() {
         mIndeterminateProgressDrawable.stop();
-    }
-
-    public void setProgress(int progress) {
-        if (mIndeterminate || progress > mMax || progress < 0) {
-            return;
-        }
-        mProgress = progress;
-        invalidate();
-    }
-
-    public synchronized int getProgress() {
-        return mIndeterminate ? 0 : mProgress;
-    }
-
-    public synchronized int getMax() {
-        return mMax;
-    }
-
-    public synchronized void setMax(int max) {
-        if (max < 0) {
-            max = 0;
-        }
-        if (max != mMax) {
-            mMax = max;
-            postInvalidate();
-
-            if (mProgress > max) {
-                mProgress = max;
-            }
-        }
-    }
-
-    private RectF getArcRectF() {
-        if (arcRectF == null) {
-            int size = Math.min(getWidth() - mBorderWidth * 2, getHeight() - mBorderWidth * 2);
-            arcRectF = new RectF();
-            arcRectF.left = (getWidth() - size) / 2;
-            arcRectF.top = (getHeight() - size) / 2;
-            arcRectF.right = getWidth() - (getWidth() - size) / 2;
-            arcRectF.bottom = getHeight() - (getHeight() - size) / 2;
-        }
-        return arcRectF;
     }
 
     @Override
@@ -229,7 +169,6 @@ public class CircularProgress extends View {
         if (mIndeterminate) {
             startAnimation();
         }
-        mAttached = true;
     }
 
     @Override
@@ -238,14 +177,12 @@ public class CircularProgress extends View {
             stopAnimation();
         }
         super.onDetachedFromWindow();
-        mAttached = false;
     }
 
     private class DeterminateProgressDrawable extends Drawable {
 
         private Paint mPaint;
         private float mBorderWidth;
-        private float mEndAngle;
         private final RectF mDrawableBounds = new RectF();
 
         public DeterminateProgressDrawable(int color, int borderWidth, int angle) {
@@ -255,11 +192,6 @@ public class CircularProgress extends View {
             mPaint.setStrokeWidth(borderWidth);
             mPaint.setColor(color);
             mBorderWidth = borderWidth;
-            mEndAngle = angle;
-        }
-
-        public void setAngle(float angle) {
-            mEndAngle = angle;
         }
 
         @Override

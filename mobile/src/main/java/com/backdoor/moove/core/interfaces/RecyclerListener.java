@@ -17,6 +17,6 @@ import android.view.View;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public interface RecyclerListener extends SimpleListener{
+public interface RecyclerListener extends SimpleListener {
     void onItemSwitched(int position, View view);
 }

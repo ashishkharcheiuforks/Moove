@@ -23,7 +23,7 @@ public class LED {
 
     public static final int NUM_OF_LEDS = 17;
 
-    public static final int WHITE= 0xffffffff;
+    public static final int WHITE = 0xffffffff;
     public static final int RED = 0xfff44336;
     public static final int GREEN = 0xff4caf50;
     public static final int BLUE = 0xff2196f3;

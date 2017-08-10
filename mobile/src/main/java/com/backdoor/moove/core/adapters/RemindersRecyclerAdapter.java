@@ -56,22 +56,22 @@ public class RemindersRecyclerAdapter extends RecyclerView.Adapter<RemindersRecy
 
         public ViewHolder(View v) {
             super(v);
-            reminderContainer = (RelativeLayout) v.findViewById(R.id.reminderContainer);
-            contactGroup = (LinearLayout) v.findViewById(R.id.contactGroup);
-            listHeader = (TextView) v.findViewById(R.id.listHeader);
-            check = (ToggleButton) v.findViewById(R.id.itemCheck);
-            taskDate = (TextView) v.findViewById(R.id.taskDate);
+            reminderContainer = v.findViewById(R.id.reminderContainer);
+            contactGroup = v.findViewById(R.id.contactGroup);
+            listHeader = v.findViewById(R.id.listHeader);
+            check = v.findViewById(R.id.itemCheck);
+            taskDate = v.findViewById(R.id.taskDate);
             taskDate.setText("");
-            reminder_type = (TextView) v.findViewById(R.id.reminder_type);
+            reminder_type = v.findViewById(R.id.reminder_type);
             reminder_type.setText("");
-            reminder_phone = (TextView) v.findViewById(R.id.reminder_phone);
+            reminder_phone = v.findViewById(R.id.reminder_phone);
             reminder_phone.setText("");
-            reminder_contact_name = (TextView) v.findViewById(R.id.reminder_contact_name);
+            reminder_contact_name = v.findViewById(R.id.reminder_contact_name);
             reminder_contact_name.setText("");
 
-            taskTitle = (TextView) v.findViewById(R.id.taskText);
+            taskTitle = v.findViewById(R.id.taskText);
             taskTitle.setText("");
-            itemCard = (CardView) v.findViewById(R.id.itemCard);
+            itemCard = v.findViewById(R.id.itemCard);
             itemCard.setCardBackgroundColor(cs.getCardStyle());
             if (Module.isLollipop()) {
                 itemCard.setCardElevation(Configs.CARD_ELEVATION);
@@ -113,8 +113,7 @@ public class RemindersRecyclerAdapter extends RecyclerView.Adapter<RemindersRecy
                 .inflate(R.layout.list_item_card, parent, false);
 
         // create ViewHolder
-        ViewHolder vh = new ViewHolder(itemLayoutView);
-        return vh;
+        return new ViewHolder(itemLayoutView);
     }
 
     @Override

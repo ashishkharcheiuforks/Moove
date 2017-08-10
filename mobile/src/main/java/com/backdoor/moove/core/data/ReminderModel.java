@@ -23,7 +23,7 @@ public class ReminderModel {
 
     public ReminderModel(String title, String type, String uuId, int statusDb,
                          long startTime, long id, double[] place, String number,
-                         int status, int radius, String melody){
+                         int status, int radius, String melody) {
         this.title = title;
         this.type = type;
         this.startTime = startTime;
@@ -45,39 +45,39 @@ public class ReminderModel {
         return radius;
     }
 
-    public int getStatusDb(){
+    public int getStatusDb() {
         return statusDb;
     }
 
-    public int getStatus(){
+    public int getStatus() {
         return status;
     }
 
-    public double[] getPlace(){
+    public double[] getPlace() {
         return place;
     }
 
-    public long getStartTime(){
+    public long getStartTime() {
         return startTime;
     }
 
-    public long getId(){
+    public long getId() {
         return id;
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return title;
     }
 
-    public String getType(){
+    public String getType() {
         return type;
     }
 
-    public String getUuId(){
+    public String getUuId() {
         return uuId;
     }
 
-    public String getNumber(){
+    public String getNumber() {
         return number;
     }
 }

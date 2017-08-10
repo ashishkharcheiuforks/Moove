@@ -25,24 +25,20 @@ import java.io.IOException;
  * limitations under the License.
  */
 public class Sound {
-    
+
     private Context mContext;
     private MediaPlayer mMediaPlayer;
     private boolean isPaused;
     private String lastFile;
 
-    public Sound(Context context){
+    public Sound(Context context) {
         this.mContext = context;
-    }
-
-    public String getLastFile() {
-        return lastFile;
     }
 
     /**
      * Stop playing melody.
      */
-    public void stop(){
+    public void stop() {
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();
             isPaused = false;
@@ -52,7 +48,7 @@ public class Sound {
     /**
      * Pause playing melody.
      */
-    public void pause(){
+    public void pause() {
         if (mMediaPlayer != null) {
             mMediaPlayer.pause();
             isPaused = true;
@@ -62,7 +58,7 @@ public class Sound {
     /**
      * Resume playing melody.
      */
-    public void resume(){
+    public void resume() {
         if (mMediaPlayer != null) {
             mMediaPlayer.start();
             isPaused = false;
@@ -71,14 +67,16 @@ public class Sound {
 
     /**
      * Check if media player is paused.
+     *
      * @return boolean
      */
-    public boolean isPaused(){
+    public boolean isPaused() {
         return isPaused;
     }
 
     /**
      * Check if media player is playing.
+     *
      * @return boolean
      */
     public boolean isPlaying() {
@@ -87,6 +85,7 @@ public class Sound {
 
     /**
      * Check if media player already play this file.
+     *
      * @return boolean
      */
     public boolean isSameFile(String path) {
@@ -95,9 +94,10 @@ public class Sound {
 
     /**
      * Play melody file.
+     *
      * @param path path to file.
      */
-    public void play(String path){
+    public void play(String path) {
         lastFile = path;
         File file = new File(path);
         Uri soundUri = Uri.fromFile(file);
@@ -120,17 +120,18 @@ public class Sound {
         });
         try {
             mMediaPlayer.prepareAsync();
-        } catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             e.printStackTrace();
         }
     }
 
     /**
      * Play melody for reminder.
-     * @param path Uri path for melody file.
+     *
+     * @param path    Uri path for melody file.
      * @param looping flag for media player looping.
      */
-    public void playAlarm(Uri path, boolean looping){
+    public void playAlarm(Uri path, boolean looping) {
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();
         }
@@ -150,17 +151,18 @@ public class Sound {
         });
         try {
             mMediaPlayer.prepareAsync();
-        } catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             e.printStackTrace();
         }
     }
 
     /**
      * Play built-in reminder melody from assets.
-     * @param afd file descriptor for built-in melody.
+     *
+     * @param afd     file descriptor for built-in melody.
      * @param looping flag for media player looping.
      */
-    public void playAlarm(AssetFileDescriptor afd, boolean looping){
+    public void playAlarm(AssetFileDescriptor afd, boolean looping) {
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();
         }
@@ -180,7 +182,7 @@ public class Sound {
         });
         try {
             mMediaPlayer.prepareAsync();
-        } catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             e.printStackTrace();
         }
     }

@@ -49,49 +49,14 @@ public class SuperUtil {
         return false;
     }
 
-    public static String getPath(Context context, Uri uri) {
-        if ("content".equalsIgnoreCase(uri.getScheme())) {
-            String[] projection = { "_data" };
-            Cursor cursor = null;
-            try {
-                cursor = context.getContentResolver().query(uri, projection, null, null, null);
-                int column_index = cursor.getColumnIndexOrThrow("_data");
-                if (cursor.moveToFirst()) {
-                    return cursor.getString(column_index);
-                }
-            } catch (Exception e) {
-                // Eat it
-            }
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        else if ("file".equalsIgnoreCase(uri.getScheme())) {
-            return uri.getPath();
-        }
-        return null;
-    }
-
-    /**
-     * Concatenate many string to single.
-     * @param strings string to concatenate.
-     * @return concatenated string
-     */
-    public static String appendString(String... strings){
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String string : strings){
-            stringBuilder.append(string);
-        }
-        return stringBuilder.toString();
-    }
-
     /**
      * Load list of contacts and show chooser activity.
-     * @param activity context activity.
+     *
+     * @param activity    context activity.
      * @param requestCode result request code.
      */
-    public static void selectContact(final Activity activity, final int requestCode){
-        class Async extends AsyncTask<Void, Void, Void>{
+    public static void selectContact(final Activity activity, final int requestCode) {
+        class Async extends AsyncTask<Void, Void, Void> {
 
             private ProgressDialog pd;
             private ArrayList<String> contacts;
@@ -166,7 +131,8 @@ public class SuperUtil {
 
     /**
      * Start voice listener for recognition.
-     * @param activity activity.
+     *
+     * @param activity    activity.
      * @param requestCode result request code.
      */
     public static void startVoiceRecognitionActivity(Activity activity, int requestCode) {
@@ -175,7 +141,7 @@ public class SuperUtil {
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, activity.getString(R.string.say_something));
         try {
             activity.startActivityForResult(intent, requestCode);
-        } catch (ActivityNotFoundException e){
+        } catch (ActivityNotFoundException e) {
             Messages.toast(activity, activity.getString(R.string.no_recognizer_found));
         }
     }

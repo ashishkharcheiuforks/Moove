@@ -25,11 +25,6 @@ import com.backdoor.moove.core.utils.AssetsUtil;
 public class PlaceRecyclerAdapter extends RecyclerView.Adapter<PlaceRecyclerAdapter.ViewHolder> {
 
     /**
-     * Application context field.
-     */
-    private Context mContext;
-
-    /**
      * Coloring helper class field.
      */
     private Coloring cs;
@@ -53,12 +48,12 @@ public class PlaceRecyclerAdapter extends RecyclerView.Adapter<PlaceRecyclerAdap
 
     /**
      * Adapter constructor.
-     * @param context application context.
+     *
+     * @param context  application context.
      * @param provider places data provider.
      */
     public PlaceRecyclerAdapter(final Context context, final PlaceDataProvider provider,
                                 boolean showMarker) {
-        this.mContext = context;
         this.provider = provider;
         this.showMarker = showMarker;
         cs = new Coloring(context);
@@ -78,10 +73,10 @@ public class PlaceRecyclerAdapter extends RecyclerView.Adapter<PlaceRecyclerAdap
 
         public ViewHolder(final View v) {
             super(v);
-            textView = (TextView) v.findViewById(R.id.textView);
-            markerImage = (ImageView) v.findViewById(R.id.markerImage);
+            textView = v.findViewById(R.id.textView);
+            markerImage = v.findViewById(R.id.markerImage);
             textView.setTypeface(typeface);
-            itemCard = (CardView) v.findViewById(R.id.itemCard);
+            itemCard = v.findViewById(R.id.itemCard);
             itemCard.setCardBackgroundColor(cs.getCardStyle());
             if (Module.isLollipop()) {
                 if (showMarker) {
@@ -148,6 +143,7 @@ public class PlaceRecyclerAdapter extends RecyclerView.Adapter<PlaceRecyclerAdap
 
     /**
      * Get current action listener.
+     *
      * @return Action listener.
      */
     public SimpleListener getEventListener() {
@@ -156,6 +152,7 @@ public class PlaceRecyclerAdapter extends RecyclerView.Adapter<PlaceRecyclerAdap
 
     /**
      * Set action listener for adapter.
+     *
      * @param eventListener action listener.
      */
     public void setEventListener(final SimpleListener eventListener) {

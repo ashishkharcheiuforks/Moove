@@ -31,18 +31,19 @@ public class Notifier {
     private SharedPrefs sPrefs;
     private Sound sound;
 
-    public Notifier(Context context){
+    public Notifier(Context context) {
         this.mContext = context;
         sound = new Sound(context);
     }
 
     /**
      * Status bar notification to use when enabled tts.
-     * @param task task string.
+     *
+     * @param task   task string.
      * @param itemId reminder identifier.
-     * @param color LED lights color.
+     * @param color  LED lights color.
      */
-    public void showTTSNotification(final String task, long itemId, int color){
+    public void showTTSNotification(final String task, long itemId, int color) {
         sPrefs = new SharedPrefs(mContext);
         builder = new NotificationCompat.Builder(mContext);
         builder.setContentTitle(task);
@@ -63,7 +64,7 @@ public class Notifier {
         }
 
         AudioManager am = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        if (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
+        if (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
             try {
                 AssetFileDescriptor afd = mContext.getAssets().openFd("sounds/beep.mp3");
                 sound.playAlarm(afd, false);
@@ -84,9 +85,9 @@ public class Notifier {
         }
 
         boolean isV = sPrefs.loadBoolean(Prefs.VIBRATION_STATUS);
-        if (isV){
+        if (isV) {
             long[] pattern;
-            if (sPrefs.loadBoolean(Prefs.INFINITE_VIBRATION)){
+            if (sPrefs.loadBoolean(Prefs.INFINITE_VIBRATION)) {
                 pattern = new long[]{150, 86400000};
             } else {
                 pattern = new long[]{150, 400, 100, 450, 200, 500, 300, 500};
@@ -94,7 +95,7 @@ public class Notifier {
             builder.setVibrate(pattern);
         }
 
-        if (sPrefs.loadBoolean(Prefs.LED_STATUS)){
+        if (sPrefs.loadBoolean(Prefs.LED_STATUS)) {
             if (color != 0) {
                 builder.setLights(color, 500, 1000);
             } else {
@@ -115,7 +116,7 @@ public class Notifier {
         Integer it = (int) (long) itemId;
         mNotifyMgr.notify(it, builder.build());
 
-        if (isWear){
+        if (isWear) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                 final NotificationCompat.Builder wearableNotificationBuilder = new NotificationCompat.Builder(mContext);
                 wearableNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
@@ -135,16 +136,17 @@ public class Notifier {
 
     /**
      * Standard status bar notification for reminder.
-     * @param task reminder task.
-     * @param i flag for enabling sounds (1 - enabled).
+     *
+     * @param task   reminder task.
+     * @param i      flag for enabling sounds (1 - enabled).
      * @param itemId reminder identifier.
      * @param melody reminder custom melody file.
-     * @param color LED lights color.
+     * @param color  LED lights color.
      */
-    public void showReminder(final String task, int i, long itemId, String melody, int color){
+    public void showReminder(final String task, int i, long itemId, String melody, int color) {
         sPrefs = new SharedPrefs(mContext);
         Uri soundUri;
-        if (melody != null && !melody.matches("")){
+        if (melody != null && !melody.matches("")) {
             File sound = new File(melody);
             soundUri = Uri.fromFile(sound);
         } else {
@@ -183,7 +185,7 @@ public class Notifier {
 
         if (i == 1) {
             AudioManager am = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-            if (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
+            if (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                 sound.playAlarm(soundUri, sPrefs.loadBoolean(Prefs.INFINITE_SOUND));
             } else {
                 if (sPrefs.loadBoolean(Prefs.SILENT_SOUND)) {
@@ -193,16 +195,16 @@ public class Notifier {
         }
 
         boolean isV = sPrefs.loadBoolean(Prefs.VIBRATION_STATUS);
-        if (isV){
+        if (isV) {
             long[] pattern;
-            if (sPrefs.loadBoolean(Prefs.INFINITE_VIBRATION)){
+            if (sPrefs.loadBoolean(Prefs.INFINITE_VIBRATION)) {
                 pattern = new long[]{150, 86400000};
             } else {
                 pattern = new long[]{150, 400, 100, 450, 200, 500, 300, 500};
             }
             builder.setVibrate(pattern);
         }
-        if (sPrefs.loadBoolean(Prefs.LED_STATUS)){
+        if (sPrefs.loadBoolean(Prefs.LED_STATUS)) {
             if (color != 0) {
                 builder.setLights(color, 500, 1000);
             } else {
@@ -223,7 +225,7 @@ public class Notifier {
         Integer it = (int) (long) itemId;
         mNotifyMgr.notify(it, builder.build());
 
-        if (isWear){
+        if (isWear) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                 final NotificationCompat.Builder wearableNotificationBuilder = new NotificationCompat.Builder(mContext);
                 wearableNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
@@ -243,10 +245,11 @@ public class Notifier {
 
     /**
      * Simple status bar notification for reminders.
+     *
      * @param content notification title.
-     * @param id reminder identifier.
+     * @param id      reminder identifier.
      */
-    public void showReminderNotification(String content, long id){
+    public void showReminderNotification(String content, long id) {
         sPrefs = new SharedPrefs(mContext);
 
         builder = new NotificationCompat.Builder(mContext);
@@ -272,7 +275,7 @@ public class Notifier {
         Integer it = (int) (long) id;
         mNotifyMgr.notify(it, builder.build());
 
-        if (isWear){
+        if (isWear) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                 final NotificationCompat.Builder wearableNotificationBuilder = new NotificationCompat.Builder(mContext);
                 wearableNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
@@ -290,19 +293,19 @@ public class Notifier {
         }
     }
 
-    public void discardNotification(){
+    public void discardNotification() {
         discardMedia();
         mNotifyMgr = NotificationManagerCompat.from(mContext);
         mNotifyMgr.cancel(NOT_ID);
     }
 
-    public void discardStatusNotification(long id){
+    public void discardStatusNotification(long id) {
         Integer i = (int) (long) id;
         mNotifyMgr = NotificationManagerCompat.from(mContext);
         mNotifyMgr.cancel(i);
     }
 
-    public void discardNotification(long id){
+    public void discardNotification(long id) {
         discardMedia();
         Integer i = (int) (long) id;
         mNotifyMgr = NotificationManagerCompat.from(mContext);
@@ -312,7 +315,7 @@ public class Notifier {
     /**
      * Stops playing notification sound.
      */
-    public void discardMedia(){
+    public void discardMedia() {
         sound.stop();
     }
 }

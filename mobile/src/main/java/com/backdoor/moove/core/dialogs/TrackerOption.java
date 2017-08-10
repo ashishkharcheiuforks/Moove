@@ -29,10 +29,10 @@ public class TrackerOption extends Activity {
         findViewById(R.id.windowBackground).setBackgroundColor(cs.getBackgroundStyle());
         sPrefs = new SharedPrefs(TrackerOption.this);
 
-        radiusValue = (TextView) findViewById(R.id.radiusValue);
+        radiusValue = findViewById(R.id.radiusValue);
         radiusValue.setText(sPrefs.loadInt(Prefs.TRACK_DISTANCE) + getString(R.string.m));
 
-        radiusBar = (SeekBar) findViewById(R.id.radiusBar);
+        radiusBar = findViewById(R.id.radiusBar);
         radiusBar.setMax(499);
         radiusBar.setProgress(sPrefs.loadInt(Prefs.TRACK_DISTANCE) - 1);
         radiusBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -52,10 +52,10 @@ public class TrackerOption extends Activity {
             }
         });
 
-        timeValue = (TextView) findViewById(R.id.timeValue);
+        timeValue = findViewById(R.id.timeValue);
         timeValue.setText(sPrefs.loadInt(Prefs.TRACK_TIME) + getString(R.string.s));
 
-        timeBar = (SeekBar) findViewById(R.id.timeBar);
+        timeBar = findViewById(R.id.timeBar);
         timeBar.setMax(119);
         timeBar.setProgress(sPrefs.loadInt(Prefs.TRACK_TIME) - 1);
         timeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -75,7 +75,7 @@ public class TrackerOption extends Activity {
             }
         });
 
-        TextView aboutClose = (TextView) findViewById(R.id.aboutClose);
+        TextView aboutClose = findViewById(R.id.aboutClose);
         aboutClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

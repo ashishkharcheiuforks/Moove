@@ -50,13 +50,13 @@ public class DonateActivity extends AppCompatActivity implements IabHelper.Query
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donate);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        buyButton = (Button) findViewById(R.id.buyButton);
-        buyButton1 = (Button) findViewById(R.id.buyButton1);
-        buyButton2 = (Button) findViewById(R.id.buyButton2);
-        buyButton3 = (Button) findViewById(R.id.buyButton3);
+        buyButton = findViewById(R.id.buyButton);
+        buyButton1 = findViewById(R.id.buyButton1);
+        buyButton2 = findViewById(R.id.buyButton2);
+        buyButton3 = findViewById(R.id.buyButton3);
 
         buyButton.setEnabled(false);
         buyButton2.setEnabled(false);
@@ -180,8 +180,7 @@ public class DonateActivity extends AppCompatActivity implements IabHelper.Query
 
         if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
-        }
-        else {
+        } else {
             Log.d(Constants.LOG_TAG, "onActivityResult handled by IABUtil.");
         }
     }

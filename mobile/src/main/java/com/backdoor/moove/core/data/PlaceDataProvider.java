@@ -15,10 +15,8 @@ import java.util.List;
 public class PlaceDataProvider {
     private List<MarkerModel> data;
     private Context mContext;
-    private MarkerModel mLastRemovedData;
-    private int mLastRemovedPosition = -1;
 
-    public PlaceDataProvider(Context mContext, boolean list){
+    public PlaceDataProvider(Context mContext, boolean list) {
         data = new ArrayList<>();
         this.mContext = mContext;
         if (list) {
@@ -28,81 +26,12 @@ public class PlaceDataProvider {
         }
     }
 
-    public List<MarkerModel> getData(){
+    public List<MarkerModel> getData() {
         return data;
     }
 
-    public int getCount(){
+    public int getCount() {
         return data != null ? data.size() : 0;
-    }
-
-    public int getPosition(MarkerModel item){
-        int res = -1;
-        if (data.size() > 0) {
-            for (int i = 0; i < data.size(); i++){
-                MarkerModel item1 = data.get(i);
-                if (item.getId() == item1.getId()) {
-                    res = i;
-                    break;
-                }
-            }
-        }
-        return res;
-    }
-
-    public int removeItem(MarkerModel item){
-        int res = 0;
-        if (data.size() > 0) {
-            for (int i = 0; i < data.size(); i++){
-                MarkerModel item1 = data.get(i);
-                if (item.getId() == item1.getId()) {
-                    data.remove(i);
-                    res = i;
-                    break;
-                }
-            }
-        }
-        return res;
-    }
-
-    public void removeItem(int position){
-        mLastRemovedData = data.remove(position);
-        mLastRemovedPosition = position;
-    }
-
-    public void moveItem(int from, int to){
-        if (to < 0 || to >= getCount()) {
-            throw new IndexOutOfBoundsException("index = " + to);
-        }
-
-        if (from == to) {
-            return;
-        }
-
-        final MarkerModel item = data.remove(from);
-
-        data.add(to, item);
-        mLastRemovedPosition = -1;
-    }
-
-    public int undoLastRemoval() {
-        if (mLastRemovedData != null) {
-            int insertedPosition;
-            if (mLastRemovedPosition >= 0 && mLastRemovedPosition < data.size()) {
-                insertedPosition = mLastRemovedPosition;
-            } else {
-                insertedPosition = data.size();
-            }
-
-            data.add(insertedPosition, mLastRemovedData);
-
-            mLastRemovedData = null;
-            mLastRemovedPosition = -1;
-
-            return insertedPosition;
-        } else {
-            return -1;
-        }
     }
 
     public MarkerModel getItem(int index) {

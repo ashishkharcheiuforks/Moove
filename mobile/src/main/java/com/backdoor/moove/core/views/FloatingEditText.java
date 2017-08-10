@@ -12,9 +12,9 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.widget.EditText;
 
 import com.backdoor.moove.R;
 
@@ -24,7 +24,7 @@ import com.backdoor.moove.R;
  * Date: 14-10-30.
  * Time: 15:57.
  */
-public class FloatingEditText extends EditText {
+public class FloatingEditText extends AppCompatEditText {
 
     private static final long ANIMATION_DURATION = 120;
     private static final int StateHintNormal = 0;
@@ -140,25 +140,6 @@ public class FloatingEditText extends EditText {
         lineRect.right = getWidth();
         lineRect.bottom = canvas.getHeight() - dpToPx(16);
         return lineRect;
-    }
-
-    public void setNormalColor(int color) {
-        this.mColor = color;
-        invalidate();
-    }
-
-    public void setHighlightedColor(int color) {
-        this.mHighlightedColor = color;
-        invalidate();
-    }
-
-    public void setValidateResult(boolean verified, String message) {
-        if (!verified && message == null) {
-            throw new IllegalStateException("Must have a validate result message.");
-        }
-        this.mVerified = verified;
-        this.mValidateMessage = message;
-        invalidate();
     }
 
     @Override

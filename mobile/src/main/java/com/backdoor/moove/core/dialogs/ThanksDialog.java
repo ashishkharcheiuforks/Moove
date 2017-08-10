@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.EditText;
 
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.helper.Coloring;
@@ -35,7 +34,7 @@ public final class ThanksDialog extends AppCompatActivity {
 
         int code = getIntent().getIntExtra("int", 0);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setLogo(R.drawable.ic_security_white_24dp);
         ActionBar bar = getSupportActionBar();
@@ -50,14 +49,14 @@ public final class ThanksDialog extends AppCompatActivity {
             bar.setDisplayShowHomeEnabled(true);
         }
 
-        WebView helpView = (WebView) findViewById(R.id.helpView);
+        WebView helpView = findViewById(R.id.helpView);
         String url = "file:///android_asset/LICENSE.html";
         if (code == 1) {
             url = "file:///android_asset/permissions.html";
         }
         helpView.loadUrl(url);
 
-        FloatingEditText searchEdit = (FloatingEditText) findViewById(R.id.searchEdit);
+        FloatingEditText searchEdit = findViewById(R.id.searchEdit);
         searchEdit.setVisibility(View.GONE);
     }
 

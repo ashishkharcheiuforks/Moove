@@ -197,6 +197,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Set listener for map fragment;
+     *
      * @param listener listener for map fragment
      */
     public void setListener(MapListener listener) {
@@ -205,6 +206,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Set title for markers;
+     *
      * @param markerTitle marker title
      */
     public void setMarkerTitle(String markerTitle) {
@@ -213,6 +215,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Set radius for marker;
+     *
      * @param markerRadius radius for drawing circle around marker
      */
     public void setMarkerRadius(int markerRadius) {
@@ -221,6 +224,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Set style for marker;
+     *
      * @param markerStyle code of style for marker
      */
     public void setMarkerStyle(int markerStyle) {
@@ -229,6 +233,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Get currently used marker style.
+     *
      * @return marker code.
      */
     public int getMarkerStyle() {
@@ -237,11 +242,12 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Add marker to map;
-     * @param pos coordinates
-     * @param title marker title
-     * @param clear remove previous markers flag
+     *
+     * @param pos     coordinates
+     * @param title   marker title
+     * @param clear   remove previous markers flag
      * @param animate animate to marker position
-     * @param radius radius for circle around marker
+     * @param radius  radius for circle around marker
      */
     public void addMarker(LatLng pos, String title, boolean clear, boolean animate, int radius) {
         if (map != null) {
@@ -279,12 +285,13 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Add marker to map with custom marker icon;
-     * @param pos coordinates
-     * @param title marker title
-     * @param clear remove previous markers flag
+     *
+     * @param pos         coordinates
+     * @param title       marker title
+     * @param clear       remove previous markers flag
      * @param markerStyle marker icon
-     * @param animate animate to marker position
-     * @param radius radius for circle around marker
+     * @param animate     animate to marker position
+     * @param radius      radius for circle around marker
      */
     public void addMarker(LatLng pos, String title, boolean clear, int markerStyle, boolean animate, int radius) {
         if (map != null) {
@@ -325,6 +332,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Recreate last added marker with new circle radius;
+     *
      * @param radius radius for a circle
      */
     public void recreateMarker(int radius) {
@@ -358,6 +366,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Recreate last added marker with new marker style;
+     *
      * @param style marker style.
      */
     public void recreateStyle(int style) {
@@ -393,6 +402,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Move camera to coordinates;
+     *
      * @param pos coordinates
      */
     public void moveCamera(LatLng pos) {
@@ -403,6 +413,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Move camera to coordinates with animation;
+     *
      * @param latLng coordinates
      */
     public void animate(LatLng latLng) {
@@ -428,21 +439,6 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    /**
-     * Move camera to user current coordinates with animation;
-     * @param animate animation flag
-     */
-    public void moveToMyLocation(boolean animate) {
-        if (map != null && map.getMyLocation() != null) {
-            double lat = map.getMyLocation().getLatitude();
-            double lon = map.getMyLocation().getLongitude();
-            LatLng pos = new LatLng(lat, lon);
-            if (animate) {
-                animate(pos);
-            }
-        }
-    }
-
     public boolean isFullscreen() {
         return isFullscreen;
     }
@@ -453,6 +449,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     /**
      * On back pressed interface for map;
+     *
      * @return boolean
      */
     public boolean onBackPressed() {
@@ -534,7 +531,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
         initViews(view);
 
-        cardSearch = (AutoCompleteTextView) view.findViewById(R.id.cardSearch);
+        cardSearch = view.findViewById(R.id.cardSearch);
         cardSearch.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_search_white_24dp, 0, 0, 0);
         cardSearch.setThreshold(3);
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, namesList);
@@ -593,29 +590,29 @@ public class MapFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        placesList = (RecyclerView) view.findViewById(R.id.placesList);
+        placesList = view.findViewById(R.id.placesList);
         loadPlaces();
 
         return view;
     }
 
     private void initViews(View view) {
-        groupOne = (LinearLayout) view.findViewById(R.id.groupOne);
-        groupTwo = (LinearLayout) view.findViewById(R.id.groupTwo);
-        groupThree = (LinearLayout) view.findViewById(R.id.groupThree);
-        emptyItem = (LinearLayout) view.findViewById(R.id.emptyItem);
+        groupOne = view.findViewById(R.id.groupOne);
+        groupTwo = view.findViewById(R.id.groupTwo);
+        groupThree = view.findViewById(R.id.groupThree);
+        emptyItem = view.findViewById(R.id.emptyItem);
 
-        placesList = (RecyclerView) view.findViewById(R.id.placesList);
+        placesList = view.findViewById(R.id.placesList);
 
-        CardView zoomCard = (CardView) view.findViewById(R.id.zoomCard);
-        CardView searchCard = (CardView) view.findViewById(R.id.searchCard);
-        CardView myCard = (CardView) view.findViewById(R.id.myCard);
-        CardView layersCard = (CardView) view.findViewById(R.id.layersCard);
-        CardView placesCard = (CardView) view.findViewById(R.id.placesCard);
-        CardView backCard = (CardView) view.findViewById(R.id.backCard);
-        styleCard = (CardView) view.findViewById(R.id.styleCard);
-        placesListCard = (CardView) view.findViewById(R.id.placesListCard);
-        CardView markersCard = (CardView) view.findViewById(R.id.markersCard);
+        CardView zoomCard = view.findViewById(R.id.zoomCard);
+        CardView searchCard = view.findViewById(R.id.searchCard);
+        CardView myCard = view.findViewById(R.id.myCard);
+        CardView layersCard = view.findViewById(R.id.layersCard);
+        CardView placesCard = view.findViewById(R.id.placesCard);
+        CardView backCard = view.findViewById(R.id.backCard);
+        styleCard = view.findViewById(R.id.styleCard);
+        placesListCard = view.findViewById(R.id.placesListCard);
+        CardView markersCard = view.findViewById(R.id.markersCard);
         placesListCard.setVisibility(View.GONE);
         styleCard.setVisibility(View.GONE);
 
@@ -629,7 +626,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         markersCard.setCardBackgroundColor(cSetter.getCardStyle());
         backCard.setCardBackgroundColor(cSetter.getCardStyle());
 
-        layersContainer = (CardView) view.findViewById(R.id.layersContainer);
+        layersContainer = view.findViewById(R.id.layersContainer);
         layersContainer.setVisibility(View.GONE);
         layersContainer.setCardBackgroundColor(cSetter.getCardStyle());
 
@@ -646,13 +643,13 @@ public class MapFragment extends Fragment implements View.OnClickListener {
             backCard.setCardElevation(Configs.CARD_ELEVATION);
         }
 
-        ImageButton cardClear = (ImageButton) view.findViewById(R.id.cardClear);
-        zoomOut = (ImageButton) view.findViewById(R.id.mapZoom);
-        ImageButton layers = (ImageButton) view.findViewById(R.id.layers);
-        ImageButton myLocation = (ImageButton) view.findViewById(R.id.myLocation);
-        markers = (ImageButton) view.findViewById(R.id.markers);
-        places = (ImageButton) view.findViewById(R.id.places);
-        backButton = (ImageButton) view.findViewById(R.id.backButton);
+        ImageButton cardClear = view.findViewById(R.id.cardClear);
+        zoomOut = view.findViewById(R.id.mapZoom);
+        ImageButton layers = view.findViewById(R.id.layers);
+        ImageButton myLocation = view.findViewById(R.id.myLocation);
+        markers = view.findViewById(R.id.markers);
+        places = view.findViewById(R.id.places);
+        backButton = view.findViewById(R.id.backButton);
 
         cardClear.setOnClickListener(this);
         zoomOut.setOnClickListener(this);
@@ -662,10 +659,10 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         places.setOnClickListener(this);
         backButton.setOnClickListener(this);
 
-        TextView typeNormal = (TextView) view.findViewById(R.id.typeNormal);
-        TextView typeSatellite = (TextView) view.findViewById(R.id.typeSatellite);
-        TextView typeHybrid = (TextView) view.findViewById(R.id.typeHybrid);
-        TextView typeTerrain = (TextView) view.findViewById(R.id.typeTerrain);
+        TextView typeNormal = view.findViewById(R.id.typeNormal);
+        TextView typeSatellite = view.findViewById(R.id.typeSatellite);
+        TextView typeHybrid = view.findViewById(R.id.typeHybrid);
+        TextView typeTerrain = view.findViewById(R.id.typeTerrain);
         typeNormal.setOnClickListener(this);
         typeSatellite.setOnClickListener(this);
         typeHybrid.setOnClickListener(this);
@@ -748,7 +745,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void loadPlaces(){
+    private void loadPlaces() {
         if (placeRecyclerAdapter == null) {
             DataBase DB = new DataBase(getActivity());
             DB.open();
@@ -922,7 +919,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case 205:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     setMyLocation();
                 } else {
                     Messages.toast(getActivity(), R.string.cant_access_location_services);

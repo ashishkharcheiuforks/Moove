@@ -50,7 +50,7 @@ public class PositionDelayReceiver extends BroadcastReceiver {
         Intent intent = new Intent(context, PositionDelayReceiver.class);
         alarmIntent = PendingIntent.getBroadcast(context, i, intent, 0);
         alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        if (alarmMgr!= null) {
+        if (alarmMgr != null) {
             alarmMgr.cancel(alarmIntent);
         }
     }

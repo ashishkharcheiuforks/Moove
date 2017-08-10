@@ -19,7 +19,7 @@ public class TaskButlerService extends IntentService {
         DataBase db = new DataBase(getApplicationContext());
         db.open();
         Cursor c = db.getReminders(Constants.ENABLE);
-        if (c != null && c.moveToFirst()){
+        if (c != null && c.moveToFirst()) {
             do {
                 long id = c.getLong(c.getColumnIndex(DataBase._ID));
                 long startTime = c.getLong(c.getColumnIndex(DataBase.START_TIME));

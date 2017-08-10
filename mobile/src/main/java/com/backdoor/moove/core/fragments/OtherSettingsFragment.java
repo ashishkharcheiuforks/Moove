@@ -35,22 +35,20 @@ import java.util.List;
 
 public class OtherSettingsFragment extends Fragment {
 
-    private static final String TAG = "OtherSettingsFragment";
-
     private ActionBar ab;
     private List<Item> mDataList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView =  inflater.inflate(R.layout.settings_other, container, false);
-        ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if (ab != null){
+        View rootView = inflater.inflate(R.layout.settings_other, container, false);
+        ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (ab != null) {
             ab.setTitle(R.string.other);
         }
         if (Module.isLollipop()) {
             rootView.findViewById(R.id.otherCard).setElevation(Configs.CARD_ELEVATION);
         }
-        TextView about = (TextView) rootView.findViewById(R.id.about);
+        TextView about = rootView.findViewById(R.id.about);
         about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +56,7 @@ public class OtherSettingsFragment extends Fragment {
             }
         });
 
-        TextView changes = (TextView) rootView.findViewById(R.id.changes);
+        TextView changes = rootView.findViewById(R.id.changes);
         changes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +67,7 @@ public class OtherSettingsFragment extends Fragment {
             }
         });
 
-        TextView rateApp = (TextView) rootView.findViewById(R.id.rateApp);
+        TextView rateApp = rootView.findViewById(R.id.rateApp);
         rateApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +75,7 @@ public class OtherSettingsFragment extends Fragment {
             }
         });
 
-        TextView thanks = (TextView) rootView.findViewById(R.id.thanks);
+        TextView thanks = rootView.findViewById(R.id.thanks);
         thanks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +86,7 @@ public class OtherSettingsFragment extends Fragment {
             }
         });
 
-        TextView help = (TextView) rootView.findViewById(R.id.help);
+        TextView help = rootView.findViewById(R.id.help);
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +97,7 @@ public class OtherSettingsFragment extends Fragment {
             }
         });
 
-        TextView menuFeedback = (TextView) rootView.findViewById(R.id.menuFeedback);
+        TextView menuFeedback = rootView.findViewById(R.id.menuFeedback);
         menuFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +110,7 @@ public class OtherSettingsFragment extends Fragment {
             }
         });
 
-        TextView menuShare = (TextView) rootView.findViewById(R.id.menuShare);
+        TextView menuShare = rootView.findViewById(R.id.menuShare);
         menuShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,14 +123,14 @@ public class OtherSettingsFragment extends Fragment {
             }
         });
 
-        LinearLayout permissionBlock = (LinearLayout) rootView.findViewById(R.id.permissionBlock);
+        LinearLayout permissionBlock = rootView.findViewById(R.id.permissionBlock);
         if (Module.isMarshmallow()) {
             permissionBlock.setVisibility(View.VISIBLE);
         } else {
             permissionBlock.setVisibility(View.GONE);
         }
 
-        TextView permissionExplain = (TextView) rootView.findViewById(R.id.permissionExplain);
+        TextView permissionExplain = rootView.findViewById(R.id.permissionExplain);
         permissionExplain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,7 +141,7 @@ public class OtherSettingsFragment extends Fragment {
             }
         });
 
-        TextView permissionEnable = (TextView) rootView.findViewById(R.id.permissionEnable);
+        TextView permissionEnable = rootView.findViewById(R.id.permissionEnable);
         permissionEnable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,8 +165,8 @@ public class OtherSettingsFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if (ab != null){
+        ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (ab != null) {
             ab.setTitle(R.string.settings);
         }
     }
@@ -203,7 +201,7 @@ public class OtherSettingsFragment extends Fragment {
                 if (convertView == null) {
                     convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
                 }
-                TextView tvName = (TextView) convertView.findViewById(android.R.id.text1);
+                TextView tvName = convertView.findViewById(android.R.id.text1);
                 tvName.setText(mDataList.get(position).getTitle());
                 return convertView;
             }
@@ -217,7 +215,7 @@ public class OtherSettingsFragment extends Fragment {
         builder.create().show();
     }
 
-    private boolean loadDataToList(){
+    private boolean loadDataToList() {
         mDataList.clear();
         if (!Permissions.checkPermission(getActivity(), Permissions.ACCESS_COARSE_LOCATION)) {
             mDataList.add(new Item(getString(R.string.course_location), Permissions.ACCESS_COARSE_LOCATION));
@@ -255,12 +253,12 @@ public class OtherSettingsFragment extends Fragment {
     }
 
     private void requestPermission(int position) {
-        requestPermissions(new String[] {mDataList.get(position).getPermission()}, 155);
+        requestPermissions(new String[]{mDataList.get(position).getPermission()}, 155);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             showPermissionDialog();
         }
     }
@@ -268,16 +266,16 @@ public class OtherSettingsFragment extends Fragment {
     private class Item {
         private String title, permission;
 
-        Item(String title, String permission){
+        Item(String title, String permission) {
             this.permission = permission;
             this.title = title;
         }
 
-        public String getTitle(){
+        public String getTitle() {
             return title;
         }
 
-        public String getPermission(){
+        public String getPermission() {
             return permission;
         }
     }

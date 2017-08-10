@@ -16,7 +16,7 @@ import java.io.File;
 /**
  * Application splash screen for checking preferences.
  */
-public class SplashScreen extends Activity{
+public class SplashScreen extends Activity {
 
     /**
      * Save initial argument on first application run.
@@ -24,7 +24,7 @@ public class SplashScreen extends Activity{
     private void initPrefs() {
         File settingsUI = new File("/data/data/" + getPackageName() +
                 "/shared_prefs/" + SharedPrefs.MOOVE_PREFS + ".xml");
-        if(!settingsUI.exists()){
+        if (!settingsUI.exists()) {
             SharedPreferences appUISettings =
                     getSharedPreferences(SharedPrefs.MOOVE_PREFS, Context.MODE_PRIVATE);
             SharedPreferences.Editor uiEd = appUISettings.edit();
@@ -49,7 +49,7 @@ public class SplashScreen extends Activity{
             uiEd.putBoolean(Prefs.REMINDER_IMAGE_BLUR, true);
             uiEd.putBoolean(Prefs.CUSTOM_SOUND, false);
             uiEd.putBoolean(Prefs.PLACES_AUTO, true);
-            uiEd.commit();
+            uiEd.apply();
         }
     }
 
@@ -74,51 +74,51 @@ public class SplashScreen extends Activity{
     /**
      * Check if preference exist. If no save default.
      */
-    private void checkPrefs(){
+    private void checkPrefs() {
         SharedPrefs sPrefs = new SharedPrefs(SplashScreen.this);
-        if (!sPrefs.isString(Prefs.TTS_LOCALE)){
+        if (!sPrefs.isString(Prefs.TTS_LOCALE)) {
             sPrefs.savePrefs(Prefs.TTS_LOCALE, Language.ENGLISH);
         }
-        if (!sPrefs.isString(Prefs.REMINDER_IMAGE)){
+        if (!sPrefs.isString(Prefs.REMINDER_IMAGE)) {
             sPrefs.savePrefs(Prefs.REMINDER_IMAGE, Constants.DEFAULT);
         }
-        if (!sPrefs.isString(Prefs.TRACK_DISTANCE)){
+        if (!sPrefs.isString(Prefs.TRACK_DISTANCE)) {
             sPrefs.saveInt(Prefs.TRACK_DISTANCE, 1);
         }
-        if (!sPrefs.isString(Prefs.TRACK_TIME)){
+        if (!sPrefs.isString(Prefs.TRACK_TIME)) {
             sPrefs.saveInt(Prefs.TRACK_TIME, 1);
         }
-        if (!sPrefs.isString(Prefs.APP_RUNS_COUNT)){
+        if (!sPrefs.isString(Prefs.APP_RUNS_COUNT)) {
             sPrefs.saveInt(Prefs.APP_RUNS_COUNT, 0);
         }
-        if (!sPrefs.isString(Prefs.VOLUME)){
+        if (!sPrefs.isString(Prefs.VOLUME)) {
             sPrefs.saveInt(Prefs.VOLUME, 25);
         }
-        if (!sPrefs.isString(Prefs.RATE_SHOW)){
+        if (!sPrefs.isString(Prefs.RATE_SHOW)) {
             sPrefs.saveBoolean(Prefs.RATE_SHOW, false);
         }
-        if (!sPrefs.isString(Prefs.REMINDER_IMAGE_BLUR)){
+        if (!sPrefs.isString(Prefs.REMINDER_IMAGE_BLUR)) {
             sPrefs.saveBoolean(Prefs.REMINDER_IMAGE_BLUR, false);
         }
-        if (!sPrefs.isString(Prefs.TTS)){
+        if (!sPrefs.isString(Prefs.TTS)) {
             sPrefs.saveBoolean(Prefs.TTS, false);
         }
-        if (!sPrefs.isString(Prefs.SILENT_SMS)){
+        if (!sPrefs.isString(Prefs.SILENT_SMS)) {
             sPrefs.saveBoolean(Prefs.SILENT_SMS, false);
         }
-        if (!sPrefs.isString(Prefs.WEAR_NOTIFICATION)){
+        if (!sPrefs.isString(Prefs.WEAR_NOTIFICATION)) {
             sPrefs.saveBoolean(Prefs.WEAR_NOTIFICATION, false);
         }
-        if (!sPrefs.isString(Prefs.PLACES_AUTO)){
+        if (!sPrefs.isString(Prefs.PLACES_AUTO)) {
             sPrefs.saveBoolean(Prefs.PLACES_AUTO, true);
         }
-        if (!sPrefs.isString(Prefs.INFINITE_VIBRATION)){
+        if (!sPrefs.isString(Prefs.INFINITE_VIBRATION)) {
             sPrefs.saveBoolean(Prefs.INFINITE_VIBRATION, false);
         }
-        if (!sPrefs.isString(Prefs.IS_24_TIME_FORMAT)){
+        if (!sPrefs.isString(Prefs.IS_24_TIME_FORMAT)) {
             sPrefs.saveBoolean(Prefs.IS_24_TIME_FORMAT, true);
         }
-        if (!sPrefs.isString(Prefs.UNLOCK_DEVICE)){
+        if (!sPrefs.isString(Prefs.UNLOCK_DEVICE)) {
             sPrefs.saveBoolean(Prefs.UNLOCK_DEVICE, false);
         }
 

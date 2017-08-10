@@ -35,11 +35,11 @@ public class TargetRadius extends Activity {
         sPrefs = new SharedPrefs(TargetRadius.this);
         Intent intent = getIntent();
         i = intent.getIntExtra("item", 0);
-        radiusValue = (TextView) findViewById(R.id.radiusValue);
+        radiusValue = findViewById(R.id.radiusValue);
         progressInt = sPrefs.loadInt(Prefs.LOCATION_RADIUS);
         radiusValue.setText(progressInt + getString(R.string.m));
 
-        radiusBar = (SeekBar) findViewById(R.id.radiusBar);
+        radiusBar = findViewById(R.id.radiusBar);
         radiusBar.setProgress(progressInt);
         radiusBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -59,7 +59,7 @@ public class TargetRadius extends Activity {
             }
         });
 
-        Button plusButton = (Button) findViewById(R.id.plusButton);
+        Button plusButton = findViewById(R.id.plusButton);
         plusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +67,7 @@ public class TargetRadius extends Activity {
             }
         });
 
-        Button minusButton = (Button) findViewById(R.id.minusButton);
+        Button minusButton = findViewById(R.id.minusButton);
         minusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,12 +75,12 @@ public class TargetRadius extends Activity {
             }
         });
 
-        CheckBox transportCheck = (CheckBox) findViewById(R.id.transportCheck);
+        CheckBox transportCheck = findViewById(R.id.transportCheck);
         transportCheck.setVisibility(View.VISIBLE);
-        if (progressInt > 2000){
+        if (progressInt > 2000) {
             transportCheck.setChecked(true);
         }
-        if (transportCheck.isChecked()){
+        if (transportCheck.isChecked()) {
             radiusBar.setMax(5000);
             radiusBar.setProgress(progressInt);
         } else {
@@ -101,7 +101,7 @@ public class TargetRadius extends Activity {
             }
         });
 
-        TextView aboutClose = (TextView) findViewById(R.id.aboutClose);
+        TextView aboutClose = findViewById(R.id.aboutClose);
         aboutClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

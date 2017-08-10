@@ -23,11 +23,11 @@ import com.backdoor.moove.core.interfaces.SendListener;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class SendReceiver extends BroadcastReceiver{
+public class SendReceiver extends BroadcastReceiver {
 
     private SendListener listener;
 
-    public SendReceiver(SendListener listener){
+    public SendReceiver(SendListener listener) {
         this.listener = listener;
     }
 

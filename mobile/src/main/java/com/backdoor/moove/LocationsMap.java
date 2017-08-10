@@ -48,7 +48,7 @@ public class LocationsMap extends AppCompatActivity implements SimpleListener {
         }
         setContentView(R.layout.activity_locations_layout);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
@@ -64,18 +64,18 @@ public class LocationsMap extends AppCompatActivity implements SimpleListener {
                 .commit();
     }
 
-    private PlaceRecyclerAdapter loadPlaces(){
+    private PlaceRecyclerAdapter loadPlaces() {
         provider = new PlaceDataProvider(this, false);
         PlaceRecyclerAdapter adapter = new PlaceRecyclerAdapter(this, provider, true);
         adapter.setEventListener(this);
         return adapter;
     }
 
-    private void editPlace(int position){
+    private void editPlace(int position) {
         Reminder.edit(provider.getItem(position).getId(), LocationsMap.this);
     }
 
-    private void moveToPlace(int position){
+    private void moveToPlace(int position) {
         fragment.moveCamera(provider.getItem(position).getPosition());
     }
 
@@ -127,9 +127,9 @@ public class LocationsMap extends AppCompatActivity implements SimpleListener {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
+        switch (requestCode) {
             case 101:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startActivity(new Intent(LocationsMap.this, NewPlace.class));
                 } else {
                     Permissions.showInfo(LocationsMap.this, Permissions.READ_CALENDAR);

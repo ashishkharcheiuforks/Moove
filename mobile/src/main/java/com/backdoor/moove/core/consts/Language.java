@@ -19,13 +19,14 @@ public class Language {
 
     /**
      * Get locale for tts.
+     *
      * @param context application context.
      * @return Locale
      */
-    public Locale getLocale(Context context){
+    public Locale getLocale(Context context) {
         Locale res = null;
         SharedPrefs sPrefs = new SharedPrefs(context);
-        switch (sPrefs.loadPrefs(Prefs.TTS_LOCALE)){
+        switch (sPrefs.loadPrefs(Prefs.TTS_LOCALE)) {
             case ENGLISH:
                 res = Locale.ENGLISH;
                 break;

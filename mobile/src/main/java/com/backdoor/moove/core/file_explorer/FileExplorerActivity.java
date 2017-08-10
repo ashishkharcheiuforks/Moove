@@ -51,7 +51,6 @@ import java.util.List;
 
 public class FileExplorerActivity extends AppCompatActivity {
 
-    private static final String TAG = "FileExplorerActivity";
     private static final int SD_CARD = 444;
 
     private ArrayList<String> str = new ArrayList<>();
@@ -209,8 +208,8 @@ public class FileExplorerActivity extends AppCompatActivity {
         mFilesList.setAdapter(mAdapter);
     }
 
-    private void play(){
-        if (!mSound.isPlaying()){
+    private void play() {
+        if (!mSound.isPlaying()) {
             if (mPlayerLayout.getVisibility() == View.GONE) {
                 ViewUtils.expand(mPlayerLayout);
             }
@@ -229,13 +228,13 @@ public class FileExplorerActivity extends AppCompatActivity {
         }
     }
 
-    private void pause(){
+    private void pause() {
         if (mSound.isPlaying()) {
             mSound.pause();
         }
     }
 
-    private void stop(){
+    private void stop() {
         if (mSound.isPlaying()) {
             mSound.stop();
         }
@@ -294,16 +293,16 @@ public class FileExplorerActivity extends AppCompatActivity {
         mDataList = temp;
     }
 
-    private boolean isMelody(String file){
+    private boolean isMelody(String file) {
         return file != null && (file.endsWith(".mp3") || file.endsWith(".ogg")
                 || file.endsWith(".m4a") || file.endsWith(".flac"));
     }
 
-    private int getDirectoryIcon(){
+    private int getDirectoryIcon() {
         return R.drawable.ic_folder_white_24dp;
     }
 
-    private int getUndoIcon(){
+    private int getUndoIcon() {
         return R.drawable.ic_undo_white_24dp;
     }
 
@@ -338,7 +337,7 @@ public class FileExplorerActivity extends AppCompatActivity {
     private View.OnClickListener mListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.fab:
                     saveChoice();
                     break;

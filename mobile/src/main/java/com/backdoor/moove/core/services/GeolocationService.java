@@ -1,5 +1,6 @@
 package com.backdoor.moove.core.services;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -69,6 +70,7 @@ public class GeolocationService extends Service {
         }
     }
 
+    @SuppressLint("MissingPermission")
     private void updateListener() {
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         SharedPrefs prefs = new SharedPrefs(getApplicationContext());

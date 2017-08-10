@@ -31,10 +31,10 @@ public class SelectVolume extends Activity {
         findViewById(R.id.windowBackground).setBackgroundColor(cs.getBackgroundStyle());
         SharedPrefs sPrefs = new SharedPrefs(SelectVolume.this);
 
-        radiusValue = (TextView) findViewById(R.id.radiusValue);
-        volumeImage = (ImageView) findViewById(R.id.volumeImage);
+        radiusValue = findViewById(R.id.radiusValue);
+        volumeImage = findViewById(R.id.volumeImage);
 
-        SeekBar radiusBar = (SeekBar) findViewById(R.id.radiusBar);
+        SeekBar radiusBar = findViewById(R.id.radiusBar);
         int n = sPrefs.loadInt(Prefs.VOLUME);
         radiusBar.setProgress(n);
         radiusValue.setText(String.valueOf(n));
@@ -58,7 +58,7 @@ public class SelectVolume extends Activity {
             }
         });
 
-        TextView aboutClose = (TextView) findViewById(R.id.aboutClose);
+        TextView aboutClose = findViewById(R.id.aboutClose);
         aboutClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,11 +71,11 @@ public class SelectVolume extends Activity {
     }
 
     private void setValue(int i) {
-        if (i < 7 && i > 0){
+        if (i < 7 && i > 0) {
             volumeImage.setImageResource(R.drawable.ic_volume_mute_white_24dp);
-        } else if (i > 18){
+        } else if (i > 18) {
             volumeImage.setImageResource(R.drawable.ic_volume_up_white_24dp);
-        } else if (i == 0){
+        } else if (i == 0) {
             volumeImage.setImageResource(R.drawable.ic_volume_off_white_24dp);
         } else {
             volumeImage.setImageResource(R.drawable.ic_volume_down_white_24dp);

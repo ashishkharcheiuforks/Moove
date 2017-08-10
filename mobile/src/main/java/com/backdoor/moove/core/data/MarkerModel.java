@@ -23,18 +23,18 @@ public class MarkerModel {
     private int icon, radius;
     private long id;
 
-    public MarkerModel(String title, long id){
+    public MarkerModel(String title, long id) {
         this.title = title;
         this.id = id;
     }
 
-    public MarkerModel(String title, long id, int icon){
+    public MarkerModel(String title, long id, int icon) {
         this.title = title;
         this.id = id;
         this.icon = icon;
     }
 
-    public MarkerModel(String title, LatLng position, int icon, long id, int radius){
+    public MarkerModel(String title, LatLng position, int icon, long id, int radius) {
         this.position = position;
         this.title = title;
         this.icon = icon;
@@ -50,15 +50,15 @@ public class MarkerModel {
         return id;
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return title;
     }
 
-    public LatLng getPosition(){
+    public LatLng getPosition() {
         return position;
     }
 
-    public int getIcon(){
+    public int getIcon() {
         return icon;
     }
 }

@@ -24,11 +24,11 @@ public class StartHelp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_help);
 
-        serviceShow = (RelativeLayout) findViewById(R.id.serviceShow);
-        locationShow = (RelativeLayout) findViewById(R.id.locationShow);
+        serviceShow = findViewById(R.id.serviceShow);
+        locationShow = findViewById(R.id.locationShow);
 
-        Button servicesFix = (Button) findViewById(R.id.servicesFix);
-        Button permissionsFix = (Button) findViewById(R.id.permissionsFix);
+        Button servicesFix = findViewById(R.id.servicesFix);
+        Button permissionsFix = findViewById(R.id.permissionsFix);
 
         permissionsFix.setOnClickListener(new View.OnClickListener() {
             @Override
