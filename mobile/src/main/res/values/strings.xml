@@ -169,4 +169,8 @@
     <string name="type_to_search">Type to search</string>
     <string name="not_music_file">Not a melody file</string>
     <string name="up">Up</string>
+    <string name="reminder_channel">Reminder channel</string>
+    <string name="default_reminder_notifications">Default reminder notifications</string>
+    <string name="info_channel">Info channel</string>
+    <string name="channel_for_other_info_notifications">Channel for other informative notifications</string>
 </resources>

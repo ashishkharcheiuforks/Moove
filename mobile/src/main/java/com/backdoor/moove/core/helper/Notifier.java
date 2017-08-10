@@ -1,5 +1,8 @@
 package com.backdoor.moove.core.helper;
 
+import android.annotation.TargetApi;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +27,9 @@ import java.io.IOException;
  */
 public class Notifier {
 
+    public static final String CHANNEL_REMINDER = "moove.channel1";
+    public static final String CHANNEL_SYSTEM = "moove.channel2";
+
     private Context mContext;
     private NotificationManagerCompat mNotifyMgr;
     private NotificationCompat.Builder builder;
@@ -34,6 +40,34 @@ public class Notifier {
     public Notifier(Context context) {
         this.mContext = context;
         sound = new Sound(context);
+    }
+
+    public static void createChannels(Context context) {
+        if (Module.isO()) {
+            NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            manager.createNotificationChannel(createReminderChannel(context));
+            manager.createNotificationChannel(createSystemChannel(context));
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private static NotificationChannel createSystemChannel(Context context) {
+        String name = context.getString(R.string.info_channel);
+        String descr = context.getString(R.string.channel_for_other_info_notifications);
+        int importance = NotificationManager.IMPORTANCE_LOW;
+        NotificationChannel mChannel = new NotificationChannel(CHANNEL_SYSTEM, name, importance);
+        mChannel.setDescription(descr);
+        return mChannel;
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private static NotificationChannel createReminderChannel(Context context) {
+        String name = context.getString(R.string.reminder_channel);
+        String descr = context.getString(R.string.default_reminder_notifications);
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+        NotificationChannel mChannel = new NotificationChannel(CHANNEL_REMINDER, name, importance);
+        mChannel.setDescription(descr);
+        return mChannel;
     }
 
     /**

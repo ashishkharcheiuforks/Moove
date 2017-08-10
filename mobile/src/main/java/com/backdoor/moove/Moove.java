@@ -2,6 +2,7 @@ package com.backdoor.moove;
 
 import android.support.multidex.MultiDexApplication;
 
+import com.backdoor.moove.core.helper.Notifier;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -31,6 +32,7 @@ public class Moove extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        Notifier.createChannels(this);
         Fabric.with(this, new Crashlytics());
         Fabric.with(this, new Answers());
     }
