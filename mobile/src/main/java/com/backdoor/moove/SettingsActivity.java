@@ -108,12 +108,12 @@ public class SettingsActivity extends AppCompatActivity implements
         switch (requestCode) {
             case 201:
                 if (resultCode == RESULT_OK) {
-                    new SharedPrefs(this).saveBoolean(Prefs.CUSTOM_SOUND, true);
+                    SharedPrefs.getInstance(this).saveBoolean(Prefs.CUSTOM_SOUND, true);
                     String pathStr = data.getStringExtra(Constants.FILE_PICKED);
                     if (pathStr != null) {
                         File fileC = new File(pathStr);
                         if (fileC.exists()) {
-                            new SharedPrefs(this).savePrefs(Prefs.CUSTOM_SOUND_FILE, fileC.toString());
+                            SharedPrefs.getInstance(this).savePrefs(Prefs.CUSTOM_SOUND_FILE, fileC.toString());
                         }
                     }
                 }
@@ -121,7 +121,7 @@ public class SettingsActivity extends AppCompatActivity implements
             case Constants.ACTION_REQUEST_GALLERY:
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = data.getData();
-                    new SharedPrefs(this).savePrefs(Prefs.REMINDER_IMAGE, selectedImage.toString());
+                    SharedPrefs.getInstance(this).savePrefs(Prefs.REMINDER_IMAGE, selectedImage.toString());
                 }
                 break;
         }

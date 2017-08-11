@@ -25,7 +25,6 @@ public class NewPlace extends AppCompatActivity implements MapListener {
     private Coloring cs = new Coloring(NewPlace.this);
     private EditText placeName;
     private MapFragment fragment;
-    private SharedPrefs sPrefs = new SharedPrefs(NewPlace.this);
 
     private LatLng place;
     private String placeTitle;
@@ -56,7 +55,8 @@ public class NewPlace extends AppCompatActivity implements MapListener {
         id = getIntent().getLongExtra(Constants.ITEM_ID_INTENT, 0);
         placeName = findViewById(R.id.placeName);
 
-        fragment = MapFragment.newInstance(false, false, false, false, sPrefs.loadInt(Prefs.MARKER_STYLE));
+        fragment = MapFragment.newInstance(false, false, false, false,
+                SharedPrefs.getInstance(this).loadInt(Prefs.MARKER_STYLE));
         fragment.setListener(this);
         fragment.setMapReadyCallback(mMapCallback);
         getSupportFragmentManager().beginTransaction()
@@ -121,7 +121,7 @@ public class NewPlace extends AppCompatActivity implements MapListener {
 
     private void loadPlace() {
         if (id != 0) {
-            int radius = sPrefs.loadInt(Prefs.LOCATION_RADIUS);
+            int radius = SharedPrefs.getInstance(this).loadInt(Prefs.LOCATION_RADIUS);
             DataBase db = new DataBase(NewPlace.this);
             db.open();
             Cursor c = db.getPlace(id);

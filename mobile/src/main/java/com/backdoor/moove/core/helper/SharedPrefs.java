@@ -7,14 +7,28 @@ import android.content.SharedPreferences;
  * Helper class for working with SharedPreferences.
  */
 public class SharedPrefs {
-    private SharedPreferences prefs;
-    private Context mContext;
-    public static final String MOOVE_PREFS = "moove_prefs";
-    public static final String CHANGES_PREFS = "changes_settings";
-    private static int MODE = Context.MODE_PRIVATE;
 
-    public SharedPrefs(Context context) {
-        this.mContext = context;
+    public static final String MOOVE_PREFS = "moove_prefs";
+    private static final String CHANGES_PREFS = "changes_settings";
+
+    private SharedPreferences mPrefs;
+    private SharedPreferences mChangesPrefs;
+    private static SharedPrefs instance;
+
+    private SharedPrefs(Context context) {
+        this.mPrefs = context.getSharedPreferences(MOOVE_PREFS, Context.MODE_PRIVATE);
+        this.mChangesPrefs = context.getSharedPreferences(CHANGES_PREFS, Context.MODE_PRIVATE);
+    }
+
+    public static SharedPrefs getInstance(Context context) {
+        if (instance == null) {
+            synchronized (SharedPrefs.class) {
+                if (instance == null) {
+                    instance = new SharedPrefs(context.getApplicationContext());
+                }
+            }
+        }
+        return instance;
     }
 
     /**
@@ -24,10 +38,7 @@ public class SharedPrefs {
      * @param value        value.
      */
     public void savePrefs(String stringToSave, String value) {
-        prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
-        SharedPreferences.Editor uiEd = prefs.edit();
-        uiEd.putString(stringToSave, value);
-        uiEd.apply();
+        mPrefs.edit().putString(stringToSave, value).apply();
     }
 
     /**
@@ -37,10 +48,7 @@ public class SharedPrefs {
      * @param value        value.
      */
     public void saveInt(String stringToSave, int value) {
-        prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
-        SharedPreferences.Editor uiEd = prefs.edit();
-        uiEd.putInt(stringToSave, value);
-        uiEd.apply();
+        mPrefs.edit().putInt(stringToSave, value).apply();
     }
 
     /**
@@ -50,14 +58,11 @@ public class SharedPrefs {
      * @return
      */
     public int loadInt(String stringToLoad) {
-        prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
-        int x;
         try {
-            x = prefs.getInt(stringToLoad, 0);
+            return mPrefs.getInt(stringToLoad, 0);
         } catch (ClassCastException e) {
-            x = Integer.parseInt(prefs.getString(stringToLoad, "0"));
+            return Integer.parseInt(mPrefs.getString(stringToLoad, "0"));
         }
-        return x;
     }
 
     /**
@@ -67,10 +72,7 @@ public class SharedPrefs {
      * @param value        value.
      */
     public void saveLong(String stringToSave, long value) {
-        prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
-        SharedPreferences.Editor uiEd = prefs.edit();
-        uiEd.putLong(stringToSave, value);
-        uiEd.apply();
+        mPrefs.edit().putLong(stringToSave, value).apply();
     }
 
     /**
@@ -80,14 +82,11 @@ public class SharedPrefs {
      * @return
      */
     public long loadLong(String stringToLoad) {
-        prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
-        long x;
         try {
-            x = prefs.getLong(stringToLoad, 1000);
+            return mPrefs.getLong(stringToLoad, 1000);
         } catch (ClassCastException e) {
-            x = Long.parseLong(prefs.getString(stringToLoad, "1000"));
+            return Long.parseLong(mPrefs.getString(stringToLoad, "1000"));
         }
-        return x;
     }
 
     /**
@@ -97,15 +96,11 @@ public class SharedPrefs {
      * @return
      */
     public String loadPrefs(String stringToLoad) {
-        String res;
         try {
-            prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
-            res = prefs.getString(stringToLoad, "");
+            return mPrefs.getString(stringToLoad, "");
         } catch (NullPointerException e) {
-            e.printStackTrace();
-            res = "";
+            return "";
         }
-        return res;
     }
 
     /**
@@ -115,8 +110,7 @@ public class SharedPrefs {
      * @return
      */
     public boolean isString(String checkString) {
-        prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
-        return prefs.contains(checkString);
+        return mPrefs.contains(checkString);
     }
 
     /**
@@ -126,10 +120,7 @@ public class SharedPrefs {
      * @param value        value.
      */
     public void saveBoolean(String stringToSave, boolean value) {
-        prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
-        SharedPreferences.Editor uiEd = prefs.edit();
-        uiEd.putBoolean(stringToSave, value);
-        uiEd.apply();
+        mPrefs.edit().putBoolean(stringToSave, value).apply();
     }
 
     /**
@@ -139,31 +130,22 @@ public class SharedPrefs {
      * @return
      */
     public boolean loadBoolean(String stringToLoad) {
-        prefs = mContext.getSharedPreferences(MOOVE_PREFS, MODE);
-        boolean res;
         try {
-            res = prefs.getBoolean(stringToLoad, false);
+            return mPrefs.getBoolean(stringToLoad, false);
         } catch (ClassCastException e) {
-            res = Boolean.parseBoolean(prefs.getString(stringToLoad, "false"));
+            return Boolean.parseBoolean(mPrefs.getString(stringToLoad, "false"));
         }
-        return res;
     }
 
     public void saveVersionBoolean(String stringToSave) {
-        prefs = mContext.getSharedPreferences(CHANGES_PREFS, MODE);
-        SharedPreferences.Editor uiEd = prefs.edit();
-        uiEd.putBoolean(stringToSave, true);
-        uiEd.apply();
+        mChangesPrefs.edit().putBoolean(stringToSave, true).apply();
     }
 
     public boolean loadVersionBoolean(String stringToLoad) {
-        prefs = mContext.getSharedPreferences(CHANGES_PREFS, MODE);
-        boolean res;
         try {
-            res = prefs.getBoolean(stringToLoad, false);
+            return mChangesPrefs.getBoolean(stringToLoad, false);
         } catch (ClassCastException e) {
-            res = Boolean.parseBoolean(prefs.getString(stringToLoad, "false"));
+            return Boolean.parseBoolean(mChangesPrefs.getString(stringToLoad, "false"));
         }
-        return res;
     }
 }

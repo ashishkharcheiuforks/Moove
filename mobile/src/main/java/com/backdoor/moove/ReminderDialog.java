@@ -94,7 +94,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sPrefs = new SharedPrefs(ReminderDialog.this);
+        sPrefs = SharedPrefs.getInstance(this);
 
         Intent res = getIntent();
         id = res.getLongExtra(Constants.ITEM_ID_INTENT, 0);
@@ -312,8 +312,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
     }
 
     private void showReminder(int i) {
-        sPrefs = new SharedPrefs(ReminderDialog.this);
-        boolean isTTS = sPrefs.loadBoolean(Prefs.TTS);
+        boolean isTTS = SharedPrefs.getInstance(this).loadBoolean(Prefs.TTS);
         if (isMelody == 1) {
             i = 0;
         }
@@ -397,7 +396,6 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
 
     @Override
     public void onInit(int status) {
-        sPrefs = new SharedPrefs(ReminderDialog.this);
         if (status == TextToSpeech.SUCCESS) {
             int result = tts.setLanguage(new Language().getLocale(ReminderDialog.this));
             if (result == TextToSpeech.LANG_MISSING_DATA ||

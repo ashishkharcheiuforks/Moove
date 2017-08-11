@@ -33,7 +33,7 @@ public class LocationSettingsFragment extends Fragment implements View.OnClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.settings_location, container, false);
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
+        sPrefs = SharedPrefs.getInstance(getActivity());
 
         ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (ab != null) {
@@ -71,7 +71,6 @@ public class LocationSettingsFragment extends Fragment implements View.OnClickLi
     }
 
     private void notificationChange() {
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
         if (notificationOptionPrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.TRACKING_NOTIFICATION, false);
             notificationOptionPrefs.setChecked(false);
@@ -82,7 +81,6 @@ public class LocationSettingsFragment extends Fragment implements View.OnClickLi
     }
 
     private void placesChange() {
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
         if (autoFill.isChecked()) {
             sPrefs.saveBoolean(Prefs.PLACES_AUTO, false);
             autoFill.setChecked(false);
@@ -95,8 +93,6 @@ public class LocationSettingsFragment extends Fragment implements View.OnClickLi
     @Override
     public void onResume() {
         super.onResume();
-
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
         radiusPrefs.setValueText(sPrefs.loadInt(Prefs.LOCATION_RADIUS) + getString(R.string.m));
     }
 

@@ -27,7 +27,7 @@ public class TrackerOption extends Activity {
         setContentView(R.layout.tracker_settings_layout);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         findViewById(R.id.windowBackground).setBackgroundColor(cs.getBackgroundStyle());
-        sPrefs = new SharedPrefs(TrackerOption.this);
+        sPrefs = SharedPrefs.getInstance(this);
 
         radiusValue = findViewById(R.id.radiusValue);
         radiusValue.setText(sPrefs.loadInt(Prefs.TRACK_DISTANCE) + getString(R.string.m));
@@ -79,7 +79,6 @@ public class TrackerOption extends Activity {
         aboutClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sPrefs = new SharedPrefs(TrackerOption.this);
                 sPrefs.saveInt(Prefs.TRACK_DISTANCE, radiusBar.getProgress() + 1);
                 sPrefs.saveInt(Prefs.TRACK_TIME, timeBar.getProgress() + 1);
                 new DisableAsync(TrackerOption.this).execute();

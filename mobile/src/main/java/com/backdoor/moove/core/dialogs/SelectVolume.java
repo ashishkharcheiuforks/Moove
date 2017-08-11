@@ -29,13 +29,12 @@ public class SelectVolume extends Activity {
         setContentView(R.layout.volume_dialog_layout);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         findViewById(R.id.windowBackground).setBackgroundColor(cs.getBackgroundStyle());
-        SharedPrefs sPrefs = new SharedPrefs(SelectVolume.this);
 
         radiusValue = findViewById(R.id.radiusValue);
         volumeImage = findViewById(R.id.volumeImage);
 
         SeekBar radiusBar = findViewById(R.id.radiusBar);
-        int n = sPrefs.loadInt(Prefs.VOLUME);
+        int n = SharedPrefs.getInstance(this).loadInt(Prefs.VOLUME);
         radiusBar.setProgress(n);
         radiusValue.setText(String.valueOf(n));
         setValue(n);

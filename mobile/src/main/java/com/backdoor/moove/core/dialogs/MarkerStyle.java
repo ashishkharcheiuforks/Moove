@@ -16,7 +16,6 @@ public class MarkerStyle extends Activity implements View.OnClickListener {
     private RadioButton red, green, blue, yellow, greenLight, blueLight, grey, purple,
             brown, orange, pink, teal, deepPurple, deepOrange, indigo, lime;
     private RadioGroup themeGroup, themeGroup2, themeGroup3, themeGroup4;
-    private SharedPrefs sPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,8 +131,7 @@ public class MarkerStyle extends Activity implements View.OnClickListener {
     };
 
     public void setUpRadio() {
-        sPrefs = new SharedPrefs(MarkerStyle.this);
-        int loaded = sPrefs.loadInt(Prefs.MARKER_STYLE);
+        int loaded = SharedPrefs.getInstance(this).loadInt(Prefs.MARKER_STYLE);
         switch (loaded) {
             case 0:
                 red.setChecked(true);
@@ -240,8 +238,7 @@ public class MarkerStyle extends Activity implements View.OnClickListener {
     }
 
     void saveColor(int style) {
-        sPrefs = new SharedPrefs(MarkerStyle.this);
-        sPrefs.saveInt(Prefs.MARKER_STYLE, style);
+        SharedPrefs.getInstance(this).saveInt(Prefs.MARKER_STYLE, style);
     }
 
     @Override

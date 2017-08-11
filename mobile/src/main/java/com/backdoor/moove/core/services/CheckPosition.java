@@ -16,6 +16,7 @@ import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.helper.DataBase;
 import com.backdoor.moove.core.helper.Module;
+import com.backdoor.moove.core.helper.Notifier;
 import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.helper.Widget;
 import com.backdoor.moove.core.utils.TimeUtil;
@@ -56,7 +57,7 @@ public class CheckPosition extends IntentService {
         locationA.setLatitude(mLat);
         locationA.setLongitude(mLon);
         DataBase db = new DataBase(getApplicationContext());
-        SharedPrefs prefs = new SharedPrefs(getApplicationContext());
+        SharedPrefs prefs = SharedPrefs.getInstance(this);
         boolean isEnabled = prefs.loadBoolean(Prefs.TRACKING_NOTIFICATION);
         int stockRadius = prefs.loadInt(Prefs.LOCATION_RADIUS);
         boolean isWear = prefs.loadBoolean(Prefs.WEAR_NOTIFICATION);
@@ -186,7 +187,7 @@ public class CheckPosition extends IntentService {
         Context context = getApplicationContext();
         String content = String.valueOf(roundedDistance);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Notifier.CHANNEL_SYSTEM);
         builder.setContentText(content);
         builder.setContentTitle(task);
         builder.setSmallIcon(R.drawable.ic_navigation_white_24dp);
@@ -214,7 +215,7 @@ public class CheckPosition extends IntentService {
 
         if (isWear) {
             if (Module.isJellyBean()) {
-                final NotificationCompat.Builder wearableNotificationBuilder = new NotificationCompat.Builder(context);
+                final NotificationCompat.Builder wearableNotificationBuilder = new NotificationCompat.Builder(context, Notifier.CHANNEL_SYSTEM);
                 wearableNotificationBuilder.setSmallIcon(R.drawable.ic_navigation_white_24dp);
                 wearableNotificationBuilder.setContentTitle(task);
                 wearableNotificationBuilder.setContentText(content);

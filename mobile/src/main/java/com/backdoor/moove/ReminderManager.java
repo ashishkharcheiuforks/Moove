@@ -145,7 +145,7 @@ public class ReminderManager extends AppCompatActivity implements
     private ArrayList<String> namesList;
     private LatLng curPlace;
 
-    private SharedPrefs sPrefs = new SharedPrefs(ReminderManager.this);
+    private SharedPrefs sPrefs = SharedPrefs.getInstance(this);
 
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 109;
     private static final int MENU_ITEM_DELETE = 12;
@@ -1322,7 +1322,6 @@ public class ReminderManager extends AppCompatActivity implements
         if (isLocationAttached()) {
             menu.getItem(1).setVisible(true);
         }
-        sPrefs = new SharedPrefs(ReminderManager.this);
         if (sPrefs.loadBoolean(Prefs.LED_STATUS)) {
             menu.getItem(2).setVisible(true);
         }
@@ -1337,7 +1336,6 @@ public class ReminderManager extends AppCompatActivity implements
         if (isLocationAttached()) {
             menu.getItem(1).setVisible(true);
         }
-        sPrefs = new SharedPrefs(ReminderManager.this);
         if (sPrefs.loadBoolean(Prefs.LED_STATUS)) {
             menu.getItem(2).setVisible(true);
         }
@@ -1443,11 +1441,10 @@ public class ReminderManager extends AppCompatActivity implements
 
     private void setLocationUpdates() {
         if (mLocList != null) {
-            SharedPrefs prefs = new SharedPrefs(getApplicationContext());
             long time;
-            time = (prefs.loadInt(Prefs.TRACK_TIME) * 1000);
+            time = (sPrefs.loadInt(Prefs.TRACK_TIME) * 1000);
             int distance;
-            distance = prefs.loadInt(Prefs.TRACK_DISTANCE);
+            distance = sPrefs.loadInt(Prefs.TRACK_DISTANCE);
             if (Permissions.checkPermission(ReminderManager.this, Permissions.ACCESS_COARSE_LOCATION,
                     Permissions.ACCESS_FINE_LOCATION)) {
                 mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

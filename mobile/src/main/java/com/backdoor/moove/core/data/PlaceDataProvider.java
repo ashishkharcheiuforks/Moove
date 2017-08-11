@@ -56,7 +56,7 @@ public class PlaceDataProvider {
                 int style = c.getInt(c.getColumnIndex(DataBase.MARKER));
                 int radius = c.getInt(c.getColumnIndex(DataBase.RADIUS));
                 if (radius == -1) {
-                    radius = new SharedPrefs(mContext).loadInt(Prefs.LOCATION_RADIUS);
+                    radius = SharedPrefs.getInstance(mContext).loadInt(Prefs.LOCATION_RADIUS);
                 }
                 data.add(new MarkerModel(text, new LatLng(latitude, longitude), style, id, radius));
             } while (c.moveToNext());

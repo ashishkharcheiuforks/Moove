@@ -39,6 +39,7 @@ public class Notifier {
 
     public Notifier(Context context) {
         this.mContext = context;
+        this.sPrefs = SharedPrefs.getInstance(context);
         sound = new Sound(context);
     }
 
@@ -78,8 +79,7 @@ public class Notifier {
      * @param color  LED lights color.
      */
     public void showTTSNotification(final String task, long itemId, int color) {
-        sPrefs = new SharedPrefs(mContext);
-        builder = new NotificationCompat.Builder(mContext);
+        builder = new NotificationCompat.Builder(mContext, CHANNEL_REMINDER);
         builder.setContentTitle(task);
         Intent notificationIntent = new Intent(mContext, ReminderDialog.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -152,7 +152,7 @@ public class Notifier {
 
         if (isWear) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                final NotificationCompat.Builder wearableNotificationBuilder = new NotificationCompat.Builder(mContext);
+                final NotificationCompat.Builder wearableNotificationBuilder = new NotificationCompat.Builder(mContext, CHANNEL_REMINDER);
                 wearableNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
                 wearableNotificationBuilder.setContentTitle(task);
                 wearableNotificationBuilder.setContentText(app);
@@ -178,7 +178,6 @@ public class Notifier {
      * @param color  LED lights color.
      */
     public void showReminder(final String task, int i, long itemId, String melody, int color) {
-        sPrefs = new SharedPrefs(mContext);
         Uri soundUri;
         if (melody != null && !melody.matches("")) {
             File sound = new File(melody);
@@ -203,7 +202,7 @@ public class Notifier {
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         PendingIntent intent = PendingIntent.getActivity(mContext, (int) itemId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        builder = new NotificationCompat.Builder(mContext);
+        builder = new NotificationCompat.Builder(mContext, CHANNEL_REMINDER);
         builder.setContentTitle(task);
         builder.setContentIntent(intent);
         builder.setAutoCancel(false);
@@ -261,7 +260,7 @@ public class Notifier {
 
         if (isWear) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                final NotificationCompat.Builder wearableNotificationBuilder = new NotificationCompat.Builder(mContext);
+                final NotificationCompat.Builder wearableNotificationBuilder = new NotificationCompat.Builder(mContext, CHANNEL_REMINDER);
                 wearableNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
                 wearableNotificationBuilder.setContentTitle(task);
                 wearableNotificationBuilder.setContentText(app);
@@ -284,9 +283,7 @@ public class Notifier {
      * @param id      reminder identifier.
      */
     public void showReminderNotification(String content, long id) {
-        sPrefs = new SharedPrefs(mContext);
-
-        builder = new NotificationCompat.Builder(mContext);
+        builder = new NotificationCompat.Builder(mContext, CHANNEL_REMINDER);
         builder.setContentTitle(content);
         String app = mContext.getString(R.string.app_name);
         builder.setContentText(app);
@@ -311,7 +308,7 @@ public class Notifier {
 
         if (isWear) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                final NotificationCompat.Builder wearableNotificationBuilder = new NotificationCompat.Builder(mContext);
+                final NotificationCompat.Builder wearableNotificationBuilder = new NotificationCompat.Builder(mContext, CHANNEL_REMINDER);
                 wearableNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
                 wearableNotificationBuilder.setContentTitle(content);
                 wearableNotificationBuilder.setContentText(app);

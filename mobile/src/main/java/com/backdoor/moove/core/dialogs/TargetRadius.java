@@ -21,7 +21,6 @@ public class TargetRadius extends Activity {
 
     private SeekBar radiusBar;
     private TextView radiusValue;
-    private SharedPrefs sPrefs;
     private int progressInt, i;
 
     @Override
@@ -32,11 +31,10 @@ public class TargetRadius extends Activity {
         setContentView(R.layout.radius_dialog_layout);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         findViewById(R.id.windowBackground).setBackgroundColor(cs.getBackgroundStyle());
-        sPrefs = new SharedPrefs(TargetRadius.this);
         Intent intent = getIntent();
         i = intent.getIntExtra("item", 0);
         radiusValue = findViewById(R.id.radiusValue);
-        progressInt = sPrefs.loadInt(Prefs.LOCATION_RADIUS);
+        progressInt = SharedPrefs.getInstance(this).loadInt(Prefs.LOCATION_RADIUS);
         radiusValue.setText(progressInt + getString(R.string.m));
 
         radiusBar = findViewById(R.id.radiusBar);
@@ -62,7 +60,7 @@ public class TargetRadius extends Activity {
         Button plusButton = findViewById(R.id.plusButton);
         plusButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 radiusBar.setProgress(progressInt + 1);
             }
         });
@@ -106,8 +104,7 @@ public class TargetRadius extends Activity {
             @Override
             public void onClick(View v) {
                 if (i == 0) {
-                    sPrefs = new SharedPrefs(TargetRadius.this);
-                    sPrefs.saveInt(Prefs.LOCATION_RADIUS, radiusBar.getProgress());
+                    SharedPrefs.getInstance(TargetRadius.this).saveInt(Prefs.LOCATION_RADIUS, radiusBar.getProgress());
                     finish();
                 } else {
                     Intent intent = new Intent();

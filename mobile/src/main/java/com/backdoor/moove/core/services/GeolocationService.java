@@ -73,7 +73,7 @@ public class GeolocationService extends Service {
     @SuppressLint("MissingPermission")
     private void updateListener() {
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        SharedPrefs prefs = new SharedPrefs(getApplicationContext());
+        SharedPrefs prefs = SharedPrefs.getInstance(this);
         long time = (prefs.loadInt(Prefs.TRACK_TIME) * 1000);
         int distance = prefs.loadInt(Prefs.TRACK_DISTANCE);
         if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {

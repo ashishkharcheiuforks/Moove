@@ -26,26 +26,26 @@ import com.backdoor.moove.core.views.PrefsView;
 
 import java.io.File;
 
-public class NotificationSettingsFragment extends Fragment implements View.OnClickListener, 
+public class NotificationSettingsFragment extends Fragment implements View.OnClickListener,
         DialogInterface.OnDismissListener {
 
     private SharedPrefs sPrefs;
     private ActionBar ab;
     private TextView locale;
-    
+
     private PrefsView blurPrefs, vibrationOptionPrefs, infiniteVibrateOptionPrefs,
-            soundOptionPrefs, infiniteSoundOptionPrefs, ttsPrefs, wakeScreenOptionPrefs, 
+            soundOptionPrefs, infiniteSoundOptionPrefs, ttsPrefs, wakeScreenOptionPrefs,
             unlockScreenPrefs, silentSMSOptionPrefs, ledPrefs, chooseSoundPrefs,
             chooseLedColorPrefs, silentCallOptionPrefs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView =  inflater.inflate(R.layout.settings_notification, container, false);
-        ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if (ab != null){
+        View rootView = inflater.inflate(R.layout.settings_notification, container, false);
+        ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (ab != null) {
             ab.setTitle(R.string.notification);
         }
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
+        sPrefs = SharedPrefs.getInstance(getActivity());
         if (Module.isLollipop()) {
             rootView.findViewById(R.id.imageCard).setElevation(Configs.CARD_ELEVATION);
             rootView.findViewById(R.id.soundCard).setElevation(Configs.CARD_ELEVATION);
@@ -145,25 +145,24 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         return rootView;
     }
 
-    private void checkTTS(){
-        if (ttsPrefs.isChecked()){
+    private void checkTTS() {
+        if (ttsPrefs.isChecked()) {
             locale.setEnabled(true);
         } else {
             locale.setEnabled(false);
         }
     }
 
-    private void checkVibrate(){
-        if (vibrationOptionPrefs.isChecked()){
+    private void checkVibrate() {
+        if (vibrationOptionPrefs.isChecked()) {
             infiniteVibrateOptionPrefs.setEnabled(true);
         } else {
             infiniteVibrateOptionPrefs.setEnabled(false);
         }
     }
 
-    private void showMelody(){
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-        if (sPrefs.loadBoolean(Prefs.CUSTOM_SOUND)){
+    private void showMelody() {
+        if (sPrefs.loadBoolean(Prefs.CUSTOM_SOUND)) {
             if (sPrefs.isString(Prefs.CUSTOM_SOUND_FILE)) {
                 String path = sPrefs.loadPrefs(Prefs.CUSTOM_SOUND_FILE);
                 if (!path.matches("")) {
@@ -185,9 +184,8 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         }
     }
 
-    private void vibrationChange (){
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-        if (vibrationOptionPrefs.isChecked()){
+    private void vibrationChange() {
+        if (vibrationOptionPrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.VIBRATION_STATUS, false);
             vibrationOptionPrefs.setChecked(false);
         } else {
@@ -197,9 +195,8 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         checkVibrate();
     }
 
-    private void infiniteVibrationChange (){
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-        if (infiniteVibrateOptionPrefs.isChecked()){
+    private void infiniteVibrationChange() {
+        if (infiniteVibrateOptionPrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.INFINITE_VIBRATION, false);
             infiniteVibrateOptionPrefs.setChecked(false);
         } else {
@@ -208,9 +205,8 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         }
     }
 
-    private void ttsChange (){
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-        if (ttsPrefs.isChecked()){
+    private void ttsChange() {
+        if (ttsPrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.TTS, false);
             ttsPrefs.setChecked(false);
         } else {
@@ -221,9 +217,8 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         checkTTS();
     }
 
-    private void blurChange (){
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-        if (blurPrefs.isChecked()){
+    private void blurChange() {
+        if (blurPrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.REMINDER_IMAGE_BLUR, false);
             blurPrefs.setChecked(false);
         } else {
@@ -232,9 +227,8 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         }
     }
 
-    private void soundChange (){
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-        if (soundOptionPrefs.isChecked()){
+    private void soundChange() {
+        if (soundOptionPrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.SILENT_SOUND, false);
             soundOptionPrefs.setChecked(false);
         } else {
@@ -243,9 +237,8 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         }
     }
 
-    private void infiniteSoundChange (){
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-        if (infiniteSoundOptionPrefs.isChecked()){
+    private void infiniteSoundChange() {
+        if (infiniteSoundOptionPrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.INFINITE_SOUND, false);
             infiniteSoundOptionPrefs.setChecked(false);
         } else {
@@ -254,17 +247,16 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         }
     }
 
-    private void checkEnabling(){
-        if (ledPrefs.isChecked()){
+    private void checkEnabling() {
+        if (ledPrefs.isChecked()) {
             chooseLedColorPrefs.setEnabled(true);
         } else {
             chooseLedColorPrefs.setEnabled(false);
         }
     }
 
-    private void ledChange (){
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-        if (ledPrefs.isChecked()){
+    private void ledChange() {
+        if (ledPrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.LED_STATUS, false);
             ledPrefs.setChecked(false);
         } else {
@@ -274,9 +266,8 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         checkEnabling();
     }
 
-    private void silentSMSChange (){
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-        if (silentSMSOptionPrefs.isChecked()){
+    private void silentSMSChange() {
+        if (silentSMSOptionPrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.SILENT_SMS, false);
             silentSMSOptionPrefs.setChecked(false);
         } else {
@@ -285,9 +276,8 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         }
     }
 
-    private void silentCallChange (){
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-        if (silentCallOptionPrefs.isChecked()){
+    private void silentCallChange() {
+        if (silentCallOptionPrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.SILENT_CALL, false);
             silentCallOptionPrefs.setChecked(false);
         } else {
@@ -296,9 +286,8 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         }
     }
 
-    private void wakeChange (){
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-        if (wakeScreenOptionPrefs.isChecked()){
+    private void wakeChange() {
+        if (wakeScreenOptionPrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.WAKE_STATUS, false);
             wakeScreenOptionPrefs.setChecked(false);
         } else {
@@ -307,9 +296,8 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         }
     }
 
-    private void unlockChange (){
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
-        if (unlockScreenPrefs.isChecked()){
+    private void unlockChange() {
+        if (unlockScreenPrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.UNLOCK_DEVICE, false);
             unlockScreenPrefs.setChecked(false);
         } else {
@@ -321,8 +309,8 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
     @Override
     public void onDetach() {
         super.onDetach();
-        ab = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if (ab != null){
+        ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (ab != null) {
             ab.setTitle(R.string.settings);
         }
     }
@@ -390,9 +378,9 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
+        switch (requestCode) {
             case 101:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     if (Module.isKitkat()) {
                         intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);

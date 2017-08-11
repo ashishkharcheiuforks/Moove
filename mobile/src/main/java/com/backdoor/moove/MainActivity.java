@@ -185,7 +185,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
     }
 
     private void isChangesShown() {
-        SharedPrefs sPrefs = new SharedPrefs(this);
         PackageInfo pInfo = null;
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -196,29 +195,27 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
         if (pInfo != null) {
             version = pInfo.versionName;
         }
-        boolean ranBefore = sPrefs.loadVersionBoolean(version);
+        boolean ranBefore = SharedPrefs.getInstance(this).loadVersionBoolean(version);
         if (!ranBefore) {
-            sPrefs.saveVersionBoolean(version);
+            SharedPrefs.getInstance(this).saveVersionBoolean(version);
             showChanges();
         }
     }
 
     private void showRate() {
-        SharedPrefs sPrefs = new SharedPrefs(this);
-
-        if (sPrefs.isString(Prefs.RATE_SHOW)) {
-            if (!sPrefs.loadBoolean(Prefs.RATE_SHOW)) {
-                int counts = sPrefs.loadInt(Prefs.APP_RUNS_COUNT);
+        if (SharedPrefs.getInstance(this).isString(Prefs.RATE_SHOW)) {
+            if (!SharedPrefs.getInstance(this).loadBoolean(Prefs.RATE_SHOW)) {
+                int counts = SharedPrefs.getInstance(this).loadInt(Prefs.APP_RUNS_COUNT);
                 if (counts < 10) {
-                    sPrefs.saveInt(Prefs.APP_RUNS_COUNT, counts + 1);
+                    SharedPrefs.getInstance(this).saveInt(Prefs.APP_RUNS_COUNT, counts + 1);
                 } else {
-                    sPrefs.saveInt(Prefs.APP_RUNS_COUNT, 0);
+                    SharedPrefs.getInstance(this).saveInt(Prefs.APP_RUNS_COUNT, 0);
                     startActivity(new Intent(this, RateDialog.class));
                 }
             }
         } else {
-            sPrefs.saveBoolean(Prefs.RATE_SHOW, false);
-            sPrefs.saveInt(Prefs.APP_RUNS_COUNT, 0);
+            SharedPrefs.getInstance(this).saveBoolean(Prefs.RATE_SHOW, false);
+            SharedPrefs.getInstance(this).saveInt(Prefs.APP_RUNS_COUNT, 0);
         }
     }
 

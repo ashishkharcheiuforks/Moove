@@ -61,7 +61,7 @@ public class SplashScreen extends Activity {
 
         checkPrefs();
 
-        SharedPrefs prefs = new SharedPrefs(SplashScreen.this);
+        SharedPrefs prefs = SharedPrefs.getInstance(this);
         if (!prefs.loadBoolean(Prefs.FIRST_LOAD)) {
             startActivity(new Intent(SplashScreen.this, StartHelp.class));
         } else {
@@ -75,7 +75,7 @@ public class SplashScreen extends Activity {
      * Check if preference exist. If no save default.
      */
     private void checkPrefs() {
-        SharedPrefs sPrefs = new SharedPrefs(SplashScreen.this);
+        SharedPrefs sPrefs = SharedPrefs.getInstance(this);
         if (!sPrefs.isString(Prefs.TTS_LOCALE)) {
             sPrefs.savePrefs(Prefs.TTS_LOCALE, Language.ENGLISH);
         }

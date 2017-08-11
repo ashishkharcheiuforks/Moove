@@ -25,8 +25,7 @@ public class Language {
      */
     public Locale getLocale(Context context) {
         Locale res = null;
-        SharedPrefs sPrefs = new SharedPrefs(context);
-        switch (sPrefs.loadPrefs(Prefs.TTS_LOCALE)) {
+        switch (SharedPrefs.getInstance(context).loadPrefs(Prefs.TTS_LOCALE)) {
             case ENGLISH:
                 res = Locale.ENGLISH;
                 break;

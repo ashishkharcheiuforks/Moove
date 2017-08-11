@@ -34,7 +34,7 @@ public class GeneralSettingsFragment extends Fragment implements View.OnClickLis
         }
 
         getActivity().getIntent().setAction("General attached");
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
+        sPrefs = SharedPrefs.getInstance(getActivity());
 
         if (Module.isLollipop()) {
             rootView.findViewById(R.id.generalCard).setElevation(Configs.CARD_ELEVATION);
@@ -52,7 +52,6 @@ public class GeneralSettingsFragment extends Fragment implements View.OnClickLis
     }
 
     private void _24Change() {
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
         if (use24TimePrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.IS_24_TIME_FORMAT, false);
             use24TimePrefs.setChecked(false);
@@ -63,7 +62,6 @@ public class GeneralSettingsFragment extends Fragment implements View.OnClickLis
     }
 
     private void wearChange() {
-        sPrefs = new SharedPrefs(getActivity().getApplicationContext());
         if (wearEnablePrefs.isChecked()) {
             sPrefs.saveBoolean(Prefs.WEAR_NOTIFICATION, false);
             wearEnablePrefs.setChecked(false);

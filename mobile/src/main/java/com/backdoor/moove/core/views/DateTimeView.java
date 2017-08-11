@@ -11,8 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.R;
+import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.utils.AssetsUtil;
 import com.backdoor.moove.core.utils.TimeUtil;
@@ -138,7 +138,7 @@ public class DateTimeView extends RelativeLayout implements DatePickerDialog.OnD
         if (mills == 0) {
             cal.setTimeInMillis(System.currentTimeMillis());
         }
-        time.setText(TimeUtil.getTime(cal.getTime(), new SharedPrefs(mContext).loadBoolean(Prefs.IS_24_TIME_FORMAT)));
+        time.setText(TimeUtil.getTime(cal.getTime(), SharedPrefs.getInstance(mContext).loadBoolean(Prefs.IS_24_TIME_FORMAT)));
     }
 
     /**
@@ -168,7 +168,7 @@ public class DateTimeView extends RelativeLayout implements DatePickerDialog.OnD
         int myHour = cal.get(Calendar.HOUR_OF_DAY);
         int myMinute = cal.get(Calendar.MINUTE);
         new TimePickerDialog(mContext, this, myHour, myMinute,
-                new SharedPrefs(mContext).loadBoolean(Prefs.IS_24_TIME_FORMAT)).show();
+                SharedPrefs.getInstance(mContext).loadBoolean(Prefs.IS_24_TIME_FORMAT)).show();
     }
 
     @Override

@@ -53,7 +53,7 @@ public class Dialogues {
                 context.getString(R.string.default_string),
                 context.getString(R.string.select_image)};
 
-        SharedPrefs prefs = new SharedPrefs(context);
+        SharedPrefs prefs = SharedPrefs.getInstance(context);
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_list_item_single_choice, types);
@@ -73,7 +73,7 @@ public class Dialogues {
             public void onClick(DialogInterface dialog, int which) {
                 if (which != -1) {
                     dialog.dismiss();
-                    SharedPrefs prefs = new SharedPrefs(context);
+                    SharedPrefs prefs = SharedPrefs.getInstance(context);
                     if (which == 0) {
                         prefs.savePrefs(Prefs.REMINDER_IMAGE, Constants.NONE);
                     } else if (which == 1) {
@@ -96,7 +96,7 @@ public class Dialogues {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                SharedPrefs prefs = new SharedPrefs(context);
+                SharedPrefs prefs = SharedPrefs.getInstance(context);
                 if (which == 0) {
                     prefs.savePrefs(Prefs.REMINDER_IMAGE, Constants.NONE);
                 } else if (which == 1) {
@@ -133,7 +133,7 @@ public class Dialogues {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setCancelable(true);
         builder.setTitle(title);
-        final SharedPrefs sharedPrefs = new SharedPrefs(context);
+        final SharedPrefs sharedPrefs = SharedPrefs.getInstance(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.dialog_seekbar, null);
         final TextView textView = layout.findViewById(R.id.seekValue);
@@ -188,7 +188,7 @@ public class Dialogues {
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_list_item_single_choice, types);
 
-        SharedPrefs prefs = new SharedPrefs(context);
+        SharedPrefs prefs = SharedPrefs.getInstance(context);
         int position;
         if (!prefs.loadBoolean(prefsToSave)) {
             position = 0;
@@ -200,7 +200,7 @@ public class Dialogues {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which != -1) {
-                    SharedPrefs prefs = new SharedPrefs(context);
+                    SharedPrefs prefs = SharedPrefs.getInstance(context);
                     if (which == 0) {
                         prefs.saveBoolean(prefsToSave, false);
                     } else {
@@ -214,7 +214,7 @@ public class Dialogues {
         builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                SharedPrefs prefs = new SharedPrefs(context);
+                SharedPrefs prefs = SharedPrefs.getInstance(context);
                 if (!prefs.loadBoolean(prefsToSave)) {
                     dialog.dismiss();
                 }
@@ -242,14 +242,14 @@ public class Dialogues {
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_list_item_single_choice, colors);
 
-        SharedPrefs prefs = new SharedPrefs(context);
+        SharedPrefs prefs = SharedPrefs.getInstance(context);
         int position = prefs.loadInt(Prefs.LED_COLOR);
 
         builder.setSingleChoiceItems(adapter, position, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which != -1) {
-                    SharedPrefs prefs = new SharedPrefs(context);
+                    SharedPrefs prefs = SharedPrefs.getInstance(context);
                     prefs.saveInt(Prefs.LED_COLOR, which);
                 }
             }
@@ -288,7 +288,7 @@ public class Dialogues {
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_list_item_single_choice, names);
 
-        SharedPrefs prefs = new SharedPrefs(context);
+        SharedPrefs prefs = SharedPrefs.getInstance(context);
         int position = 1;
         String locale = prefs.loadPrefs(prefsToSave);
         if (locale.matches(Language.ENGLISH)) position = 0;
@@ -305,7 +305,7 @@ public class Dialogues {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which != -1) {
-                    SharedPrefs prefs = new SharedPrefs(context);
+                    SharedPrefs prefs = SharedPrefs.getInstance(context);
                     String locale = Language.ENGLISH;
                     if (which == 0) locale = Language.ENGLISH;
                     if (which == 1) locale = Language.FRENCH;
@@ -343,7 +343,7 @@ public class Dialogues {
         final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.map_types,
                 android.R.layout.simple_list_item_single_choice);
 
-        SharedPrefs prefs = new SharedPrefs(context);
+        SharedPrefs prefs = SharedPrefs.getInstance(context);
         int type = prefs.loadInt(Prefs.MAP_TYPE);
         int position;
         if (type == GoogleMap.MAP_TYPE_NORMAL) {
@@ -362,7 +362,7 @@ public class Dialogues {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which != -1) {
-                    SharedPrefs prefs = new SharedPrefs(context);
+                    SharedPrefs prefs = SharedPrefs.getInstance(context);
                     if (which == 0) {
                         prefs.saveInt(Prefs.MAP_TYPE, GoogleMap.MAP_TYPE_NORMAL);
                     } else if (which == 1) {

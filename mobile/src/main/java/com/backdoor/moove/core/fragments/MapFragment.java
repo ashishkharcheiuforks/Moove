@@ -253,7 +253,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         if (map != null) {
             markerRadius = radius;
             if (markerRadius == -1) {
-                markerRadius = new SharedPrefs(getActivity()).loadInt(Prefs.LOCATION_RADIUS);
+                markerRadius = SharedPrefs.getInstance(getActivity()).loadInt(Prefs.LOCATION_RADIUS);
             }
             if (clear) {
                 map.clear();
@@ -297,7 +297,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         if (map != null) {
             markerRadius = radius;
             if (markerRadius == -1) {
-                markerRadius = new SharedPrefs(getActivity()).loadInt(Prefs.LOCATION_RADIUS);
+                markerRadius = SharedPrefs.getInstance(getActivity()).loadInt(Prefs.LOCATION_RADIUS);
             }
             this.markerStyle = markerStyle;
             if (clear) {
@@ -338,7 +338,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     public void recreateMarker(int radius) {
         markerRadius = radius;
         if (markerRadius == -1) {
-            markerRadius = new SharedPrefs(getActivity()).loadInt(Prefs.LOCATION_RADIUS);
+            markerRadius = SharedPrefs.getInstance(getActivity()).loadInt(Prefs.LOCATION_RADIUS);
         }
         if (map != null && lastPos != null) {
             map.clear();
@@ -387,7 +387,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
             if (style >= 0) {
                 int[] circleColors = cSetter.getMarkerRadiusStyle(style);
                 if (markerRadius == -1) {
-                    markerRadius = new SharedPrefs(getActivity()).loadInt(Prefs.LOCATION_RADIUS);
+                    markerRadius = SharedPrefs.getInstance(getActivity()).loadInt(Prefs.LOCATION_RADIUS);
                 }
                 map.addCircle(new CircleOptions()
                         .center(lastPos)
@@ -468,8 +468,8 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     }
 
     public void showShowcase() {
-        if (!new SharedPrefs(getActivity()).loadBoolean(HAS_SHOWCASE) && isBack) {
-            new SharedPrefs(getActivity()).saveBoolean(HAS_SHOWCASE, true);
+        if (!SharedPrefs.getInstance(getActivity()).loadBoolean(HAS_SHOWCASE) && isBack) {
+            SharedPrefs.getInstance(getActivity()).saveBoolean(HAS_SHOWCASE, true);
             Coloring coloring = new Coloring(getActivity());
             ShowcaseConfig config = new ShowcaseConfig();
             config.setDelay(350);
@@ -509,7 +509,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
             isBack = args.getBoolean(ENABLE_BACK, true);
             isZoom = args.getBoolean(ENABLE_ZOOM, true);
             markerStyle = args.getInt(MARKER_STYLE,
-                    new SharedPrefs(getActivity()).loadInt(Prefs.MARKER_STYLE));
+                    SharedPrefs.getInstance(getActivity()).loadInt(Prefs.MARKER_STYLE));
         }
     }
 
@@ -518,7 +518,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         initArgs();
         View view = inflater.inflate(R.layout.fragment_map, container, false);
-        final SharedPrefs prefs = new SharedPrefs(getActivity());
+        final SharedPrefs prefs = SharedPrefs.getInstance(getActivity());
         cSetter = new Coloring(getActivity());
         type = prefs.loadInt(Prefs.MAP_TYPE);
         markerRadius = prefs.loadInt(Prefs.LOCATION_RADIUS);
@@ -722,7 +722,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     private void setMapType(int type) {
         if (map != null) {
             map.setMapType(type);
-            new SharedPrefs(getActivity()).saveInt(Prefs.MAP_TYPE, type);
+            SharedPrefs.getInstance(getActivity()).saveInt(Prefs.MAP_TYPE, type);
             ViewUtils.hideOver(layersContainer);
         }
     }

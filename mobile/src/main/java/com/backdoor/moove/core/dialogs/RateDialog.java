@@ -30,7 +30,7 @@ public class RateDialog extends Activity {
         setContentView(R.layout.rate_dialog_layout);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         findViewById(R.id.windowBackground).setBackgroundColor(cs.getBackgroundStyle());
-        sharedPrefs = new SharedPrefs(RateDialog.this);
+        sharedPrefs = SharedPrefs.getInstance(this);
 
         TextView buttonRate = findViewById(R.id.buttonRate);
         buttonRate.setOnClickListener(new View.OnClickListener() {

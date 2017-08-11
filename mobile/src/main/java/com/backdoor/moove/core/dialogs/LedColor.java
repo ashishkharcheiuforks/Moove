@@ -19,6 +19,7 @@ import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.LED;
 import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.Messages;
+import com.backdoor.moove.core.helper.Notifier;
 
 public class LedColor extends Activity {
 
@@ -81,7 +82,7 @@ public class LedColor extends Activity {
     private void showLED(int color) {
         mNotifyMgr = NotificationManagerCompat.from(LedColor.this);
         mNotifyMgr.cancel(1);
-        builder = new NotificationCompat.Builder(LedColor.this);
+        builder = new NotificationCompat.Builder(LedColor.this, Notifier.CHANNEL_SYSTEM);
         builder.setLights(color, 500, 1000);
         mNotifyMgr = NotificationManagerCompat.from(LedColor.this);
         new Handler().postDelayed(new Runnable() {
