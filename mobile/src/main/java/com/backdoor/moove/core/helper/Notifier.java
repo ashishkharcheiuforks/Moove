@@ -33,7 +33,6 @@ public class Notifier {
     private Context mContext;
     private NotificationManagerCompat mNotifyMgr;
     private NotificationCompat.Builder builder;
-    private int NOT_ID = 0;
     private SharedPrefs sPrefs;
     private Sound sound;
 
@@ -84,7 +83,7 @@ public class Notifier {
         Intent notificationIntent = new Intent(mContext, ReminderDialog.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        PendingIntent intent = PendingIntent.getActivity(mContext, (int) itemId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent intent = PendingIntent.getActivity(mContext, (int) itemId, notificationIntent, 0);
         builder.setContentIntent(intent);
         builder.setAutoCancel(false);
         builder.setPriority(NotificationCompat.PRIORITY_MAX);
@@ -200,7 +199,7 @@ public class Notifier {
         notificationIntent.putExtra("int", 1);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        PendingIntent intent = PendingIntent.getActivity(mContext, (int) itemId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent intent = PendingIntent.getActivity(mContext, (int) itemId, notificationIntent, 0);
 
         builder = new NotificationCompat.Builder(mContext, CHANNEL_REMINDER);
         builder.setContentTitle(task);
@@ -327,7 +326,7 @@ public class Notifier {
     public void discardNotification() {
         discardMedia();
         mNotifyMgr = NotificationManagerCompat.from(mContext);
-        mNotifyMgr.cancel(NOT_ID);
+        mNotifyMgr.cancel(0);
     }
 
     public void discardStatusNotification(long id) {

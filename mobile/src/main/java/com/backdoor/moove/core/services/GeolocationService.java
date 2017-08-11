@@ -49,7 +49,6 @@ public class GeolocationService extends Service {
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
             startService(new Intent(getApplicationContext(), CheckPosition.class)
-                    //.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     .putExtra("lat", latitude)
                     .putExtra("lon", longitude));
         }
