@@ -68,6 +68,9 @@ public class Permissions {
     }
 
     public static void requestPermission(Activity a, int requestCode, String... permission) {
+        if (!Module.isMarshmallow()) {
+            return;
+        }
         int size = permission.length;
         if (size == 1) {
             a.requestPermissions(permission, requestCode);
@@ -79,6 +82,9 @@ public class Permissions {
     }
 
     public static void showInfo(Activity a, String permission) {
+        if (!Module.isMarshmallow()) {
+            return;
+        }
         a.shouldShowRequestPermissionRationale(permission);
     }
 }
