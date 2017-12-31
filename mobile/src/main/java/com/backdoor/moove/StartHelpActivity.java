@@ -71,6 +71,7 @@ public class StartHelpActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (grantResults.length == 0) return;
         if (requestCode == 200) {
             checkAll();
         }

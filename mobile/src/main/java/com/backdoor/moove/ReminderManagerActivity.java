@@ -1127,6 +1127,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
+        if (grantResults.length == 0) return;
         switch (requestCode) {
             case 105:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {

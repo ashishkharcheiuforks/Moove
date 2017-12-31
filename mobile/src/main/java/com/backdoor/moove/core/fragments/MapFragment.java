@@ -908,6 +908,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (grantResults.length == 0) return;
         switch (requestCode) {
             case 205:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
