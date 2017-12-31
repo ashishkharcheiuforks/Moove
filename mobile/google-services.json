@@ -1,48 +1,39 @@
 {
   "project_info": {
-    "project_number": "1030696705680",
-    "project_id": "moove-1170"
+    "project_number": "415339092262",
+    "firebase_url": "https://moove-cc78f.firebaseio.com",
+    "project_id": "moove-cc78f",
+    "storage_bucket": "moove-cc78f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1030696705680:android:f083284be02e6113",
+        "mobilesdk_app_id": "1:415339092262:android:f083284be02e6113",
         "android_client_info": {
           "package_name": "com.backdoor.moove"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1030696705680-b44n381efkv6o4n95mo2snlcmesostob.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.backdoor.moove",
-            "certificate_hash": "051D37DD4F19D7A6B3798668324D49AC9F273672"
-          }
-        },
-        {
-          "client_id": "1030696705680-q5l463chei6829b222fpumb8m12rov4c.apps.googleusercontent.com",
+          "client_id": "415339092262-0g2imbaq2jsl79ctnge9upn6t625rvck.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAXdWHX1PoTyMjDXPAvBsGwXXa1rSU7vAA"
+          "current_key": "AIzaSyCq4je7FjH_qngQpfMdzDOh9vXl2WWesOU"
         }
       ],
       "services": {
         "analytics_service": {
-          "status": 2,
-          "analytics_property": {
-            "tracking_id": "UA-72206185-1"
-          }
+          "status": 1
         },
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
