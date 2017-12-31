@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -70,57 +69,45 @@ public class ActionView extends LinearLayout {
         actionBlock.setVisibility(View.GONE);
 
         actionCheck = findViewById(R.id.actionCheck);
-        actionCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    ViewUtils.showOver(actionBlock);
-                    selectNumber = findViewById(R.id.selectNumber);
-                    selectNumber.setOnClickListener(contactClick);
-                    selectNumber.setImageResource(R.drawable.ic_person_add_white_24dp);
+        actionCheck.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b) {
+                ViewUtils.showOver(actionBlock);
+                selectNumber = findViewById(R.id.selectNumber);
+                selectNumber.setOnClickListener(contactClick);
+                selectNumber.setImageResource(R.drawable.ic_person_add_white_24dp);
 
-                    numberView = findViewById(R.id.numberView);
-                    numberView.setFocusableInTouchMode(true);
-                    numberView.setOnFocusChangeListener(new OnFocusChangeListener() {
-                        @Override
-                        public void onFocusChange(View v, boolean hasFocus) {
-                            imm = (InputMethodManager) activity.getSystemService(
-                                    Context.INPUT_METHOD_SERVICE);
-                            if (!hasFocus) {
-                                imm.hideSoftInputFromWindow(numberView.getWindowToken(), 0);
-                            } else {
-                                imm.showSoftInput(numberView, 0);
-                            }
-                        }
-                    });
-                    numberView.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            imm = (InputMethodManager) activity.getSystemService(
-                                    Context.INPUT_METHOD_SERVICE);
-                            if (!imm.isActive(numberView)) {
-                                imm.showSoftInput(numberView, 0);
-                            }
-                        }
-                    });
+                numberView = findViewById(R.id.numberView);
+                numberView.setFocusableInTouchMode(true);
+                numberView.setOnFocusChangeListener((v, hasFocus) -> {
+                    imm = (InputMethodManager) activity.getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    if (!hasFocus) {
+                        imm.hideSoftInputFromWindow(numberView.getWindowToken(), 0);
+                    } else {
+                        imm.showSoftInput(numberView, 0);
+                    }
+                });
+                numberView.setOnClickListener(v -> {
+                    imm = (InputMethodManager) activity.getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    if (!imm.isActive(numberView)) {
+                        imm.showSoftInput(numberView, 0);
+                    }
+                });
 
-                    callAction = findViewById(R.id.callAction);
-                    callAction.setChecked(true);
-                    messageAction = findViewById(R.id.messageAction);
-                    messageAction.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                            if (listener != null) {
-                                listener.onTypeChange(b);
-                            }
-                        }
-                    });
-                } else {
-                    ViewUtils.hideOver(actionBlock);
-                }
-                if (listener != null) {
-                    listener.onActionChange(b);
-                }
+                callAction = findViewById(R.id.callAction);
+                callAction.setChecked(true);
+                messageAction = findViewById(R.id.messageAction);
+                messageAction.setOnCheckedChangeListener((compoundButton1, b1) -> {
+                    if (listener != null) {
+                        listener.onTypeChange(b1);
+                    }
+                });
+            } else {
+                ViewUtils.hideOver(actionBlock);
+            }
+            if (listener != null) {
+                listener.onActionChange(b);
             }
         });
 

@@ -45,8 +45,6 @@ import com.backdoor.moove.core.services.DeliveredReceiver;
 import com.backdoor.moove.core.services.SendReceiver;
 import com.backdoor.moove.core.views.RoundImageView;
 import com.backdoor.shared.SharedConst;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
@@ -61,10 +59,10 @@ import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.BlurTransformation;
 
-public class ReminderDialog extends Activity implements TextToSpeech.OnInitListener, SendListener,
+public class ReminderDialogActivity extends Activity implements TextToSpeech.OnInitListener, SendListener,
         GoogleApiClient.ConnectionCallbacks, DataApi.DataListener, View.OnClickListener {
 
-    private static final String TAG = "ReminderDialog";
+    private static final String TAG = "ReminderDialogActivity";
 
     private static final int MY_DATA_CHECK_CODE = 111;
 
@@ -83,13 +81,11 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
     private Reminder item;
 
     private SharedPrefs sPrefs;
-    private Coloring cs = new Coloring(ReminderDialog.this);
-    private Notifier notifier = new Notifier(ReminderDialog.this);
+    private Coloring cs = new Coloring(ReminderDialogActivity.this);
+    private Notifier notifier = new Notifier(ReminderDialogActivity.this);
     private TextToSpeech tts;
 
     private GoogleApiClient mGoogleApiClient;
-
-    private Tracker mTracker;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -127,13 +123,9 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
 
         boolean isFull = sPrefs.loadBoolean(Prefs.UNLOCK_DEVICE);
         if (isFull) {
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                            | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-                            | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-                }
-            });
+            runOnUiThread(() -> getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                    | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                    | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD));
         }
 
         boolean isWake = sPrefs.loadBoolean(Prefs.WAKE_STATUS);
@@ -171,14 +163,14 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         if (type != null) {
             if (type.contains(Constants.TYPE_CALL)) {
                 contactPhoto.setVisibility(View.VISIBLE);
-                long conID = Contacts.getContactIDFromNumber(number, ReminderDialog.this);
+                long conID = Contacts.getContactIDFromNumber(number, ReminderDialogActivity.this);
                 Bitmap photo = Contacts.getPhoto(this, conID);
                 if (photo != null) {
                     contactPhoto.setImageBitmap(photo);
                 } else {
                     contactPhoto.setVisibility(View.GONE);
                 }
-                name = Contacts.getContactNameFromNumber(number, ReminderDialog.this);
+                name = Contacts.getContactNameFromNumber(number, ReminderDialogActivity.this);
                 remText.setText(task + "\n" + name + "\n" + number);
             } else if (type.contains(Constants.TYPE_MESSAGE)) {
                 if (!sPrefs.loadBoolean(Prefs.SILENT_SMS)) {
@@ -214,7 +206,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
                 }
             } else if (type.contains(Constants.TYPE_CALL)) {
                 if (silentCall) {
-                    Telephony.makeCall(number, ReminderDialog.this);
+                    Telephony.makeCall(number, ReminderDialogActivity.this);
                     make();
                     finish();
                 } else {
@@ -242,9 +234,6 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
                 .build();
-
-        Moove application = (Moove) getApplication();
-        mTracker = application.getDefaultTracker();
     }
 
     private void loadImage() {
@@ -259,13 +248,13 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         int height = metrics.heightPixels;
         if (imagePrefs.matches(Constants.DEFAULT)) {
             if (blur) {
-                Picasso.with(ReminderDialog.this)
+                Picasso.with(ReminderDialogActivity.this)
                         .load(R.drawable.photo)
                         .resize(width, height)
                         .transform(new BlurTransformation(this, 15, 2))
                         .into(bgImage);
             } else {
-                Picasso.with(ReminderDialog.this)
+                Picasso.with(ReminderDialogActivity.this)
                         .load(R.drawable.photo)
                         .resize(width, height)
                         .into(bgImage);
@@ -275,13 +264,13 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
             bgImage.setVisibility(View.GONE);
         } else {
             if (blur) {
-                Picasso.with(ReminderDialog.this)
+                Picasso.with(ReminderDialogActivity.this)
                         .load(Uri.parse(imagePrefs))
                         .resize(width, height)
                         .transform(new BlurTransformation(this, 15, 2))
                         .into(bgImage);
             } else {
-                Picasso.with(ReminderDialog.this)
+                Picasso.with(ReminderDialogActivity.this)
                         .load(Uri.parse(imagePrefs))
                         .resize(width, height)
                         .into(bgImage);
@@ -307,7 +296,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
     }
 
     private void make() {
-        Reminder.disableReminder(id, ReminderDialog.this);
+        Reminder.disableReminder(id, ReminderDialogActivity.this);
         notifier.discardNotification(id);
     }
 
@@ -343,9 +332,9 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         String SENT = "SMS_SENT";
         String DELIVERED = "SMS_DELIVERED";
 
-        PendingIntent sentPI = PendingIntent.getBroadcast(ReminderDialog.this, 0,
+        PendingIntent sentPI = PendingIntent.getBroadcast(ReminderDialogActivity.this, 0,
                 new Intent(SENT), 0);
-        PendingIntent deliveredPI = PendingIntent.getBroadcast(ReminderDialog.this,
+        PendingIntent deliveredPI = PendingIntent.getBroadcast(ReminderDialogActivity.this,
                 0, new Intent(DELIVERED), 0);
 
         registerReceiver(sentReceiver = new SendReceiver(this), new IntentFilter(SENT));
@@ -391,13 +380,13 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
     @Override
     public void onBackPressed() {
         notifier.discardMedia();
-        Messages.toast(ReminderDialog.this, getString(R.string.select_one_of_item));
+        Messages.toast(ReminderDialogActivity.this, getString(R.string.select_one_of_item));
     }
 
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
-            int result = tts.setLanguage(new Language().getLocale(ReminderDialog.this));
+            int result = tts.setLanguage(new Language().getLocale(ReminderDialogActivity.this));
             if (result == TextToSpeech.LANG_MISSING_DATA ||
                     result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("error", "This Language is not supported");
@@ -438,8 +427,6 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
     protected void onResume() {
         super.onResume();
         mGoogleApiClient.connect();
-        mTracker.setScreenName("Screen~" + getClass().getName());
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
@@ -502,7 +489,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
                 break;
             case R.id.buttonEdit:
                 make();
-                Reminder.edit(id, ReminderDialog.this);
+                Reminder.edit(id, ReminderDialogActivity.this);
                 finish();
                 break;
             case R.id.buttonCall:
@@ -532,7 +519,7 @@ public class ReminderDialog extends Activity implements TextToSpeech.OnInitListe
         if (type.contains(Constants.TYPE_MESSAGE)) {
             sendSMS(number, task);
         } else {
-            Telephony.makeCall(number, ReminderDialog.this);
+            Telephony.makeCall(number, ReminderDialogActivity.this);
         }
         make();
         if (!type.contains(Constants.TYPE_MESSAGE)) {

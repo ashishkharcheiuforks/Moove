@@ -138,15 +138,12 @@ public class MapFragment extends Fragment implements View.OnClickListener {
             map.getUiSettings().setCompassEnabled(true);
             map.setMapType(type);
             setMyLocation();
-            map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                @Override
-                public void onMapClick(LatLng latLng) {
-                    hideLayers();
-                    hidePlaces();
-                    hideStyles();
-                    if (isTouch) {
-                        addMarker(latLng, markerTitle, true, true, markerRadius);
-                    }
+            map.setOnMapClickListener(latLng -> {
+                hideLayers();
+                hidePlaces();
+                hideStyles();
+                if (isTouch) {
+                    addMarker(latLng, markerTitle, true, true, markerRadius);
                 }
             });
             if (mCallback != null) {
@@ -548,24 +545,21 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                     task.cancel(true);
                 }
                 if (s.length() != 0) {
-                    task = new GeocoderTask(getActivity(), new GeocoderTask.GeocoderListener() {
-                        @Override
-                        public void onAddressReceived(List<Address> addresses) {
-                            foundPlaces = addresses;
+                    task = new GeocoderTask(getActivity(), addresses -> {
+                        foundPlaces = addresses;
 
-                            namesList = new ArrayList<>();
-                            namesList.clear();
-                            for (Address selected : addresses) {
-                                String addressText = String.format("%s, %s%s",
-                                        selected.getMaxAddressLineIndex() > 0 ? selected.getAddressLine(0) : "",
-                                        selected.getMaxAddressLineIndex() > 1 ? selected.getAddressLine(1) + ", " : "",
-                                        selected.getCountryName());
-                                namesList.add(addressText);
-                            }
-                            adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, namesList);
-                            cardSearch.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
+                        namesList = new ArrayList<>();
+                        namesList.clear();
+                        for (Address selected : addresses) {
+                            String addressText = String.format("%s, %s%s",
+                                    selected.getMaxAddressLineIndex() > 0 ? selected.getAddressLine(0) : "",
+                                    selected.getMaxAddressLineIndex() > 1 ? selected.getAddressLine(1) + ", " : "",
+                                    selected.getCountryName());
+                            namesList.add(addressText);
                         }
+                        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, namesList);
+                        cardSearch.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
                     });
                     task.execute(s.toString());
                 }
@@ -576,17 +570,14 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
             }
         });
-        cardSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Address sel = foundPlaces.get(position);
-                double lat = sel.getLatitude();
-                double lon = sel.getLongitude();
-                LatLng pos = new LatLng(lat, lon);
-                addMarker(pos, markerTitle, true, true, markerRadius);
-                if (listener != null) {
-                    listener.placeName(namesList.get(position));
-                }
+        cardSearch.setOnItemClickListener((parent, view1, position, id) -> {
+            Address sel = foundPlaces.get(position);
+            double lat = sel.getLatitude();
+            double lon = sel.getLongitude();
+            LatLng pos = new LatLng(lat, lon);
+            addMarker(pos, markerTitle, true, true, markerRadius);
+            if (listener != null) {
+                listener.placeName(namesList.get(position));
             }
         });
 

@@ -14,7 +14,7 @@ import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.utils.LocationUtil;
 import com.google.android.gms.common.ConnectionResult;
 
-public class StartHelp extends AppCompatActivity {
+public class StartHelpActivity extends AppCompatActivity {
 
     private RelativeLayout serviceShow, locationShow;
     private int resultCode;
@@ -30,27 +30,19 @@ public class StartHelp extends AppCompatActivity {
         Button servicesFix = findViewById(R.id.servicesFix);
         Button permissionsFix = findViewById(R.id.permissionsFix);
 
-        permissionsFix.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Permissions.requestPermission(StartHelp.this, 200, Permissions.ACCESS_COARSE_LOCATION,
-                        Permissions.ACCESS_FINE_LOCATION);
-            }
-        });
-
-        servicesFix.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LocationUtil.showPlayDialog(StartHelp.this, resultCode);
-            }
-        });
-
+        permissionsFix.setOnClickListener(v -> requestPermission());
+        servicesFix.setOnClickListener(v -> LocationUtil.showPlayDialog(StartHelpActivity.this, resultCode));
         checkAll();
+    }
+
+    private void requestPermission() {
+        Permissions.requestPermission(StartHelpActivity.this, 200, Permissions.ACCESS_COARSE_LOCATION,
+                Permissions.ACCESS_FINE_LOCATION);
     }
 
     private void checkAll() {
         if (checkDevice() && checkPermissions()) {
-            startActivity(new Intent(StartHelp.this, MainActivity.class));
+            startActivity(new Intent(StartHelpActivity.this, MainActivity.class));
             SharedPrefs.getInstance(this).saveBoolean(Prefs.FIRST_LOAD, true);
             finish();
         } else {
@@ -68,12 +60,12 @@ public class StartHelp extends AppCompatActivity {
     }
 
     private boolean checkPermissions() {
-        return Permissions.checkPermission(StartHelp.this, Permissions.ACCESS_COARSE_LOCATION,
+        return Permissions.checkPermission(StartHelpActivity.this, Permissions.ACCESS_COARSE_LOCATION,
                 Permissions.ACCESS_FINE_LOCATION);
     }
 
     private boolean checkDevice() {
-        resultCode = LocationUtil.checkPlay(StartHelp.this);
+        resultCode = LocationUtil.checkPlay(StartHelpActivity.this);
         return resultCode == ConnectionResult.SUCCESS;
     }
 

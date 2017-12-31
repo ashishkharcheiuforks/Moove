@@ -68,39 +68,14 @@ public class Dialogues {
             selection = 2;
         }
 
-        builder.setSingleChoiceItems(adapter, selection, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which != -1) {
-                    dialog.dismiss();
-                    SharedPrefs prefs = SharedPrefs.getInstance(context);
-                    if (which == 0) {
-                        prefs.savePrefs(Prefs.REMINDER_IMAGE, Constants.NONE);
-                    } else if (which == 1) {
-                        prefs.savePrefs(Prefs.REMINDER_IMAGE, Constants.DEFAULT);
-                    } else if (which == 2) {
-                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setType("image/*");
-                        if (Module.isKitkat()) {
-                            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                            intent.addCategory(Intent.CATEGORY_OPENABLE);
-                            intent.setType("image/*");
-                        }
-                        Intent chooser = Intent.createChooser(intent, context.getString(R.string.select_image));
-                        context.startActivityForResult(chooser, Constants.ACTION_REQUEST_GALLERY);
-                    }
-                }
-            }
-        });
-        builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setSingleChoiceItems(adapter, selection, (dialog, which) -> {
+            if (which != -1) {
                 dialog.dismiss();
-                SharedPrefs prefs = SharedPrefs.getInstance(context);
+                SharedPrefs prefs1 = SharedPrefs.getInstance(context);
                 if (which == 0) {
-                    prefs.savePrefs(Prefs.REMINDER_IMAGE, Constants.NONE);
+                    prefs1.savePrefs(Prefs.REMINDER_IMAGE, Constants.NONE);
                 } else if (which == 1) {
-                    prefs.savePrefs(Prefs.REMINDER_IMAGE, Constants.DEFAULT);
+                    prefs1.savePrefs(Prefs.REMINDER_IMAGE, Constants.DEFAULT);
                 } else if (which == 2) {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.setType("image/*");
@@ -112,6 +87,25 @@ public class Dialogues {
                     Intent chooser = Intent.createChooser(intent, context.getString(R.string.select_image));
                     context.startActivityForResult(chooser, Constants.ACTION_REQUEST_GALLERY);
                 }
+            }
+        });
+        builder.setPositiveButton(context.getString(R.string.ok), (dialog, which) -> {
+            dialog.dismiss();
+            SharedPrefs prefs12 = SharedPrefs.getInstance(context);
+            if (which == 0) {
+                prefs12.savePrefs(Prefs.REMINDER_IMAGE, Constants.NONE);
+            } else if (which == 1) {
+                prefs12.savePrefs(Prefs.REMINDER_IMAGE, Constants.DEFAULT);
+            } else if (which == 2) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                if (Module.isKitkat()) {
+                    intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("image/*");
+                }
+                Intent chooser = Intent.createChooser(intent, context.getString(R.string.select_image));
+                context.startActivityForResult(chooser, Constants.ACTION_REQUEST_GALLERY);
             }
         });
         AlertDialog dialog = builder.create();
@@ -160,12 +154,7 @@ public class Dialogues {
             }
         });
         builder.setView(layout);
-        builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        builder.setPositiveButton(context.getString(R.string.ok), (dialog, which) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.setOnDismissListener(listener);
         dialog.show();
@@ -196,28 +185,22 @@ public class Dialogues {
             position = 1;
         }
 
-        builder.setSingleChoiceItems(adapter, position, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which != -1) {
-                    SharedPrefs prefs = SharedPrefs.getInstance(context);
-                    if (which == 0) {
-                        prefs.saveBoolean(prefsToSave, false);
-                    } else {
-                        prefs.saveBoolean(prefsToSave, true);
-                        dialog.dismiss();
-                        context.startActivityForResult(new Intent(context, FileExplorerActivity.class), requestCode);
-                    }
+        builder.setSingleChoiceItems(adapter, position, (dialog, which) -> {
+            if (which != -1) {
+                SharedPrefs prefs1 = SharedPrefs.getInstance(context);
+                if (which == 0) {
+                    prefs1.saveBoolean(prefsToSave, false);
+                } else {
+                    prefs1.saveBoolean(prefsToSave, true);
+                    dialog.dismiss();
+                    context.startActivityForResult(new Intent(context, FileExplorerActivity.class), requestCode);
                 }
             }
         });
-        builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                SharedPrefs prefs = SharedPrefs.getInstance(context);
-                if (!prefs.loadBoolean(prefsToSave)) {
-                    dialog.dismiss();
-                }
+        builder.setPositiveButton(context.getString(R.string.ok), (dialog, which) -> {
+            SharedPrefs prefs12 = SharedPrefs.getInstance(context);
+            if (!prefs12.loadBoolean(prefsToSave)) {
+                dialog.dismiss();
             }
         });
         AlertDialog dialog = builder.create();
@@ -245,21 +228,13 @@ public class Dialogues {
         SharedPrefs prefs = SharedPrefs.getInstance(context);
         int position = prefs.loadInt(Prefs.LED_COLOR);
 
-        builder.setSingleChoiceItems(adapter, position, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which != -1) {
-                    SharedPrefs prefs = SharedPrefs.getInstance(context);
-                    prefs.saveInt(Prefs.LED_COLOR, which);
-                }
+        builder.setSingleChoiceItems(adapter, position, (dialog, which) -> {
+            if (which != -1) {
+                SharedPrefs prefs1 = SharedPrefs.getInstance(context);
+                prefs1.saveInt(Prefs.LED_COLOR, which);
             }
         });
-        builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        builder.setPositiveButton(context.getString(R.string.ok), (dialog, which) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -301,31 +276,23 @@ public class Dialogues {
         if (locale.matches(Language.RUSSIAN)) position = 7;
         if (locale.matches(Language.SPANISH)) position = 8;
 
-        builder.setSingleChoiceItems(adapter, position, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which != -1) {
-                    SharedPrefs prefs = SharedPrefs.getInstance(context);
-                    String locale = Language.ENGLISH;
-                    if (which == 0) locale = Language.ENGLISH;
-                    if (which == 1) locale = Language.FRENCH;
-                    if (which == 2) locale = Language.GERMAN;
-                    if (which == 3) locale = Language.ITALIAN;
-                    if (which == 4) locale = Language.JAPANESE;
-                    if (which == 5) locale = Language.KOREAN;
-                    if (which == 6) locale = Language.POLISH;
-                    if (which == 7) locale = Language.RUSSIAN;
-                    if (which == 8) locale = Language.SPANISH;
-                    prefs.savePrefs(prefsToSave, locale);
-                }
+        builder.setSingleChoiceItems(adapter, position, (dialog, which) -> {
+            if (which != -1) {
+                SharedPrefs prefs1 = SharedPrefs.getInstance(context);
+                String locale1 = Language.ENGLISH;
+                if (which == 0) locale1 = Language.ENGLISH;
+                if (which == 1) locale1 = Language.FRENCH;
+                if (which == 2) locale1 = Language.GERMAN;
+                if (which == 3) locale1 = Language.ITALIAN;
+                if (which == 4) locale1 = Language.JAPANESE;
+                if (which == 5) locale1 = Language.KOREAN;
+                if (which == 6) locale1 = Language.POLISH;
+                if (which == 7) locale1 = Language.RUSSIAN;
+                if (which == 8) locale1 = Language.SPANISH;
+                prefs1.savePrefs(prefsToSave, locale1);
             }
         });
-        builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        builder.setPositiveButton(context.getString(R.string.ok), (dialog, which) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -358,29 +325,21 @@ public class Dialogues {
             position = 0;
         }
 
-        builder.setSingleChoiceItems(adapter, position, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which != -1) {
-                    SharedPrefs prefs = SharedPrefs.getInstance(context);
-                    if (which == 0) {
-                        prefs.saveInt(Prefs.MAP_TYPE, GoogleMap.MAP_TYPE_NORMAL);
-                    } else if (which == 1) {
-                        prefs.saveInt(Prefs.MAP_TYPE, GoogleMap.MAP_TYPE_SATELLITE);
-                    } else if (which == 2) {
-                        prefs.saveInt(Prefs.MAP_TYPE, GoogleMap.MAP_TYPE_HYBRID);
-                    } else {
-                        prefs.saveInt(Prefs.MAP_TYPE, GoogleMap.MAP_TYPE_TERRAIN);
-                    }
+        builder.setSingleChoiceItems(adapter, position, (dialog, which) -> {
+            if (which != -1) {
+                SharedPrefs prefs1 = SharedPrefs.getInstance(context);
+                if (which == 0) {
+                    prefs1.saveInt(Prefs.MAP_TYPE, GoogleMap.MAP_TYPE_NORMAL);
+                } else if (which == 1) {
+                    prefs1.saveInt(Prefs.MAP_TYPE, GoogleMap.MAP_TYPE_SATELLITE);
+                } else if (which == 2) {
+                    prefs1.saveInt(Prefs.MAP_TYPE, GoogleMap.MAP_TYPE_HYBRID);
+                } else {
+                    prefs1.saveInt(Prefs.MAP_TYPE, GoogleMap.MAP_TYPE_TERRAIN);
                 }
             }
         });
-        builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        builder.setPositiveButton(context.getString(R.string.ok), (dialog, which) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
     }

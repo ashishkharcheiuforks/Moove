@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -40,25 +39,9 @@ public class WearTest extends AppCompatActivity implements GoogleApiClient.Conne
         Button button1 = findViewById(R.id.button2);
         Button button2 = findViewById(R.id.button3);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testReminder(Constants.TYPE_LOCATION_OUT_CALL);
-            }
-        });
-
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testReminder(Constants.TYPE_LOCATION_MESSAGE);
-            }
-        });
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testReminder(Constants.TYPE_LOCATION);
-            }
-        });
+        button.setOnClickListener(v -> testReminder(Constants.TYPE_LOCATION_OUT_CALL));
+        button1.setOnClickListener(v -> testReminder(Constants.TYPE_LOCATION_MESSAGE));
+        button2.setOnClickListener(v -> testReminder(Constants.TYPE_LOCATION));
 
 
         Log.d(TAG, "On service create");

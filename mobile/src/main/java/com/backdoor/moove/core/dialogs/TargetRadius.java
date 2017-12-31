@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -58,20 +57,10 @@ public class TargetRadius extends Activity {
         });
 
         Button plusButton = findViewById(R.id.plusButton);
-        plusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                radiusBar.setProgress(progressInt + 1);
-            }
-        });
+        plusButton.setOnClickListener(view -> radiusBar.setProgress(progressInt + 1));
 
         Button minusButton = findViewById(R.id.minusButton);
-        minusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                radiusBar.setProgress(progressInt - 1);
-            }
-        });
+        minusButton.setOnClickListener(v -> radiusBar.setProgress(progressInt - 1));
 
         CheckBox transportCheck = findViewById(R.id.transportCheck);
         transportCheck.setVisibility(View.VISIBLE);
@@ -86,32 +75,26 @@ public class TargetRadius extends Activity {
             radiusBar.setProgress(progressInt);
         }
 
-        transportCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    radiusBar.setMax(5000);
-                    radiusBar.setProgress(progressInt);
-                } else {
-                    radiusBar.setMax(2000);
-                    radiusBar.setProgress(progressInt);
-                }
+        transportCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                radiusBar.setMax(5000);
+                radiusBar.setProgress(progressInt);
+            } else {
+                radiusBar.setMax(2000);
+                radiusBar.setProgress(progressInt);
             }
         });
 
         TextView aboutClose = findViewById(R.id.aboutClose);
-        aboutClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (i == 0) {
-                    SharedPrefs.getInstance(TargetRadius.this).saveInt(Prefs.LOCATION_RADIUS, radiusBar.getProgress());
-                    finish();
-                } else {
-                    Intent intent = new Intent();
-                    intent.putExtra(Constants.SELECTED_RADIUS, radiusBar.getProgress());
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
+        aboutClose.setOnClickListener(v -> {
+            if (i == 0) {
+                SharedPrefs.getInstance(TargetRadius.this).saveInt(Prefs.LOCATION_RADIUS, radiusBar.getProgress());
+                finish();
+            } else {
+                Intent intent1 = new Intent();
+                intent1.putExtra(Constants.SELECTED_RADIUS, radiusBar.getProgress());
+                setResult(RESULT_OK, intent1);
+                finish();
             }
         });
     }

@@ -5,8 +5,6 @@ import android.support.multidex.MultiDexApplication;
 import com.backdoor.moove.core.helper.Notifier;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -27,26 +25,11 @@ import io.fabric.sdk.android.Fabric;
  */
 public class Moove extends MultiDexApplication {
 
-    private Tracker mTracker;
-
     @Override
     public void onCreate() {
         super.onCreate();
         Notifier.createChannels(this);
         Fabric.with(this, new Crashlytics());
         Fabric.with(this, new Answers());
-    }
-
-    /**
-     * Gets the default {@link Tracker} for this {@link Moove}.
-     *
-     * @return tracker
-     */
-    synchronized public Tracker getDefaultTracker() {
-        if (mTracker == null) {
-            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-            mTracker = analytics.newTracker(R.xml.global_tracker);
-        }
-        return mTracker;
     }
 }

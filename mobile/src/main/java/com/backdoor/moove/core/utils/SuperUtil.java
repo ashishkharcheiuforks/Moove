@@ -13,14 +13,13 @@ import android.provider.ContactsContract;
 import android.speech.RecognizerIntent;
 import android.widget.Toast;
 
-import com.backdoor.moove.ContactsList;
+import com.backdoor.moove.ContactsListActivity;
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.helper.Messages;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * Copyright 2015 Nazar Suhovich
@@ -92,12 +91,7 @@ public class SuperUtil {
                     cursor.close();
                 }
                 try {
-                    Collections.sort(contacts, new Comparator<String>() {
-                        @Override
-                        public int compare(String e1, String e2) {
-                            return e1.compareToIgnoreCase(e2);
-                        }
-                    });
+                    Collections.sort(contacts, String::compareToIgnoreCase);
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
@@ -110,7 +104,7 @@ public class SuperUtil {
                 if (pd != null && pd.isShowing()) {
                     pd.dismiss();
                 }
-                Intent i = new Intent(activity, ContactsList.class);
+                Intent i = new Intent(activity, ContactsListActivity.class);
                 i.putStringArrayListExtra(Constants.SELECTED_CONTACT_ARRAY, contacts);
                 activity.startActivityForResult(i, requestCode);
             }

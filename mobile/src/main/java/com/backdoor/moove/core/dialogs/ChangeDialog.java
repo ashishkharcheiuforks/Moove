@@ -32,12 +32,9 @@ public class ChangeDialog extends Activity {
 
         alert.setView(wv);
         alert.setCancelable(false);
-        alert.setNegativeButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                finish();
-            }
+        alert.setNegativeButton(getString(R.string.ok), (dialog, id) -> {
+            dialog.dismiss();
+            finish();
         });
         alertDialog = alert.create();
         alertDialog.show();

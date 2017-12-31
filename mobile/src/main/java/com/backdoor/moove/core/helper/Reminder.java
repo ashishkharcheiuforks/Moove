@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 
 import com.backdoor.moove.R;
-import com.backdoor.moove.ReminderManager;
+import com.backdoor.moove.ReminderManagerActivity;
 import com.backdoor.moove.core.async.DisableAsync;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.interfaces.ActionCallbacks;
@@ -145,7 +145,7 @@ public class Reminder {
      */
     public static void edit(long id, Context context) {
         disable(context, id);
-        Intent intentId = new Intent(context, ReminderManager.class);
+        Intent intentId = new Intent(context, ReminderManagerActivity.class);
         intentId.putExtra(Constants.EDIT_ID, id);
         context.startActivity(intentId);
     }

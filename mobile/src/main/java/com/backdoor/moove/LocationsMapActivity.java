@@ -1,7 +1,6 @@
 package com.backdoor.moove;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -21,18 +20,13 @@ import com.backdoor.moove.core.helper.Permissions;
 import com.backdoor.moove.core.helper.Reminder;
 import com.backdoor.moove.core.interfaces.SimpleListener;
 
-public class LocationsMap extends AppCompatActivity implements SimpleListener {
+public class LocationsMapActivity extends AppCompatActivity implements SimpleListener {
 
-    private Coloring cs = new Coloring(LocationsMap.this);
+    private Coloring cs = new Coloring(LocationsMapActivity.this);
 
     private PlaceDataProvider provider;
     private MapFragment fragment;
-    private MapFragment.MapCallback mMapCallback = new MapFragment.MapCallback() {
-        @Override
-        public void onMapReady() {
-            showMarkers();
-        }
-    };
+    private MapFragment.MapCallback mMapCallback = () -> showMarkers();
 
     private void showMarkers() {
         for (MarkerModel markerModel : provider.getData()) {
@@ -72,7 +66,7 @@ public class LocationsMap extends AppCompatActivity implements SimpleListener {
     }
 
     private void editPlace(int position) {
-        Reminder.edit(provider.getItem(position).getId(), LocationsMap.this);
+        Reminder.edit(provider.getItem(position).getId(), LocationsMapActivity.this);
     }
 
     private void moveToPlace(int position) {
@@ -113,12 +107,10 @@ public class LocationsMap extends AppCompatActivity implements SimpleListener {
     public void onItemLongClicked(final int position, View view) {
         final CharSequence[] items = {getString(R.string.edit)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                dialog.dismiss();
-                if (item == 0) {
-                    editPlace(position);
-                }
+        builder.setItems(items, (dialog, item) -> {
+            dialog.dismiss();
+            if (item == 0) {
+                editPlace(position);
             }
         });
         AlertDialog alert = builder.create();
@@ -130,9 +122,9 @@ public class LocationsMap extends AppCompatActivity implements SimpleListener {
         switch (requestCode) {
             case 101:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startActivity(new Intent(LocationsMap.this, NewPlace.class));
+                    startActivity(new Intent(LocationsMapActivity.this, NewPlaceActivity.class));
                 } else {
-                    Permissions.showInfo(LocationsMap.this, Permissions.READ_CALENDAR);
+                    Permissions.showInfo(LocationsMapActivity.this, Permissions.READ_CALENDAR);
                 }
                 break;
         }

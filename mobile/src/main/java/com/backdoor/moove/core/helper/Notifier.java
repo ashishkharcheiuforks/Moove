@@ -15,7 +15,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.backdoor.moove.R;
-import com.backdoor.moove.ReminderDialog;
+import com.backdoor.moove.ReminderDialogActivity;
 import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.utils.ViewUtils;
 
@@ -45,6 +45,7 @@ public class Notifier {
     public static void createChannels(Context context) {
         if (Module.isO()) {
             NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            if (manager == null) return;
             manager.createNotificationChannel(createReminderChannel(context));
             manager.createNotificationChannel(createSystemChannel(context));
         }
@@ -80,7 +81,7 @@ public class Notifier {
     public void showTTSNotification(final String task, long itemId, int color) {
         builder = new NotificationCompat.Builder(mContext, CHANNEL_REMINDER);
         builder.setContentTitle(task);
-        Intent notificationIntent = new Intent(mContext, ReminderDialog.class);
+        Intent notificationIntent = new Intent(mContext, ReminderDialogActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         PendingIntent intent = PendingIntent.getActivity(mContext, (int) itemId, notificationIntent, 0);
@@ -195,7 +196,7 @@ public class Notifier {
             }
         }
 
-        Intent notificationIntent = new Intent(mContext, ReminderDialog.class);
+        Intent notificationIntent = new Intent(mContext, ReminderDialogActivity.class);
         notificationIntent.putExtra("int", 1);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -321,18 +322,6 @@ public class Notifier {
                 mNotifyMgr.notify(it + 10, wearableNotificationBuilder.build());
             }
         }
-    }
-
-    public void discardNotification() {
-        discardMedia();
-        mNotifyMgr = NotificationManagerCompat.from(mContext);
-        mNotifyMgr.cancel(0);
-    }
-
-    public void discardStatusNotification(long id) {
-        Integer i = (int) (long) id;
-        mNotifyMgr = NotificationManagerCompat.from(mContext);
-        mNotifyMgr.cancel(i);
     }
 
     public void discardNotification(long id) {

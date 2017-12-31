@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.backdoor.moove.PlacesList;
+import com.backdoor.moove.PlacesListActivity;
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.consts.Configs;
 import com.backdoor.moove.core.consts.Prefs;
@@ -122,7 +122,7 @@ public class LocationSettingsFragment extends Fragment implements View.OnClickLi
             case R.id.places:
                 getActivity().getApplicationContext()
                         .startActivity(new Intent(getActivity().getApplicationContext(),
-                                PlacesList.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                                PlacesListActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 break;
             case R.id.tracker:
                 getActivity().getApplicationContext()

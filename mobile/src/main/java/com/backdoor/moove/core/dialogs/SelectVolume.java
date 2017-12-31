@@ -3,7 +3,6 @@ package com.backdoor.moove.core.dialogs;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -58,14 +57,11 @@ public class SelectVolume extends Activity {
         });
 
         TextView aboutClose = findViewById(R.id.aboutClose);
-        aboutClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra(Constants.SELECTED_VOLUME, volume);
-                setResult(RESULT_OK, intent);
-                finish();
-            }
+        aboutClose.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.putExtra(Constants.SELECTED_VOLUME, volume);
+            setResult(RESULT_OK, intent);
+            finish();
         });
     }
 

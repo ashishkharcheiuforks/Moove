@@ -20,9 +20,9 @@ import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.interfaces.MapListener;
 import com.google.android.gms.maps.model.LatLng;
 
-public class NewPlace extends AppCompatActivity implements MapListener {
+public class NewPlaceActivity extends AppCompatActivity implements MapListener {
 
-    private Coloring cs = new Coloring(NewPlace.this);
+    private Coloring cs = new Coloring(NewPlaceActivity.this);
     private EditText placeName;
     private MapFragment fragment;
 
@@ -78,7 +78,7 @@ public class NewPlace extends AppCompatActivity implements MapListener {
             Double latitude = place.latitude;
             Double longitude = place.longitude;
 
-            DataBase db = new DataBase(NewPlace.this);
+            DataBase db = new DataBase(NewPlaceActivity.this);
             db.open();
             if (id != 0) {
                 db.updatePlace(id, task, latitude, longitude);
@@ -88,7 +88,7 @@ public class NewPlace extends AppCompatActivity implements MapListener {
             db.close();
             finish();
         } else {
-            Toast.makeText(NewPlace.this, getString(R.string.no_place_selected), Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewPlaceActivity.this, getString(R.string.no_place_selected), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -122,7 +122,7 @@ public class NewPlace extends AppCompatActivity implements MapListener {
     private void loadPlace() {
         if (id != 0) {
             int radius = SharedPrefs.getInstance(this).loadInt(Prefs.LOCATION_RADIUS);
-            DataBase db = new DataBase(NewPlace.this);
+            DataBase db = new DataBase(NewPlaceActivity.this);
             db.open();
             Cursor c = db.getPlace(id);
             if (c != null && c.moveToFirst()) {

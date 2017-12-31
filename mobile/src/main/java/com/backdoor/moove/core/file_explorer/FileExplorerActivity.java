@@ -73,12 +73,7 @@ public class FileExplorerActivity extends AppCompatActivity {
     private TextView mMelodyTitle;
     private TextView mSearchView;
 
-    private RecyclerClickListener recyclerClick = new RecyclerClickListener() {
-        @Override
-        public void onItemClick(int position) {
-            selectFile(position);
-        }
-    };
+    private RecyclerClickListener recyclerClick = this::selectFile;
 
     private FilterCallback mFilterCallback = new FilterCallback() {
         @Override
@@ -257,12 +252,9 @@ public class FileExplorerActivity extends AppCompatActivity {
     }
 
     private void createFilteredFileList() {
-        FilenameFilter filter = new FilenameFilter() {
-            @Override
-            public boolean accept(File file, String s) {
-                File sel = new File(file, s);
-                return (sel.isFile() || sel.isDirectory()) && !sel.isHidden();
-            }
+        FilenameFilter filter = (file, s) -> {
+            File sel = new File(file, s);
+            return (sel.isFile() || sel.isDirectory()) && !sel.isHidden();
         };
         List<String> list;
         try {

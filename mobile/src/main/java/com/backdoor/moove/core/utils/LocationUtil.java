@@ -10,7 +10,6 @@ import android.location.Geocoder;
 import android.location.LocationManager;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.View;
 
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.interfaces.ActionCallbacks;
@@ -45,12 +44,9 @@ public class LocationUtil {
      * @param context application context.
      */
     public static void showLocationAlert(final Context context, ActionCallbacks callbacks) {
-        callbacks.showSnackbar(R.string.gps_is_not_enabled, R.string.settings, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                context.startActivity(intent);
-            }
+        callbacks.showSnackbar(R.string.gps_is_not_enabled, R.string.settings, v -> {
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            context.startActivity(intent);
         });
     }
 
@@ -73,12 +69,7 @@ public class LocationUtil {
     public static void showPlayDialog(Activity a, int resultCode) {
         Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode, a, 99);
         dialog.setCancelable(false);
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                dialog.dismiss();
-            }
-        });
+        dialog.setOnDismissListener(DialogInterface::dismiss);
         dialog.show();
     }
 

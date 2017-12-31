@@ -1,7 +1,6 @@
 package com.backdoor.moove;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -33,11 +32,11 @@ import com.backdoor.moove.core.utils.LocationUtil;
 import com.backdoor.moove.core.utils.QuickReturnUtils;
 import com.backdoor.moove.core.views.ReturnScrollListener;
 
-public class PlacesList extends AppCompatActivity implements SimpleListener {
+public class PlacesListActivity extends AppCompatActivity implements SimpleListener {
 
     private RecyclerView listView;
     private LinearLayout emptyItem;
-    private Coloring cs = new Coloring(PlacesList.this);
+    private Coloring cs = new Coloring(PlacesListActivity.this);
     private FloatingActionButton mFab;
 
     private PlaceDataProvider provider;
@@ -69,16 +68,13 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
         listView = findViewById(R.id.currentList);
 
         mFab = findViewById(R.id.fab);
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (LocationUtil.playServicesFullCheck(PlacesList.this)) {
-                    if (Permissions.checkPermission(PlacesList.this, Permissions.ACCESS_COARSE_LOCATION)) {
-                        startActivity(new Intent(PlacesList.this, NewPlace.class));
-                    } else {
-                        Permissions.requestPermission(PlacesList.this, 101, Permissions.ACCESS_COARSE_LOCATION,
-                                Permissions.ACCESS_FINE_LOCATION);
-                    }
+        mFab.setOnClickListener(v -> {
+            if (LocationUtil.playServicesFullCheck(PlacesListActivity.this)) {
+                if (Permissions.checkPermission(PlacesListActivity.this, Permissions.ACCESS_COARSE_LOCATION)) {
+                    startActivity(new Intent(PlacesListActivity.this, NewPlaceActivity.class));
+                } else {
+                    Permissions.requestPermission(PlacesListActivity.this, 101, Permissions.ACCESS_COARSE_LOCATION,
+                            Permissions.ACCESS_FINE_LOCATION);
                 }
             }
         });
@@ -131,7 +127,7 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
     }
 
     private void editPlace(int position) {
-        startActivity(new Intent(this, NewPlace.class)
+        startActivity(new Intent(this, NewPlaceActivity.class)
                 .putExtra(Constants.ITEM_ID_INTENT, provider.getItem(position).getId()));
     }
 
@@ -161,15 +157,13 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
     public void onItemLongClicked(final int position, View view) {
         final CharSequence[] items = {getString(R.string.edit), getString(R.string.delete)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                dialog.dismiss();
-                if (item == 0) {
-                    editPlace(position);
-                }
-                if (item == 1) {
-                    deletePlace(position);
-                }
+        builder.setItems(items, (dialog, item) -> {
+            dialog.dismiss();
+            if (item == 0) {
+                editPlace(position);
+            }
+            if (item == 1) {
+                deletePlace(position);
             }
         });
         AlertDialog alert = builder.create();
@@ -181,9 +175,9 @@ public class PlacesList extends AppCompatActivity implements SimpleListener {
         switch (requestCode) {
             case 101:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startActivity(new Intent(PlacesList.this, NewPlace.class));
+                    startActivity(new Intent(PlacesListActivity.this, NewPlaceActivity.class));
                 } else {
-                    Permissions.showInfo(PlacesList.this, Permissions.READ_CALENDAR);
+                    Permissions.showInfo(PlacesListActivity.this, Permissions.READ_CALENDAR);
                 }
                 break;
         }

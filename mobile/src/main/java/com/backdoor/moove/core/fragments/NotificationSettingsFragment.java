@@ -52,17 +52,9 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
             rootView.findViewById(R.id.systemCard).setElevation(Configs.CARD_ELEVATION);
         }
         TextView selectImage = rootView.findViewById(R.id.selectImage);
-        selectImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dialogues.imageDialog(getActivity(), new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
+        selectImage.setOnClickListener(v -> Dialogues.imageDialog(getActivity(), dialogInterface -> {
 
-                    }
-                });
-            }
-        });
+        }));
 
         blurPrefs = rootView.findViewById(R.id.blurPrefs);
         blurPrefs.setOnClickListener(this);
@@ -114,12 +106,7 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         volume.setOnClickListener(this);
 
         locale = rootView.findViewById(R.id.locale);
-        locale.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dialogues.ttsLocale(getActivity(), Prefs.TTS_LOCALE);
-            }
-        });
+        locale.setOnClickListener(v -> Dialogues.ttsLocale(getActivity(), Prefs.TTS_LOCALE));
 
         ledPrefs = rootView.findViewById(R.id.ledPrefs);
         chooseLedColorPrefs = rootView.findViewById(R.id.chooseLedColorPrefs);
@@ -133,12 +120,7 @@ public class NotificationSettingsFragment extends Fragment implements View.OnCli
         ledPrefs.setChecked(sPrefs.loadBoolean(Prefs.LED_STATUS));
 
         chooseLedColorPrefs.setVisibility(View.VISIBLE);
-        chooseLedColorPrefs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Dialogues.ledColor(getActivity());
-            }
-        });
+        chooseLedColorPrefs.setOnClickListener(view -> Dialogues.ledColor(getActivity()));
 
         checkEnabling();
 

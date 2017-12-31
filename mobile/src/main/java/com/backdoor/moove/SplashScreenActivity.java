@@ -16,7 +16,7 @@ import java.io.File;
 /**
  * Application splash screen for checking preferences.
  */
-public class SplashScreen extends Activity {
+public class SplashScreenActivity extends Activity {
 
     /**
      * Save initial argument on first application run.
@@ -56,18 +56,14 @@ public class SplashScreen extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-
         initPrefs();
-
         checkPrefs();
-
         SharedPrefs prefs = SharedPrefs.getInstance(this);
         if (!prefs.loadBoolean(Prefs.FIRST_LOAD)) {
-            startActivity(new Intent(SplashScreen.this, StartHelp.class));
+            startActivity(new Intent(SplashScreenActivity.this, StartHelpActivity.class));
         } else {
-            startActivity(new Intent(SplashScreen.this, MainActivity.class));
+            startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
         }
-
         finish();
     }
 

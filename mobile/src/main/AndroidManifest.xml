@@ -53,7 +53,7 @@
         android:theme="@style/HomeDark"
         tools:replace="label, allowBackup">
         <activity
-            android:name=".SplashScreen"
+            android:name=".SplashScreenActivity"
             android:label="@string/app_name"
             android:theme="@style/HomeDark">
             <intent-filter>
@@ -91,28 +91,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ReminderManager"
+            android:name=".ReminderManagerActivity"
             android:configChanges="keyboardHidden|orientation|keyboard">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewPlace"
+            android:name=".NewPlaceActivity"
             android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".PlacesList"
+            android:name=".PlacesListActivity"
             android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".LocationsMap"
+            android:name=".LocationsMapActivity"
             android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
@@ -128,7 +128,7 @@
         </receiver>
 
         <activity
-            android:name=".ReminderDialog"
+            android:name=".ReminderDialogActivity"
             android:configChanges="keyboardHidden|orientation"
             android:theme="@style/HomeDarkTranslucent">
             <intent-filter>
@@ -171,7 +171,7 @@
             android:theme="@style/HomeDarkDialog" />
 
         <activity
-            android:name=".ContactsList"
+            android:name=".ContactsListActivity"
             android:configChanges="keyboardHidden|orientation" />
 
         <activity
@@ -190,8 +190,6 @@
             android:windowSoftInputMode="stateHidden" />
 
         <service android:name=".core.services.GeolocationService" />
-        <service android:name=".core.services.TaskButlerService" />
-        <service android:name=".core.services.CheckPosition" />
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
@@ -200,7 +198,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".StartHelp" />
+        <activity android:name=".StartHelpActivity" />
 
         <receiver
             android:name=".core.widgets.LeftDistanceWidget"
@@ -240,8 +238,8 @@
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="e319ad50eeab199ac7860c9873cac1803c44386c"
-            />
+            android:value="e319ad50eeab199ac7860c9873cac1803c44386c" />
+
         <activity
             android:name=".core.dialogs.WearTest"
             android:theme="@style/HomeDark" />

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ReminderDialog">
+    tools:context=".ReminderDialogActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

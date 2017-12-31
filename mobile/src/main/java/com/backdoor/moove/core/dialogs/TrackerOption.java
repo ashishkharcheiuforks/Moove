@@ -2,7 +2,6 @@ package com.backdoor.moove.core.dialogs;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -76,14 +75,11 @@ public class TrackerOption extends Activity {
         });
 
         TextView aboutClose = findViewById(R.id.aboutClose);
-        aboutClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sPrefs.saveInt(Prefs.TRACK_DISTANCE, radiusBar.getProgress() + 1);
-                sPrefs.saveInt(Prefs.TRACK_TIME, timeBar.getProgress() + 1);
-                new DisableAsync(TrackerOption.this).execute();
-                finish();
-            }
+        aboutClose.setOnClickListener(v -> {
+            sPrefs.saveInt(Prefs.TRACK_DISTANCE, radiusBar.getProgress() + 1);
+            sPrefs.saveInt(Prefs.TRACK_TIME, timeBar.getProgress() + 1);
+            new DisableAsync(TrackerOption.this).execute();
+            finish();
         });
     }
 }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.backdoor.moove.ReminderManager">
+    tools:context="com.backdoor.moove.ReminderManagerActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -86,7 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="com.backdoor.moove.ReminderManager"
+        tools:context="com.backdoor.moove.ReminderManagerActivity"
         tools:showIn="@layout/activity_main">
 
         <include layout="@layout/reminder_location_layout" />

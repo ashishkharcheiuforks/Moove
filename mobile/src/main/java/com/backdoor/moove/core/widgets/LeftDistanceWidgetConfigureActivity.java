@@ -32,22 +32,20 @@ public class LeftDistanceWidgetConfigureActivity extends Activity implements Dia
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     private long reminderId;
     TextView mAppWidgetText;
-    View.OnClickListener mOnClickListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            final Context context = LeftDistanceWidgetConfigureActivity.this;
+    View.OnClickListener mOnClickListener = v -> {
+        final Context context = LeftDistanceWidgetConfigureActivity.this;
 
-            if (!saveReminderPref(context, mAppWidgetId)) {
-                return;
-            }
-
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            LeftDistanceWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
-
-            Intent resultValue = new Intent();
-            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-            setResult(RESULT_OK, resultValue);
-            finish();
+        if (!saveReminderPref(context, mAppWidgetId)) {
+            return;
         }
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        LeftDistanceWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
+
+        Intent resultValue = new Intent();
+        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+        setResult(RESULT_OK, resultValue);
+        finish();
     };
 
     View.OnClickListener chooseClick = new View.OnClickListener() {
@@ -66,30 +64,24 @@ public class LeftDistanceWidgetConfigureActivity extends Activity implements Dia
             final ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                     android.R.layout.simple_list_item_single_choice, titles);
 
-            builder.setSingleChoiceItems(adapter, -1, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (which != -1) {
-                        dialog.dismiss();
-                        MarkerModel model = list.get(which);
-                        reminderId = model.getId();
-                        String title = model.getTitle();
-                        saveTitlePref(context, mAppWidgetId, title);
-                        saveIconPref(context, mAppWidgetId, model.getIcon());
-                    }
+            builder.setSingleChoiceItems(adapter, -1, (dialog, which) -> {
+                if (which != -1) {
+                    dialog.dismiss();
+                    MarkerModel model = list.get(which);
+                    reminderId = model.getId();
+                    String title = model.getTitle();
+                    saveTitlePref(context, mAppWidgetId, title);
+                    saveIconPref(context, mAppWidgetId, model.getIcon());
                 }
             });
-            builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (which != -1) {
-                        dialog.dismiss();
-                        MarkerModel model = list.get(which);
-                        reminderId = model.getId();
-                        String title = model.getTitle();
-                        saveTitlePref(context, mAppWidgetId, title);
-                        saveIconPref(context, mAppWidgetId, model.getIcon());
-                    }
+            builder.setPositiveButton(context.getString(R.string.ok), (dialog, which) -> {
+                if (which != -1) {
+                    dialog.dismiss();
+                    MarkerModel model = list.get(which);
+                    reminderId = model.getId();
+                    String title = model.getTitle();
+                    saveTitlePref(context, mAppWidgetId, title);
+                    saveIconPref(context, mAppWidgetId, model.getIcon());
                 }
             });
             AlertDialog dialog = builder.create();

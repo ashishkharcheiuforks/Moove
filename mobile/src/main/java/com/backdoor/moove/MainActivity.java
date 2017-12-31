@@ -1,7 +1,6 @@
 package com.backdoor.moove;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -37,8 +36,6 @@ import com.backdoor.moove.core.interfaces.RecyclerListener;
 import com.backdoor.moove.core.utils.QuickReturnUtils;
 import com.backdoor.moove.core.utils.SuperUtil;
 import com.backdoor.moove.core.views.ReturnScrollListener;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
 
@@ -50,8 +47,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
 
     private FloatingActionButton fab;
     private ReturnScrollListener scrollListener;
-
-    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,21 +75,15 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
         currentList.setLayoutManager(mLayoutManager);
 
         fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (Permissions.checkPermission(MainActivity.this, Permissions.WRITE_EXTERNAL)) {
-                    Intent intent = new Intent(MainActivity.this, ReminderManager.class);
-                    startActivity(intent);
-                } else {
-                    Permissions.requestPermission(MainActivity.this, 1116,
-                            Permissions.WRITE_EXTERNAL);
-                }
+        fab.setOnClickListener(view -> {
+            if (Permissions.checkPermission(MainActivity.this, Permissions.WRITE_EXTERNAL)) {
+                Intent intent = new Intent(MainActivity.this, ReminderManagerActivity.class);
+                startActivity(intent);
+            } else {
+                Permissions.requestPermission(MainActivity.this, 1116,
+                        Permissions.WRITE_EXTERNAL);
             }
         });
-
-        Moove application = (Moove) getApplication();
-        mTracker = application.getDefaultTracker();
     }
 
     /**
@@ -141,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -153,10 +141,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 return true;
             case R.id.action_places:
-                startActivity(new Intent(MainActivity.this, PlacesList.class));
+                startActivity(new Intent(MainActivity.this, PlacesListActivity.class));
                 return true;
             case R.id.action_directions:
-                startActivity(new Intent(MainActivity.this, LocationsMap.class));
+                startActivity(new Intent(MainActivity.this, LocationsMapActivity.class));
                 return true;
             case R.id.action_more:
                 SuperUtil.showMore(MainActivity.this);
@@ -172,8 +160,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
     protected void onResume() {
         super.onResume();
         loaderAdapter();
-        mTracker.setScreenName("Screen~" + getClass().getName());
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         showRate();
         isChangesShown();
@@ -234,20 +220,18 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
     public void onItemLongClicked(final int position, final View view) {
         final CharSequence[] items = {getString(R.string.edit), getString(R.string.delete)};
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                dialog.dismiss();
-                ReminderModel item1 = arrayList.get(position);
-                switch (item) {
-                    case 0:
-                        Reminder.edit(item1.getId(), MainActivity.this);
-                        break;
-                    case 1:
-                        Reminder.delete(item1.getId(), MainActivity.this);
-                        showSnackbar(R.string.deleted);
-                        loaderAdapter();
-                        break;
-                }
+        builder.setItems(items, (dialog, item) -> {
+            dialog.dismiss();
+            ReminderModel item1 = arrayList.get(position);
+            switch (item) {
+                case 0:
+                    Reminder.edit(item1.getId(), MainActivity.this);
+                    break;
+                case 1:
+                    Reminder.delete(item1.getId(), MainActivity.this);
+                    showSnackbar(R.string.deleted);
+                    loaderAdapter();
+                    break;
             }
         });
         AlertDialog alert = builder.create();

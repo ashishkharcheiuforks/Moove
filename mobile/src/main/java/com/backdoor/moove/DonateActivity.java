@@ -41,9 +41,7 @@ public class DonateActivity extends AppCompatActivity implements IabHelper.Query
     }
 
     private IabHelper mHelper;
-
     private Button buyButton, buyButton1, buyButton2, buyButton3;
-
     private String mPayload;
 
     @Override
@@ -63,30 +61,10 @@ public class DonateActivity extends AppCompatActivity implements IabHelper.Query
         buyButton1.setEnabled(false);
         buyButton3.setEnabled(false);
 
-        buyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buyItem(SKU_1, REQUEST_BASE);
-            }
-        });
-        buyButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buyItem(SKU_2, REQUEST_STANDARD);
-            }
-        });
-        buyButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buyItem(SKU_3, REQUEST_PRO);
-            }
-        });
-        buyButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buyItem(SKU_4, REQUEST_TOP);
-            }
-        });
+        buyButton.setOnClickListener(v -> buyItem(SKU_1, REQUEST_BASE));
+        buyButton1.setOnClickListener(v -> buyItem(SKU_2, REQUEST_STANDARD));
+        buyButton2.setOnClickListener(v -> buyItem(SKU_3, REQUEST_PRO));
+        buyButton3.setOnClickListener(v -> buyItem(SKU_4, REQUEST_TOP));
 
         RandomString randomString = new RandomString(36);
         mPayload = randomString.nextString();
@@ -96,22 +74,20 @@ public class DonateActivity extends AppCompatActivity implements IabHelper.Query
         mHelper = new IabHelper(this, base64EncodedPublicKey);
 
         //mHelper.enableDebugLogging(true);
-        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-            public void onIabSetupFinished(IabResult result) {
-                if (!result.isSuccess()) {
-                    return;
-                }
-
-                if (mHelper == null) return;
-
-                List<String> list = new ArrayList<>();
-                list.add(SKU_1);
-                list.add(SKU_2);
-                list.add(SKU_3);
-                list.add(SKU_4);
-                mHelper.queryInventoryAsync(true, list, DonateActivity.this);
-                setWaitScreen(true);
+        mHelper.startSetup(result -> {
+            if (!result.isSuccess()) {
+                return;
             }
+
+            if (mHelper == null) return;
+
+            List<String> list = new ArrayList<>();
+            list.add(SKU_1);
+            list.add(SKU_2);
+            list.add(SKU_3);
+            list.add(SKU_4);
+            mHelper.queryInventoryAsync(true, list, DonateActivity.this);
+            setWaitScreen(true);
         });
     }
 

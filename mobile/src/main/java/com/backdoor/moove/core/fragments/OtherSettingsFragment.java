@@ -3,7 +3,6 @@ package com.backdoor.moove.core.fragments;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -49,78 +48,47 @@ public class OtherSettingsFragment extends Fragment {
             rootView.findViewById(R.id.otherCard).setElevation(Configs.CARD_ELEVATION);
         }
         TextView about = rootView.findViewById(R.id.about);
-        about.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAboutDialog();
-            }
-        });
+        about.setOnClickListener(v -> showAboutDialog());
 
         TextView changes = rootView.findViewById(R.id.changes);
-        changes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getApplicationContext()
-                        .startActivity(new Intent(getActivity().getApplicationContext(),
-                                ChangeDialog.class)
-                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            }
-        });
+        changes.setOnClickListener(v -> getActivity().getApplicationContext()
+                .startActivity(new Intent(getActivity().getApplicationContext(),
+                        ChangeDialog.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
 
         TextView rateApp = rootView.findViewById(R.id.rateApp);
-        rateApp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchMarket(getActivity());
-            }
-        });
+        rateApp.setOnClickListener(v -> launchMarket(getActivity()));
 
         TextView thanks = rootView.findViewById(R.id.thanks);
-        thanks.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getApplicationContext()
-                        .startActivity(new Intent(getActivity().getApplicationContext(),
-                                ThanksDialog.class)
-                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            }
-        });
+        thanks.setOnClickListener(v -> getActivity().getApplicationContext()
+                .startActivity(new Intent(getActivity().getApplicationContext(),
+                        ThanksDialog.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
 
         TextView help = rootView.findViewById(R.id.help);
-        help.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getApplicationContext()
-                        .startActivity(new Intent(getActivity().getApplicationContext(),
-                                Help.class)
-                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            }
-        });
+        help.setOnClickListener(v -> getActivity().getApplicationContext()
+                .startActivity(new Intent(getActivity().getApplicationContext(),
+                        Help.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
 
         TextView menuFeedback = rootView.findViewById(R.id.menuFeedback);
-        menuFeedback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                emailIntent.setType("plain/text");
-                emailIntent.putExtra(Intent.EXTRA_EMAIL,
-                        new String[]{"feedback.cray@gmail.com"});
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Moove");
-                getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-            }
+        menuFeedback.setOnClickListener(v -> {
+            final Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            emailIntent.setType("plain/text");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL,
+                    new String[]{"feedback.cray@gmail.com"});
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Moove");
+            getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
         });
 
         TextView menuShare = rootView.findViewById(R.id.menuShare);
-        menuShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_TEXT,
-                        "https://play.google.com/store/apps/details?id=" +
-                                getActivity().getPackageName());
-                getActivity().startActivity(Intent.createChooser(shareIntent, "Share..."));
-            }
+        menuShare.setOnClickListener(v -> {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                    "https://play.google.com/store/apps/details?id=" +
+                            getActivity().getPackageName());
+            getActivity().startActivity(Intent.createChooser(shareIntent, "Share..."));
         });
 
         LinearLayout permissionBlock = rootView.findViewById(R.id.permissionBlock);
@@ -131,23 +99,13 @@ public class OtherSettingsFragment extends Fragment {
         }
 
         TextView permissionExplain = rootView.findViewById(R.id.permissionExplain);
-        permissionExplain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getApplicationContext()
-                        .startActivity(new Intent(getActivity().getApplicationContext(), ThanksDialog.class)
-                                .putExtra("int", 1)
-                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            }
-        });
+        permissionExplain.setOnClickListener(v -> getActivity().getApplicationContext()
+                .startActivity(new Intent(getActivity().getApplicationContext(), ThanksDialog.class)
+                        .putExtra("int", 1)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
 
         TextView permissionEnable = rootView.findViewById(R.id.permissionEnable);
-        permissionEnable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPermissionDialog();
-            }
-        });
+        permissionEnable.setOnClickListener(v -> showPermissionDialog());
 
         return rootView;
     }
@@ -205,12 +163,9 @@ public class OtherSettingsFragment extends Fragment {
                 tvName.setText(mDataList.get(position).getTitle());
                 return convertView;
             }
-        }, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-                requestPermission(i);
-            }
+        }, -1, (dialogInterface, i) -> {
+            dialogInterface.dismiss();
+            requestPermission(i);
         });
         builder.create().show();
     }

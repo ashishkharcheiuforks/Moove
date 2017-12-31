@@ -32,24 +32,22 @@ public class SimpleWidgetConfigureActivity extends Activity implements DialogInt
     private String title;
     TextView mAppWidgetText;
 
-    View.OnClickListener mOnClickListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            final Context context = SimpleWidgetConfigureActivity.this;
+    View.OnClickListener mOnClickListener = v -> {
+        final Context context = SimpleWidgetConfigureActivity.this;
 
-            if (!saveReminderPref(context, mAppWidgetId)) {
-                return;
-            }
-
-            // It is the responsibility of the configuration activity to update the app widget
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            SimpleWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
-
-            // Make sure we pass back the original appWidgetId
-            Intent resultValue = new Intent();
-            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-            setResult(RESULT_OK, resultValue);
-            finish();
+        if (!saveReminderPref(context, mAppWidgetId)) {
+            return;
         }
+
+        // It is the responsibility of the configuration activity to update the app widget
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        SimpleWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
+
+        // Make sure we pass back the original appWidgetId
+        Intent resultValue = new Intent();
+        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+        setResult(RESULT_OK, resultValue);
+        finish();
     };
 
     View.OnClickListener chooseClick = new View.OnClickListener() {
@@ -68,26 +66,20 @@ public class SimpleWidgetConfigureActivity extends Activity implements DialogInt
             final ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                     android.R.layout.simple_list_item_single_choice, titles);
 
-            builder.setSingleChoiceItems(adapter, -1, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (which != -1) {
-                        dialog.dismiss();
-                        MarkerModel model = list.get(which);
-                        reminderId = model.getId();
-                        title = model.getTitle();
-                    }
+            builder.setSingleChoiceItems(adapter, -1, (dialog, which) -> {
+                if (which != -1) {
+                    dialog.dismiss();
+                    MarkerModel model = list.get(which);
+                    reminderId = model.getId();
+                    title = model.getTitle();
                 }
             });
-            builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (which != -1) {
-                        dialog.dismiss();
-                        MarkerModel model = list.get(which);
-                        reminderId = model.getId();
-                        title = model.getTitle();
-                    }
+            builder.setPositiveButton(context.getString(R.string.ok), (dialog, which) -> {
+                if (which != -1) {
+                    dialog.dismiss();
+                    MarkerModel model = list.get(which);
+                    reminderId = model.getId();
+                    title = model.getTitle();
                 }
             });
             AlertDialog dialog = builder.create();

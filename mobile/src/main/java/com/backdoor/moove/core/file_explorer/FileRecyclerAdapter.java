@@ -69,12 +69,9 @@ public class FileRecyclerAdapter extends RecyclerView.Adapter<FileRecyclerAdapte
         public ContactViewHolder(View itemView) {
             super(itemView);
             binding = DataBindingUtil.bind(itemView);
-            binding.setClick(new AdapterListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mListener != null) {
-                        mListener.onItemClick(getAdapterPosition());
-                    }
+            binding.setClick(view -> {
+                if (mListener != null) {
+                    mListener.onItemClick(getAdapterPosition());
                 }
             });
         }

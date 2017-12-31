@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -33,32 +32,23 @@ public class RateDialog extends Activity {
         sharedPrefs = SharedPrefs.getInstance(this);
 
         TextView buttonRate = findViewById(R.id.buttonRate);
-        buttonRate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sharedPrefs.saveBoolean(Prefs.RATE_SHOW, true);
-                launchMarket();
-                finish();
-            }
+        buttonRate.setOnClickListener(v -> {
+            sharedPrefs.saveBoolean(Prefs.RATE_SHOW, true);
+            launchMarket();
+            finish();
         });
 
         TextView rateLater = findViewById(R.id.rateLater);
-        rateLater.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sharedPrefs.saveBoolean(Prefs.RATE_SHOW, false);
-                sharedPrefs.saveInt(Prefs.APP_RUNS_COUNT, 0);
-                finish();
-            }
+        rateLater.setOnClickListener(v -> {
+            sharedPrefs.saveBoolean(Prefs.RATE_SHOW, false);
+            sharedPrefs.saveInt(Prefs.APP_RUNS_COUNT, 0);
+            finish();
         });
 
         TextView rateNever = findViewById(R.id.rateNever);
-        rateNever.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sharedPrefs.saveBoolean(Prefs.RATE_SHOW, true);
-                finish();
-            }
+        rateNever.setOnClickListener(v -> {
+            sharedPrefs.saveBoolean(Prefs.RATE_SHOW, true);
+            finish();
         });
     }
 
