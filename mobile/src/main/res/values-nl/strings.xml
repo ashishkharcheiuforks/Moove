@@ -169,4 +169,5 @@
     <string name="not_music_file">Niet een melodie bestand</string>
     <string name="type_to_search">Typ om te zoeken</string>
     <string name="up">Omhoog</string>
+    <string name="location_tracking_service_running">Locatieregistratieservice wordt uitgevoerd</string>
 </resources>

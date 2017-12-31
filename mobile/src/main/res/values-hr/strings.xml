@@ -169,4 +169,5 @@
     <string name="not_music_file">Nije melodija datoteka</string>
     <string name="type_to_search">Upišite za pretraživanje</string>
     <string name="up">Gore</string>
+    <string name="location_tracking_service_running">Usluga praćenja lokacije prikazuje se</string>
 </resources>

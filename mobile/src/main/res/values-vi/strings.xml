@@ -169,4 +169,5 @@
     <string name="not_music_file">Không phải là một tập tin giai điệu</string>
     <string name="type_to_search">Nhập để tìm kiếm</string>
     <string name="up">Lên</string>
+    <string name="location_tracking_service_running">Dịch vụ theo dõi vị trí đang chạy</string>
 </resources>

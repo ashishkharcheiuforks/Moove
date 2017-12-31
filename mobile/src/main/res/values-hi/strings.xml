@@ -169,4 +169,5 @@
     <string name="not_music_file">नहीं एक माधुर्य फ़ाइल</string>
     <string name="type_to_search">खोजने के लिए लिखें</string>
     <string name="up">ऊपर</string>
+    <string name="location_tracking_service_running">स्थान ट्रैकिंग सेवा चल रही है</string>
 </resources>

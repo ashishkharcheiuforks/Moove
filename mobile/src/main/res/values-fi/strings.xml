@@ -169,4 +169,5 @@
     <string name="not_music_file">Ei melodia tiedosto</string>
     <string name="type_to_search">Kirjoita haku</string>
     <string name="up">Ylös</string>
+    <string name="location_tracking_service_running">Sijaintiseurantapalvelu käynnissä</string>
 </resources>

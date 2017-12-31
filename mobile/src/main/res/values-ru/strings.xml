@@ -169,4 +169,5 @@
     <string name="not_music_file">Не файл мелодии</string>
     <string name="type_to_search">Введите поисковый запрос</string>
     <string name="up">Вверх</string>
+    <string name="location_tracking_service_running">Служба отслеживания местоположений работает</string>
 </resources>

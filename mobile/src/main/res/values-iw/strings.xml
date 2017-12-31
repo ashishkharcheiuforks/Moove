@@ -169,4 +169,5 @@
     <string name="not_music_file">לא קובץ מנגינה</string>
     <string name="type_to_search">הקלד לחיפוש</string>
     <string name="up">לְמַעלָה</string>
+    <string name="location_tracking_service_running">שירות מעקב מיקום פועל</string>
 </resources>

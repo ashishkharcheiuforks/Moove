@@ -169,4 +169,5 @@
     <string name="not_music_file">Ne melodija failą</string>
     <string name="type_to_search">Įveskite paieškos</string>
     <string name="up">Aukštyn</string>
+    <string name="location_tracking_service_running">Vietos stebėjimo paslauga veikia</string>
 </resources>

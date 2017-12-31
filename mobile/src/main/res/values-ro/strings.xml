@@ -169,4 +169,5 @@
     <string name="not_music_file">Nu este un fișier melodie</string>
     <string name="type_to_search">Tastați pentru a căuta</string>
     <string name="up">Sus</string>
+    <string name="location_tracking_service_running">Serviciul de urmărire a locației este în desfășurare</string>
 </resources>

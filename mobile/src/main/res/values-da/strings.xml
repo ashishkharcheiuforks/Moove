@@ -169,4 +169,5 @@
     <string name="not_music_file">Ikke en melodi fil</string>
     <string name="type_to_search">Skriv for at søge</string>
     <string name="up">Op</string>
+    <string name="location_tracking_service_running">Placeringssporingstjenesten kører</string>
 </resources>

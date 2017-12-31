@@ -170,4 +170,5 @@
     <string name="not_music_file">Not a melody file</string>
     <string name="type_to_search">Type to search</string>
     <string name="up">Up</string>
+    <string name="location_tracking_service_running">Location tracking service running</string>
 </resources>

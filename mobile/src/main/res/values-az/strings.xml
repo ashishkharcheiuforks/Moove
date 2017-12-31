@@ -169,4 +169,5 @@
     <string name="not_music_file">Bir melodiya fayl</string>
     <string name="type_to_search">Axtarış yazın</string>
     <string name="up">Ayağa</string>
+    <string name="location_tracking_service_running">Yer izləmə xidməti işlədilir</string>
 </resources>

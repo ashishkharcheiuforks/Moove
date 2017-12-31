@@ -169,4 +169,5 @@
     <string name="not_music_file">Ня файл мелодыі</string>
     <string name="type_to_search">Калі ласка, увядзіце запыт для пошуку</string>
     <string name="up">Уверх</string>
+    <string name="location_tracking_service_running">Месца службы адсочвання ходу</string>
 </resources>

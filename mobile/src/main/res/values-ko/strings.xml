@@ -169,4 +169,5 @@
     <string name="not_music_file">멜로디 파일이 아닙니다.</string>
     <string name="type_to_search">검색하려면 입력하십시오.</string>
     <string name="up">쪽으로</string>
+    <string name="location_tracking_service_running">실행중인 위치 추적 서비스</string>
 </resources>

@@ -169,4 +169,5 @@
     <string name="not_music_file">Nav melodija fails</string>
     <string name="type_to_search">Rakstiet, lai meklētu</string>
     <string name="up">Augšup</string>
+    <string name="location_tracking_service_running">Atrašanās vietas izsekošanas pakalpojums darbojas</string>
 </resources>

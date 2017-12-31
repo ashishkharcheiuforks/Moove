@@ -169,4 +169,5 @@
     <string name="not_music_file">メロディファイルではない</string>
     <string name="type_to_search">タイプして検索する</string>
     <string name="up">アップ</string>
+    <string name="location_tracking_service_running">実行中の位置追跡サービス</string>
 </resources>

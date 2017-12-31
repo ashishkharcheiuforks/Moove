@@ -169,4 +169,5 @@
     <string name="not_music_file">Nem egy dallamot fájl</string>
     <string name="type_to_search">Írja be a keresett</string>
     <string name="up">Fel</string>
+    <string name="location_tracking_service_running">A helymeghatározás szolgáltatás fut</string>
 </resources>

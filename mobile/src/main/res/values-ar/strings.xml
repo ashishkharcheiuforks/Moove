@@ -169,4 +169,5 @@
     <string name="not_music_file">ليس ملف لحن</string>
     <string name="type_to_search">اكتب للبحث</string>
     <string name="up">إلى أعلى</string>
+    <string name="location_tracking_service_running">خدمة تتبع الموقع قيد التشغيل</string>
 </resources>

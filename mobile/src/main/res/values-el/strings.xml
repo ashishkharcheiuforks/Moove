@@ -169,4 +169,5 @@
     <string name="not_music_file">Δεν είναι ένα αρχείο μελωδία</string>
     <string name="type_to_search">Πληκτρολογήστε για αναζήτηση</string>
     <string name="up">Πάνω</string>
+    <string name="location_tracking_service_running">Η υπηρεσία παρακολούθησης τοποθεσίας εκτελείται</string>
 </resources>

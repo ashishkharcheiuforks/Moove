@@ -169,4 +169,5 @@
     <string name="not_music_file">不是旋律文件</string>
     <string name="type_to_search">鍵入以進行搜索</string>
     <string name="up">向上</string>
+    <string name="location_tracking_service_running">位置跟踪服務運行</string>
 </resources>

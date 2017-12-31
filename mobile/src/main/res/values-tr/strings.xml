@@ -169,4 +169,5 @@
     <string name="not_music_file">Melodi dosyası değil</string>
     <string name="type_to_search">Aramak için yazın</string>
     <string name="up">Yukarı</string>
+    <string name="location_tracking_service_running">Konum izleme servisi çalışıyor</string>
 </resources>

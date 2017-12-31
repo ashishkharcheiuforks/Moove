@@ -169,4 +169,5 @@
     <string name="not_music_file">Emas, balki bir musiqa fayli</string>
     <string name="type_to_search">Go\'ng\'iroq qilish kiriting</string>
     <string name="up">Qadar</string>
+    <string name="location_tracking_service_running">Joylashuvni kuzatish xizmati ishlayapti</string>
 </resources>

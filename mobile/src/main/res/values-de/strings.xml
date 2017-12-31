@@ -169,4 +169,5 @@
     <string name="not_music_file">Nicht eine Melodie-Datei</string>
     <string name="type_to_search">Tippe um zu suchen</string>
     <string name="up">Oben</string>
+    <string name="location_tracking_service_running">Standortverfolgungsdienst wird ausgeführt</string>
 </resources>
