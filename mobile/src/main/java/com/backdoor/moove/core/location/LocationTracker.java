@@ -72,17 +72,17 @@ public class LocationTracker implements LocationListener {
         if (mContext == null) {
             return;
         }
+        if (ActivityCompat.checkSelfPermission(mContext,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(mContext,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
         SharedPrefs prefs = SharedPrefs.getInstance(mContext);
         long time = (prefs.loadInt(Prefs.TRACK_TIME) * 1000);
         int distance = prefs.loadInt(Prefs.TRACK_DISTANCE);
         if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            if (ActivityCompat.checkSelfPermission(mContext,
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(mContext,
-                            Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, this);
         } else {
             mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time, distance, this);
