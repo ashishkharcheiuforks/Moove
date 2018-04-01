@@ -3,6 +3,7 @@ package com.backdoor.moove.core.utils;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -14,7 +15,6 @@ import android.view.animation.OvershootInterpolator;
 import android.view.animation.Transformation;
 
 import com.backdoor.moove.R;
-import com.backdoor.moove.core.helper.Module;
 
 public class ViewUtils {
 
@@ -41,8 +41,8 @@ public class ViewUtils {
      * @return Color
      */
     public static int getColor(Context context, int resource) {
-        if (Module.isMarshmallow()) return context.getResources().getColor(resource, null);
-        return context.getResources().getColor(resource);
+        if (context == null) return 0;
+        return ContextCompat.getColor(context, resource);
     }
 
     public static void slideInUp(Context context, View view) {
