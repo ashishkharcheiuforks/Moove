@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.backdoor.moove">
 
     <uses-feature android:name="android.hardware.type.watch" />
@@ -39,8 +40,12 @@
                 <action android:name="com.backdoor.moove.DISMISS" />
             </intent-filter>
         </service>
+        <meta-data
+            android:name="android.support.VERSION"
+            android:value="27.1.0"
+            tools:replace="android:value" />
 
-        <activity android:name=".ReminderActivity"></activity>
+        <activity android:name=".ReminderActivity" />
     </application>
 
 </manifest>
