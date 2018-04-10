@@ -58,7 +58,7 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="16dp">
 
-                    <AutoCompleteTextView
+                    <com.backdoor.moove.core.views.AddressAutoCompleteView
                         android:id="@+id/searchField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -31,8 +31,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -45,7 +43,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.backdoor.moove.core.adapters.TitleNavigationAdapter;
-import com.backdoor.moove.core.async.GeocoderTask;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.consts.LED;
 import com.backdoor.moove.core.consts.Prefs;
@@ -73,6 +70,7 @@ import com.backdoor.moove.core.utils.LocationUtil;
 import com.backdoor.moove.core.utils.SuperUtil;
 import com.backdoor.moove.core.utils.ViewUtils;
 import com.backdoor.moove.core.views.ActionView;
+import com.backdoor.moove.core.views.AddressAutoCompleteView;
 import com.backdoor.moove.core.views.DateTimeView;
 import com.backdoor.moove.core.views.FloatingEditText;
 import com.google.android.gms.maps.model.LatLng;
@@ -80,14 +78,13 @@ import com.google.android.gms.maps.model.LatLng;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.UUID;
 
 /**
  * Reminder creation activity.
  */
 public class ReminderManagerActivity extends AppCompatActivity implements
-        AdapterView.OnItemSelectedListener, MapListener, GeocoderTask.GeocoderListener,
+        AdapterView.OnItemSelectedListener, MapListener,
         DateTimeView.OnSelectListener, ActionView.OnActionListener,
         CompoundButton.OnCheckedChangeListener, ActionCallbacksExtended {
 
@@ -101,7 +98,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
     private RelativeLayout mapContainer;
     private ScrollView specsContainer;
     private MapFragment map;
-    private AutoCompleteTextView searchField;
+    private AddressAutoCompleteView addressField;
     private ActionView actionViewLocation;
 
     /**
@@ -138,9 +135,6 @@ public class ReminderManagerActivity extends AppCompatActivity implements
     private long id;
     private String type, melody = null;
     private int radius = -1, ledColor = 0;
-    private List<Address> foundPlaces;
-    private ArrayAdapter<String> adapter;
-    private ArrayList<String> namesList;
     private LatLng curPlace;
 
     private SharedPrefs sPrefs = SharedPrefs.getInstance(this);
@@ -150,7 +144,8 @@ public class ReminderManagerActivity extends AppCompatActivity implements
 
     private Type remControl = new Type(this);
     private Reminder item;
-    private GeocoderTask task;
+    private LocationManager mLocationManager;
+    private LocationListener mLocList;
 
     private Item mItem;
     private boolean isReady;
@@ -504,46 +499,12 @@ public class ReminderManagerActivity extends AppCompatActivity implements
         clearField.setImageResource(R.drawable.ic_backspace_white_24dp);
         mapButton.setImageResource(R.drawable.ic_map_white_24dp);
 
-        clearField.setOnClickListener(v -> searchField.setText(""));
+        clearField.setOnClickListener(v -> addressField.setText(""));
         mapButton.setOnClickListener(v -> toggleMap());
 
-        searchField = findViewById(R.id.searchField);
-        searchField.setThreshold(3);
-        adapter = new ArrayAdapter<>(ReminderManagerActivity.this, android.R.layout.simple_dropdown_item_1line, namesList);
-        adapter.setNotifyOnChange(true);
-        searchField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (task != null && !task.isCancelled()) {
-                    task.cancel(true);
-                }
-                task = new GeocoderTask(ReminderManagerActivity.this, ReminderManagerActivity.this);
-                task.execute(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        searchField.setOnItemClickListener((parent, view, position, id) -> {
-            Address sel = foundPlaces.get(position);
-            double lat = sel.getLatitude();
-            double lon = sel.getLongitude();
-            LatLng pos = new LatLng(lat, lon);
-            curPlace = pos;
-            String title = taskField.getText().toString().trim();
-            if (title.matches("")) {
-                title = pos.toString();
-            }
-            if (map != null) {
-                map.addMarker(pos, title, true, true, radius);
-            }
+        addressField = findViewById(R.id.searchField);
+        addressField.setListener(address -> {
+            if (address != null) showMarker(address);
         });
 
         actionViewLocation = findViewById(R.id.actionViewLocation);
@@ -617,6 +578,20 @@ public class ReminderManagerActivity extends AppCompatActivity implements
                 }
                 toggleMap();
             }
+        }
+    }
+
+    private void showMarker(Address address) {
+        double lat = address.getLatitude();
+        double lon = address.getLongitude();
+        LatLng pos = new LatLng(lat, lon);
+        curPlace = pos;
+        String title = taskField.getText().toString().trim();
+        if (title.matches("")) {
+            title = pos.toString();
+        }
+        if (map != null) {
+            map.addMarker(pos, title, true, true, radius);
         }
     }
 
@@ -1279,33 +1254,9 @@ public class ReminderManagerActivity extends AppCompatActivity implements
         removeUpdates();
         InputMethodManager imm = (InputMethodManager) getSystemService(
                 Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(taskField.getWindowToken(), 0);
+        if (imm != null) imm.hideSoftInputFromWindow(taskField.getWindowToken(), 0);
         Widget.updateWidgets(ReminderManagerActivity.this);
         super.onDestroy();
-    }
-
-    private LocationManager mLocationManager;
-    private LocationListener mLocList;
-
-    @Override
-    public void onAddressReceived(List<Address> addresses) {
-        foundPlaces = addresses;
-
-        namesList = new ArrayList<>();
-        namesList.clear();
-        for (Address selected : addresses) {
-            String addressText = String.format("%s, %s%s",
-                    selected.getMaxAddressLineIndex() > 0 ? selected.getAddressLine(0) : "",
-                    selected.getMaxAddressLineIndex() > 1 ? selected.getAddressLine(1) + ", " : "",
-                    selected.getCountryName());
-            namesList.add(addressText);
-        }
-        adapter = new ArrayAdapter<>(
-                ReminderManagerActivity.this, android.R.layout.simple_dropdown_item_1line, namesList);
-        if (isLocationAttached()) {
-            searchField.setAdapter(adapter);
-        }
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -1424,7 +1375,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
         private final int radius;
         private final int style;
 
-        public Item(String title, LatLng pos, int radius, int style) {
+        Item(String title, LatLng pos, int radius, int style) {
             this.title = title;
             this.pos = pos;
             this.radius = radius;
