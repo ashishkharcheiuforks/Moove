@@ -8,8 +8,8 @@ android {
         applicationId "com.backdoor.moove"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 18
-        versionName "1.7"
+        versionCode 19
+        versionName "1.8"
         multiDexEnabled true
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
