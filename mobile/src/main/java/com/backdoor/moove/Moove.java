@@ -29,7 +29,6 @@ public class Moove extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         Notifier.createChannels(this);
-        Fabric.with(this, new Crashlytics());
-        Fabric.with(this, new Answers());
+        Fabric.with(this, new Crashlytics(), new Answers());
     }
 }

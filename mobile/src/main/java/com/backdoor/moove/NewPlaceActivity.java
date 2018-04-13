@@ -18,11 +18,11 @@ import com.backdoor.moove.core.helper.Coloring;
 import com.backdoor.moove.core.helper.DataBase;
 import com.backdoor.moove.core.helper.SharedPrefs;
 import com.backdoor.moove.core.interfaces.MapListener;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
 public class NewPlaceActivity extends AppCompatActivity implements MapListener {
 
-    private Coloring cs = new Coloring(NewPlaceActivity.this);
     private EditText placeName;
     private MapFragment fragment;
 
@@ -42,6 +42,7 @@ public class NewPlaceActivity extends AppCompatActivity implements MapListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Coloring cs = new Coloring(NewPlaceActivity.this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(cs.colorPrimaryDark());
         }
@@ -49,14 +50,16 @@ public class NewPlaceActivity extends AppCompatActivity implements MapListener {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
 
         id = getIntent().getLongExtra(Constants.ITEM_ID_INTENT, 0);
         placeName = findViewById(R.id.placeName);
 
+        SharedPrefs prefs = SharedPrefs.getInstance(this);
+
         fragment = MapFragment.newInstance(false, false, false, false,
-                SharedPrefs.getInstance(this).loadInt(Prefs.MARKER_STYLE));
+                prefs != null ? prefs.loadInt(Prefs.MARKER_STYLE) : GoogleMap.MAP_TYPE_NORMAL);
         fragment.setListener(this);
         fragment.setMapReadyCallback(mMapCallback);
         getSupportFragmentManager().beginTransaction()
@@ -121,7 +124,8 @@ public class NewPlaceActivity extends AppCompatActivity implements MapListener {
 
     private void loadPlace() {
         if (id != 0) {
-            int radius = SharedPrefs.getInstance(this).loadInt(Prefs.LOCATION_RADIUS);
+            SharedPrefs prefs = SharedPrefs.getInstance(this);
+            int radius = prefs != null ? prefs.loadInt(Prefs.LOCATION_RADIUS) : 25;
             DataBase db = new DataBase(NewPlaceActivity.this);
             db.open();
             Cursor c = db.getPlace(id);
@@ -168,7 +172,7 @@ public class NewPlaceActivity extends AppCompatActivity implements MapListener {
         private final LatLng pos;
         private final int radius;
 
-        public Item(String title, LatLng pos, int radius) {
+        Item(String title, LatLng pos, int radius) {
             this.title = title;
             this.pos = pos;
             this.radius = radius;

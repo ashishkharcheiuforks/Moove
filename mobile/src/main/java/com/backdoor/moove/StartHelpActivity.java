@@ -43,7 +43,8 @@ public class StartHelpActivity extends AppCompatActivity {
     private void checkAll() {
         if (checkDevice() && checkPermissions()) {
             startActivity(new Intent(StartHelpActivity.this, MainActivity.class));
-            SharedPrefs.getInstance(this).saveBoolean(Prefs.FIRST_LOAD, true);
+            SharedPrefs prefs = SharedPrefs.getInstance(this);
+            if (prefs != null) prefs.saveBoolean(Prefs.FIRST_LOAD, true);
             finish();
         } else {
             if (!checkDevice()) {

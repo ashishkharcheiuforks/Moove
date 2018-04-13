@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -36,14 +37,15 @@ public class PlacesListActivity extends AppCompatActivity implements SimpleListe
 
     private RecyclerView listView;
     private LinearLayout emptyItem;
-    private Coloring cs = new Coloring(PlacesListActivity.this);
     private FloatingActionButton mFab;
 
+    @Nullable
     private PlaceDataProvider provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Coloring cs = new Coloring(PlacesListActivity.this);
         setTheme(cs.getStyle());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(cs.colorPrimaryDark());
@@ -52,7 +54,7 @@ public class PlacesListActivity extends AppCompatActivity implements SimpleListe
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         toolbar.setTitle(getString(R.string.places));
 
@@ -103,6 +105,7 @@ public class PlacesListActivity extends AppCompatActivity implements SimpleListe
     }
 
     private void reloadView() {
+        if (provider == null) return;
         int size = provider.getCount();
         if (size > 0) {
             listView.setVisibility(View.VISIBLE);
@@ -114,6 +117,7 @@ public class PlacesListActivity extends AppCompatActivity implements SimpleListe
     }
 
     private void deletePlace(int position) {
+        if (provider == null) return;
         long id = provider.getItem(position).getId();
         if (id != 0) {
             DataBase db = new DataBase(this);
@@ -127,6 +131,7 @@ public class PlacesListActivity extends AppCompatActivity implements SimpleListe
     }
 
     private void editPlace(int position) {
+        if (provider == null) return;
         startActivity(new Intent(this, NewPlaceActivity.class)
                 .putExtra(Constants.ITEM_ID_INTENT, provider.getItem(position).getId()));
     }

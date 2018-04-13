@@ -39,8 +39,10 @@ public class ContactsListActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
         toolbar.setTitle(R.string.contacts);
 
         Intent intent = getIntent();
@@ -72,8 +74,7 @@ public class ContactsListActivity extends AppCompatActivity {
         contactsList.setOnItemClickListener((parent, view, position, id) -> {
             if (position != -1) {
                 name = (String) parent.getItemAtPosition(position);
-                Cursor c;
-                c = getContentResolver().query(
+                Cursor c = getContentResolver().query(
                         ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                         ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + "=?",
                         new String[]{name}, null);
@@ -133,7 +134,7 @@ public class ContactsListActivity extends AppCompatActivity {
     protected void onPause() {
         InputMethodManager imm = (InputMethodManager) getSystemService(
                 Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(searchField.getWindowToken(), 0);
+        if (imm != null) imm.hideSoftInputFromWindow(searchField.getWindowToken(), 0);
         super.onPause();
     }
 }

@@ -181,27 +181,32 @@ public class MainActivity extends AppCompatActivity implements RecyclerListener,
         if (pInfo != null) {
             version = pInfo.versionName;
         }
-        boolean ranBefore = SharedPrefs.getInstance(this).loadVersionBoolean(version);
-        if (!ranBefore) {
-            SharedPrefs.getInstance(this).saveVersionBoolean(version);
-            showChanges();
+        SharedPrefs prefs = SharedPrefs.getInstance(this);
+        if (prefs != null) {
+            boolean ranBefore = prefs.loadVersionBoolean(version);
+            if (!ranBefore) {
+                prefs.saveVersionBoolean(version);
+                showChanges();
+            }
         }
     }
 
     private void showRate() {
-        if (SharedPrefs.getInstance(this).isString(Prefs.RATE_SHOW)) {
-            if (!SharedPrefs.getInstance(this).loadBoolean(Prefs.RATE_SHOW)) {
-                int counts = SharedPrefs.getInstance(this).loadInt(Prefs.APP_RUNS_COUNT);
+        SharedPrefs prefs = SharedPrefs.getInstance(this);
+        if (prefs == null) return;
+        if (prefs.isString(Prefs.RATE_SHOW)) {
+            if (!prefs.loadBoolean(Prefs.RATE_SHOW)) {
+                int counts = prefs.loadInt(Prefs.APP_RUNS_COUNT);
                 if (counts < 10) {
-                    SharedPrefs.getInstance(this).saveInt(Prefs.APP_RUNS_COUNT, counts + 1);
+                    prefs.saveInt(Prefs.APP_RUNS_COUNT, counts + 1);
                 } else {
-                    SharedPrefs.getInstance(this).saveInt(Prefs.APP_RUNS_COUNT, 0);
+                    prefs.saveInt(Prefs.APP_RUNS_COUNT, 0);
                     startActivity(new Intent(this, RateDialog.class));
                 }
             }
         } else {
-            SharedPrefs.getInstance(this).saveBoolean(Prefs.RATE_SHOW, false);
-            SharedPrefs.getInstance(this).saveInt(Prefs.APP_RUNS_COUNT, 0);
+            prefs.saveBoolean(Prefs.RATE_SHOW, false);
+            prefs.saveInt(Prefs.APP_RUNS_COUNT, 0);
         }
     }
 

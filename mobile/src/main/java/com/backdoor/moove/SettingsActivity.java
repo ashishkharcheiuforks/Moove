@@ -41,9 +41,11 @@ public class SettingsActivity extends AppCompatActivity implements
         setContentView(R.layout.category_layout);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.settings);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.settings);
+        }
 
         if (findViewById(R.id.fragment_container) != null) {
             if (savedInstanceState != null) {
@@ -109,12 +111,15 @@ public class SettingsActivity extends AppCompatActivity implements
         switch (requestCode) {
             case 201:
                 if (resultCode == RESULT_OK) {
-                    SharedPrefs.getInstance(this).saveBoolean(Prefs.CUSTOM_SOUND, true);
-                    String pathStr = data.getStringExtra(Constants.FILE_PICKED);
-                    if (pathStr != null) {
-                        File fileC = new File(pathStr);
-                        if (fileC.exists()) {
-                            SharedPrefs.getInstance(this).savePrefs(Prefs.CUSTOM_SOUND_FILE, fileC.toString());
+                    SharedPrefs prefs = SharedPrefs.getInstance(this);
+                    if (prefs != null) {
+                        prefs.saveBoolean(Prefs.CUSTOM_SOUND, true);
+                        String pathStr = data.getStringExtra(Constants.FILE_PICKED);
+                        if (pathStr != null) {
+                            File fileC = new File(pathStr);
+                            if (fileC.exists()) {
+                                prefs.savePrefs(Prefs.CUSTOM_SOUND_FILE, fileC.toString());
+                            }
                         }
                     }
                 }
@@ -122,7 +127,10 @@ public class SettingsActivity extends AppCompatActivity implements
             case Constants.ACTION_REQUEST_GALLERY:
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = data.getData();
-                    SharedPrefs.getInstance(this).savePrefs(Prefs.REMINDER_IMAGE, selectedImage.toString());
+                    SharedPrefs prefs = SharedPrefs.getInstance(this);
+                    if (prefs != null && selectedImage != null) {
+                        prefs.savePrefs(Prefs.REMINDER_IMAGE, selectedImage.toString());
+                    }
                 }
                 break;
         }

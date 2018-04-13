@@ -59,7 +59,7 @@ public class SplashScreenActivity extends Activity {
         initPrefs();
         checkPrefs();
         SharedPrefs prefs = SharedPrefs.getInstance(this);
-        if (!prefs.loadBoolean(Prefs.FIRST_LOAD)) {
+        if (prefs != null && !prefs.loadBoolean(Prefs.FIRST_LOAD)) {
             startActivity(new Intent(SplashScreenActivity.this, StartHelpActivity.class));
         } else {
             startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
@@ -72,6 +72,7 @@ public class SplashScreenActivity extends Activity {
      */
     private void checkPrefs() {
         SharedPrefs sPrefs = SharedPrefs.getInstance(this);
+        if (sPrefs == null) return;
         if (!sPrefs.isString(Prefs.TTS_LOCALE)) {
             sPrefs.savePrefs(Prefs.TTS_LOCALE, Language.ENGLISH);
         }

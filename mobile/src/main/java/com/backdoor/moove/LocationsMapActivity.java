@@ -22,11 +22,9 @@ import com.backdoor.moove.core.interfaces.SimpleListener;
 
 public class LocationsMapActivity extends AppCompatActivity implements SimpleListener {
 
-    private Coloring cs = new Coloring(LocationsMapActivity.this);
-
     private PlaceDataProvider provider;
     private MapFragment fragment;
-    private MapFragment.MapCallback mMapCallback = () -> showMarkers();
+    private MapFragment.MapCallback mMapCallback = this::showMarkers;
 
     private void showMarkers() {
         for (MarkerModel markerModel : provider.getData()) {
@@ -37,6 +35,7 @@ public class LocationsMapActivity extends AppCompatActivity implements SimpleLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Coloring cs = new Coloring(LocationsMapActivity.this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(cs.colorPrimaryDark());
         }
@@ -44,7 +43,7 @@ public class LocationsMapActivity extends AppCompatActivity implements SimpleLis
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         toolbar.setTitle(R.string.directions);
 
