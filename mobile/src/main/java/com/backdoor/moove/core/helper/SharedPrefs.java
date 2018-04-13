@@ -2,6 +2,7 @@ package com.backdoor.moove.core.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
 
 /**
  * Helper class for working with SharedPreferences.
@@ -13,6 +14,7 @@ public class SharedPrefs {
 
     private SharedPreferences mPrefs;
     private SharedPreferences mChangesPrefs;
+    @Nullable
     private static SharedPrefs instance;
 
     private SharedPrefs(Context context) {
@@ -20,8 +22,9 @@ public class SharedPrefs {
         this.mChangesPrefs = context.getSharedPreferences(CHANGES_PREFS, Context.MODE_PRIVATE);
     }
 
-    public static SharedPrefs getInstance(Context context) {
-        if (instance == null) {
+    @Nullable
+    public static SharedPrefs getInstance(@Nullable Context context) {
+        if (instance == null && context != null) {
             synchronized (SharedPrefs.class) {
                 if (instance == null) {
                     instance = new SharedPrefs(context.getApplicationContext());

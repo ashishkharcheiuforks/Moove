@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -133,18 +134,27 @@ public class ReminderManagerActivity extends AppCompatActivity implements
     private int myDay = 1;
     private int volume = -1;
     private long id;
-    private String type, melody = null;
+    @Nullable
+    private String type = null;
+    @Nullable
+    private String melody = null;
     private int radius = -1, ledColor = 0;
+    @Nullable
     private LatLng curPlace;
 
-    private SharedPrefs sPrefs = SharedPrefs.getInstance(this);
+    @Nullable
+    private SharedPrefs mPrefs;
 
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 109;
     private static final int MENU_ITEM_DELETE = 12;
 
-    private Type remControl = new Type(this);
-    private Reminder item;
+    @Nullable
+    private Type mControl;
+    @Nullable
+    private Reminder mReminder;
+    @Nullable
     private LocationManager mLocationManager;
+    @Nullable
     private LocationListener mLocList;
 
     private Item mItem;
@@ -173,6 +183,8 @@ public class ReminderManagerActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPrefs = SharedPrefs.getInstance(this);
+        mControl = new Type(this);
         Coloring cSetter = new Coloring(ReminderManagerActivity.this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(cSetter.colorPrimaryDark());
@@ -245,10 +257,12 @@ public class ReminderManagerActivity extends AppCompatActivity implements
 
         setUpNavigation();
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         toolbar.setVisibility(View.GONE);
 
@@ -262,21 +276,23 @@ public class ReminderManagerActivity extends AppCompatActivity implements
 
         clearViews();
 
-        spinner.setSelection(sPrefs.loadInt(Prefs.LAST_USED_REMINDER));
+        if (mPrefs != null) {
+            spinner.setSelection(mPrefs.loadInt(Prefs.LAST_USED_REMINDER));
+        }
 
         if (id != 0) {
-            item = remControl.getItem(id);
-            if (item != null) {
-                type = item.getType();
-                radius = item.getRadius();
-                ledColor = item.getColor();
-                melody = item.getMelody();
+            mReminder = mControl.getItem(id);
+            if (mReminder != null) {
+                type = mReminder.getType();
+                radius = mReminder.getRadius();
+                ledColor = mReminder.getColor();
+                melody = mReminder.getMelody();
                 if (radius == 0) {
                     radius = -1;
                 }
             }
 
-            if (type.startsWith(Constants.TYPE_LOCATION)) {
+            if (type != null && type.startsWith(Constants.TYPE_LOCATION)) {
                 spinner.setSelection(0);
             } else {
                 spinner.setSelection(1);
@@ -299,14 +315,18 @@ public class ReminderManagerActivity extends AppCompatActivity implements
         map = new MapFragment();
         map.setListener(this);
         map.setMapReadyCallback(mMapCallback);
-        map.setMarkerRadius(sPrefs.loadInt(Prefs.LOCATION_RADIUS));
-        map.setMarkerStyle(sPrefs.loadInt(Prefs.MARKER_STYLE));
+        if (mPrefs != null) {
+            map.setMarkerRadius(mPrefs.loadInt(Prefs.LOCATION_RADIUS));
+            map.setMarkerStyle(mPrefs.loadInt(Prefs.MARKER_STYLE));
+        }
 
         mapOut = new MapFragment();
         mapOut.setListener(this);
         mapOut.setMapReadyCallback(mMapOutCallback);
-        mapOut.setMarkerRadius(sPrefs.loadInt(Prefs.LOCATION_RADIUS));
-        mapOut.setMarkerStyle(sPrefs.loadInt(Prefs.MARKER_STYLE));
+        if (mPrefs != null) {
+            mapOut.setMarkerRadius(mPrefs.loadInt(Prefs.LOCATION_RADIUS));
+            mapOut.setMarkerStyle(mPrefs.loadInt(Prefs.MARKER_STYLE));
+        }
 
         addFragment(R.id.map, map);
         addFragment(R.id.mapOut, mapOut);
@@ -355,7 +375,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
      */
     private void selectRadius() {
         Intent i = new Intent(ReminderManagerActivity.this, TargetRadius.class);
-        i.putExtra("item", 1);
+        i.putExtra("mReminder", 1);
         startActivityForResult(i, Constants.REQUEST_CODE_SELECTED_RADIUS);
     }
 
@@ -384,6 +404,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
      * @return Boolean
      */
     private boolean isSame() {
+        if (type == null) return false;
         boolean is = false;
         if (spinner.getSelectedItemPosition() == 0 && type.startsWith(Constants.TYPE_LOCATION))
             is = true;
@@ -414,7 +435,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
     }
 
     private void removeUpdates() {
-        if (mLocList != null) {
+        if (mLocList != null && mLocationManager != null) {
             if (Permissions.checkPermission(ReminderManagerActivity.this, Permissions.ACCESS_COARSE_LOCATION, Permissions.ACCESS_FINE_LOCATION)) {
                 mLocationManager.removeUpdates(mLocList);
             } else {
@@ -472,7 +493,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
         LinearLayout geolocationlayout = findViewById(R.id.geolocationlayout);
         ViewUtils.fadeInAnimation(geolocationlayout);
 
-        remControl = new LocationType(this, Constants.TYPE_LOCATION);
+        mControl = new LocationType(this, Constants.TYPE_LOCATION);
 
         delayLayout = findViewById(R.id.delayLayout);
         mapContainer = findViewById(R.id.mapContainer);
@@ -539,19 +560,19 @@ public class ReminderManagerActivity extends AppCompatActivity implements
             String text, number, remType;
             double latitude, longitude;
             int style;
-            if (item != null) {
-                text = item.getTitle();
-                number = item.getNumber();
-                remType = item.getType();
-                latitude = item.getPlace()[0];
-                longitude = item.getPlace()[1];
-                radius = item.getRadius();
-                volume = item.getVolume();
-                ledColor = item.getColor();
-                style = item.getMarker();
+            if (mReminder != null) {
+                text = mReminder.getTitle();
+                number = mReminder.getNumber();
+                remType = mReminder.getType();
+                latitude = mReminder.getPlace()[0];
+                longitude = mReminder.getPlace()[1];
+                radius = mReminder.getRadius();
+                volume = mReminder.getVolume();
+                ledColor = mReminder.getColor();
+                style = mReminder.getMarker();
 
-                if (item.getStartTime() > 0) {
-                    cal.setTimeInMillis(item.getStartTime());
+                if (mReminder.getStartTime() > 0) {
+                    cal.setTimeInMillis(mReminder.getStartTime());
                     dateViewLocation.setDateTime(cal.getTimeInMillis());
                     attackDelay.setChecked(true);
                 } else {
@@ -643,7 +664,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
         LinearLayout locationOutLayout = findViewById(R.id.locationOutLayout);
         ViewUtils.fadeInAnimation(locationOutLayout);
 
-        remControl = new LocationType(this, Constants.TYPE_LOCATION_OUT);
+        mControl = new LocationType(this, Constants.TYPE_LOCATION_OUT);
 
         delayLayoutOut = findViewById(R.id.delayLayoutOut);
         specsContainerOut = findViewById(R.id.specsContainerOut);
@@ -699,8 +720,8 @@ public class ReminderManagerActivity extends AppCompatActivity implements
 
             }
         });
-        if (pointRadius.getProgress() == 0) {
-            pointRadius.setProgress(sPrefs.loadInt(Prefs.LOCATION_RADIUS));
+        if (pointRadius.getProgress() == 0 && mPrefs != null) {
+            pointRadius.setProgress(mPrefs.loadInt(Prefs.LOCATION_RADIUS));
         }
 
         actionViewLocationOut = findViewById(R.id.actionViewLocationOut);
@@ -734,18 +755,18 @@ public class ReminderManagerActivity extends AppCompatActivity implements
             String text, number, remType;
             double latitude, longitude;
             int style;
-            if (item != null) {
-                text = item.getTitle();
-                number = item.getNumber();
-                remType = item.getType();
-                latitude = item.getPlace()[0];
-                longitude = item.getPlace()[1];
-                radius = item.getRadius();
-                volume = item.getVolume();
-                ledColor = item.getColor();
-                style = item.getMarker();
+            if (mReminder != null) {
+                text = mReminder.getTitle();
+                number = mReminder.getNumber();
+                remType = mReminder.getType();
+                latitude = mReminder.getPlace()[0];
+                longitude = mReminder.getPlace()[1];
+                radius = mReminder.getRadius();
+                volume = mReminder.getVolume();
+                ledColor = mReminder.getColor();
+                style = mReminder.getMarker();
 
-                if (item.getStartTime() > 0) {
+                if (mReminder.getStartTime() > 0) {
                     cal.set(myYear, myMonth, myDay, myHour, myMinute);
 
                     dateViewLocationOut.setDateTime(cal.getTimeInMillis());
@@ -783,14 +804,15 @@ public class ReminderManagerActivity extends AppCompatActivity implements
      * Save new or update current reminder.
      */
     private void save() {
+        if (mControl == null) return;
         Reminder item = getData();
         if (item == null) {
             return;
         }
         if (id != 0) {
-            remControl.save(id, item);
+            mControl.save(id, item);
         } else {
-            remControl.save(item);
+            mControl.save(item);
         }
         closeWindow();
     }
@@ -801,8 +823,8 @@ public class ReminderManagerActivity extends AppCompatActivity implements
      * @return Boolean
      */
     private boolean isLocationAttached() {
-        return remControl.getType() != null &&
-                remControl.getType().startsWith(Constants.TYPE_LOCATION);
+        return mControl != null && mControl.getType() != null &&
+                mControl.getType().startsWith(Constants.TYPE_LOCATION);
     }
 
     /**
@@ -811,8 +833,8 @@ public class ReminderManagerActivity extends AppCompatActivity implements
      * @return Boolean
      */
     private boolean isLocationOutAttached() {
-        return remControl.getType() != null &&
-                remControl.getType().startsWith(Constants.TYPE_LOCATION_OUT);
+        return mControl != null && mControl.getType() != null &&
+                mControl.getType().startsWith(Constants.TYPE_LOCATION_OUT);
     }
 
     /**
@@ -822,7 +844,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
      */
     private String getType() {
         String type;
-        if (remControl.getType().startsWith(Constants.TYPE_LOCATION_OUT)) {
+        if (mControl != null && mControl.getType().startsWith(Constants.TYPE_LOCATION_OUT)) {
             if (actionViewLocationOut.hasAction()) {
                 if (actionViewLocationOut.getType() == ActionView.TYPE_CALL) {
                     type = Constants.TYPE_LOCATION_OUT_CALL;
@@ -883,7 +905,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
                 showSnackbar(R.string.no_place_selected);
                 return null;
             } else {
-                if (sPrefs.loadBoolean(Prefs.PLACES_AUTO)) {
+                if (mPrefs != null && mPrefs.loadBoolean(Prefs.PLACES_AUTO)) {
                     Place.addPlace(this, dest);
                 }
             }
@@ -1080,7 +1102,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
                 }
                 break;
         }
-        sPrefs.saveInt(Prefs.LAST_USED_REMINDER, position);
+        if (mPrefs != null) mPrefs.saveInt(Prefs.LAST_USED_REMINDER, position);
         invalidateOptionsMenu();
     }
 
@@ -1229,7 +1251,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
         if (isLocationAttached()) {
             menu.getItem(1).setVisible(true);
         }
-        if (sPrefs.loadBoolean(Prefs.LED_STATUS)) {
+        if (mPrefs != null && mPrefs.loadBoolean(Prefs.LED_STATUS)) {
             menu.getItem(2).setVisible(true);
         }
         if (id != 0) {
@@ -1243,7 +1265,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
         if (isLocationAttached()) {
             menu.getItem(1).setVisible(true);
         }
-        if (sPrefs.loadBoolean(Prefs.LED_STATUS)) {
+        if (mPrefs != null && mPrefs.loadBoolean(Prefs.LED_STATUS)) {
             menu.getItem(2).setVisible(true);
         }
         return super.onPrepareOptionsMenu(menu);
@@ -1316,17 +1338,17 @@ public class ReminderManagerActivity extends AppCompatActivity implements
 
     private void setLocationUpdates() {
         if (mLocList != null) {
-            long time;
-            time = (sPrefs.loadInt(Prefs.TRACK_TIME) * 1000);
-            int distance;
-            distance = sPrefs.loadInt(Prefs.TRACK_DISTANCE);
+            long time = mPrefs != null ? (mPrefs.loadInt(Prefs.TRACK_TIME) * 1000) : 10000;
+            int distance = mPrefs != null ? mPrefs.loadInt(Prefs.TRACK_DISTANCE) : 10;
             if (Permissions.checkPermission(ReminderManagerActivity.this, Permissions.ACCESS_COARSE_LOCATION,
                     Permissions.ACCESS_FINE_LOCATION)) {
                 mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time,
-                        distance, mLocList);
-                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time,
-                        distance, mLocList);
+                if (mLocationManager != null) {
+                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time,
+                            distance, mLocList);
+                    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time,
+                            distance, mLocList);
+                }
             } else {
                 Permissions.requestPermission(ReminderManagerActivity.this, 202,
                         Permissions.ACCESS_FINE_LOCATION, Permissions.ACCESS_COARSE_LOCATION);
