@@ -8,6 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.io.IOException;
 
@@ -26,7 +28,8 @@ public class Contacts {
      * @param contactId contact identifier.
      * @return Photo in bitmap format
      */
-    public static Bitmap getPhoto(Context context, long contactId) {
+    @Nullable
+    public static Bitmap getPhoto(@NonNull Context context, long contactId) {
         Bitmap bmp = null;
         if (contactId != 0) {
             Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
@@ -34,7 +37,7 @@ public class Contacts {
             try {
                 AssetFileDescriptor fd =
                         context.getContentResolver().openAssetFileDescriptor(displayPhotoUri, "r");
-                bmp = BitmapFactory.decodeStream(fd.createInputStream());
+                if (fd != null) bmp = BitmapFactory.decodeStream(fd.createInputStream());
             } catch (IOException e) {
                 return null;
             }
@@ -49,18 +52,21 @@ public class Contacts {
      * @param context       application context.
      * @return Contact identifier
      */
-    public static int getContactIDFromNumber(String contactNumber, Context context) {
+    public static int getContactIDFromNumber(@Nullable String contactNumber, @NonNull Context context) {
+        if (contactNumber == null) return 0;
         int phoneContactID = 0;
         try {
             String contact = Uri.encode(contactNumber);
-            Cursor contactLookupCursor = context.getContentResolver()
+            Cursor cursor = context.getContentResolver()
                     .query(Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, contact),
                             new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME, ContactsContract.PhoneLookup._ID},
                             null, null, null);
-            while (contactLookupCursor.moveToNext()) {
-                phoneContactID = contactLookupCursor.getInt(contactLookupCursor.getColumnIndexOrThrow(ContactsContract.PhoneLookup._ID));
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    phoneContactID = cursor.getInt(cursor.getColumnIndexOrThrow(ContactsContract.PhoneLookup._ID));
+                }
+                cursor.close();
             }
-            contactLookupCursor.close();
         } catch (IllegalArgumentException iae) {
             return 0;
         }
@@ -74,19 +80,25 @@ public class Contacts {
      * @param context       application context.
      * @return Contact name
      */
-    public static String getContactNameFromNumber(String contactNumber, Context context) {
+    @Nullable
+    public static String getContactNameFromNumber(@Nullable String contactNumber, @NonNull Context context) {
+        if (contactNumber == null) return null;
         String phoneContactID = null;
-        if (contactNumber != null) {
-            try {
-                String contact = Uri.encode(contactNumber);
-                Cursor contactLookupCursor = context.getContentResolver().query(Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, contact), new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME, ContactsContract.PhoneLookup._ID}, null, null, null);
-                while (contactLookupCursor.moveToNext()) {
-                    phoneContactID = contactLookupCursor.getString(contactLookupCursor.getColumnIndexOrThrow(ContactsContract.PhoneLookup.DISPLAY_NAME));
+        try {
+            String contact = Uri.encode(contactNumber);
+            Cursor cursor = context.getContentResolver()
+                    .query(Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, contact),
+                            new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME,
+                                    ContactsContract.PhoneLookup._ID},
+                            null, null, null);
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    phoneContactID = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.PhoneLookup.DISPLAY_NAME));
                 }
-                contactLookupCursor.close();
-            } catch (IllegalArgumentException iae) {
-                return phoneContactID;
+                cursor.close();
             }
+        } catch (IllegalArgumentException iae) {
+            return phoneContactID;
         }
         return phoneContactID;
     }

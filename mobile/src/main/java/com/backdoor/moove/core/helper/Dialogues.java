@@ -58,7 +58,7 @@ public class Dialogues {
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_list_item_single_choice, types);
 
-        String image = prefs.loadPrefs(Prefs.REMINDER_IMAGE);
+        String image = prefs != null ? prefs.loadPrefs(Prefs.REMINDER_IMAGE) : "";
         int selection;
         if (image.matches(Constants.NONE)) {
             selection = 0;
@@ -73,9 +73,9 @@ public class Dialogues {
                 dialog.dismiss();
                 SharedPrefs prefs1 = SharedPrefs.getInstance(context);
                 if (which == 0) {
-                    prefs1.savePrefs(Prefs.REMINDER_IMAGE, Constants.NONE);
+                    if (prefs1 != null) prefs1.savePrefs(Prefs.REMINDER_IMAGE, Constants.NONE);
                 } else if (which == 1) {
-                    prefs1.savePrefs(Prefs.REMINDER_IMAGE, Constants.DEFAULT);
+                    if (prefs1 != null) prefs1.savePrefs(Prefs.REMINDER_IMAGE, Constants.DEFAULT);
                 } else if (which == 2) {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.setType("image/*");
@@ -93,9 +93,9 @@ public class Dialogues {
             dialog.dismiss();
             SharedPrefs prefs12 = SharedPrefs.getInstance(context);
             if (which == 0) {
-                prefs12.savePrefs(Prefs.REMINDER_IMAGE, Constants.NONE);
+                if (prefs12 != null) prefs12.savePrefs(Prefs.REMINDER_IMAGE, Constants.NONE);
             } else if (which == 1) {
-                prefs12.savePrefs(Prefs.REMINDER_IMAGE, Constants.DEFAULT);
+                if (prefs12 != null) prefs12.savePrefs(Prefs.REMINDER_IMAGE, Constants.DEFAULT);
             } else if (which == 2) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
@@ -133,14 +133,14 @@ public class Dialogues {
         final TextView textView = layout.findViewById(R.id.seekValue);
         SeekBar seekBar = layout.findViewById(R.id.dialogSeek);
         seekBar.setMax(max);
-        int progress = sharedPrefs.loadInt(prefs);
+        int progress = sharedPrefs != null ? sharedPrefs.loadInt(prefs) : 0;
         seekBar.setProgress(progress);
         textView.setText(String.valueOf(progress));
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 textView.setText(String.valueOf(progress));
-                sharedPrefs.saveInt(prefs, progress);
+                if (sharedPrefs != null) sharedPrefs.saveInt(prefs, progress);
             }
 
             @Override
@@ -179,7 +179,7 @@ public class Dialogues {
 
         SharedPrefs prefs = SharedPrefs.getInstance(context);
         int position;
-        if (!prefs.loadBoolean(prefsToSave)) {
+        if (prefs != null && !prefs.loadBoolean(prefsToSave)) {
             position = 0;
         } else {
             position = 1;
@@ -189,9 +189,9 @@ public class Dialogues {
             if (which != -1) {
                 SharedPrefs prefs1 = SharedPrefs.getInstance(context);
                 if (which == 0) {
-                    prefs1.saveBoolean(prefsToSave, false);
+                    if (prefs1 != null) prefs1.saveBoolean(prefsToSave, false);
                 } else {
-                    prefs1.saveBoolean(prefsToSave, true);
+                    if (prefs1 != null) prefs1.saveBoolean(prefsToSave, true);
                     dialog.dismiss();
                     context.startActivityForResult(new Intent(context, FileExplorerActivity.class), requestCode);
                 }
@@ -199,7 +199,7 @@ public class Dialogues {
         });
         builder.setPositiveButton(context.getString(R.string.ok), (dialog, which) -> {
             SharedPrefs prefs12 = SharedPrefs.getInstance(context);
-            if (!prefs12.loadBoolean(prefsToSave)) {
+            if (prefs12 != null && !prefs12.loadBoolean(prefsToSave)) {
                 dialog.dismiss();
             }
         });
@@ -226,12 +226,12 @@ public class Dialogues {
                 android.R.layout.simple_list_item_single_choice, colors);
 
         SharedPrefs prefs = SharedPrefs.getInstance(context);
-        int position = prefs.loadInt(Prefs.LED_COLOR);
+        int position = prefs != null ? prefs.loadInt(Prefs.LED_COLOR) : 0;
 
         builder.setSingleChoiceItems(adapter, position, (dialog, which) -> {
             if (which != -1) {
                 SharedPrefs prefs1 = SharedPrefs.getInstance(context);
-                prefs1.saveInt(Prefs.LED_COLOR, which);
+                if (prefs1 != null) prefs1.saveInt(Prefs.LED_COLOR, which);
             }
         });
         builder.setPositiveButton(context.getString(R.string.ok), (dialog, which) -> dialog.dismiss());
@@ -265,7 +265,7 @@ public class Dialogues {
 
         SharedPrefs prefs = SharedPrefs.getInstance(context);
         int position = 1;
-        String locale = prefs.loadPrefs(prefsToSave);
+        String locale = prefs != null ? prefs.loadPrefs(prefsToSave) : Language.ENGLISH;
         if (locale.matches(Language.ENGLISH)) position = 0;
         if (locale.matches(Language.FRENCH)) position = 1;
         if (locale.matches(Language.GERMAN)) position = 2;
@@ -289,7 +289,7 @@ public class Dialogues {
                 if (which == 6) locale1 = Language.POLISH;
                 if (which == 7) locale1 = Language.RUSSIAN;
                 if (which == 8) locale1 = Language.SPANISH;
-                prefs1.savePrefs(prefsToSave, locale1);
+                if (prefs1 != null) prefs1.savePrefs(prefsToSave, locale1);
             }
         });
         builder.setPositiveButton(context.getString(R.string.ok), (dialog, which) -> dialog.dismiss());
@@ -311,7 +311,7 @@ public class Dialogues {
                 android.R.layout.simple_list_item_single_choice);
 
         SharedPrefs prefs = SharedPrefs.getInstance(context);
-        int type = prefs.loadInt(Prefs.MAP_TYPE);
+        int type = prefs != null ? prefs.loadInt(Prefs.MAP_TYPE) : GoogleMap.MAP_TYPE_NORMAL;
         int position;
         if (type == GoogleMap.MAP_TYPE_NORMAL) {
             position = 0;
@@ -328,6 +328,7 @@ public class Dialogues {
         builder.setSingleChoiceItems(adapter, position, (dialog, which) -> {
             if (which != -1) {
                 SharedPrefs prefs1 = SharedPrefs.getInstance(context);
+                if (prefs1 == null) return;
                 if (which == 0) {
                     prefs1.saveInt(Prefs.MAP_TYPE, GoogleMap.MAP_TYPE_NORMAL);
                 } else if (which == 1) {
