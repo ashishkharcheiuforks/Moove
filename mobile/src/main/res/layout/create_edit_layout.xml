@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:fitsSystemWindows="true"
     tools:context="com.backdoor.moove.ReminderManagerActivity">
 
@@ -57,8 +57,8 @@
                 android:inputType="textMultiLine"
                 android:maxHeight="72dp"
                 android:maxLength="300"
-                android:singleLine="false"
                 android:maxLines="1"
+                android:singleLine="false"
                 android:textColor="@color/whitePrimary"
                 android:textColorHint="@color/whitePrimary"
                 android:textSize="23sp"

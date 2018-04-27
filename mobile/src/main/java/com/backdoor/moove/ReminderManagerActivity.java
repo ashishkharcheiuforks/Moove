@@ -266,7 +266,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
 
         toolbar.setVisibility(View.GONE);
 
-        new Handler().postDelayed(() -> ViewUtils.expand(toolbar), 500);
+        new Handler().postDelayed(() -> toolbar.setVisibility(View.VISIBLE), 500);
 
         mFab = findViewById(R.id.fab);
         mFab.setOnClickListener(v -> save());
@@ -456,9 +456,9 @@ public class ReminderManagerActivity extends AppCompatActivity implements
     @Override
     public void onZoomClick(boolean isFull) {
         if (isFull) {
-            ViewUtils.collapse(toolbar);
+            toolbar.setVisibility(View.GONE);
         } else {
-            ViewUtils.expand(toolbar);
+            toolbar.setVisibility(View.VISIBLE);
         }
     }
 
@@ -472,13 +472,13 @@ public class ReminderManagerActivity extends AppCompatActivity implements
         if (isLocationAttached()) {
             if (map.isFullscreen()) {
                 map.setFullscreen(false);
-                ViewUtils.expand(toolbar);
+                toolbar.setVisibility(View.VISIBLE);
             }
         }
         if (isLocationOutAttached()) {
             if (mapOut.isFullscreen()) {
                 mapOut.setFullscreen(false);
-                ViewUtils.collapse(toolbar);
+                toolbar.setVisibility(View.GONE);
             }
         }
         toggleMap();
@@ -511,7 +511,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
         });
 
         if (attackDelay.isChecked()) {
-            ViewUtils.expand(delayLayout);
+            delayLayout.setVisibility(View.VISIBLE);
         }
 
         ImageButton clearField = findViewById(R.id.clearButton);
@@ -682,7 +682,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
         });
 
         if (attachDelayOut.isChecked()) {
-            ViewUtils.expand(delayLayoutOut);
+            delayLayoutOut.setVisibility(View.VISIBLE);
         }
         ImageButton mapButtonOut = findViewById(R.id.mapButtonOut);
         mapButtonOut.setImageResource(R.drawable.ic_map_white_24dp);
@@ -1111,7 +1111,7 @@ public class ReminderManagerActivity extends AppCompatActivity implements
             ViewUtils.show(this, mFab);
         }
         if (toolbar.getVisibility() == View.GONE) {
-            ViewUtils.expand(toolbar);
+            toolbar.setVisibility(View.VISIBLE);
         }
         if (isLocationAttached()) {
             findViewById(R.id.geolocationlayout).setVisibility(View.GONE);

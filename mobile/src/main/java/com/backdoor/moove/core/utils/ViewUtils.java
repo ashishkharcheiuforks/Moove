@@ -1,37 +1,18 @@
 package com.backdoor.moove.core.utils;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
-import android.view.animation.Transformation;
 
 import com.backdoor.moove.R;
 
 public class ViewUtils {
-
-    /**
-     * Get drawable from resource.
-     *
-     * @param context  application context.
-     * @param resource drawable resource.
-     * @return Drawable
-     */
-    public static Drawable getDrawable(Context context, int resource) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            return context.getResources().getDrawable(resource, null);
-        } else {
-            return context.getResources().getDrawable(resource);
-        }
-    }
 
     /**
      * Get color from resource.
@@ -111,53 +92,6 @@ public class ViewUtils {
         Animation slide = AnimationUtils.loadAnimation(context, R.anim.scale_zoom_out);
         v.startAnimation(slide);
         v.setVisibility(View.GONE);
-    }
-
-    public static void expand(final View v) {
-        v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        final int targetHeight = v.getMeasuredHeight();
-        v.getLayoutParams().height = 0;
-        v.setVisibility(View.VISIBLE);
-        Animation a = new Animation() {
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                v.getLayoutParams().height = interpolatedTime == 1
-                        ? ViewGroup.LayoutParams.WRAP_CONTENT
-                        : (int) (targetHeight * interpolatedTime);
-                v.requestLayout();
-            }
-
-            @Override
-            public boolean willChangeBounds() {
-                return true;
-            }
-        };
-        // 1dp/ms
-        a.setDuration((int) (targetHeight / v.getContext().getResources().getDisplayMetrics().density));
-        v.startAnimation(a);
-    }
-
-    public static void collapse(final View v) {
-        final int initialHeight = v.getMeasuredHeight();
-        Animation a = new Animation() {
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if (interpolatedTime == 1) {
-                    v.setVisibility(View.GONE);
-                } else {
-                    v.getLayoutParams().height = initialHeight - (int) (initialHeight * interpolatedTime);
-                    v.requestLayout();
-                }
-            }
-
-            @Override
-            public boolean willChangeBounds() {
-                return true;
-            }
-        };
-        // 1dp/ms
-        a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density));
-        v.startAnimation(a);
     }
 
     public static int getIcon() {

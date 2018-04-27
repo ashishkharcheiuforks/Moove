@@ -206,7 +206,7 @@ public class FileExplorerActivity extends AppCompatActivity {
     private void play() {
         if (!mSound.isPlaying()) {
             if (mPlayerLayout.getVisibility() == View.GONE) {
-                ViewUtils.expand(mPlayerLayout);
+                mPlayerLayout.setVisibility(View.VISIBLE);
             }
             if (mSound.isPaused() && mSound.isSameFile(mFilePath)) {
                 mSound.resume();
@@ -233,7 +233,7 @@ public class FileExplorerActivity extends AppCompatActivity {
         if (mSound.isPlaying()) {
             mSound.stop();
         }
-        ViewUtils.collapse(mPlayerLayout);
+        mPlayerLayout.setVisibility(View.GONE);
     }
 
     private void loadFileList() {
