@@ -46,23 +46,12 @@ import com.backdoor.moove.core.interfaces.SendListener;
 import com.backdoor.moove.core.services.DeliveredReceiver;
 import com.backdoor.moove.core.services.SendReceiver;
 import com.backdoor.moove.core.views.RoundImageView;
-import com.backdoor.shared.SharedConst;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.wearable.DataApi;
-import com.google.android.gms.wearable.DataEvent;
-import com.google.android.gms.wearable.DataEventBuffer;
-import com.google.android.gms.wearable.DataItem;
-import com.google.android.gms.wearable.DataMap;
-import com.google.android.gms.wearable.DataMapItem;
-import com.google.android.gms.wearable.PutDataMapRequest;
-import com.google.android.gms.wearable.PutDataRequest;
-import com.google.android.gms.wearable.Wearable;
 import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.BlurTransformation;
 
 public class ReminderDialogActivity extends Activity implements TextToSpeech.OnInitListener, SendListener,
-        GoogleApiClient.ConnectionCallbacks, DataApi.DataListener, View.OnClickListener {
+        View.OnClickListener {
 
     private static final int MY_DATA_CHECK_CODE = 111;
 
@@ -89,8 +78,6 @@ public class ReminderDialogActivity extends Activity implements TextToSpeech.OnI
     private Notifier mNotifier;
     @Nullable
     private TextToSpeech tts;
-    @Nullable
-    private GoogleApiClient mGoogleApiClient;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -241,11 +228,6 @@ public class ReminderDialogActivity extends Activity implements TextToSpeech.OnI
                 e.printStackTrace();
             }
         }
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Wearable.API)
-                .addConnectionCallbacks(this)
-                .build();
     }
 
     private void loadImage() {
@@ -431,61 +413,6 @@ public class ReminderDialogActivity extends Activity implements TextToSpeech.OnI
             buttonCall.setImageResource(R.drawable.ic_cached_black_24dp);
             if (buttonCall.getVisibility() == View.GONE) {
                 buttonCall.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mGoogleApiClient != null) mGoogleApiClient.connect();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Wearable.DataApi.removeListener(mGoogleApiClient, this);
-        if (mGoogleApiClient != null) mGoogleApiClient.disconnect();
-    }
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        Wearable.DataApi.addListener(mGoogleApiClient, this);
-
-        boolean silentSMS = mPrefs != null && mPrefs.loadBoolean(Prefs.SILENT_SMS);
-        if (!silentSMS) {
-            PutDataMapRequest putDataMapReq = PutDataMapRequest.create(SharedConst.WEAR_REMINDER);
-            DataMap map = putDataMapReq.getDataMap();
-            map.putString(SharedConst.KEY_TYPE, getType());
-            map.putString(SharedConst.KEY_TASK, task);
-            PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
-            Wearable.DataApi.putDataItem(mGoogleApiClient, putDataReq);
-        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onDataChanged(DataEventBuffer dataEventBuffer) {
-        for (DataEvent event : dataEventBuffer) {
-            if (event.getType() == DataEvent.TYPE_CHANGED) {
-                // DataItem changed
-                DataItem item = event.getDataItem();
-                if (item.getUri().getPath().compareTo(SharedConst.PHONE_REMINDER) == 0) {
-                    DataMap dataMap = DataMapItem.fromDataItem(item).getDataMap();
-
-                    int keyCode = dataMap.getInt(SharedConst.REQUEST_KEY);
-                    if (keyCode == SharedConst.KEYCODE_OK) {
-                        ok();
-                    } else if (keyCode == SharedConst.KEYCODE_FAVOURITE) {
-                        showNotification();
-                    } else {
-                        makeCall();
-                    }
-                }
             }
         }
     }

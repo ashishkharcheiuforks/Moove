@@ -50,7 +50,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/HomeDark"
-        tools:replace="label, allowBackup">
+        tools:replace="label, allowBackup"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".SplashScreenActivity"
             android:label="@string/app_name"
@@ -239,9 +240,6 @@
             android:name="io.fabric.ApiKey"
             android:value="e319ad50eeab199ac7860c9873cac1803c44386c" />
 
-        <activity
-            android:name=".core.dialogs.WearTest"
-            android:theme="@style/HomeDark" />
         <activity
             android:name=".DonateActivity"
             android:label="@string/title_activity_donate" />
