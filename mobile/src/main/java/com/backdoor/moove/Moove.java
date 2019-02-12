@@ -1,11 +1,9 @@
 package com.backdoor.moove;
 
-import androidx.multidex.MultiDexApplication;
-
 import com.backdoor.moove.core.helper.Notifier;
 import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
 
+import androidx.multidex.MultiDexApplication;
 import io.fabric.sdk.android.Fabric;
 
 /**
@@ -29,6 +27,6 @@ public class Moove extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         Notifier.createChannels(this);
-        Fabric.with(this, new Crashlytics(), new Answers());
+        Fabric.with(this, new Crashlytics());
     }
 }
