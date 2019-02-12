@@ -2,7 +2,7 @@ package com.backdoor.moove.core.utils;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class AssetsUtil {
     public AssetsUtil() {

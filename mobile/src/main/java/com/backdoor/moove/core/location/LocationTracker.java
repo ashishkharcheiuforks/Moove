@@ -7,7 +7,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
+import androidx.core.app.ActivityCompat;
 
 import com.backdoor.moove.core.consts.Prefs;
 import com.backdoor.moove.core.helper.SharedPrefs;

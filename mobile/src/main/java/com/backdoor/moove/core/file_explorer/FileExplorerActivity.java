@@ -2,14 +2,14 @@ package com.backdoor.moove.core.file_explorer;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
@@ -23,7 +23,6 @@ import com.backdoor.moove.R;
 import com.backdoor.moove.core.consts.Constants;
 import com.backdoor.moove.core.helper.Permissions;
 import com.backdoor.moove.core.helper.Sound;
-import com.backdoor.moove.core.utils.ViewUtils;
 import com.backdoor.moove.databinding.ActivityFileExplorerBinding;
 
 import java.io.File;

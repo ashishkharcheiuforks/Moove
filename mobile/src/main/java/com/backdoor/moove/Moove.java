@@ -1,6 +1,6 @@
 package com.backdoor.moove;
 
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication;
 
 import com.backdoor.moove.core.helper.Notifier;
 import com.crashlytics.android.Crashlytics;

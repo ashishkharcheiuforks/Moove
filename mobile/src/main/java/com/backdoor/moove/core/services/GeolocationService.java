@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.backdoor.moove.R;
 import com.backdoor.moove.ReminderDialogActivity;

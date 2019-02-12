@@ -28,7 +28,7 @@
             android:layout_marginRight="10dp"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/zoomCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,9 +41,9 @@
                     android:layout_height="@dimen/create_imagebutton_size_ext"
                     android:src="@drawable/ic_arrow_upward_white_24dp" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/backCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,9 +57,9 @@
                     android:layout_height="@dimen/create_imagebutton_size"
                     android:src="@drawable/ic_keyboard_arrow_left_white_24dp" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/layersCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -73,9 +73,9 @@
                     android:layout_height="@dimen/create_imagebutton_size"
                     android:src="@drawable/ic_layers_white_24dp" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/markersCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,9 +89,9 @@
                     android:layout_height="@dimen/create_imagebutton_size"
                     android:src="@drawable/ic_palette_white_24dp" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/placesCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -105,12 +105,12 @@
                     android:layout_height="@dimen/create_imagebutton_size"
                     android:src="@drawable/ic_directions_white_24dp" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/searchCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -148,9 +148,9 @@
                     android:src="@drawable/ic_clear_white_24dp" />
             </RelativeLayout>
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/myCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -168,9 +168,9 @@
                 android:layout_centerVertical="true"
                 android:src="@drawable/ic_my_location_white_24dp" />
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/layersContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -231,9 +231,9 @@
 
             </ScrollView>
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/styleCard"
             android:layout_width="match_parent"
             android:layout_height="175dp"
@@ -269,9 +269,9 @@
 
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/placesListCard"
             android:layout_width="match_parent"
             android:layout_height="175dp"
@@ -281,7 +281,7 @@
             android:visibility="visible"
             app:cardBackgroundColor="@color/themePrimary">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/placesList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -314,7 +314,7 @@
 
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
 

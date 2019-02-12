@@ -1,7 +1,7 @@
 package com.backdoor.moove.core.utils;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.backdoor.moove.R;
 import com.backdoor.moove.core.consts.Constants;

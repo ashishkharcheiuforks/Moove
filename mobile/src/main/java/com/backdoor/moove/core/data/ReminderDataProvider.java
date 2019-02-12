@@ -2,7 +2,7 @@ package com.backdoor.moove.core.data;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.backdoor.moove.core.helper.DataBase;
 
