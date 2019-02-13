@@ -5,10 +5,9 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 
 import com.backdoor.moove.core.helper.DataBase
-import com.backdoor.moove.core.utils.SuperUtil
+import com.backdoor.moove.utils.SuperUtil
 
 import java.util.Calendar
 

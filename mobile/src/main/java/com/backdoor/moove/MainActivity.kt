@@ -34,7 +34,7 @@ import com.backdoor.moove.core.helper.SharedPrefs
 import com.backdoor.moove.core.interfaces.ActionCallbacks
 import com.backdoor.moove.core.interfaces.RecyclerListener
 import com.backdoor.moove.core.utils.QuickReturnUtils
-import com.backdoor.moove.core.utils.SuperUtil
+import com.backdoor.moove.utils.SuperUtil
 import com.backdoor.moove.core.views.ReturnScrollListener
 
 import java.util.ArrayList

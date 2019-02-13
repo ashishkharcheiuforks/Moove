@@ -1,11 +1,4 @@
-package com.backdoor.moove
-
-import androidx.multidex.MultiDexApplication
-import com.backdoor.moove.core.helper.Notifier
-import com.crashlytics.android.Crashlytics
-import com.backdoor.moove.utils.components
-import io.fabric.sdk.android.Fabric
-import org.koin.android.ext.android.startKoin
+package com.backdoor.moove.utils
 
 /**
  * Copyright 2016 Nazar Suhovich
@@ -25,12 +18,19 @@ import org.koin.android.ext.android.startKoin
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class Moove : MultiDexApplication() {
+object TimeCount {
 
-    override fun onCreate() {
-        super.onCreate()
-        startKoin(this, components(this))
-        Notifier.createChannels(this)
-        Fabric.with(this, Crashlytics())
+    const val SECOND: Long = 1000
+    const val MINUTE: Long = 60 * SECOND
+    const val HOUR: Long = MINUTE * 60
+    private const val HALF_DAY: Long = HOUR * 12
+    const val DAY: Long = HALF_DAY * 2
+
+    fun isCurrent(eventTime: String?): Boolean {
+        return TimeUtils.getDateTimeFromGmt(eventTime) > System.currentTimeMillis()
+    }
+
+    fun isCurrent(millis: Long): Boolean {
+        return millis > System.currentTimeMillis()
     }
 }

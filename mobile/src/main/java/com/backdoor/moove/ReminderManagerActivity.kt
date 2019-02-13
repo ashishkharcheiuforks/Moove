@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.location.Address
 import android.location.Location
 import android.location.LocationListener
@@ -15,18 +14,14 @@ import android.os.Handler
 import android.speech.RecognizerIntent
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
 import android.transition.Fade
 import android.transition.Slide
-import android.transition.Visibility
 import android.util.Log
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -67,7 +62,7 @@ import com.backdoor.moove.core.interfaces.MapListener
 import com.backdoor.moove.core.services.GeolocationService
 import com.backdoor.moove.core.services.PositionDelayReceiver
 import com.backdoor.moove.core.utils.LocationUtil
-import com.backdoor.moove.core.utils.SuperUtil
+import com.backdoor.moove.utils.SuperUtil
 import com.backdoor.moove.core.utils.ViewUtils
 import com.backdoor.moove.core.views.ActionView
 import com.backdoor.moove.core.views.AddressAutoCompleteView

@@ -174,4 +174,8 @@
     <string name="info_channel" translatable="false">Info channel</string>
     <string name="channel_for_other_info_notifications" translatable="false">Channel for other informative notifications</string>
     <string name="location_tracking_service_running">Location tracking service running</string>
+    <string name="app_not_found">Application not found</string>
+    <string name="cancel">Cancel</string>
+    <string name="grant">grant</string>
+    <string name="for_correct_work_of_application">For correct work allow notification permission</string>
 </resources>

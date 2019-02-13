@@ -13,7 +13,7 @@ import android.widget.RadioButton
 
 import com.backdoor.moove.R
 import com.backdoor.moove.core.consts.Constants
-import com.backdoor.moove.core.utils.SuperUtil
+import com.backdoor.moove.utils.SuperUtil
 import com.backdoor.moove.core.utils.ViewUtils
 
 /**

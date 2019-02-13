@@ -1,14 +1,7 @@
-package com.backdoor.moove
-
-import androidx.multidex.MultiDexApplication
-import com.backdoor.moove.core.helper.Notifier
-import com.crashlytics.android.Crashlytics
-import com.backdoor.moove.utils.components
-import io.fabric.sdk.android.Fabric
-import org.koin.android.ext.android.startKoin
+package com.backdoor.moove.utils
 
 /**
- * Copyright 2016 Nazar Suhovich
+ * Copyright 2018 Nazar Suhovich
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,12 +18,10 @@ import org.koin.android.ext.android.startKoin
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class Moove : MultiDexApplication() {
-
-    override fun onCreate() {
-        super.onCreate()
-        startKoin(this, components(this))
-        Notifier.createChannels(this)
-        Fabric.with(this, Crashlytics())
-    }
+enum class ListActions {
+    OPEN,
+    MORE,
+    EDIT,
+    SWITCH,
+    REMOVE
 }

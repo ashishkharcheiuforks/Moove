@@ -1,11 +1,6 @@
-package com.backdoor.moove
+package com.backdoor.moove.utils
 
-import androidx.multidex.MultiDexApplication
-import com.backdoor.moove.core.helper.Notifier
-import com.crashlytics.android.Crashlytics
-import com.backdoor.moove.utils.components
-import io.fabric.sdk.android.Fabric
-import org.koin.android.ext.android.startKoin
+import com.google.android.gms.maps.model.LatLng
 
 /**
  * Copyright 2016 Nazar Suhovich
@@ -25,12 +20,11 @@ import org.koin.android.ext.android.startKoin
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class Moove : MultiDexApplication() {
 
-    override fun onCreate() {
-        super.onCreate()
-        startKoin(this, components(this))
-        Notifier.createChannels(this)
-        Fabric.with(this, Crashlytics())
-    }
+interface MapListener {
+    fun placeChanged(place: LatLng, address: String)
+
+    fun onZoomClick(isFull: Boolean)
+
+    fun onBackClick()
 }

@@ -5,7 +5,7 @@ import android.content.Intent
 
 import com.backdoor.moove.core.services.GeolocationService
 import com.backdoor.moove.core.services.PositionDelayReceiver
-import com.backdoor.moove.core.utils.SuperUtil
+import com.backdoor.moove.utils.SuperUtil
 
 class LocationType(private val mContext: Context, type: String) : Type(mContext) {
 
