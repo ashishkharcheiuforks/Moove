@@ -20,7 +20,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 
-import com.backdoor.moove.core.adapters.RemindersRecyclerAdapter
+import com.backdoor.moove.modern_ui.home.list.RemindersRecyclerAdapter
 import com.backdoor.moove.core.consts.Prefs
 import com.backdoor.moove.core.consts.QuickReturnViewType
 import com.backdoor.moove.core.data.ReminderDataProvider

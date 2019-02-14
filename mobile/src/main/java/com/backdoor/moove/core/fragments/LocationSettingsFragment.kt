@@ -17,7 +17,7 @@ import com.backdoor.moove.core.consts.Prefs
 import com.backdoor.moove.core.dialogs.MarkerStyle
 import com.backdoor.moove.core.dialogs.TargetRadius
 import com.backdoor.moove.core.dialogs.TrackerOption
-import com.backdoor.moove.core.helper.Dialogues
+import com.backdoor.moove.utils.Dialogues
 import com.backdoor.moove.core.helper.Module
 import com.backdoor.moove.core.helper.SharedPrefs
 import com.backdoor.moove.core.views.PrefsView

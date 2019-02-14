@@ -47,7 +47,7 @@ import com.backdoor.moove.core.dialogs.SelectVolume
 import com.backdoor.moove.core.dialogs.TargetRadius
 import com.backdoor.moove.core.file_explorer.FileExplorerActivity
 import com.backdoor.moove.core.fragments.MapFragment
-import com.backdoor.moove.core.helper.Coloring
+import com.backdoor.moove.utils.Coloring
 import com.backdoor.moove.core.helper.DataBase
 import com.backdoor.moove.core.helper.LocationType
 import com.backdoor.moove.core.helper.Module

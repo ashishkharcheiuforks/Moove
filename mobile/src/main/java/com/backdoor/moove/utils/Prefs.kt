@@ -27,6 +27,7 @@ open class Prefs(context: Context) {
 
         private const val PREFS_NAME = "moove_prefs"
         val MAP_TYPE = "map_type"
+        val MAP_STYLE = "map_type"
         val LOCATION_RADIUS = "radius"
         val TRACKING_NOTIFICATION = "tracking_notification"
         val VIBRATION_STATUS = "vibration_status"
@@ -41,7 +42,6 @@ open class Prefs(context: Context) {
         val INFINITE_VIBRATION = "infinite_vibration"
         val WEAR_NOTIFICATION = "wear_notification"
         val TRACK_TIME = "tracking_time"
-        val TRACK_DISTANCE = "tracking_distance"
         val UNLOCK_DEVICE = "unlock_device"
         val VOLUME = "reminder_volume"
         val TTS = "tts_enabled"
@@ -54,10 +54,9 @@ open class Prefs(context: Context) {
         val LAST_USED_REMINDER = "last_reminder"
         val RATE_SHOW = "rate_shown"
         val APP_RUNS_COUNT = "app_runs"
-        val FIRST_LOAD = "first_loading"
-        val WEAR_SERVICE = "wear_service"
         val PLACES_AUTO = "places_auto"
         val INCREASE_LOUDNESS = "increase_loudness"
+        val RADIUS = "radius"
     }
 
     private var prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -141,19 +140,138 @@ open class Prefs(context: Context) {
         } catch (e: ClassCastException) {
             java.lang.Boolean.parseBoolean(prefs.getString(stringToLoad, "false"))
         }
-
     }
+
+    var ttsLocale: String
+        get() = getString(TTS_LOCALE, "")
+        set(value) {
+            putString(TTS_LOCALE, value)
+        }
+
+    var reminderImage: String
+        get() = getString(REMINDER_IMAGE, "")
+        set(value) {
+            putString(REMINDER_IMAGE, value)
+        }
+
+    var radius: Int
+        get() = getInt(RADIUS, 25)
+        set(value) {
+            putInt(RADIUS, value)
+        }
+
+    var markerStyle: Int
+        get() = getInt(MARKER_STYLE, 0)
+        set(value) {
+            putInt(MARKER_STYLE, value)
+        }
+
+    var mapType: Int
+        get() = getInt(MAP_TYPE, GoogleMap.MAP_TYPE_NORMAL)
+        set(value) {
+            putInt(MAP_TYPE, value)
+        }
+
+    var mapStyle: Int
+        get() = getInt(MAP_STYLE, 0)
+        set(value) {
+            putInt(MAP_STYLE, value)
+        }
+
+    var trackTime: Int
+        get() = getInt(TRACK_TIME, 1)
+        set(value) {
+            putInt(TRACK_TIME, value)
+        }
+
+    var appRuns: Int
+        get() = getInt(APP_RUNS_COUNT, 0)
+        set(value) {
+            putInt(APP_RUNS_COUNT, value)
+        }
+
+    var loudness: Int
+        get() = getInt(VOLUME, 25)
+        set(value) {
+            putInt(VOLUME, value)
+        }
+
+    var ledColor: Int
+        get() = getInt(LED_COLOR, 4)
+        set(value) {
+            putInt(LED_COLOR, value)
+        }
+
+    var rateShowed: Boolean
+        get() = getBoolean(RATE_SHOW)
+        set(value) {
+            putBoolean(RATE_SHOW, value)
+        }
+
+    var blurImage: Boolean
+        get() = getBoolean(REMINDER_IMAGE_BLUR)
+        set(value) {
+            putBoolean(REMINDER_IMAGE_BLUR, value)
+        }
+
+    var ttsEnabled: Boolean
+        get() = getBoolean(TTS)
+        set(value) {
+            putBoolean(TTS, value)
+        }
+
+    var silentSms: Boolean
+        get() = getBoolean(SILENT_SMS)
+        set(value) {
+            putBoolean(SILENT_SMS, value)
+        }
+
+    var wearNotification: Boolean
+        get() = getBoolean(WEAR_NOTIFICATION)
+        set(value) {
+            putBoolean(WEAR_NOTIFICATION, value)
+        }
+
+    var autoPlace: Boolean
+        get() = getBoolean(PLACES_AUTO)
+        set(value) {
+            putBoolean(PLACES_AUTO, value)
+        }
+
+    var infiniteVibration: Boolean
+        get() = getBoolean(INFINITE_VIBRATION)
+        set(value) {
+            putBoolean(INFINITE_VIBRATION, value)
+        }
+
+    var use24Hour: Boolean
+        get() = getBoolean(IS_24_TIME_FORMAT)
+        set(value) {
+            putBoolean(IS_24_TIME_FORMAT, value)
+        }
+
+    var unlockScreen: Boolean
+        get() = getBoolean(UNLOCK_DEVICE)
+        set(value) {
+            putBoolean(UNLOCK_DEVICE, value)
+        }
+
+    var ledEnabled: Boolean
+        get() = getBoolean(LED_STATUS)
+        set(value) {
+            putBoolean(LED_STATUS, value)
+        }
 
     fun initPrefs(context: Context) {
         val settingsUI = File("/data/data/" + context.packageName +
-                "/shared_prefs/" + SharedPrefs.MOOVE_PREFS + ".xml")
+                "/shared_prefs/" + PREFS_NAME + ".xml")
         if (!settingsUI.exists()) {
             val editor = prefs.edit()
             editor.putInt(MAP_TYPE, GoogleMap.MAP_TYPE_NORMAL)
+            editor.putInt(MAP_STYLE, 0)
             editor.putString(REMINDER_IMAGE, Constants.DEFAULT)
             editor.putInt(LED_COLOR, 4)
             editor.putInt(LOCATION_RADIUS, 25)
-            editor.putInt(TRACK_DISTANCE, 1)
             editor.putInt(TRACK_TIME, 1)
             editor.putInt(VOLUME, 25)
             editor.putInt(MARKER_STYLE, 11)
@@ -175,58 +293,53 @@ open class Prefs(context: Context) {
     }
 
     fun checkPrefs() {
-        val sPrefs = prefs
-        if (!sPrefs.contains(Prefs.TTS_LOCALE)) {
-            sPrefs.savePrefs(Prefs.TTS_LOCALE, Language.ENGLISH)
+        if (!hasKey(TTS_LOCALE)) {
+            ttsLocale = Language.ENGLISH
         }
-        if (!sPrefs.contains(Prefs.REMINDER_IMAGE)) {
-            sPrefs.savePrefs(Prefs.REMINDER_IMAGE, Constants.DEFAULT)
+        if (!hasKey(REMINDER_IMAGE)) {
+            reminderImage = Constants.DEFAULT
         }
-        if (!sPrefs.contains(Prefs.TRACK_DISTANCE)) {
-            sPrefs.saveInt(Prefs.TRACK_DISTANCE, 1)
+        if (!hasKey(Prefs.TRACK_TIME)) {
+            trackTime = 1
         }
-        if (!sPrefs.contains(Prefs.TRACK_TIME)) {
-            sPrefs.saveInt(Prefs.TRACK_TIME, 1)
+        if (!hasKey(Prefs.APP_RUNS_COUNT)) {
+            appRuns = 0
         }
-        if (!sPrefs.contains(Prefs.APP_RUNS_COUNT)) {
-            sPrefs.saveInt(Prefs.APP_RUNS_COUNT, 0)
+        if (!hasKey(Prefs.VOLUME)) {
+            loudness = 25
         }
-        if (!sPrefs.contains(Prefs.VOLUME)) {
-            sPrefs.saveInt(Prefs.VOLUME, 25)
+        if (!hasKey(RATE_SHOW)) {
+            rateShowed = false
         }
-        if (!sPrefs.contains(Prefs.RATE_SHOW)) {
-            sPrefs.saveBoolean(Prefs.RATE_SHOW, false)
+        if (!hasKey(REMINDER_IMAGE_BLUR)) {
+            blurImage = false
         }
-        if (!sPrefs.contains(Prefs.REMINDER_IMAGE_BLUR)) {
-            sPrefs.saveBoolean(Prefs.REMINDER_IMAGE_BLUR, false)
+        if (!hasKey(TTS)) {
+            ttsEnabled = false
         }
-        if (!sPrefs.contains(Prefs.TTS)) {
-            sPrefs.saveBoolean(Prefs.TTS, false)
+        if (!hasKey(SILENT_SMS)) {
+            silentSms = false
         }
-        if (!sPrefs.contains(Prefs.SILENT_SMS)) {
-            sPrefs.saveBoolean(Prefs.SILENT_SMS, false)
+        if (!hasKey(WEAR_NOTIFICATION)) {
+            wearNotification = false
         }
-        if (!sPrefs.contains(Prefs.WEAR_NOTIFICATION)) {
-            sPrefs.saveBoolean(Prefs.WEAR_NOTIFICATION, false)
+        if (!hasKey(PLACES_AUTO)) {
+            autoPlace = true
         }
-        if (!sPrefs.contains(Prefs.PLACES_AUTO)) {
-            sPrefs.saveBoolean(Prefs.PLACES_AUTO, true)
+        if (!hasKey(INFINITE_VIBRATION)) {
+            infiniteVibration = false
         }
-        if (!sPrefs.contains(Prefs.INFINITE_VIBRATION)) {
-            sPrefs.saveBoolean(Prefs.INFINITE_VIBRATION, false)
+        if (!hasKey(IS_24_TIME_FORMAT)) {
+            use24Hour = true
         }
-        if (!sPrefs.contains(Prefs.IS_24_TIME_FORMAT)) {
-            sPrefs.saveBoolean(Prefs.IS_24_TIME_FORMAT, true)
+        if (!hasKey(UNLOCK_DEVICE)) {
+            unlockScreen = false
         }
-        if (!sPrefs.contains(Prefs.UNLOCK_DEVICE)) {
-            sPrefs.saveBoolean(Prefs.UNLOCK_DEVICE, false)
+        if (!hasKey(LED_STATUS)) {
+            ledEnabled = false
         }
-
-        if (!sPrefs.contains(Prefs.LED_STATUS)) {
-            sPrefs.saveBoolean(Prefs.LED_STATUS, false)
-        }
-        if (!sPrefs.contains(Prefs.LED_COLOR)) {
-            sPrefs.saveInt(Prefs.LED_COLOR, 4)
+        if (!hasKey(LED_COLOR)) {
+            ledColor = 4
         }
     }
 }

@@ -2,13 +2,11 @@ package com.backdoor.moove.core.async
 
 import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.os.AsyncTask
 
 import com.backdoor.moove.core.consts.Constants
 import com.backdoor.moove.core.helper.DataBase
 import com.backdoor.moove.core.services.GeolocationService
-import com.backdoor.moove.core.utils.TimeUtil
 
 class DisableAsync(private val mContext: Context) : AsyncTask<Void, Void, Void>() {
 

@@ -40,6 +40,9 @@ object Module {
     val isNougat: Boolean
         get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
 
+    val isLollipop: Boolean
+        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+
     val isNougat1: Boolean
         get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1
 

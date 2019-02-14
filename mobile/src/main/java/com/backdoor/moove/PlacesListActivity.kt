@@ -18,11 +18,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 
-import com.backdoor.moove.core.adapters.PlaceRecyclerAdapter
+import com.backdoor.moove.modern_ui.places.list.PlacesAdapter
 import com.backdoor.moove.core.consts.Constants
 import com.backdoor.moove.core.consts.QuickReturnViewType
 import com.backdoor.moove.core.data.PlaceDataProvider
-import com.backdoor.moove.core.helper.Coloring
+import com.backdoor.moove.utils.Coloring
 import com.backdoor.moove.core.helper.DataBase
 import com.backdoor.moove.core.helper.Module
 import com.backdoor.moove.core.helper.Permissions
@@ -81,7 +81,7 @@ class PlacesListActivity : AppCompatActivity(), SimpleListener {
     private fun loadPlaces() {
         provider = PlaceDataProvider(this, true)
         reloadView()
-        val adapter = PlaceRecyclerAdapter(this, provider, false)
+        val adapter = PlacesAdapter(this, provider, false)
         adapter.eventListener = this
         listView!!.layoutManager = LinearLayoutManager(this)
         listView!!.adapter = adapter

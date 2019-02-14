@@ -1,6 +1,10 @@
 package com.backdoor.moove.utils
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.content.Context
 import android.text.TextUtils
+import com.backdoor.moove.R
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,6 +27,42 @@ object TimeUtils {
 
     private const val GMT = "GMT"
     private val gmtFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
+
+    val fullDateFormat = SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault())
+    val fullDateTime24 = SimpleDateFormat("EEE, dd MMM yyyy HH:mm", Locale.getDefault())
+    val fullDateTime12 = SimpleDateFormat("EEE, dd MMM yyyy K:mm a", Locale.getDefault())
+    val time24 = SimpleDateFormat("HH:mm", Locale.getDefault())
+    val time12 = SimpleDateFormat("K:mm a", Locale.getDefault())
+
+    fun day(): SimpleDateFormat = SimpleDateFormat("dd", Locale.getDefault())
+
+    fun month(): SimpleDateFormat = SimpleDateFormat("MMM", Locale.getDefault())
+
+    fun year(): SimpleDateFormat = SimpleDateFormat("yyyy", Locale.getDefault())
+
+    fun getPlaceDateTimeFromGmt(dateTime: String?, lang: Int = 0): DMY {
+        var date: Date
+
+        try {
+            gmtFormat.timeZone = TimeZone.getTimeZone(GMT)
+            date = gmtFormat.parse(dateTime)
+        } catch (e: Exception) {
+            date = Date()
+        }
+
+        var day = ""
+        var month = ""
+        var year = ""
+
+        try {
+            day = day().format(date)
+            month = month().format(date)
+            year = year().format(date)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return DMY(day, month, year)
+    }
 
     fun isSameDay(gmt: String?): Boolean {
         val gmt2 = gmtDateTime
@@ -56,5 +96,62 @@ object TimeUtils {
 
         return calendar.timeInMillis
     }
+
+    fun getFullDateTime(date: String?, is24: Boolean): String {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = getDateTimeFromGmt(date)
+        return if (is24)
+            fullDateTime24.format(calendar.time)
+        else
+            fullDateTime12.format(calendar.time)
+    }
+
+    fun getFullDateTime(date: Long, is24: Boolean): String {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = date
+        return if (is24)
+            fullDateTime24.format(calendar.time)
+        else
+            fullDateTime12.format(calendar.time)
+    }
+
+    fun getDate(date: Date): String {
+        return fullDateFormat.format(date)
+    }
+
+    fun getTime(date: Date, is24: Boolean): String {
+        return if (is24)
+            time24.format(date)
+        else
+            time12.format(date)
+    }
+
+    fun isCurrent(time: Long): Boolean {
+        var res = false
+        val cc = Calendar.getInstance()
+        cc.timeInMillis = System.currentTimeMillis()
+        val currentTime = cc.timeInMillis
+        if (time < currentTime) {
+            res = true
+        }
+        return res
+    }
+
+    fun showTimePicker(context: Context, is24: Boolean,
+                       hour: Int, minute: Int, listener: TimePickerDialog.OnTimeSetListener): TimePickerDialog {
+        val dialog = TimePickerDialog(context, R.style.HomeDarkDialog, listener, hour, minute, is24)
+        dialog.show()
+        return dialog
+    }
+
+    fun showDatePicker(context: Context, year: Int, month: Int, dayOfMonth: Int, listener: DatePickerDialog.OnDateSetListener): DatePickerDialog {
+        val dialog = DatePickerDialog(context, R.style.HomeDarkDialog, listener, year, month, dayOfMonth)
+        dialog.show()
+        return dialog
+    }
+
+    data class DMY(val day: String, val month: String, val year: String)
+
+    data class HM(val hour: Int, val minute: Int)
 }
 

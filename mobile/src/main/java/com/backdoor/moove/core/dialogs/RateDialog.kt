@@ -11,7 +11,7 @@ import android.widget.TextView
 
 import com.backdoor.moove.R
 import com.backdoor.moove.core.consts.Prefs
-import com.backdoor.moove.core.helper.Coloring
+import com.backdoor.moove.utils.Coloring
 import com.backdoor.moove.core.helper.Messages
 import com.backdoor.moove.core.helper.SharedPrefs
 

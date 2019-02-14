@@ -1,12 +1,10 @@
 package com.backdoor.moove
 
-import android.database.Cursor
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
@@ -14,7 +12,7 @@ import android.widget.Toast
 import com.backdoor.moove.core.consts.Constants
 import com.backdoor.moove.core.consts.Prefs
 import com.backdoor.moove.core.fragments.MapFragment
-import com.backdoor.moove.core.helper.Coloring
+import com.backdoor.moove.utils.Coloring
 import com.backdoor.moove.core.helper.DataBase
 import com.backdoor.moove.core.helper.SharedPrefs
 import com.backdoor.moove.core.interfaces.MapListener

@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import com.backdoor.moove.data.RoomDb
 import kotlinx.coroutines.*
 import org.koin.dsl.module.Module
 import org.koin.dsl.module.module
@@ -89,8 +90,11 @@ fun Date.toCalendar(): Calendar {
 }
 
 fun utilModule(context: Context) = module {
+    single { RoomDb.getInMemoryDatabase(context) }
     single { Prefs(context) }
     single { SoundStackHolder(context, get()) }
+    single { Coloring(context) }
+    single { Dialogues(get()) }
 }
 
 fun components(context: Context): List<Module> {

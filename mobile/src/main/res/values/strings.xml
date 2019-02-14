@@ -178,4 +178,12 @@
     <string name="cancel">Cancel</string>
     <string name="grant">grant</string>
     <string name="for_correct_work_of_application">For correct work allow notification permission</string>
+    <string name="recent_places">recent places</string>
+    <string name="aubergine">Aubergine</string>
+    <string name="dark">Dark</string>
+    <string name="night">Night</string>
+    <string name="silver">Silver</string>
+    <string name="retro">Retro</string>
+    <string name="day">Day</string>
+    <string name="new_place">New place</string>
 </resources>

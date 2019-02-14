@@ -2,7 +2,6 @@ package com.backdoor.moove.core.fragments
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.location.Address
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
@@ -24,14 +23,13 @@ import android.widget.TextView
 
 import com.backdoor.moove.R
 import com.backdoor.moove.core.adapters.PlaceAdapter
-import com.backdoor.moove.core.adapters.PlaceRecyclerAdapter
+import com.backdoor.moove.modern_ui.places.list.PlacesAdapter
 import com.backdoor.moove.core.async.GeocoderTask
 import com.backdoor.moove.core.consts.Configs
 import com.backdoor.moove.core.consts.Constants
 import com.backdoor.moove.core.consts.Prefs
-import com.backdoor.moove.core.data.MarkerModel
 import com.backdoor.moove.core.data.PlaceDataProvider
-import com.backdoor.moove.core.helper.Coloring
+import com.backdoor.moove.utils.Coloring
 import com.backdoor.moove.core.helper.DataBase
 import com.backdoor.moove.core.helper.Messages
 import com.backdoor.moove.core.helper.Module
@@ -41,7 +39,6 @@ import com.backdoor.moove.core.interfaces.MapListener
 import com.backdoor.moove.core.interfaces.SimpleListener
 import com.backdoor.moove.core.utils.QuickReturnUtils
 import com.backdoor.moove.core.utils.ViewUtils
-import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -81,7 +78,7 @@ class MapFragment : Fragment(), View.OnClickListener {
      */
     private var spinnerArray = ArrayList<String>()
 
-    private var placeRecyclerAdapter: PlaceRecyclerAdapter? = null
+    private var placesAdapter: PlacesAdapter? = null
 
     /**
      * init variables and flags;
@@ -161,8 +158,8 @@ class MapFragment : Fragment(), View.OnClickListener {
         this.mCallback = callback
     }
 
-    fun setAdapter(adapter: PlaceRecyclerAdapter) {
-        this.placeRecyclerAdapter = adapter
+    fun setAdapter(adapter: PlacesAdapter) {
+        this.placesAdapter = adapter
     }
 
     /**
@@ -680,7 +677,7 @@ class MapFragment : Fragment(), View.OnClickListener {
     }
 
     private fun loadPlaces() {
-        if (placeRecyclerAdapter == null) {
+        if (placesAdapter == null) {
             val DB = DataBase(activity)
             DB.open()
             val c = DB.queryPlaces()
@@ -731,12 +728,12 @@ class MapFragment : Fragment(), View.OnClickListener {
                 placesList!!.adapter = adapter
             }
         } else {
-            if (placeRecyclerAdapter!!.itemCount > 0) {
+            if (placesAdapter!!.itemCount > 0) {
                 emptyItem!!.visibility = View.GONE
                 placesList!!.visibility = View.VISIBLE
                 placesList!!.layoutManager = LinearLayoutManager(activity)
-                placesList!!.adapter = placeRecyclerAdapter
-                addMarkers(placeRecyclerAdapter!!.provider)
+                placesList!!.adapter = placesAdapter
+                addMarkers(placesAdapter!!.provider)
             } else {
                 placesList!!.visibility = View.GONE
                 emptyItem!!.visibility = View.VISIBLE

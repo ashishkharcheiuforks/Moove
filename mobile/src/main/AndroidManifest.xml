@@ -186,7 +186,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:theme="@style/HomeDarkDialog" />
         <activity
-            android:name=".core.file_explorer.FileExplorerActivity"
+            android:name=".utils.file_explorer.FileExplorerActivity"
             android:configChanges="keyboardHidden|orientation|keyboard"
             android:windowSoftInputMode="stateHidden" />
 

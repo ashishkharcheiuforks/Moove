@@ -1,9 +1,7 @@
 package com.backdoor.moove.core.services
 
 import android.app.Service
-import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.location.Location
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
@@ -19,7 +17,6 @@ import com.backdoor.moove.core.helper.Notifier
 import com.backdoor.moove.core.helper.SharedPrefs
 import com.backdoor.moove.core.helper.Widget
 import com.backdoor.moove.core.location.LocationTracker
-import com.backdoor.moove.core.utils.TimeUtil
 import com.backdoor.moove.core.utils.ViewUtils
 import com.backdoor.moove.core.widgets.LeftDistanceWidgetConfigureActivity
 import com.backdoor.moove.core.widgets.SimpleWidgetConfigureActivity

@@ -9,7 +9,7 @@ import android.widget.RemoteViews
 
 import com.backdoor.moove.MainActivity
 import com.backdoor.moove.R
-import com.backdoor.moove.core.helper.Coloring
+import com.backdoor.moove.utils.Coloring
 import com.backdoor.moove.core.helper.Reminder
 
 /**

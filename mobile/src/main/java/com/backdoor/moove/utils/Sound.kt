@@ -121,10 +121,15 @@ class Sound(private val mContext: Context, private val prefs: Prefs) {
             e.printStackTrace()
         }
 
-        val attributes = AudioAttributes.Builder()
-                .setLegacyStreamType(AudioManager.STREAM_MUSIC)
-                .build()
-        mMediaPlayer?.setAudioAttributes(attributes)
+        val stream = AudioManager.STREAM_MUSIC
+        if (Module.isLollipop) {
+            val attributes = AudioAttributes.Builder()
+                    .setLegacyStreamType(stream)
+                    .build()
+            mMediaPlayer?.setAudioAttributes(attributes)
+        } else {
+            mMediaPlayer?.setAudioStreamType(AudioManager.STREAM_MUSIC)
+        }
         mMediaPlayer?.isLooping = false
         mMediaPlayer?.setOnPreparedListener { mp ->
             notifyStart()
@@ -156,11 +161,15 @@ class Sound(private val mContext: Context, private val prefs: Prefs) {
         mMediaPlayer = MediaPlayer()
         try {
             mMediaPlayer?.setDataSource(mContext, path)
-            var stream = AudioManager.STREAM_MUSIC
-            val attributes = AudioAttributes.Builder()
-                    .setLegacyStreamType(stream)
-                    .build()
-            mMediaPlayer?.setAudioAttributes(attributes)
+            val stream = AudioManager.STREAM_MUSIC
+            if (Module.isLollipop) {
+                val attributes = AudioAttributes.Builder()
+                        .setLegacyStreamType(stream)
+                        .build()
+                mMediaPlayer?.setAudioAttributes(attributes)
+            } else {
+                mMediaPlayer?.setAudioStreamType(AudioManager.STREAM_MUSIC)
+            }
             mMediaPlayer?.isLooping = looping
             mMediaPlayer?.setOnPreparedListener { mp ->
                 notifyStart()
@@ -203,11 +212,15 @@ class Sound(private val mContext: Context, private val prefs: Prefs) {
             e.printStackTrace()
         }
 
-        var stream = AudioManager.STREAM_MUSIC
-        val attributes = AudioAttributes.Builder()
-                .setLegacyStreamType(stream)
-                .build()
-        mMediaPlayer?.setAudioAttributes(attributes)
+        val stream = AudioManager.STREAM_MUSIC
+        if (Module.isLollipop) {
+            val attributes = AudioAttributes.Builder()
+                    .setLegacyStreamType(stream)
+                    .build()
+            mMediaPlayer?.setAudioAttributes(attributes)
+        } else {
+            mMediaPlayer?.setAudioStreamType(AudioManager.STREAM_MUSIC)
+        }
         mMediaPlayer?.isLooping = false
         mMediaPlayer?.setOnPreparedListener { mp ->
             notifyStart()

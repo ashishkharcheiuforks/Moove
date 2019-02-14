@@ -2,11 +2,9 @@ package com.backdoor.moove
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
@@ -18,8 +16,8 @@ import com.backdoor.moove.core.fragments.LocationSettingsFragment
 import com.backdoor.moove.core.fragments.NotificationSettingsFragment
 import com.backdoor.moove.core.fragments.OtherSettingsFragment
 import com.backdoor.moove.core.fragments.SettingsFragment
-import com.backdoor.moove.core.helper.Coloring
-import com.backdoor.moove.core.helper.Dialogues
+import com.backdoor.moove.utils.Coloring
+import com.backdoor.moove.utils.Dialogues
 import com.backdoor.moove.core.helper.SharedPrefs
 
 import java.io.File

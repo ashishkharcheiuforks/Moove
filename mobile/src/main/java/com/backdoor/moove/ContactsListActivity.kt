@@ -3,7 +3,6 @@ package com.backdoor.moove
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -18,9 +17,7 @@ import android.widget.EditText
 import android.widget.ListView
 
 import com.backdoor.moove.core.consts.Constants
-import com.backdoor.moove.core.helper.Coloring
-
-import java.util.ArrayList
+import com.backdoor.moove.utils.Coloring
 
 class ContactsListActivity : AppCompatActivity() {
 

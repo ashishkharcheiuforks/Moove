@@ -9,7 +9,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
-import android.graphics.Bitmap
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
@@ -32,7 +31,7 @@ import com.backdoor.moove.core.consts.Configs
 import com.backdoor.moove.core.consts.Constants
 import com.backdoor.moove.core.consts.Language
 import com.backdoor.moove.core.consts.Prefs
-import com.backdoor.moove.core.helper.Coloring
+import com.backdoor.moove.utils.Coloring
 import com.backdoor.moove.core.helper.Contacts
 import com.backdoor.moove.core.helper.Messages
 import com.backdoor.moove.core.helper.Module

@@ -17,7 +17,7 @@ import com.backdoor.moove.R
 import com.backdoor.moove.core.consts.Configs
 import com.backdoor.moove.core.consts.Constants
 import com.backdoor.moove.core.consts.Prefs
-import com.backdoor.moove.core.helper.Dialogues
+import com.backdoor.moove.utils.Dialogues
 import com.backdoor.moove.core.helper.Module
 import com.backdoor.moove.core.helper.Permissions
 import com.backdoor.moove.core.helper.SharedPrefs

@@ -10,11 +10,10 @@ import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 
-import com.backdoor.moove.core.adapters.PlaceRecyclerAdapter
-import com.backdoor.moove.core.data.MarkerModel
+import com.backdoor.moove.modern_ui.places.list.PlacesAdapter
 import com.backdoor.moove.core.data.PlaceDataProvider
 import com.backdoor.moove.core.fragments.MapFragment
-import com.backdoor.moove.core.helper.Coloring
+import com.backdoor.moove.utils.Coloring
 import com.backdoor.moove.core.helper.Permissions
 import com.backdoor.moove.core.helper.Reminder
 import com.backdoor.moove.core.interfaces.SimpleListener
@@ -55,9 +54,9 @@ class LocationsMapActivity : AppCompatActivity(), SimpleListener {
                 .commit()
     }
 
-    private fun loadPlaces(): PlaceRecyclerAdapter {
+    private fun loadPlaces(): PlacesAdapter {
         provider = PlaceDataProvider(this, false)
-        val adapter = PlaceRecyclerAdapter(this, provider, true)
+        val adapter = PlacesAdapter(this, provider, true)
         adapter.eventListener = this
         return adapter
     }
