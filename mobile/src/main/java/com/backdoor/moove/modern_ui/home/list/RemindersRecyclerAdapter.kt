@@ -5,9 +5,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.backdoor.moove.R
-import com.backdoor.moove.core.consts.Constants
-import com.backdoor.moove.core.helper.Contacts
-import com.backdoor.moove.core.utils.ReminderUtils
+import com.backdoor.moove.utils.Contacts
+import com.backdoor.moove.utils.ReminderUtils
 import com.backdoor.moove.data.Reminder
 import com.backdoor.moove.databinding.ListItemReminderBinding
 import com.backdoor.moove.utils.*
@@ -54,7 +53,7 @@ class RemindersRecyclerAdapter : RecyclerView.Adapter<RemindersRecyclerAdapter.V
             binding.taskText.text = reminder.summary
             binding.reminderType.text = ReminderUtils.getTypeString(itemView.context, reminder.type)
 
-            if (reminder.type.contains(Constants.TYPE_CALL) || reminder.type.contains(Constants.TYPE_MESSAGE)) {
+            if (reminder.type.contains(ReminderUtils.TYPE_CALL) || reminder.type.contains(ReminderUtils.TYPE_MESSAGE)) {
                 binding.reminderPhone.text = reminder.phoneNumber
                 val name = Contacts.getContactNameFromNumber(reminder.phoneNumber, itemView.context)
                 if (name != null) {

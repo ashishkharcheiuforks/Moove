@@ -1,8 +1,6 @@
 package com.backdoor.moove.utils
 
 import android.content.Context
-import com.backdoor.moove.core.consts.Constants
-import com.backdoor.moove.core.consts.Language
 import com.google.android.gms.maps.GoogleMap
 import java.io.File
 
@@ -269,14 +267,14 @@ open class Prefs(context: Context) {
             val editor = prefs.edit()
             editor.putInt(MAP_TYPE, GoogleMap.MAP_TYPE_NORMAL)
             editor.putInt(MAP_STYLE, 0)
-            editor.putString(REMINDER_IMAGE, Constants.DEFAULT)
+            editor.putString(REMINDER_IMAGE, Module.DEFAULT)
             editor.putInt(LED_COLOR, 4)
             editor.putInt(LOCATION_RADIUS, 25)
             editor.putInt(TRACK_TIME, 1)
             editor.putInt(VOLUME, 25)
             editor.putInt(MARKER_STYLE, 11)
 
-            editor.putString(TTS_LOCALE, Language.ENGLISH)
+//            editor.putString(TTS_LOCALE, Language.ENGLISH)
 
             editor.putInt(APP_RUNS_COUNT, 0)
             editor.putBoolean(TRACKING_NOTIFICATION, true)
@@ -294,10 +292,10 @@ open class Prefs(context: Context) {
 
     fun checkPrefs() {
         if (!hasKey(TTS_LOCALE)) {
-            ttsLocale = Language.ENGLISH
+//            ttsLocale = Language.ENGLISH
         }
         if (!hasKey(REMINDER_IMAGE)) {
-            reminderImage = Constants.DEFAULT
+            reminderImage = Module.DEFAULT
         }
         if (!hasKey(Prefs.TRACK_TIME)) {
             trackTime = 1

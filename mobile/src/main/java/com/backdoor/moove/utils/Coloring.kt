@@ -2,9 +2,9 @@ package com.backdoor.moove.utils
 
 import android.content.Context
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 
 import com.backdoor.moove.R
-import com.backdoor.moove.core.utils.ViewUtils
 
 class Coloring(private val mContext: Context) {
 
@@ -71,7 +71,7 @@ class Coloring(private val mContext: Context) {
      * @return Color
      */
     fun getColor(color: Int): Int {
-        return ViewUtils.getColor(mContext, color)
+        return ContextCompat.getColor(mContext, color)
     }
 
     /**

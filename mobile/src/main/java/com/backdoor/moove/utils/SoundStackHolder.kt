@@ -3,7 +3,6 @@ package com.backdoor.moove.utils
 import android.content.Context
 import android.media.AudioManager
 import android.os.Handler
-import com.backdoor.moove.core.consts.Configs
 import timber.log.Timber
 
 /**
@@ -130,7 +129,7 @@ class SoundStackHolder constructor(context: Context, val prefs: Prefs) : Sound.P
 
         mStream = AudioManager.STREAM_MUSIC
 
-        val volPercent = mMaxVolume.toFloat() / Configs.MAX_VOLUME
+        val volPercent = mMaxVolume.toFloat() / 25
         val maxVol = mAudioManager?.getStreamMaxVolume(mStream) ?: 24
         mStreamVol = (maxVol * volPercent).toInt()
         mVolume = mStreamVol

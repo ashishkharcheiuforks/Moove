@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.backdoor.moove.R
-import com.backdoor.moove.core.consts.Constants
 import com.backdoor.moove.databinding.ActivityFileExplorerBinding
 import com.backdoor.moove.utils.*
 import com.backdoor.moove.utils.filter.SearchModifier
@@ -126,7 +125,7 @@ class FileExplorerActivity : AppCompatActivity() {
 
     private fun sendFile() {
         val intent = Intent()
-        intent.putExtra(Constants.FILE_PICKED, mFilePath)
+        intent.putExtra(Module.FILE_PICKED, mFilePath)
         setResult(RESULT_OK, intent)
         finish()
     }

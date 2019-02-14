@@ -25,6 +25,11 @@ import androidx.annotation.RequiresApi
  */
 object Module {
 
+    const val DEFAULT = "default"
+    const val NONE = "none"
+    const val ACTION_REQUEST_GALLERY = 130
+    const val FILE_PICKED = "file_selected"
+
     val isPie: Boolean
         get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
 

@@ -5,7 +5,6 @@ import android.content.res.AssetFileDescriptor
 import android.media.*
 import android.net.Uri
 import android.os.Handler
-import com.backdoor.moove.core.consts.Constants
 import java.io.File
 import java.io.IOException
 
@@ -251,7 +250,7 @@ class Sound(private val mContext: Context, private val prefs: Prefs) {
     companion object {
 
         fun isDefaultMelody(defMelody: String): Boolean {
-            return defMelody == Constants.DEFAULT
+            return defMelody == Module.DEFAULT
         }
     }
 }

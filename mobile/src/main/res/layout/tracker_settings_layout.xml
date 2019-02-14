@@ -1,77 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/windowBackground"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:orientation="vertical"
-    android:paddingBottom="16dp"
-    android:paddingLeft="24dp"
-    android:paddingRight="24dp"
-    android:paddingTop="24dp">
-
-    <TextView
-        android:id="@+id/titleDialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="@string/tracking_preferences"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:text="@string/for_lower_battery_using_set_bigger_values"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
-        android:id="@+id/radiusValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="15dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <SeekBar
-        android:id="@+id/radiusBar"
+    <LinearLayout
+        android:id="@+id/windowBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="100"
-        android:progress="1" />
-
-    <TextView
-        android:id="@+id/timeValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="15dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingTop="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="16dp">
 
-    <SeekBar
-        android:id="@+id/timeBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="30"
-        android:progress="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:text="@string/for_lower_battery_using_set_bigger_values"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <TextView
-        android:id="@+id/aboutClose"
-        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginTop="24dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:clickable="false"
-        android:gravity="center"
-        android:text="@string/ok"
-        android:textSize="18sp" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/timeValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <SeekBar
+            android:id="@+id/timeBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="30"
+            android:progress="1" />
+
+    </LinearLayout>
+</layout>

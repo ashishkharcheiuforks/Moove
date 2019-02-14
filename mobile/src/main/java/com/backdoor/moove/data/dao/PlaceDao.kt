@@ -13,20 +13,20 @@ interface PlaceDao {
 
     @Transaction
     @Query("select * from Place order by createdAt DESC")
-    suspend fun getAll(): List<Place>
+    fun getAll(): List<Place>
 
     @Query("select * from Place where uuId = :uuId")
     fun loadById(uuId: String): LiveData<Place>
 
     @Query("select * from Place where uuId = :uuId")
-    suspend fun getById(uuId: String): Place?
+    fun getById(uuId: String): Place?
 
     @Insert(onConflict = REPLACE)
-    suspend fun insert(place: Place)
+    fun insert(place: Place)
 
     @Delete
-    suspend fun delete(place: Place)
+    fun delete(place: Place)
 
     @Query("DELETE FROM Place")
-    suspend fun deleteAll()
+    fun deleteAll()
 }

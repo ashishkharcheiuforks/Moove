@@ -19,11 +19,10 @@ data class Reminder(
         var radius: Int = -1,
         var volume: Int = -1,
         var markerColor: Int = 0,
-        var latitude: Double,
-        var longitude: Double,
-        var isLocked: Boolean,
-        var isActive: Boolean,
-        var isRemoved: Boolean,
-        var isNotificationShown: Boolean
-
+        var latitude: Double = 0.0,
+        var longitude: Double = 0.0,
+        var isLocked: Boolean = false,
+        var isActive: Boolean = false,
+        var isRemoved: Boolean = false,
+        var isNotificationShown: Boolean = false
 )

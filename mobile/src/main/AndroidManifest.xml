@@ -69,73 +69,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/HomeDark">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".SettingsActivity">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".core.dialogs.Help"
-            android:configChanges="keyboardHidden|orientation|keyboard"
-            android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".core.dialogs.ThanksDialog"
-            android:configChanges="keyboardHidden|orientation|keyboard"
-            android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ReminderManagerActivity"
-            android:configChanges="keyboardHidden|orientation|keyboard">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".NewPlaceActivity"
-            android:configChanges="keyboardHidden|orientation">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".PlacesListActivity"
-            android:configChanges="keyboardHidden|orientation">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".LocationsMapActivity"
-            android:configChanges="keyboardHidden|orientation">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <receiver android:name=".core.services.PositionDelayReceiver" />
-        <receiver android:name=".core.services.JustBootReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-            </intent-filter>
-        </receiver>
 
         <activity
-            android:name=".ReminderDialogActivity"
+            android:name=".modern_ui.ReminderDialogActivity"
             android:configChanges="keyboardHidden|orientation"
             android:theme="@style/HomeDarkTranslucent">
             <intent-filter>
@@ -143,54 +79,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".core.dialogs.ChangeDialog"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/HomeDarkDialog">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".core.dialogs.TargetRadius"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/HomeDarkDialog">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".core.dialogs.TrackerOption"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/HomeDarkDialog">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".core.dialogs.RateDialog"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/HomeDarkDialog" />
-        <activity
-            android:name=".core.dialogs.SelectVolume"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/HomeDarkDialog" />
-        <activity
-            android:name=".ContactsListActivity"
-            android:configChanges="keyboardHidden|orientation" />
-        <activity
-            android:name=".core.dialogs.LedColor"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/HomeDarkDialog" />
-        <activity
-            android:name=".core.dialogs.MarkerStyle"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/HomeDarkDialog" />
-        <activity
             android:name=".utils.file_explorer.FileExplorerActivity"
             android:configChanges="keyboardHidden|orientation|keyboard"
             android:windowSoftInputMode="stateHidden" />
-
-        <service android:name=".core.services.GeolocationService" />
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
@@ -200,7 +91,7 @@
             android:value="@integer/google_play_services_version" />
 
         <receiver
-            android:name=".core.widgets.LeftDistanceWidget"
+            android:name="com.backdoor.moove.widgets.LeftDistanceWidget"
             android:label="@string/to_go">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -211,14 +102,14 @@
                 android:resource="@xml/left_distance_widget_info" />
         </receiver>
 
-        <activity android:name=".core.widgets.LeftDistanceWidgetConfigureActivity">
+        <activity android:name="com.backdoor.moove.widgets.LeftDistanceWidgetConfigureActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 
         <receiver
-            android:name=".core.widgets.SimpleWidget"
+            android:name="com.backdoor.moove.widgets.SimpleWidget"
             android:label="@string/to_go_only_distance">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -229,7 +120,7 @@
                 android:resource="@xml/simple_widget_info" />
         </receiver>
 
-        <activity android:name=".core.widgets.SimpleWidgetConfigureActivity">
+        <activity android:name="com.backdoor.moove.widgets.SimpleWidgetConfigureActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -238,10 +129,5 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="e319ad50eeab199ac7860c9873cac1803c44386c" />
-
-        <activity
-            android:name=".DonateActivity"
-            android:label="@string/title_activity_donate" />
     </application>
-
 </manifest>

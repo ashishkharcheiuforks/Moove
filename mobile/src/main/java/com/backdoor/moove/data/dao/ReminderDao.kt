@@ -13,20 +13,20 @@ interface ReminderDao {
 
     @Transaction
     @Query("select * from Reminder order by createdAt DESC")
-    suspend fun getAll(): List<Reminder>
+    fun getAll(): List<Reminder>
 
     @Query("select * from Reminder where uuId = :uuId")
     fun loadById(uuId: String): LiveData<Reminder>
 
     @Query("select * from Reminder where uuId = :uuId")
-    suspend fun getById(uuId: String): Reminder?
+    fun getById(uuId: String): Reminder?
 
     @Insert(onConflict = REPLACE)
-    suspend fun insert(reminder: Reminder)
+    fun insert(reminder: Reminder)
 
     @Delete
-    suspend fun delete(reminder: Reminder)
+    fun delete(reminder: Reminder)
 
     @Query("DELETE FROM Reminder")
-    suspend fun deleteAll()
+    fun deleteAll()
 }
