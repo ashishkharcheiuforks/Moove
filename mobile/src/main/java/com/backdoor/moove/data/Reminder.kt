@@ -18,6 +18,7 @@ data class Reminder(
         var ledColor: Int = -1,
         var radius: Int = -1,
         var volume: Int = -1,
+        var uniqueId: Int = Random().nextInt(Integer.MAX_VALUE),
         var markerColor: Int = 0,
         var latitude: Double = 0.0,
         var longitude: Double = 0.0,

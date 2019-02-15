@@ -14,6 +14,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import com.backdoor.moove.R
+import com.backdoor.moove.services.GeolocationService
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import timber.log.Timber
@@ -38,6 +39,19 @@ import java.util.*
  * limitations under the License.
  */
 object SuperUtil {
+
+    fun startGpsTracking(context: Context) {
+        if (!Permissions.checkForeground(context) || SuperUtil.isServiceRunning(context, GeolocationService::class.java)) {
+            return
+        }
+        val intent = Intent(context, GeolocationService::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        if (Module.isOreo) {
+            context.startForegroundService(intent)
+        } else {
+            context.startService(intent)
+        }
+    }
 
     fun isGooglePlayServicesAvailable(a: Context): Boolean {
         val resultCode = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(a)

@@ -1,11 +1,14 @@
 package com.backdoor.moove
 
 import androidx.multidex.MultiDexApplication
+import com.backdoor.moove.utils.EventJobService
 import com.backdoor.moove.utils.Notifier
 import com.crashlytics.android.Crashlytics
 import com.backdoor.moove.utils.components
+import com.evernote.android.job.JobManager
 import io.fabric.sdk.android.Fabric
 import org.koin.android.ext.android.startKoin
+import timber.log.Timber
 
 /**
  * Copyright 2016 Nazar Suhovich
@@ -29,8 +32,10 @@ class Moove : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
+        Timber.plant(Timber.DebugTree())
         startKoin(this, components(this))
         Notifier.createChannels(this)
         Fabric.with(this, Crashlytics())
+        JobManager.create(this).addJobCreator { EventJobService() }
     }
 }

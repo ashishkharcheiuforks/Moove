@@ -260,6 +260,12 @@ open class Prefs(context: Context) {
             putBoolean(LED_STATUS, value)
         }
 
+    var isDistanceNotificationEnabled: Boolean
+        get() = getBoolean(TRACKING_NOTIFICATION)
+        set(value) {
+            putBoolean(TRACKING_NOTIFICATION, value)
+        }
+
     fun initPrefs(context: Context) {
         val settingsUI = File("/data/data/" + context.packageName +
                 "/shared_prefs/" + PREFS_NAME + ".xml")

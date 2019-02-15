@@ -94,6 +94,7 @@ fun utilModule(context: Context) = module {
     single { Prefs(context) }
     single { SoundStackHolder(context, get()) }
     single { Coloring(context) }
+    single { LocationEvent(context) }
     single { Dialogues(get()) }
 }
 

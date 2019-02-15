@@ -12,12 +12,18 @@ object Notifier {
     val CHANNEL_REMINDER = "moove.channel1"
     val CHANNEL_SYSTEM = "moove.channel2"
 
+    fun hideNotification(context: Context, id: Int) {
+        getManager(context)?.cancel(id)
+    }
+
+    private fun getManager(context: Context): NotificationManager? {
+        return context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+    }
+
     fun createChannels(context: Context) {
         if (Module.isOreo) {
-            val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
-                    ?: return
-            manager.createNotificationChannel(createReminderChannel(context))
-            manager.createNotificationChannel(createSystemChannel(context))
+            getManager(context)?.createNotificationChannel(createReminderChannel(context))
+            getManager(context)?.createNotificationChannel(createSystemChannel(context))
         }
     }
 
