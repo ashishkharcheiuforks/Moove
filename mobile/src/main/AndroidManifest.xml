@@ -52,13 +52,7 @@
         android:theme="@style/HomeDark"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="label, allowBackup">
-        <activity android:name=".modern_ui.HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".modern_ui.HomeActivity" />
         <activity
             android:name=".SplashScreenActivity"
             android:label="@string/app_name"

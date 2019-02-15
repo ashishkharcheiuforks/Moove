@@ -1,15 +1,127 @@
 <resources>
 
+    <style name="ActionOverflowButtonStyleDark" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/whitePrimary</item>
+    </style>
+
+    <style name="BackButtonStyleDark" parent="@style/Widget.AppCompat.ActionButton.CloseMode">
+        <item name="android:tint">@color/whitePrimary</item>
+    </style>
+
+    <style name="Text.H1" parent="@style/TextAppearance.MaterialComponents.Headline1">
+        <item name="android:fontFamily">@font/merriweathersans_light</item>
+        <item name="fontFamily">@font/merriweathersans_light</item>
+    </style>
+
+    <style name="Text.H2" parent="@style/TextAppearance.MaterialComponents.Headline2">
+        <item name="android:fontFamily">@font/merriweathersans_light</item>
+        <item name="fontFamily">@font/merriweathersans_light</item>
+    </style>
+
+    <style name="Text.H3" parent="@style/TextAppearance.MaterialComponents.Headline3">
+        <item name="android:fontFamily">@font/merriweathersans_regular</item>
+        <item name="fontFamily">@font/merriweathersans_regular</item>
+    </style>
+
+    <style name="Text.H4" parent="@style/TextAppearance.MaterialComponents.Headline4">
+        <item name="android:fontFamily">@font/merriweathersans_regular</item>
+        <item name="fontFamily">@font/merriweathersans_regular</item>
+    </style>
+
+    <style name="Text.H5" parent="@style/TextAppearance.MaterialComponents.Headline5">
+        <item name="android:fontFamily">@font/merriweathersans_regular</item>
+        <item name="fontFamily">@font/merriweathersans_regular</item>
+    </style>
+
+    <style name="Text.H6" parent="@style/TextAppearance.MaterialComponents.Headline6">
+        <item name="android:fontFamily">@font/merriweathersans_regular</item>>
+        <item name="fontFamily">@font/merriweathersans_regular</item>>
+    </style>
+
+    <style name="Text.Sub1" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:fontFamily">@font/merriweathersans_regular</item>
+        <item name="fontFamily">@font/merriweathersans_regular</item>
+    </style>
+
+    <style name="Text.Sub2" parent="@style/TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:fontFamily">@font/merriweathersans_bold</item>
+        <item name="fontFamily">@font/merriweathersans_bold</item>
+    </style>
+
+    <style name="Text.Body1" parent="@style/TextAppearance.MaterialComponents.Body1">
+        <item name="android:fontFamily">@font/merriweathersans_regular</item>
+        <item name="fontFamily">@font/merriweathersans_regular</item>
+    </style>
+
+    <style name="Text.Body2" parent="@style/TextAppearance.MaterialComponents.Body2">
+        <item name="android:fontFamily">@font/merriweathersans_regular</item>
+        <item name="fontFamily">@font/merriweathersans_regular</item>
+    </style>
+
+    <style name="Text.Caption" parent="@style/TextAppearance.MaterialComponents.Caption">
+        <item name="android:fontFamily">@font/merriweathersans_bold</item>
+        <item name="fontFamily">@font/merriweathersans_bold</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Text.Button" parent="@style/TextAppearance.MaterialComponents.Body2">
+        <item name="android:fontFamily">@font/merriweathersans_regular</item>
+        <item name="fontFamily">@font/merriweathersans_regular</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Overline" parent="@style/TextAppearance.MaterialComponents.Overline">
+        <item name="android:fontFamily">@font/merriweathersans_regular</item>
+        <item name="fontFamily">@font/merriweathersans_regular</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="HomeDark" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="colorPrimaryDark">@color/themePrimaryDark</item>
-        <item name="colorPrimary">@color/themePrimary</item>
-        <item name="colorSecondary">@color/greenPrimary</item>
-        <item name="android:windowBackground">@color/themeBackground</item>
-        <item name="windowActionBar">false</item>
+        <item name="actionOverflowButtonStyle">@style/ActionOverflowButtonStyleDark</item>
+        <item name="actionModeCloseButtonStyle">@style/BackButtonStyleDark</item>
+        <item name="textAppearanceHeadline1">@style/Text.H1</item>
+        <item name="textAppearanceHeadline2">@style/Text.H2</item>
+        <item name="textAppearanceHeadline3">@style/Text.H3</item>
+        <item name="textAppearanceHeadline4">@style/Text.H4</item>
+        <item name="textAppearanceHeadline5">@style/Text.H5</item>
+        <item name="textAppearanceHeadline6">@style/Text.H6</item>
+        <item name="textAppearanceSubtitle1">@style/Text.Sub1</item>
+        <item name="textAppearanceSubtitle2">@style/Text.Sub2</item>
+        <item name="textAppearanceBody1">@style/Text.Body1</item>
+        <item name="textAppearanceBody2">@style/Text.Body2</item>
+        <item name="textAppearanceCaption">@style/Text.Caption</item>
+        <item name="textAppearanceButton">@style/Text.Button</item>
+        <item name="textAppearanceOverline">@style/Text.Overline</item>
+        <item name="android:spinnerItemStyle">@style/Text.Body1</item>
+        <item name="android:spinnerDropDownItemStyle">@style/Text.Body1</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorPrimary">@color/secondary</item>
+        <item name="colorSecondary12">@color/secondary_12</item>
+        <item name="colorPrimaryDark">@color/darkPrimary3</item>
+        <item name="android:windowBackground">@color/darkPrimary3</item>
+        <item name="android:colorBackground">@color/darkPrimary3</item>
+        <item name="materialCardViewStyle">@style/Dark3.Card</item>
+        <item name="popupMenuStyle">@style/Dark3.PopupMenu</item>
+    </style>
+
+    <style name="Dark3.PopupMenu" parent="Base.Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/darkPrimary3</item>
+    </style>
+
+    <style name="Dark3.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/darkBg3</item>
     </style>
 
     <style name="HomeDarkDialog" parent="Theme.MaterialComponents.Dialog">
-        <item name="colorAccent">@color/greenPrimary</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorPrimary">@color/secondary</item>
+        <item name="colorBackgroundFloating">@color/darkPrimary3</item>
+        <item name="scrimBackground">@color/darkPrimary3</item>
+        <item name="android:colorBackground">@color/darkPrimary3</item>
+        <item name="android:popupBackground">@color/darkPrimary3</item>
+        <item name="android:windowBackground">@color/darkPrimary3</item>
     </style>
 
     <style name="HomeDarkTranslucent" parent="HomeDark">

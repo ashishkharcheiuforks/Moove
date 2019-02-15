@@ -111,4 +111,10 @@
     <color name="orangeDeepAccent">#FF6E40</color>
     <color name="orangeDeepA100">#FF9E80</color>
 
+    <color name="secondary">#69F0AE</color>
+    <color name="secondary_12">#0c69F0AE</color>
+    <color name="darkPrimary3">#424242</color>
+    <color name="darkPrimaryDark3">#1b1b1b</color>
+    <color name="darkBg3">#616161</color>
+
 </resources>

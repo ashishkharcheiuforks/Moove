@@ -2,21 +2,31 @@
 <resources>
 
     <style name="HomeDark" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="colorPrimaryDark">@color/themePrimaryDark</item>
-        <item name="colorPrimary">@color/themePrimary</item>
-        <item name="colorAccent">@color/greenPrimary</item>
-        <item name="android:windowBackground">@color/themeBackground</item>
-        <item name="windowActionBar">false</item>
-    </style>
-
-
-    <style name="HomeDarkDialog" parent="Theme.MaterialComponents.Dialog">
-        <item name="colorAccent">@color/greenPrimary</item>
-    </style>
-
-    <style name="HomeDarkTranslucent" parent="HomeDark">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="actionOverflowButtonStyle">@style/ActionOverflowButtonStyleDark</item>
+        <item name="actionModeCloseButtonStyle">@style/BackButtonStyleDark</item>
+        <item name="textAppearanceHeadline1">@style/Text.H1</item>
+        <item name="textAppearanceHeadline2">@style/Text.H2</item>
+        <item name="textAppearanceHeadline3">@style/Text.H3</item>
+        <item name="textAppearanceHeadline4">@style/Text.H4</item>
+        <item name="textAppearanceHeadline5">@style/Text.H5</item>
+        <item name="textAppearanceHeadline6">@style/Text.H6</item>
+        <item name="textAppearanceSubtitle1">@style/Text.Sub1</item>
+        <item name="textAppearanceSubtitle2">@style/Text.Sub2</item>
+        <item name="textAppearanceBody1">@style/Text.Body1</item>
+        <item name="textAppearanceBody2">@style/Text.Body2</item>
+        <item name="textAppearanceCaption">@style/Text.Caption</item>
+        <item name="textAppearanceButton">@style/Text.Button</item>
+        <item name="textAppearanceOverline">@style/Text.Overline</item>
+        <item name="android:spinnerItemStyle">@style/Text.Body1</item>
+        <item name="android:spinnerDropDownItemStyle">@style/Text.Body1</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorPrimary">@color/secondary</item>
+        <item name="colorSecondary12">@color/secondary_12</item>
+        <item name="colorPrimaryDark">@color/darkPrimary3</item>
+        <item name="android:windowBackground">@color/darkPrimary3</item>
+        <item name="android:colorBackground">@color/darkPrimary3</item>
+        <item name="materialCardViewStyle">@style/Dark3.Card</item>
+        <item name="popupMenuStyle">@style/Dark3.PopupMenu</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 </resources>
