@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_placesFragment"
             app:destination="@id/placesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_createReminderFragment"
+            app:destination="@id/createReminderFragment" />
     </fragment>
     <fragment
         android:id="@+id/placesFragment"
@@ -31,5 +34,16 @@
         <argument
             android:name="arg_id"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/createReminderFragment"
+        android:name="com.backdoor.moove.modern_ui.create.CreateReminderFragment"
+        android:label="CreateReminderFragment" >
+        <argument
+            android:name="arg_id"
+            app:argType="string" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="http://www.moove.com/reminder/{id}" />
     </fragment>
 </navigation>

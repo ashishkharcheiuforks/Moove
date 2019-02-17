@@ -186,4 +186,6 @@
     <string name="retro">Retro</string>
     <string name="day">Day</string>
     <string name="new_place">New place</string>
+    <string name="entering_place">Entering place</string>
+    <string name="leaving_place">Leaving place</string>
 </resources>

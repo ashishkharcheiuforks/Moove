@@ -1,10 +1,12 @@
 package com.backdoor.moove.utils
 
+import android.app.Activity
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import androidx.annotation.IdRes
 import com.backdoor.moove.data.RoomDb
 import kotlinx.coroutines.*
 import org.koin.dsl.module.Module
@@ -28,6 +30,21 @@ import java.util.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+fun <ViewT : View> View.bindView(@IdRes idRes: Int): Lazy<ViewT> {
+    return lazyUnSynchronized {
+        findViewById<ViewT>(idRes)
+    }
+}
+
+fun <ViewT : View> Activity.bindView(@IdRes idRes: Int): Lazy<ViewT> {
+    return lazyUnSynchronized {
+        findViewById<ViewT>(idRes)
+    }
+}
+
+fun <T> lazyUnSynchronized(initializer: () -> T): Lazy<T> =
+        lazy(LazyThreadSafetyMode.NONE, initializer)
+
 suspend fun <T> withUIContext(block: suspend CoroutineScope.() -> T)
         : T = withContext(Dispatchers.Main, block)
 

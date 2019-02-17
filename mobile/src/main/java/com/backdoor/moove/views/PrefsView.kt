@@ -13,9 +13,9 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import com.backdoor.moove.BuildConfig
 import com.backdoor.moove.R
-import com.backdoor.moove.databinding.ViewPrefsBinding
 import com.backdoor.moove.utils.hide
 import com.backdoor.moove.utils.show
+import com.backdoor.moove.views.binding.PrefsViewBinding
 import timber.log.Timber
 import java.util.*
 
@@ -39,7 +39,7 @@ import java.util.*
  */
 class PrefsView : RelativeLayout {
 
-    private lateinit var binding: ViewPrefsBinding
+    private lateinit var binding: PrefsViewBinding
 
     var isChecked: Boolean = false
         set(checked) {
@@ -78,7 +78,7 @@ class PrefsView : RelativeLayout {
 
     private fun init(context: Context, attrs: AttributeSet?) {
         View.inflate(context, R.layout.view_prefs, this)
-        binding = ViewPrefsBinding.bind(this)
+        binding = PrefsViewBinding(this)
         descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
 
         if (attrs != null) {

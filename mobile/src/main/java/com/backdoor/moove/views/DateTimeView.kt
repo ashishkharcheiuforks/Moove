@@ -10,11 +10,11 @@ import android.widget.DatePicker
 import android.widget.LinearLayout
 import android.widget.TimePicker
 import com.backdoor.moove.R
-import com.backdoor.moove.databinding.ViewDateTimeBinding
 import com.backdoor.moove.utils.Prefs
 import com.backdoor.moove.utils.TimeUtils
 import com.backdoor.moove.utils.hide
 import com.backdoor.moove.utils.show
+import com.backdoor.moove.views.binding.DateTimeViewBinding
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 import java.util.*
@@ -39,7 +39,7 @@ import java.util.*
  */
 class DateTimeView : LinearLayout, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, KoinComponent {
 
-    private lateinit var binding: ViewDateTimeBinding
+    private lateinit var binding: DateTimeViewBinding
     private var mHour: Int = 0
     private var mMinute: Int = 0
     private var mYear: Int = 0
@@ -81,7 +81,7 @@ class DateTimeView : LinearLayout, DatePickerDialog.OnDateSetListener, TimePicke
     private fun init(context: Context) {
         orientation = LinearLayout.VERTICAL
         View.inflate(context, R.layout.view_date_time, this)
-        binding = ViewDateTimeBinding.bind(this)
+        binding = DateTimeViewBinding(this)
 
         descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
         val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,

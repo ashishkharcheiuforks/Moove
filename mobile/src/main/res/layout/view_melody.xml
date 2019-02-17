@@ -9,29 +9,28 @@
     android:orientation="horizontal">
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/hintIcon"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_gravity="center_vertical"
         android:scaleType="centerInside"
-        app:srcCompat="@drawable/ic_twotone_access_time_24px"
+        app:srcCompat="@drawable/ic_twotone_music_note_24px"
         app:tint="?android:textColorPrimary" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/dateField"
+        android:id="@+id/text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginEnd="16dp"
         android:layout_weight="1"
-        android:textAppearance="?textAppearanceHeadline6"
-        tools:text="Tue, 5 Nov 2015" />
+        android:textAppearance="?textAppearanceBody1"
+        tools:text="File Name" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/timeField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:textAppearance="?textAppearanceHeadline6"
-        tools:text="14:05" />
-
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/removeButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="12dp"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/ic_clear_black_24dp"
+        app:tint="?android:textColorPrimary" />
 </LinearLayout>

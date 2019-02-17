@@ -9,10 +9,10 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import com.backdoor.moove.R
-import com.backdoor.moove.databinding.ViewActionBinding
 import com.backdoor.moove.utils.Permissions
 import com.backdoor.moove.utils.hide
 import com.backdoor.moove.utils.show
+import com.backdoor.moove.views.binding.ActionViewBinding
 
 /**
  * Copyright 2016 Nazar Suhovich
@@ -37,7 +37,7 @@ class ActionView : LinearLayout, TextWatcher {
     private var mImm: InputMethodManager? = null
     private var mActivity: Activity? = null
     private var listener: OnActionListener? = null
-    private lateinit var binding: ViewActionBinding
+    private lateinit var binding: ActionViewBinding
 
     var type: Int
         get() = if (hasAction()) {
@@ -74,7 +74,7 @@ class ActionView : LinearLayout, TextWatcher {
     private fun init(context: Context) {
         View.inflate(context, R.layout.view_action, this)
         orientation = LinearLayout.VERTICAL
-        binding = ViewActionBinding.bind(this)
+        binding = ActionViewBinding(this)
 
         binding.actionBlock.hide()
 
