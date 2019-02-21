@@ -1,14 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".modern_ui.settings.SettingsFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        tools:context=".modern_ui.settings.SettingsFragment">
 
-</FrameLayout>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+            app:title="@string/settings" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsGeneral"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/general"
+                    app:prefs_type="none" />
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsNotifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/notification"
+                    app:prefs_type="none" />
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/location"
+                    app:prefs_type="none" />
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsOther"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/other"
+                    app:prefs_type="none" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</layout>

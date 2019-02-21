@@ -1,217 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:scrollbars="none">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/settings_margin"
-        android:layout_marginRight="@dimen/settings_margin"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context=".modern_ui.settings.SettingsFragment">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/otherCard"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            app:cardBackgroundColor="@color/themePrimaryDark">
+            android:layout_height="?actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+            app:title="@string/other" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/permissionBlock"
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsAbout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/about"
+                    app:prefs_type="none" />
 
-                    <TextView
-                        android:id="@+id/permissionExplain"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:gravity="center_vertical"
-                        android:paddingBottom="15dp"
-                        android:paddingRight="15dp"
-                        android:paddingTop="15dp"
-                        android:text="@string/permissions"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textSize="@dimen/settings_text_size_primary" />
-
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:background="@android:color/darker_gray" />
-
-                    <TextView
-                        android:id="@+id/permissionEnable"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:gravity="center_vertical"
-                        android:paddingBottom="15dp"
-                        android:paddingRight="15dp"
-                        android:paddingTop="15dp"
-                        android:text="@string/allow_permission"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textSize="@dimen/settings_text_size_primary" />
-
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:background="@android:color/darker_gray" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/help"
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsRate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/help"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/settings_text_size_primary"
-                    android:visibility="gone" />
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/rate"
+                    app:prefs_type="none" />
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/about"
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsOss"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/about"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/settings_text_size_primary" />
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/open_source_licenses"
+                    app:prefs_type="none" />
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray" />
-
-                <TextView
-                    android:id="@+id/changes"
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsFeedback"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/changes"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/settings_text_size_primary" />
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/send_feedback"
+                    app:prefs_type="none" />
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray" />
-
-                <TextView
-                    android:id="@+id/rateApp"
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsShare"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/rate"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/settings_text_size_primary" />
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray" />
-
-                <TextView
-                    android:id="@+id/thanks"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/open_source_licenses"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/settings_text_size_primary" />
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray" />
-
-                <TextView
-                    android:id="@+id/menuFeedback"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/send_feedback"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/settings_text_size_primary" />
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray" />
-
-                <TextView
-                    android:id="@+id/menuShare"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/tell_friends"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/settings_text_size_primary" />
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/tell_friends"
+                    app:prefs_type="none" />
 
             </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
-</ScrollView>
+</layout>

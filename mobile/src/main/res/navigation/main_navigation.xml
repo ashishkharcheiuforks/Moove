@@ -70,5 +70,38 @@
         android:id="@+id/settingsFragment"
         android:name="com.backdoor.moove.modern_ui.settings.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_generalSettingsFragment"
+            app:destination="@id/generalSettingsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_locationSettingsFragment"
+            app:destination="@id/locationSettingsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_notificationSettingsFragment"
+            app:destination="@id/notificationSettingsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_otherSettingsFragment"
+            app:destination="@id/otherSettingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/generalSettingsFragment"
+        android:name="com.backdoor.moove.modern_ui.settings.GeneralSettingsFragment"
+        android:label="GeneralSettingsFragment" />
+    <fragment
+        android:id="@+id/locationSettingsFragment"
+        android:name="com.backdoor.moove.modern_ui.settings.LocationSettingsFragment"
+        android:label="LocationSettingsFragment" >
+        <action
+            android:id="@+id/action_locationSettingsFragment_to_placesFragment"
+            app:destination="@id/placesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationSettingsFragment"
+        android:name="com.backdoor.moove.modern_ui.settings.NotificationSettingsFragment"
+        android:label="NotificationSettingsFragment" />
+    <fragment
+        android:id="@+id/otherSettingsFragment"
+        android:name="com.backdoor.moove.modern_ui.settings.OtherSettingsFragment"
+        android:label="OtherSettingsFragment" />
 </navigation>

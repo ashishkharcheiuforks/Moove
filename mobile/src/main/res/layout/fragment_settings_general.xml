@@ -1,50 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:scrollbars="none">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/settings_margin"
-        android:layout_marginRight="@dimen/settings_margin"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".modern_ui.settings.SettingsFragment">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/generalCard"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/themePrimaryDark">
+            android:layout_height="?actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+            app:title="@string/general" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:orientation="vertical">
 
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/use24TimePrefs"
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefs24Hour"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:prefs_divider_bottom="true"
-                    app:prefs_divider_top="false"
                     app:prefs_primary_text="@string/_24_hour_time_format"
-                    app:prefs_type="check" />
+                    app:prefs_type="check_switch" />
 
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/wearEnablePrefs"
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsWear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:prefs_divider_bottom="false"
-                    app:prefs_divider_top="false"
+                    app:prefs_divider_bottom="true"
                     app:prefs_primary_text="@string/android_wear_notification"
-                    app:prefs_type="check" />
+                    app:prefs_type="check_switch" />
 
             </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
-</ScrollView>
+</layout>

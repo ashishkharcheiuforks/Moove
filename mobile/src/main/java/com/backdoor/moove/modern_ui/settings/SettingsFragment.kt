@@ -5,13 +5,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.backdoor.moove.R
+import androidx.navigation.fragment.findNavController
+import com.backdoor.moove.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
 
+    private lateinit var binding: FragmentSettingsBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.prefsGeneral.setOnClickListener {
+            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToGeneralSettingsFragment())
+        }
+        binding.prefsNotifications.setOnClickListener {
+            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToNotificationSettingsFragment())
+        }
+        binding.prefsLocation.setOnClickListener {
+            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToLocationSettingsFragment())
+        }
+        binding.prefsOther.setOnClickListener {
+            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToOtherSettingsFragment())
+        }
     }
 }

@@ -1,134 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:scrollbars="none">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/settings_margin"
-        android:layout_marginRight="@dimen/settings_margin"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/locationCard"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            app:cardBackgroundColor="@color/themePrimaryDark">
+            android:layout_height="?actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+            app:title="@string/location" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:orientation="vertical">
 
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/notificationOptionPrefs"
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsDistance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:prefs_divider_bottom="true"
-                    app:prefs_divider_top="false"
                     app:prefs_primary_text="@string/distance_notification"
-                    app:prefs_type="check" />
+                    app:prefs_type="check_switch" />
 
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/autoFill"
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsAutoPlace"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:prefs_divider_bottom="true"
-                    app:prefs_divider_top="false"
                     app:prefs_primary_text="@string/places_list_auto_completion"
-                    app:prefs_type="check" />
+                    app:prefs_type="check_switch" />
 
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/radiusPrefs"
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsRadius"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:prefs_divider_bottom="true"
-                    app:prefs_divider_top="false"
                     app:prefs_primary_text="@string/radius"
-                    app:prefs_type="text" />
+                    app:prefs_type="text"
+                    app:prefs_value_text="25m" />
 
-                <TextView
-                    android:id="@+id/mapType"
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsMapType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/map_type"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/settings_text_size_primary" />
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/map_type"
+                    app:prefs_type="none" />
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray" />
-
-                <TextView
-                    android:id="@+id/places"
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsPlaces"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/places"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/settings_text_size_primary" />
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/places"
+                    app:prefs_type="none" />
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray" />
-
-                <TextView
-                    android:id="@+id/markerStyle"
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsMarkerStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/marker_style"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/settings_text_size_primary" />
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/marker_style"
+                    app:prefs_type="none" />
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray" />
-
-                <TextView
-                    android:id="@+id/tracker"
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsTracking"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/tracking_preferences"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/settings_text_size_primary" />
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/tracking_preferences"
+                    app:prefs_type="none" />
 
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
-</ScrollView>
+</layout>

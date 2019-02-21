@@ -1,271 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:scrollbars="none">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/settings_margin"
-        android:layout_marginRight="@dimen/settings_margin"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/imageCard"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            app:cardBackgroundColor="@color/themePrimaryDark">
+            android:layout_height="?actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+            app:title="@string/notification" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:orientation="vertical">
 
-                <TextView
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsBgImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:clickable="false"
-                    android:gravity="center_vertical"
-                    android:text="@string/look_amp_feel"
-                    android:textAllCaps="true"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="@dimen/settings_text_size_primary"
-                    android:textStyle="bold" />
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/background_image"
+                    app:prefs_type="none" />
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray" />
-
-                <TextView
-                    android:id="@+id/selectImage"
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsImageBlur"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/background_image"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/settings_text_size_primary" />
-
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/blurPrefs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:prefs_divider_bottom="false"
-                    app:prefs_divider_top="true"
+                    app:prefs_divider_bottom="true"
                     app:prefs_primary_text="@string/image_blur"
-                    app:prefs_type="check" />
-
+                    app:prefs_type="check_switch" />
             </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/soundCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            app:cardBackgroundColor="@color/themePrimaryDark">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:clickable="false"
-                    android:gravity="center_vertical"
-                    android:text="@string/sound_amp_vibration"
-                    android:textAllCaps="true"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/settings_text_size_primary"
-                    android:textStyle="bold" />
-
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/vibrationOptionPrefs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:prefs_divider_bottom="true"
-                    app:prefs_divider_top="true"
-                    app:prefs_primary_text="@string/vibrate"
-                    app:prefs_type="check" />
-
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/infiniteVibrateOptionPrefs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:prefs_divider_bottom="true"
-                    app:prefs_divider_top="false"
-                    app:prefs_primary_text="@string/infinite_vibration"
-                    app:prefs_type="check" />
-
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/soundOptionPrefs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:prefs_divider_bottom="true"
-                    app:prefs_divider_top="false"
-                    app:prefs_primary_text="@string/sound_in_silent_mode"
-                    app:prefs_type="check" />
-
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/infiniteSoundOptionPrefs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:prefs_divider_bottom="true"
-                    app:prefs_divider_top="false"
-                    app:prefs_primary_text="@string/infinite_sound_loop"
-                    app:prefs_type="check" />
-
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/chooseSoundPrefs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:prefs_divider_bottom="true"
-                    app:prefs_divider_top="false"
-                    app:prefs_primary_text="@string/melody"
-                    app:prefs_type="none" />
-
-                <TextView
-                    android:id="@+id/volume"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/volume"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/settings_text_size_primary" />
-
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/ttsPrefs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:prefs_divider_bottom="true"
-                    app:prefs_divider_top="true"
-                    app:prefs_primary_text="@string/voice_notification_tts" />
-
-                <TextView
-                    android:id="@+id/locale"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/voice_language"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/settings_text_size_primary" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/systemCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            app:cardBackgroundColor="@color/themePrimaryDark">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:clickable="false"
-                    android:gravity="center_vertical"
-                    android:text="@string/notification"
-                    android:textAllCaps="true"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/settings_text_size_primary"
-                    android:textStyle="bold" />
-
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/wakeScreenOptionPrefs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:prefs_divider_bottom="true"
-                    app:prefs_divider_top="true"
-                    app:prefs_primary_text="@string/awake_screen"
-                    app:prefs_type="check" />
-
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/unlockScreenPrefs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:prefs_divider_bottom="true"
-                    app:prefs_divider_top="false"
-                    app:prefs_primary_text="@string/unlock_screen"
-                    app:prefs_type="check" />
-
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/silentSMSOptionPrefs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:prefs_divider_bottom="true"
-                    app:prefs_divider_top="false"
-                    app:prefs_primary_text="@string/send_sms_automatically"
-                    app:prefs_type="check" />
-
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/silentCallOptionPrefs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:prefs_divider_bottom="true"
-                    app:prefs_divider_top="false"
-                    app:prefs_primary_text="@string/make_call_automatically"
-                    app:prefs_type="check" />
-
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/ledPrefs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:prefs_divider_bottom="true"
-                    app:prefs_divider_top="false"
-                    app:prefs_primary_text="@string/led_notification"
-                    app:prefs_type="check" />
-
-                <com.backdoor.moove.core.views.PrefsView
-                    android:id="@+id/chooseLedColorPrefs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:prefs_divider_bottom="false"
-                    app:prefs_divider_top="false"
-                    app:prefs_primary_text="@string/led_color"
-                    app:prefs_type="none" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
-
-</ScrollView>
+</layout>
