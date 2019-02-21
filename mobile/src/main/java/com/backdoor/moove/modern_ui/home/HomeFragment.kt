@@ -9,11 +9,13 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.backdoor.moove.R
 import com.backdoor.moove.data.Reminder
 import com.backdoor.moove.databinding.HomeFragmentBinding
 import com.backdoor.moove.modern_ui.home.list.RemindersRecyclerAdapter
 import com.backdoor.moove.utils.ActionsListener
 import com.backdoor.moove.utils.ListActions
+import com.backdoor.moove.utils.SuperUtil
 
 class HomeFragment : Fragment() {
 
@@ -29,10 +31,36 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initToolbar()
+
         binding.fab.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCreateReminderFragment(""))
         }
         initList()
+    }
+
+    private fun initToolbar() {
+        binding.toolbar.inflateMenu(R.menu.fragment_home)
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_places -> {
+                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToPlacesFragment())
+                }
+                R.id.action_donate -> {
+                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDonateFragment())
+                }
+                R.id.action_directions -> {
+                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToEventsMapFragment())
+                }
+                R.id.action_more -> {
+                    SuperUtil.showMore(context!!)
+                }
+                R.id.action_settings -> {
+                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSettingsFragment())
+                }
+            }
+            return@setOnMenuItemClickListener true
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

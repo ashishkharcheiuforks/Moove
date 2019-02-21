@@ -16,6 +16,15 @@
         <action
             android:id="@+id/action_homeFragment_to_createReminderFragment"
             app:destination="@id/createReminderFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_eventsMapFragment"
+            app:destination="@id/eventsMapFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_donateFragment"
+            app:destination="@id/donateFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/placesFragment"
@@ -38,7 +47,8 @@
     <fragment
         android:id="@+id/createReminderFragment"
         android:name="com.backdoor.moove.modern_ui.create.CreateReminderFragment"
-        android:label="CreateReminderFragment" >
+        android:label="CreateReminderFragment"
+        tools:layout="@layout/create_reminder_fragment">
         <argument
             android:name="arg_id"
             app:argType="string" />
@@ -46,4 +56,19 @@
             android:id="@+id/deepLink"
             app:uri="http://www.moove.com/reminder/{id}" />
     </fragment>
+    <fragment
+        android:id="@+id/donateFragment"
+        android:name="com.backdoor.moove.modern_ui.donate.DonateFragment"
+        android:label="donate_fragment"
+        tools:layout="@layout/donate_fragment" />
+    <fragment
+        android:id="@+id/eventsMapFragment"
+        android:name="com.backdoor.moove.modern_ui.events_map.EventsMapFragment"
+        android:label="events_map_fragment"
+        tools:layout="@layout/events_map_fragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.backdoor.moove.modern_ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

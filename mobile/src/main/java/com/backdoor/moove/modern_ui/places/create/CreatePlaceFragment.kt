@@ -5,6 +5,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.backdoor.moove.R
 import com.backdoor.moove.data.Place
 import com.backdoor.moove.databinding.CreatePlaceFragmentBinding
@@ -41,14 +42,12 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
 
         childFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, mMap!!)
-                .addToBackStack(null)
                 .commit()
-
     }
 
     private fun initActionBar() {
-        binding.backButton.setOnClickListener {
-
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
@@ -60,7 +59,7 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
     private fun showPlace(place: Place?) {
         this.mPlace = place
         place?.let {
-            binding.titleView.text = getString(R.string.edit)
+            binding.toolbar.title = getString(R.string.edit)
             if (!viewModel.isPlaceEdited) {
                 binding.placeName.setText(place.name)
                 viewModel.place = place

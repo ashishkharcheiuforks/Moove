@@ -9,7 +9,6 @@ import android.media.AudioManager
 import android.net.Uri
 import android.os.PowerManager
 import android.provider.Settings
-import android.speech.RecognizerIntent
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
@@ -216,24 +215,6 @@ object SuperUtil {
             context.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(context, R.string.could_not_launch_market, Toast.LENGTH_LONG).show()
-        }
-
-    }
-
-    /**
-     * Start voice listener for recognition.
-     *
-     * @param activity    activity.
-     * @param requestCode result request code.
-     */
-    fun startVoiceRecognitionActivity(activity: Activity, requestCode: Int) {
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, activity.getString(R.string.say_something))
-        try {
-            activity.startActivityForResult(intent, requestCode)
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(activity, activity.getString(R.string.no_recognizer_found), Toast.LENGTH_SHORT).show()
         }
 
     }
