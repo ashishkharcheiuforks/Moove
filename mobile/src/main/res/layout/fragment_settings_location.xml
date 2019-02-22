@@ -45,8 +45,7 @@
                     android:layout_height="wrap_content"
                     app:prefs_divider_bottom="true"
                     app:prefs_primary_text="@string/radius"
-                    app:prefs_type="text"
-                    app:prefs_value_text="25m" />
+                    app:prefs_type="none" />
 
                 <com.backdoor.moove.views.PrefsView
                     android:id="@+id/prefsMapType"
@@ -70,7 +69,7 @@
                     android:layout_height="wrap_content"
                     app:prefs_divider_bottom="true"
                     app:prefs_primary_text="@string/marker_style"
-                    app:prefs_type="none" />
+                    app:prefs_type="view" />
 
                 <com.backdoor.moove.views.PrefsView
                     android:id="@+id/prefsTracking"

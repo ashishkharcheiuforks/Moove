@@ -103,5 +103,13 @@
     <fragment
         android:id="@+id/otherSettingsFragment"
         android:name="com.backdoor.moove.modern_ui.settings.OtherSettingsFragment"
-        android:label="OtherSettingsFragment" />
+        android:label="OtherSettingsFragment" >
+        <action
+            android:id="@+id/action_otherSettingsFragment_to_ossSettingsFragment"
+            app:destination="@id/ossSettingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ossSettingsFragment"
+        android:name="com.backdoor.moove.modern_ui.settings.OssSettingsFragment"
+        android:label="OssSettingsFragment" />
 </navigation>

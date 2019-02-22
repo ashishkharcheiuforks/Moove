@@ -8,170 +8,78 @@ import com.backdoor.moove.R
 
 class Coloring(private val mContext: Context) {
 
-    /**
-     * Get theme for application based on user choice.
-     *
-     * @return Theme resource
-     */
     val style: Int
         get() = R.style.HomeDark
 
-    /**
-     * Get style for spinner based on current theme.
-     *
-     * @return Color
-     */
-    val spinnerStyle: Int
-        get() = getColor(R.color.themePrimaryDark)
-
-    /**
-     * Get theme for dialog styled activity based on current application theme.
-     *
-     * @return Theme resource
-     */
-    val dialogStyle: Int
-        get() = R.style.HomeDarkDialog
-
-    /**
-     * Get theme for translucent activities.
-     *
-     * @return Theme resource
-     */
-    val transparentStyle: Int
-        get() = R.style.HomeDarkTranslucent
-
-    /**
-     * Get window background color based on current theme.
-     *
-     * @return Color
-     */
-    val backgroundStyle: Int
-        get() = getColor(R.color.themeBackground)
-
-    /**
-     * Get status bar color for reminder window based on current theme.
-     *
-     * @return Color
-     */
-    val statusBarStyle: Int
-        get() = colorPrimaryDark()
-
-    /**
-     * Get background color for CardView based on current theme.
-     *
-     * @return Color
-     */
-    val cardStyle: Int
-        get() = getColor(R.color.themePrimaryDark)
-
-    /**
-     * Get color from resource.
-     *
-     * @param color resource.
-     * @return Color
-     */
     fun getColor(color: Int): Int {
         return ContextCompat.getColor(mContext, color)
     }
 
-    /**
-     * Get current theme primary color.
-     *
-     * @return Color
-     */
-    fun colorPrimary(): Int {
-        return getColor(R.color.themePrimary)
-    }
-
-    /**
-     * Get accent color.
-     *
-     * @return Color
-     */
-    fun colorAccent(): Int {
-        return getColor(R.color.greenPrimary)
-    }
-
-    /**
-     * Get status bar color based on current application theme.
-     *
-     * @return Color
-     */
-    fun colorPrimaryDark(): Int {
-        return getColor(R.color.themePrimaryDark)
-    }
-
-    /**
-     * Get fill amd stroke color by marker color, for drawing circle around marker on Google Map.
-     *
-     * @param color marker color.
-     * @return color resources array
-     */
     fun getMarkerRadiusStyle(color: Int): Marker {
         val fillColor: Int
         val strokeColor: Int
         when (color) {
-            0 -> {
+            RED -> {
                 fillColor = R.color.red50
                 strokeColor = R.color.redPrimaryDark
             }
-            1 -> {
+            GREEN -> {
                 fillColor = R.color.green50
                 strokeColor = R.color.greenPrimaryDark
             }
-            2 -> {
+            BLUE -> {
                 fillColor = R.color.blue50
                 strokeColor = R.color.bluePrimaryDark
             }
-            3 -> {
+            YELLOW -> {
                 fillColor = R.color.yellow50
                 strokeColor = R.color.yellowPrimaryDark
             }
-            4 -> {
+            LIGHT_GREEN -> {
                 fillColor = R.color.greenLight50
                 strokeColor = R.color.greenLightPrimaryDark
             }
-            5 -> {
+            LIGHT_BLUE -> {
                 fillColor = R.color.blueLight50
                 strokeColor = R.color.blueLightPrimaryDark
             }
-            6 -> {
+            CYAN -> {
                 fillColor = R.color.cyan50
                 strokeColor = R.color.cyanPrimaryDark
             }
-            7 -> {
+            PURPLE -> {
                 fillColor = R.color.purple50
                 strokeColor = R.color.purplePrimaryDark
             }
-            8 -> {
+            ORANGE -> {
                 fillColor = R.color.orange50
                 strokeColor = R.color.orangePrimaryDark
             }
-            9 -> {
+            PINK -> {
                 fillColor = R.color.pink50
                 strokeColor = R.color.pinkPrimaryDark
             }
-            10 -> {
+            TEAL -> {
                 fillColor = R.color.teal50
                 strokeColor = R.color.tealPrimaryDark
             }
-            11 -> {
+            AMBER -> {
                 fillColor = R.color.amber50
                 strokeColor = R.color.amberPrimaryDark
             }
-            12 -> {
+            DEEP_PURPLE -> {
                 fillColor = R.color.purpleDeep50
                 strokeColor = R.color.purpleDeepPrimaryDark
             }
-            13 -> {
+            DEEP_ORANGE -> {
                 fillColor = R.color.orangeDeep50
                 strokeColor = R.color.orangeDeepPrimaryDark
             }
-            14 -> {
+            INDIGO -> {
                 fillColor = R.color.indigo50
                 strokeColor = R.color.indigoPrimaryDark
             }
-            15 -> {
+            LIME -> {
                 fillColor = R.color.lime50
                 strokeColor = R.color.limePrimaryDark
             }
@@ -183,56 +91,26 @@ class Coloring(private val mContext: Context) {
         return Marker(fillColor, strokeColor)
     }
 
-    /**
-     * Get marker icon by code.
-     *
-     * @param code code of marker icon.
-     * @return Drawable resource
-     */
-    fun getMarkerStyle(code: Int): Int {
-        val color: Int
-        when (code) {
-            0 -> color = R.drawable.marker_red
-            1 -> color = R.drawable.marker_green
-            2 -> color = R.drawable.marker_blue
-            3 -> color = R.drawable.marker_yellow
-            4 -> color = R.drawable.marker_green_light
-            5 -> color = R.drawable.marker_blue_light
-            6 -> color = R.drawable.marker_cyan
-            7 -> color = R.drawable.marker_violet
-            8 -> color = R.drawable.marker_orange
-            9 -> color = R.drawable.marker_pink
-            10 -> color = R.drawable.marker_teal
-            11 -> color = R.drawable.marker_amber
-            12 -> color = R.drawable.marker_deep_purple
-            13 -> color = R.drawable.marker_deep_orange
-            14 -> color = R.drawable.marker_indigo
-            15 -> color = R.drawable.marker_lime
-            else -> color = R.drawable.marker_blue
-        }
-        return color
-    }
-
     @ColorInt
     fun accentColor(code: Int): Int {
         val color: Int
         when (code) {
             RED -> color = R.color.redAccent
-            PURPLE -> color = R.color.purpleAccent
-            LIGHT_GREEN -> color = R.color.greenLightAccent
-            GREEN -> color = R.color.greenAccent
-            LIGHT_BLUE -> color = R.color.blueLightAccent
-            BLUE -> color = R.color.blueAccent
-            YELLOW -> color = R.color.yellowAccent
-            ORANGE -> color = R.color.orangeAccent
-            CYAN -> color = R.color.cyanAccent
             PINK -> color = R.color.pinkAccent
-            TEAL -> color = R.color.tealAccent
-            AMBER -> color = R.color.amberAccent
+            PURPLE -> color = R.color.purpleAccent
             DEEP_PURPLE -> color = R.color.purpleDeepAccent
-            DEEP_ORANGE -> color = R.color.orangeDeepAccent
-            LIME -> color = R.color.limeAccent
             INDIGO -> color = R.color.indigoAccent
+            BLUE -> color = R.color.blueAccent
+            LIGHT_BLUE -> color = R.color.blueLightAccent
+            CYAN -> color = R.color.cyanAccent
+            TEAL -> color = R.color.tealAccent
+            GREEN -> color = R.color.greenAccent
+            LIGHT_GREEN -> color = R.color.greenLightAccent
+            LIME -> color = R.color.limeAccent
+            YELLOW -> color = R.color.yellowAccent
+            AMBER -> color = R.color.amberAccent
+            ORANGE -> color = R.color.orangeAccent
+            DEEP_ORANGE -> color = R.color.orangeDeepAccent
             else -> color = R.color.blueAccent
         }
         return getColor(color)
@@ -280,7 +158,5 @@ class Coloring(private val mContext: Context) {
         const val AMBER = 13
         const val ORANGE = 14
         const val DEEP_ORANGE = 15
-
-        const val NUM_OF_MARKERS = 16
     }
 }

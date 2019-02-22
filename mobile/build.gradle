@@ -121,8 +121,8 @@ dependencies {
     kapt 'com.android.tools.build.jetifier:jetifier-core:1.0.0-beta03'
     annotationProcessor 'com.android.tools.build.jetifier:jetifier-core:1.0.0-beta03'
 
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-beta02"
-    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-beta02"
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-rc01"
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-rc01"
 
     implementation('com.github.bumptech.glide:glide:4.8.0') {
         exclude group: "com.android.support"

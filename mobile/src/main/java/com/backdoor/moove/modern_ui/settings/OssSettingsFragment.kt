@@ -6,20 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.backdoor.moove.databinding.FragmentSettingsNotificationBinding
+import com.backdoor.moove.databinding.FragmentSettingsOssBinding
 
-class NotificationSettingsFragment : Fragment() {
+class OssSettingsFragment : Fragment() {
 
-    private lateinit var binding: FragmentSettingsNotificationBinding
+    private lateinit var binding: FragmentSettingsOssBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        binding = FragmentSettingsNotificationBinding.inflate(inflater, container, false)
+        binding =  FragmentSettingsOssBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
+
+        val url = "file:///android_asset/LICENSE.html"
+        binding.webView.loadUrl(url)
     }
 }

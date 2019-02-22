@@ -3,37 +3,33 @@ package com.backdoor.moove.widgets
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.widget.RemoteViews
 import com.backdoor.moove.R
 import com.backdoor.moove.utils.Coloring
+import com.backdoor.moove.utils.DrawableHelper
+import com.backdoor.moove.utils.Prefs
 
-/**
- * Implementation of App WidgetUtil functionality.
- * App WidgetUtil Configuration implemented in [LeftDistanceWidgetConfigureActivity]
- */
 class LeftDistanceWidget : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
-        // There may be multiple widgets active, so update all of them
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
         }
     }
 
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
-        // When the user deletes the widget, delete the preference associated with it.
         for (appWidgetId in appWidgetIds) {
             LeftDistanceWidgetConfigureActivity.deletePref(context, appWidgetId)
-//            Reminder.removeWidget(context, LeftDistanceWidgetConfigureActivity.PREF_DISTANCE_KEY + appWidgetId)
         }
     }
 
     override fun onEnabled(context: Context) {
-        // Enter relevant functionality for when the first widget is created
     }
 
     override fun onDisabled(context: Context) {
-        // Enter relevant functionality for when the last widget is disabled
     }
 
     companion object {
@@ -48,11 +44,21 @@ class LeftDistanceWidget : AppWidgetProvider() {
             // Construct the RemoteViews object
             val views = RemoteViews(context.packageName, R.layout.left_distance_widget)
             views.setTextViewText(R.id.appwidget_text, widgetText)
-            views.setTextViewText(R.id.leftDistance, if (distance <= 0)
+            views.setTextViewText(R.id.leftDistance, if (distance <= 0) {
                 context.getString(R.string.off)
-            else
-                String.format(context.getString(R.string.distance_m), distance.toString()))
-            views.setImageViewResource(R.id.markerImage, Coloring(context).getMarkerStyle(icon))
+            } else {
+                String.format(context.getString(R.string.distance_m), distance.toString())
+            })
+
+            val coloring = Coloring(context)
+            val prefs = Prefs(context)
+            val pointer = DrawableHelper.withContext(context)
+                    .withDrawable(R.drawable.ic_twotone_place_24px)
+                    .withColor(coloring.accentColor(prefs.markerStyle))
+                    .tint()
+                    .get()
+
+            views.setImageViewBitmap(R.id.markerImage, toBitmap(pointer))
 
 //            val configIntent = Intent(context, MainActivity::class.java)
 //            val configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0)
@@ -60,6 +66,18 @@ class LeftDistanceWidget : AppWidgetProvider() {
 //
 //            // Instruct the widget manager to update the widget
 //            appWidgetManager.updateAppWidget(appWidgetId, views)
+        }
+
+        private fun toBitmap(drawable: Drawable): Bitmap {
+            val bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+                Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+            } else {
+                Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+            }
+            val canvas = Canvas(bitmap)
+            drawable.setBounds(0, 0, canvas.width, canvas.height)
+            drawable.draw(canvas)
+            return bitmap
         }
     }
 }

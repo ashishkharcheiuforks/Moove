@@ -32,5 +32,6 @@ class SettingsFragment : Fragment() {
         binding.prefsOther.setOnClickListener {
             findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToOtherSettingsFragment())
         }
+        binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
     }
 }

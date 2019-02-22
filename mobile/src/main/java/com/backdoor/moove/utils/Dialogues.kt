@@ -194,15 +194,15 @@ class Dialogues(val prefs: Prefs) {
 
         mSelectedItem = 1
         val locale = prefs.ttsLocale
-//        if (locale.matches(Language.ENGLISH.toRegex())) mSelectedItem = 0
-//        if (locale.matches(Language.FRENCH.toRegex())) mSelectedItem = 1
-//        if (locale.matches(Language.GERMAN.toRegex())) mSelectedItem = 2
-//        if (locale.matches(Language.ITALIAN.toRegex())) mSelectedItem = 3
-//        if (locale.matches(Language.JAPANESE.toRegex())) mSelectedItem = 4
-//        if (locale.matches(Language.KOREAN.toRegex())) mSelectedItem = 5
-//        if (locale.matches(Language.POLISH.toRegex())) mSelectedItem = 6
-//        if (locale.matches(Language.RUSSIAN.toRegex())) mSelectedItem = 7
-//        if (locale.matches(Language.SPANISH.toRegex())) mSelectedItem = 8
+        if (locale.matches(Language.ENGLISH.toRegex())) mSelectedItem = 0
+        if (locale.matches(Language.FRENCH.toRegex())) mSelectedItem = 1
+        if (locale.matches(Language.GERMAN.toRegex())) mSelectedItem = 2
+        if (locale.matches(Language.ITALIAN.toRegex())) mSelectedItem = 3
+        if (locale.matches(Language.JAPANESE.toRegex())) mSelectedItem = 4
+        if (locale.matches(Language.KOREAN.toRegex())) mSelectedItem = 5
+        if (locale.matches(Language.POLISH.toRegex())) mSelectedItem = 6
+        if (locale.matches(Language.RUSSIAN.toRegex())) mSelectedItem = 7
+        if (locale.matches(Language.SPANISH.toRegex())) mSelectedItem = 8
 
         builder.setSingleChoiceItems(adapter, mSelectedItem) { _, which ->
             if (which != -1) {
@@ -210,17 +210,17 @@ class Dialogues(val prefs: Prefs) {
             }
         }
         builder.setPositiveButton(context.getString(R.string.ok)) { dialog, which ->
-//            var locale1 = Language.ENGLISH
-//            if (which == 0) locale1 = Language.ENGLISH
-//            if (which == 1) locale1 = Language.FRENCH
-//            if (which == 2) locale1 = Language.GERMAN
-//            if (which == 3) locale1 = Language.ITALIAN
-//            if (which == 4) locale1 = Language.JAPANESE
-//            if (which == 5) locale1 = Language.KOREAN
-//            if (which == 6) locale1 = Language.POLISH
-//            if (which == 7) locale1 = Language.RUSSIAN
-//            if (which == 8) locale1 = Language.SPANISH
-//            prefs.ttsLocale = locale1
+            var locale1 = Language.ENGLISH
+            if (which == 0) locale1 = Language.ENGLISH
+            if (which == 1) locale1 = Language.FRENCH
+            if (which == 2) locale1 = Language.GERMAN
+            if (which == 3) locale1 = Language.ITALIAN
+            if (which == 4) locale1 = Language.JAPANESE
+            if (which == 5) locale1 = Language.KOREAN
+            if (which == 6) locale1 = Language.POLISH
+            if (which == 7) locale1 = Language.RUSSIAN
+            if (which == 8) locale1 = Language.SPANISH
+            prefs.ttsLocale = locale1
             dialog.dismiss()
         }
         val dialog = builder.create()
@@ -255,14 +255,11 @@ class Dialogues(val prefs: Prefs) {
             }
         }
         builder.setPositiveButton(context.getString(R.string.ok)) { dialog, _ ->
-            if (mSelectedItem == 0) {
-                prefs.mapType = GoogleMap.MAP_TYPE_NORMAL
-            } else if (mSelectedItem == 1) {
-                prefs.mapType = GoogleMap.MAP_TYPE_SATELLITE
-            } else if (mSelectedItem == 2) {
-                prefs.mapType = GoogleMap.MAP_TYPE_HYBRID
-            } else {
-                prefs.mapType = GoogleMap.MAP_TYPE_TERRAIN
+            when (mSelectedItem) {
+                0 -> prefs.mapType = GoogleMap.MAP_TYPE_NORMAL
+                1 -> prefs.mapType = GoogleMap.MAP_TYPE_SATELLITE
+                2 -> prefs.mapType = GoogleMap.MAP_TYPE_HYBRID
+                else -> prefs.mapType = GoogleMap.MAP_TYPE_TERRAIN
             }
             dialog.dismiss()
         }
