@@ -19,12 +19,16 @@ class PlacesAdapter(private val showMarker: Boolean) : RecyclerView.Adapter<Plac
 
     val coloring: Coloring by inject()
 
-    var data: MutableList<Place> = mutableListOf()
+    private var data: MutableList<Place> = mutableListOf()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
     var actionsListener: ActionsListener<Place>? = null
+
+    fun setPlaces(list: List<Place>) {
+        this.data = list.toMutableList()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent)
@@ -46,9 +50,8 @@ class PlacesAdapter(private val showMarker: Boolean) : RecyclerView.Adapter<Plac
             binding.itemCard.setOnClickListener {
                 actionsListener?.onAction(it, adapterPosition, data[adapterPosition], ListActions.OPEN)
             }
-            binding.itemCard.setOnLongClickListener {
+            binding.moreButton.setOnClickListener {
                 actionsListener?.onAction(it, adapterPosition, data[adapterPosition], ListActions.MORE)
-                return@setOnLongClickListener true
             }
         }
 

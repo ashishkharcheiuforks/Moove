@@ -2,22 +2,19 @@ package com.backdoor.moove.utils
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Point
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
-import android.widget.TextView
+import androidx.appcompat.widget.PopupMenu
 import com.backdoor.moove.R
 import com.backdoor.moove.databinding.DialogBottomColorSliderBinding
 import com.backdoor.moove.databinding.DialogBottomSeekAndTitleBinding
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import java.util.*
 
 class Dialogues(val prefs: Prefs) {
 
@@ -115,163 +112,22 @@ class Dialogues(val prefs: Prefs) {
         dialog.show()
     }
 
-    fun dialogWithSeek(context: Context, progress: Int, max: Int, title: String, onSelect: (Int) -> Unit) {
-        val builder = AlertDialog.Builder(context)
-        builder.setCancelable(true)
-        builder.setTitle(title)
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val layout = inflater.inflate(R.layout.dialog_seekbar, null)
-        val textView = layout.findViewById<TextView>(R.id.seekValue)
-        val seekBar = layout.findViewById<SeekBar>(R.id.dialogSeek)
-        seekBar.max = max
-        seekBar.progress = progress
-        textView.text = progress.toString()
-        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                textView.text = progress.toString()
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-
-            }
-        })
-        builder.setView(layout)
-        builder.setPositiveButton(context.getString(R.string.ok)) { dialog, _ ->
-            onSelect.invoke(seekBar.progress)
-            dialog.dismiss()
-        }
-        builder.create().show()
-    }
-
-    fun ledColor(context: Context) {
-        val builder = AlertDialog.Builder(context)
-        builder.setCancelable(false)
-        builder.setTitle(context.getString(R.string.led_color))
-
-        val colors = com.backdoor.moove.utils.LED.getAllNames(context)
-
-        val adapter = ArrayAdapter<String>(context,
-                android.R.layout.simple_list_item_single_choice, colors)
-
-        mSelectedItem = prefs.ledColor
-
-        builder.setSingleChoiceItems(adapter, mSelectedItem) { _, which ->
-            if (which != -1) {
-                mSelectedItem = which
-            }
-        }
-        builder.setPositiveButton(context.getString(R.string.ok)) { dialog, _ ->
-            prefs.ledColor = mSelectedItem
-            dialog.dismiss()
-        }
-        builder.create().show()
-    }
-
-    /**
-     * AlertDialog for selecting language for voice notifications (text to speech).
-     *
-     * @param context     application context.
-     * @param prefsToSave Preference key for results saving.
-     */
-    fun ttsLocale(context: Context) {
-        val builder = AlertDialog.Builder(context)
-        builder.setCancelable(false)
-        builder.setTitle(R.string.language)
-        val names = ArrayList<String>()
-        names.add(context.getString(R.string.english))
-        names.add(context.getString(R.string.french))
-        names.add(context.getString(R.string.german))
-        names.add(context.getString(R.string.italian))
-        names.add(context.getString(R.string.japanese))
-        names.add(context.getString(R.string.korean))
-        names.add(context.getString(R.string.polish))
-        names.add(context.getString(R.string.russian))
-        names.add(context.getString(R.string.spanish))
-
-        val adapter = ArrayAdapter(context,
-                android.R.layout.simple_list_item_single_choice, names)
-
-        mSelectedItem = 1
-        val locale = prefs.ttsLocale
-        if (locale.matches(Language.ENGLISH.toRegex())) mSelectedItem = 0
-        if (locale.matches(Language.FRENCH.toRegex())) mSelectedItem = 1
-        if (locale.matches(Language.GERMAN.toRegex())) mSelectedItem = 2
-        if (locale.matches(Language.ITALIAN.toRegex())) mSelectedItem = 3
-        if (locale.matches(Language.JAPANESE.toRegex())) mSelectedItem = 4
-        if (locale.matches(Language.KOREAN.toRegex())) mSelectedItem = 5
-        if (locale.matches(Language.POLISH.toRegex())) mSelectedItem = 6
-        if (locale.matches(Language.RUSSIAN.toRegex())) mSelectedItem = 7
-        if (locale.matches(Language.SPANISH.toRegex())) mSelectedItem = 8
-
-        builder.setSingleChoiceItems(adapter, mSelectedItem) { _, which ->
-            if (which != -1) {
-                mSelectedItem = which
-            }
-        }
-        builder.setPositiveButton(context.getString(R.string.ok)) { dialog, which ->
-            var locale1 = Language.ENGLISH
-            if (which == 0) locale1 = Language.ENGLISH
-            if (which == 1) locale1 = Language.FRENCH
-            if (which == 2) locale1 = Language.GERMAN
-            if (which == 3) locale1 = Language.ITALIAN
-            if (which == 4) locale1 = Language.JAPANESE
-            if (which == 5) locale1 = Language.KOREAN
-            if (which == 6) locale1 = Language.POLISH
-            if (which == 7) locale1 = Language.RUSSIAN
-            if (which == 8) locale1 = Language.SPANISH
-            prefs.ttsLocale = locale1
-            dialog.dismiss()
-        }
-        val dialog = builder.create()
-        dialog.show()
-    }
-
-    /**
-     * AlertDialog for selecting map type.
-     *
-     * @param context application context.
-     */
-    fun mapType(context: Context) {
-        val builder = AlertDialog.Builder(context)
-        builder.setCancelable(true)
-        builder.setTitle(context.getString(R.string.map_type))
-
-        val adapter = ArrayAdapter.createFromResource(context, R.array.map_types,
-                android.R.layout.simple_list_item_single_choice)
-
-        val type = prefs.mapType
-        mSelectedItem = when (type) {
-            GoogleMap.MAP_TYPE_NORMAL -> 0
-            GoogleMap.MAP_TYPE_SATELLITE -> 1
-            GoogleMap.MAP_TYPE_HYBRID -> 2
-            GoogleMap.MAP_TYPE_TERRAIN -> 3
-            else -> 0
-        }
-
-        builder.setSingleChoiceItems(adapter, mSelectedItem) { _, which ->
-            if (which != -1) {
-                mSelectedItem = which
-            }
-        }
-        builder.setPositiveButton(context.getString(R.string.ok)) { dialog, _ ->
-            when (mSelectedItem) {
-                0 -> prefs.mapType = GoogleMap.MAP_TYPE_NORMAL
-                1 -> prefs.mapType = GoogleMap.MAP_TYPE_SATELLITE
-                2 -> prefs.mapType = GoogleMap.MAP_TYPE_HYBRID
-                else -> prefs.mapType = GoogleMap.MAP_TYPE_TERRAIN
-            }
-            dialog.dismiss()
-        }
-        builder.create().show()
-    }
-
     companion object {
         private const val MAX_RADIUS = 100000
         private const val MAX_DEF_RADIUS = 5000
+
+        fun showPopup(anchor: View,
+                      listener: ((Int) -> Unit)?, vararg actions: String) {
+            val popupMenu = PopupMenu(anchor.context, anchor)
+            popupMenu.setOnMenuItemClickListener { item ->
+                listener?.invoke(item.order)
+                true
+            }
+            for (i in actions.indices) {
+                popupMenu.menu.add(1, i + 1000, i, actions[i])
+            }
+            popupMenu.show()
+        }
 
         fun setFullWidthDialog(dialog: AlertDialog, activity: Activity) {
             val window = dialog.window

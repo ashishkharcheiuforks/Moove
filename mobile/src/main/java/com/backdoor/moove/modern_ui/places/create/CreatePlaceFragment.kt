@@ -1,9 +1,13 @@
 package com.backdoor.moove.modern_ui.places.create
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.backdoor.moove.R
@@ -15,6 +19,7 @@ import com.backdoor.moove.utils.MapListener
 import com.backdoor.moove.utils.Prefs
 import com.google.android.gms.maps.model.LatLng
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 
 class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
 
@@ -25,6 +30,15 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
 
     private var mMap: MapFragment? = null
     private var mPlace: Place? = null
+
+    private var mId: String = ""
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            mId = CreatePlaceFragmentArgs.fromBundle(it).argId
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -49,17 +63,31 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
+        binding.toolbar.inflateMenu(R.menu.save_menu)
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_add -> savePlace()
+                MENU_ITEM_DELETE -> deletePlace()
+            }
+            return@setOnMenuItemClickListener true
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(CreatePlaceViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, CreatePlaceViewModel.Factory(mId)).get(CreatePlaceViewModel::class.java)
+        viewModel.loadedPlace.observe(this, Observer {
+            if (it != null) {
+                showPlace(it)
+            }
+        })
     }
 
     private fun showPlace(place: Place?) {
         this.mPlace = place
         place?.let {
             binding.toolbar.title = getString(R.string.edit)
+            binding.toolbar.menu.add(Menu.NONE, MENU_ITEM_DELETE, 100, getString(R.string.delete))
             if (!viewModel.isPlaceEdited) {
                 binding.placeName.setText(place.name)
                 viewModel.place = place
@@ -69,7 +97,8 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
         }
     }
 
-    private fun addPlace() {
+    private fun savePlace() {
+        Timber.d("savePlace: ")
         if (viewModel.place.hasLatLng()) {
             var name: String = binding.placeName.text.toString().trim()
             if (name == "") {
@@ -90,13 +119,17 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
                 this.markerColor = marker
             }
             viewModel.savePlace(item)
+            findNavController().popBackStack()
         } else {
             Toast.makeText(context, getString(R.string.no_place_selected), Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun deleteItem() {
-        mPlace?.let { viewModel.deletePlace(it) }
+    private fun deletePlace() {
+        mPlace?.let {
+            viewModel.deletePlace(it)
+            findNavController().popBackStack()
+        }
     }
 
     private fun showPlaceOnMap() {
@@ -104,28 +137,6 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
         if (viewModel.place.hasLatLng()) {
             map.setStyle(viewModel.place.markerColor)
             map.addMarker(viewModel.place.latLng(), viewModel.place.name, true, true, -1)
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.fragment_place, menu)
-        if (mPlace != null) {
-            menu.add(Menu.NONE, MENU_ITEM_DELETE, 100, getString(R.string.delete))
-        }
-        super.onCreateOptionsMenu(menu, menuInflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_add -> {
-                addPlace()
-                true
-            }
-            MENU_ITEM_DELETE -> {
-                deleteItem()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
     }
 

@@ -14,19 +14,19 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_height="wrap_content">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textView"
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                tools:text="Place name"
-                app:fontFamily="@font/play_regular"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:layout_weight="1"
+                android:textSize="18sp"
+                app:fontFamily="@font/play_regular"
+                tools:text="Place name" />
 
             <ImageView
                 android:id="@+id/markerImage"
@@ -35,6 +35,13 @@
                 android:scaleType="center"
                 android:src="@drawable/marker_blue" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/moreButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/ic_twotone_more_vert_24px"
+                app:tint="@color/whitePrimary" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

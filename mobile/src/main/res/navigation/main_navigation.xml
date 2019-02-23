@@ -12,7 +12,11 @@
         tools:layout="@layout/home_fragment">
         <action
             android:id="@+id/action_homeFragment_to_placesFragment"
-            app:destination="@id/placesFragment" />
+            app:destination="@id/placesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_homeFragment_to_createReminderFragment"
             app:destination="@id/createReminderFragment" />
@@ -70,7 +74,7 @@
         android:id="@+id/settingsFragment"
         android:name="com.backdoor.moove.modern_ui.settings.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_generalSettingsFragment"
             app:destination="@id/generalSettingsFragment" />
@@ -87,23 +91,31 @@
     <fragment
         android:id="@+id/generalSettingsFragment"
         android:name="com.backdoor.moove.modern_ui.settings.GeneralSettingsFragment"
-        android:label="GeneralSettingsFragment" />
+        android:label="GeneralSettingsFragment"
+        tools:layout="@layout/fragment_settings_general" />
     <fragment
         android:id="@+id/locationSettingsFragment"
         android:name="com.backdoor.moove.modern_ui.settings.LocationSettingsFragment"
-        android:label="LocationSettingsFragment" >
+        android:label="LocationSettingsFragment"
+        tools:layout="@layout/fragment_settings_location">
         <action
             android:id="@+id/action_locationSettingsFragment_to_placesFragment"
-            app:destination="@id/placesFragment" />
+            app:destination="@id/placesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/notificationSettingsFragment"
         android:name="com.backdoor.moove.modern_ui.settings.NotificationSettingsFragment"
-        android:label="NotificationSettingsFragment" />
+        android:label="NotificationSettingsFragment"
+        tools:layout="@layout/fragment_settings_notification" />
     <fragment
         android:id="@+id/otherSettingsFragment"
         android:name="com.backdoor.moove.modern_ui.settings.OtherSettingsFragment"
-        android:label="OtherSettingsFragment" >
+        android:label="OtherSettingsFragment"
+        tools:layout="@layout/fragment_settings_other">
         <action
             android:id="@+id/action_otherSettingsFragment_to_ossSettingsFragment"
             app:destination="@id/ossSettingsFragment" />
@@ -111,5 +123,6 @@
     <fragment
         android:id="@+id/ossSettingsFragment"
         android:name="com.backdoor.moove.modern_ui.settings.OssSettingsFragment"
-        android:label="OssSettingsFragment" />
+        android:label="OssSettingsFragment"
+        tools:layout="@layout/fragment_settings_oss" />
 </navigation>
