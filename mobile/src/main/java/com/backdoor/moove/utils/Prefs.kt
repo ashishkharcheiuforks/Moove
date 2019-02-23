@@ -24,37 +24,34 @@ open class Prefs(context: Context) {
     companion object {
 
         private const val PREFS_NAME = "moove_prefs"
-        val MAP_TYPE = "map_type"
-        val MAP_STYLE = "map_type"
-        val LOCATION_RADIUS = "radius"
-        val TRACKING_NOTIFICATION = "tracking_notification"
-        val VIBRATION_STATUS = "vibration_status"
-        val SILENT_SOUND = "sound_status"
-        val WAKE_STATUS = "wake_status"
-        val INFINITE_SOUND = "infinite_sound"
-        val SILENT_SMS = "silent_sms"
-        val SILENT_CALL = "silent_call"
-        val LED_STATUS = "led_status"
-        val LED_COLOR = "led_color"
-        val MARKER_STYLE = "marker_style"
-        val INFINITE_VIBRATION = "infinite_vibration"
-        val WEAR_NOTIFICATION = "wear_notification"
-        val TRACK_TIME = "tracking_time"
-        val UNLOCK_DEVICE = "unlock_device"
-        val VOLUME = "reminder_volume"
-        val TTS = "tts_enabled"
-        val TTS_LOCALE = "tts_locale"
-        val CUSTOM_SOUND = "custom_sound"
-        val CUSTOM_SOUND_FILE = "sound_file"
-        val REMINDER_IMAGE = "reminder_image"
-        val REMINDER_IMAGE_BLUR = "reminder_image_blur"
-        val IS_24_TIME_FORMAT = "24_hour"
-        val LAST_USED_REMINDER = "last_reminder"
-        val RATE_SHOW = "rate_shown"
-        val APP_RUNS_COUNT = "app_runs"
-        val PLACES_AUTO = "places_auto"
-        val INCREASE_LOUDNESS = "increase_loudness"
-        val RADIUS = "radius"
+        const val MAP_TYPE = "map_type"
+        const val MAP_STYLE = "map_type"
+        const val LOCATION_RADIUS = "radius"
+        const val TRACKING_NOTIFICATION = "tracking_notification"
+        const val VIBRATION_STATUS = "vibration_status"
+        const val SILENT_SOUND = "sound_status"
+        const val INFINITE_SOUND = "infinite_sound"
+        const val SILENT_SMS = "silent_sms"
+        const val SILENT_CALL = "silent_call"
+        const val LED_STATUS = "led_status"
+        const val LED_COLOR = "led_color"
+        const val MARKER_STYLE = "marker_style"
+        const val INFINITE_VIBRATION = "infinite_vibration"
+        const val WEAR_NOTIFICATION = "wear_notification"
+        const val TRACK_TIME = "tracking_time"
+        const val UNLOCK_DEVICE = "unlock_device"
+        const val VOLUME = "reminder_volume"
+        const val TTS = "tts_enabled"
+        const val TTS_LOCALE = "tts_locale"
+        const val CUSTOM_SOUND = "melody_file"
+        const val REMINDER_IMAGE = "reminder_image"
+        const val REMINDER_IMAGE_BLUR = "reminder_image_blur"
+        const val IS_24_TIME_FORMAT = "24_hour"
+        const val RATE_SHOW = "rate_shown"
+        const val APP_RUNS_COUNT = "app_runs"
+        const val PLACES_AUTO = "places_auto"
+        const val INCREASE_LOUDNESS = "increase_loudness"
+        const val RADIUS = "radius"
     }
 
     private var prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -64,14 +61,6 @@ open class Prefs(context: Context) {
         set(value) {
             putBoolean(INCREASE_LOUDNESS, value)
         }
-
-    private fun getStringList(key: String): Set<String> {
-        return prefs.getStringSet(key, setOf())
-    }
-
-    private fun putStringList(key: String, set: Set<String>) {
-        prefs.edit().putStringSet(key, set).apply()
-    }
 
     private fun putString(stringToSave: String, value: String) {
         prefs.edit().putString(stringToSave, value).apply()
@@ -90,18 +79,6 @@ open class Prefs(context: Context) {
             } catch (e1: ClassCastException) {
                 0
             }
-        }
-    }
-
-    private fun putLong(stringToSave: String, value: Long) {
-        prefs.edit().putLong(stringToSave, value).apply()
-    }
-
-    private fun getLong(stringToLoad: String): Long {
-        return try {
-            prefs.getLong(stringToLoad, 1000)
-        } catch (e: ClassCastException) {
-            java.lang.Long.parseLong(prefs.getString(stringToLoad, "1000"))
         }
     }
 
@@ -128,17 +105,11 @@ open class Prefs(context: Context) {
         }
     }
 
-    fun saveVersionBoolean(stringToSave: String) {
-        prefs.edit().putBoolean(stringToSave, true).apply()
-    }
-
-    fun loadVersionBoolean(stringToLoad: String): Boolean {
-        return try {
-            prefs.getBoolean(stringToLoad, false)
-        } catch (e: ClassCastException) {
-            java.lang.Boolean.parseBoolean(prefs.getString(stringToLoad, "false"))
+    var melody: String
+        get() = getString(CUSTOM_SOUND, "")
+        set(value) {
+            putString(CUSTOM_SOUND, value)
         }
-    }
 
     var ttsLocale: String
         get() = getString(TTS_LOCALE, "")
@@ -264,6 +235,30 @@ open class Prefs(context: Context) {
         get() = getBoolean(TRACKING_NOTIFICATION)
         set(value) {
             putBoolean(TRACKING_NOTIFICATION, value)
+        }
+
+    var silentCall: Boolean
+        get() = getBoolean(SILENT_CALL)
+        set(value) {
+            putBoolean(SILENT_CALL, value)
+        }
+
+    var vibrate: Boolean
+        get() = getBoolean(VIBRATION_STATUS)
+        set(value) {
+            putBoolean(VIBRATION_STATUS, value)
+        }
+
+    var soundInSilent: Boolean
+        get() = getBoolean(SILENT_SOUND)
+        set(value) {
+            putBoolean(SILENT_SOUND, value)
+        }
+
+    var repeatMelody: Boolean
+        get() = getBoolean(INFINITE_SOUND)
+        set(value) {
+            putBoolean(INFINITE_SOUND, value)
         }
 
     fun initPrefs(context: Context) {

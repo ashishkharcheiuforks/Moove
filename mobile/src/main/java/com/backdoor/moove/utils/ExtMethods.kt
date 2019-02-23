@@ -113,6 +113,7 @@ fun utilModule(context: Context) = module {
     single { Coloring(context) }
     single { LocationEvent(context) }
     single { Dialogues(get()) }
+    single { Language(get()) }
 }
 
 fun components(context: Context): List<Module> {

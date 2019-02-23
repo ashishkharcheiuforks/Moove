@@ -23,6 +23,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/look_amp_feel"
+                    android:textAppearance="?textAppearanceCaption"
+                    android:textColor="?colorSecondary" />
+
                 <com.backdoor.moove.views.PrefsView
                     android:id="@+id/prefsBgImage"
                     android:layout_width="match_parent"
@@ -38,6 +47,128 @@
                     app:prefs_divider_bottom="true"
                     app:prefs_primary_text="@string/image_blur"
                     app:prefs_type="check_switch" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/sound_amp_vibration"
+                    android:textAppearance="?textAppearanceCaption"
+                    android:textColor="?colorSecondary" />
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsVibrate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/vibrate"
+                    app:prefs_type="check_switch" />
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsVibrateInfinite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/infinite_vibration"
+                    app:prefs_type="check_switch" />
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsSilent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/sound_in_silent_mode"
+                    app:prefs_type="check_switch" />
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsMelodyRepeat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/infinite_sound_loop"
+                    app:prefs_type="check_switch" />
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsMelody"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/melody"
+                    app:prefs_type="none" />
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsVolume"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/volume"
+                    app:prefs_type="none" />
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsTts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/voice_notification_tts"
+                    app:prefs_type="check_switch" />
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsTtsLanguage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/voice_language"
+                    app:prefs_type="none" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/notification"
+                    android:textAppearance="?textAppearanceCaption"
+                    android:textColor="?colorSecondary" />
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsUnlock"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/unlock_screen"
+                    app:prefs_type="check_switch" />
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsAutoSms"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/send_sms_automatically"
+                    app:prefs_type="check_switch" />
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsAutoCall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/make_call_automatically"
+                    app:prefs_type="check_switch" />
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsLed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/led_notification"
+                    app:prefs_type="check_switch" />
+
+                <com.backdoor.moove.views.PrefsView
+                    android:id="@+id/prefsLedColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:prefs_divider_bottom="true"
+                    app:prefs_primary_text="@string/led_color"
+                    app:prefs_type="none" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>

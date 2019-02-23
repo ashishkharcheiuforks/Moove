@@ -5,7 +5,10 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Point
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import android.widget.TextView
@@ -72,7 +75,7 @@ class Dialogues(val prefs: Prefs) {
         dialog.show()
     }
 
-    fun imageDialog(context: Activity, listener: DialogInterface.OnDismissListener) {
+    fun imageDialog(context: Activity, listener: () -> Unit) {
         val builder = AlertDialog.Builder(context)
         builder.setCancelable(true)
         builder.setTitle(context.getString(R.string.background_image))
@@ -99,7 +102,7 @@ class Dialogues(val prefs: Prefs) {
                 0 -> prefs.reminderImage = Module.NONE
                 1 -> prefs.reminderImage = Module.DEFAULT
                 2 -> {
-                    var intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
                     intent.addCategory(Intent.CATEGORY_OPENABLE)
                     intent.type = "image/*"
                     val chooser = Intent.createChooser(intent, context.getString(R.string.select_image))
@@ -108,7 +111,7 @@ class Dialogues(val prefs: Prefs) {
             }
         }
         val dialog = builder.create()
-        dialog.setOnDismissListener(listener)
+        dialog.setOnDismissListener{ listener.invoke() }
         dialog.show()
     }
 
@@ -269,5 +272,17 @@ class Dialogues(val prefs: Prefs) {
     companion object {
         private const val MAX_RADIUS = 100000
         private const val MAX_DEF_RADIUS = 5000
+
+        fun setFullWidthDialog(dialog: AlertDialog, activity: Activity) {
+            val window = dialog.window
+            window?.setGravity(Gravity.CENTER)
+            window?.setLayout((getScreenWidth(activity) * .9).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
+        }
+
+        private fun getScreenWidth(activity: Activity): Int {
+            val size = Point()
+            activity.windowManager.defaultDisplay.getSize(size)
+            return size.x
+        }
     }
 }
