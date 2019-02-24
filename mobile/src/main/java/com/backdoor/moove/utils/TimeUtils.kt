@@ -40,6 +40,17 @@ object TimeUtils {
 
     fun year(): SimpleDateFormat = SimpleDateFormat("yyyy", Locale.getDefault())
 
+    fun getGmtFromDateTime(date: Long): String {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = date
+        gmtFormat.timeZone = TimeZone.getTimeZone(GMT)
+        return try {
+            gmtFormat.format(calendar.time)
+        } catch (e: Exception) {
+            ""
+        }
+    }
+
     fun getPlaceDateTimeFromGmt(dateTime: String?, lang: Int = 0): DMY {
         var date: Date
 

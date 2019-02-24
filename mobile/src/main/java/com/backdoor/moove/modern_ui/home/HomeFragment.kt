@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -71,14 +72,39 @@ class HomeFragment : Fragment() {
     private fun initList() {
         adapter.actionsListener = object : ActionsListener<Reminder> {
             override fun onAction(view: View, position: Int, t: Reminder?, actions: ListActions) {
-
+                if (t != null) {
+                    when (actions) {
+                        ListActions.OPEN -> editReminder(t)
+                        ListActions.SWITCH -> viewModel.toggle(t)
+                        else -> {}
+                    }
+                }
             }
         }
         binding.eventsList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         binding.eventsList.adapter = adapter
     }
 
+    private fun editReminder(reminder: Reminder) {
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCreateReminderFragment(reminder.uuId))
+    }
+
     private fun initViewModel() {
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        viewModel.reminders.observe(this, Observer {
+            if (it != null) {
+                showReminders(it)
+            }
+        })
+    }
+
+    private fun showReminders(list: List<Reminder>) {
+        adapter.data = list.toMutableList()
+
+        if (list.isEmpty()) {
+            binding.emptyView.visibility = View.VISIBLE
+        } else {
+            binding.emptyView.visibility = View.GONE
+        }
     }
 }

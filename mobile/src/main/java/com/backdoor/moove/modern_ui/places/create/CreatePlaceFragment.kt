@@ -55,7 +55,7 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
         initActionBar()
         activity?.addOnBackPressedCallback(mBackHandler)
 
-        mMap = MapFragment.newInstance(isTouch = true, isPlaces = true, isSearch = true, isStyles = true, isBack = false)
+        mMap = MapFragment.newInstance(isTouch = true, isPlaces = false, isSearch = true, isStyles = true, isBack = false)
         mMap?.setListener(this)
         mMap?.setCallback(this)
 

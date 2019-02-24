@@ -25,5 +25,10 @@ data class Reminder(
         var isLocked: Boolean = false,
         var isActive: Boolean = false,
         var isRemoved: Boolean = false,
-        var isNotificationShown: Boolean = false
-)
+        var isNotificationShown: Boolean = false,
+        var hasDelay: Boolean = false
+) {
+    fun hasPlace(): Boolean {
+        return latitude != 0.0 && longitude != 0.0
+    }
+}

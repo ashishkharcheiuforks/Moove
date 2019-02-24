@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -64,28 +65,28 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="@dimen/reminder_margin_top"
-                android:src="@drawable/ic_done_black_24dp" />
+                app:srcCompat="@drawable/ic_twotone_done_24px" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/buttonCall"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="@dimen/reminder_margin_top"
-                android:src="@drawable/ic_call_black_24dp" />
+                app:srcCompat="@drawable/ic_twotone_call_24px" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/buttonNotification"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="@dimen/reminder_margin_top"
-                android:src="@drawable/ic_favorite_black_24dp" />
+                app:srcCompat="@drawable/ic_twotone_favorite_24px" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/buttonEdit"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="@dimen/reminder_margin_top"
-                android:src="@drawable/ic_create_black_24dp" />
+                app:srcCompat="@drawable/ic_twotone_edit_24px" />
 
         </LinearLayout>
     </RelativeLayout>

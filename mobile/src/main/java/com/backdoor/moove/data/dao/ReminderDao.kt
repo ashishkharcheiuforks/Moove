@@ -8,7 +8,7 @@ import com.backdoor.moove.data.Reminder
 @Dao
 interface ReminderDao {
     @Transaction
-    @Query("select * from Reminder order by createdAt DESC")
+    @Query("select * from Reminder order by isActive DESC")
     fun loadAll(): LiveData<List<Reminder>>
 
     @Transaction

@@ -29,6 +29,8 @@ object Module {
     const val NONE = "none"
     const val ACTION_REQUEST_GALLERY = 130
     const val FILE_PICKED = "file_selected"
+    const val CONTACT_SELECTED = "contact_selected"
+    const val CONTACT_SELECTED_NAME = "contact_selected_name"
 
     val isPie: Boolean
         get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P

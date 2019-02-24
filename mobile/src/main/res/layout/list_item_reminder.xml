@@ -8,20 +8,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/listHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:gravity="center_vertical"
-            android:textColor="?colorSecondary"
-            android:textSize="14sp"
-            android:visibility="visible"
-            app:fontFamily="@font/play_bold"
-            tools:text="15 November" />
-
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/itemCard"
             android:layout_width="match_parent"
@@ -35,7 +21,7 @@
                 android:id="@+id/reminderContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp">
+                android:padding="16dp">
 
                 <androidx.appcompat.widget.AppCompatToggleButton
                     android:id="@+id/itemCheck"
@@ -45,6 +31,7 @@
                     android:layout_centerVertical="true"
                     android:background="@drawable/toggle_green"
                     android:focusable="false"
+                    android:textSize="12sp"
                     android:visibility="visible"
                     app:fontFamily="@font/play_bold" />
 

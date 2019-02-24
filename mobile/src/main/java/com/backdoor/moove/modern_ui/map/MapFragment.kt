@@ -642,15 +642,14 @@ class MapFragment : Fragment() {
             return fragment
         }
 
-        fun newInstance(isPlaces: Boolean, isStyles: Boolean, isBack: Boolean,
-                        markerStyle: Int, isRadius: Boolean = true): MapFragment {
+        fun newInstance(isRadius: Boolean = true): MapFragment {
             val fragment = MapFragment()
             val args = Bundle()
-            args.putBoolean(ENABLE_PLACES, isPlaces)
-            args.putBoolean(ENABLE_STYLES, isStyles)
-            args.putBoolean(ENABLE_BACK, isBack)
+            args.putBoolean(ENABLE_TOUCH, true)
+            args.putBoolean(ENABLE_PLACES, true)
+            args.putBoolean(ENABLE_STYLES, true)
+            args.putBoolean(ENABLE_BACK, true)
             args.putBoolean(ENABLE_RADIUS, isRadius)
-            args.putInt(MARKER_STYLE, markerStyle)
             fragment.arguments = args
             return fragment
         }
