@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -32,6 +33,9 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
     private var mPlace: Place? = null
 
     private var mId: String = ""
+    private val mBackHandler: OnBackPressedCallback = OnBackPressedCallback {
+        mMap?.onBackPressed() == false
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +53,7 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initActionBar()
+        activity?.addOnBackPressedCallback(mBackHandler)
 
         mMap = MapFragment.newInstance(isTouch = true, isPlaces = true, isSearch = true, isStyles = true, isBack = false)
         mMap?.setListener(this)
@@ -158,6 +163,11 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
     }
 
     override fun onBackClick() {
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.removeOnBackPressedCallback(mBackHandler)
     }
 
     companion object {

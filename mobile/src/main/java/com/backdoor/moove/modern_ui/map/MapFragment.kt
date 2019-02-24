@@ -351,8 +351,8 @@ class MapFragment : Fragment() {
     private fun initViewModel() {
         viewModel = ViewModelProviders.of(this).get(MapViewModel::class.java)
         viewModel.places.observe(this, Observer {
-            if (it != null) {
-                placeRecyclerAdapter.data = it
+            if (it != null && isPlaces) {
+                showPlaces(it)
             }
         })
     }
@@ -530,16 +530,24 @@ class MapFragment : Fragment() {
     }
 
     private fun setStyle(map: GoogleMap, mapType: Int = mMapType) {
+        val same = mMapType == mapType
         mMapType = mapType
-        if (mapType == GoogleMap.MAP_TYPE_NORMAL) {
-            if (map.mapType == GoogleMap.MAP_TYPE_SATELLITE || map.mapType == GoogleMap.MAP_TYPE_HYBRID) {
-                map.mapType = GoogleMap.MAP_TYPE_NONE
+        if (same) {
+            if (mapType == GoogleMap.MAP_TYPE_NORMAL) {
+                val ctx = context ?: return
+                map.setMapStyle(MapStyleOptions.loadRawResourceStyle(ctx, mapStyleJson))
             }
-            val ctx = context ?: return
-            map.setMapStyle(MapStyleOptions.loadRawResourceStyle(ctx, mapStyleJson))
-            map.mapType = mapType
         } else {
-            map.mapType = mapType
+            if (mapType == GoogleMap.MAP_TYPE_NORMAL) {
+                if (map.mapType == GoogleMap.MAP_TYPE_SATELLITE || map.mapType == GoogleMap.MAP_TYPE_HYBRID) {
+                    map.mapType = GoogleMap.MAP_TYPE_NONE
+                }
+                map.mapType = mapType
+                val ctx = context ?: return
+                map.setMapStyle(MapStyleOptions.loadRawResourceStyle(ctx, mapStyleJson))
+            } else {
+                map.mapType = mapType
+            }
         }
     }
 
@@ -550,10 +558,10 @@ class MapFragment : Fragment() {
     }
 
     private fun refreshStyles(map: GoogleMap) {
-        setStyle(map, prefs.mapType)
+        setStyle(map, mMapType)
     }
 
-    val mapStyleJson: Int
+    private val mapStyleJson: Int
         @RawRes
         get() {
             val style = prefs.mapStyle
