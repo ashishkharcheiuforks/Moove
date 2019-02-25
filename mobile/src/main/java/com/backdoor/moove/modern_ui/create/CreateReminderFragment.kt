@@ -314,6 +314,7 @@ class CreateReminderFragment : Fragment(), MapCallback {
 
     override fun onDestroy() {
         super.onDestroy()
+        ViewUtils.hideKeyboard(activity)
         if (viewModel.isReminderEdited) {
             if (viewModel.reminder.isActive) {
                 viewModel.resumeReminder(viewModel.reminder)

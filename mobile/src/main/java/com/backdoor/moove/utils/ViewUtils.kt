@@ -1,6 +1,7 @@
 package com.backdoor.moove.utils
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -15,6 +16,7 @@ import android.view.ViewTreeObserver
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.DecelerateInterpolator
+import android.view.inputmethod.InputMethodManager
 import android.widget.ScrollView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
@@ -44,6 +46,12 @@ import com.backdoor.moove.R
  * limitations under the License.
  */
 object ViewUtils {
+
+    fun hideKeyboard(activity: Activity?, view: View? = null) {
+        val token = view?.windowToken ?: activity?.window?.currentFocus?.windowToken ?: return
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        imm?.hideSoftInputFromWindow(token, 0)
+    }
 
     fun isHorizontal(context: Context): Boolean {
         return context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE

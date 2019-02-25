@@ -113,6 +113,7 @@
 
     <color name="secondary">#69F0AE</color>
     <color name="secondary_12">#0c69F0AE</color>
+    <color name="secondary_50">#8069F0AE</color>
     <color name="darkPrimary3">#424242</color>
     <color name="darkPrimaryDark3">#1b1b1b</color>
     <color name="darkBg3">#616161</color>

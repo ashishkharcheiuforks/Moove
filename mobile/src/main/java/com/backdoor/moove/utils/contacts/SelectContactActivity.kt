@@ -87,6 +87,7 @@ class SelectContactActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        ViewUtils.hideKeyboard(this)
         mLoader?.cancel()
     }
 

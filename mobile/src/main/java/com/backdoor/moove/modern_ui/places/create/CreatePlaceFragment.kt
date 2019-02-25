@@ -18,6 +18,7 @@ import com.backdoor.moove.modern_ui.map.MapFragment
 import com.backdoor.moove.utils.MapCallback
 import com.backdoor.moove.utils.MapListener
 import com.backdoor.moove.utils.Prefs
+import com.backdoor.moove.utils.ViewUtils
 import com.google.android.gms.maps.model.LatLng
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -168,6 +169,11 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
     override fun onDestroyView() {
         super.onDestroyView()
         activity?.removeOnBackPressedCallback(mBackHandler)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ViewUtils.hideKeyboard(activity)
     }
 
     companion object {

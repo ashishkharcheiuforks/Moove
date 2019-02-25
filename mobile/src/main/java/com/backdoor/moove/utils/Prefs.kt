@@ -84,7 +84,7 @@ open class Prefs(context: Context) {
 
     private fun getString(stringToLoad: String, def: String = ""): String {
         try {
-            return prefs.getString(stringToLoad, def)
+            return prefs.getString(stringToLoad, def) ?: ""
         } catch (e: NullPointerException) {
             e.printStackTrace()
         }
@@ -274,9 +274,6 @@ open class Prefs(context: Context) {
             editor.putInt(TRACK_TIME, 1)
             editor.putInt(VOLUME, 25)
             editor.putInt(MARKER_STYLE, 11)
-
-//            editor.putString(TTS_LOCALE, Language.ENGLISH)
-
             editor.putInt(APP_RUNS_COUNT, 0)
             editor.putBoolean(TRACKING_NOTIFICATION, true)
             editor.putBoolean(RATE_SHOW, false)
@@ -285,16 +282,13 @@ open class Prefs(context: Context) {
             editor.putBoolean(UNLOCK_DEVICE, false)
             editor.putBoolean(TTS, false)
             editor.putBoolean(REMINDER_IMAGE_BLUR, true)
-            editor.putBoolean(CUSTOM_SOUND, false)
+            editor.putString(CUSTOM_SOUND, Module.DEFAULT)
             editor.putBoolean(PLACES_AUTO, true)
             editor.apply()
         }
     }
 
     fun checkPrefs() {
-        if (!hasKey(TTS_LOCALE)) {
-//            ttsLocale = Language.ENGLISH
-        }
         if (!hasKey(REMINDER_IMAGE)) {
             reminderImage = Module.DEFAULT
         }
