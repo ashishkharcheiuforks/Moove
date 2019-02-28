@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.backdoor.moove.data.dao.PlaceDao
 import com.backdoor.moove.data.dao.ReminderDao
-import com.backdoor.moove.utils.launchDefault
 
 @Database(entities = [Place::class, Reminder::class],
         version = 1,
@@ -35,9 +34,6 @@ abstract class RoomDb : RoomDatabase() {
     }
 
     fun cleanDb() {
-        launchDefault {
-            placeDao().deleteAll()
-            reminderDao().deleteAll()
-        }
+        INSTANCE?.clearAllTables()
     }
 }

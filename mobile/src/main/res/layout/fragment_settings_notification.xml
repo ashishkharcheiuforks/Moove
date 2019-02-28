@@ -139,14 +139,6 @@
                     app:prefs_type="check_switch" />
 
                 <com.backdoor.moove.views.PrefsView
-                    android:id="@+id/prefsAutoSms"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:prefs_divider_bottom="true"
-                    app:prefs_primary_text="@string/send_sms_automatically"
-                    app:prefs_type="check_switch" />
-
-                <com.backdoor.moove.views.PrefsView
                     android:id="@+id/prefsAutoCall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

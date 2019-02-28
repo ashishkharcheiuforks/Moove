@@ -43,9 +43,8 @@ class CreateReminderViewModel(val uuId: String) : ViewModel(), KoinComponent {
     fun saveAndStart(reminder: Reminder) {
         launchDefault {
             runBlocking {
-                db.reminderDao().insert(reminder)
+                locationEvent.withReminder(reminder).start()
             }
-            locationEvent.withReminder(reminder).start()
         }
     }
 

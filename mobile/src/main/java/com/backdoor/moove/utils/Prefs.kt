@@ -31,7 +31,6 @@ open class Prefs(context: Context) {
         const val VIBRATION_STATUS = "vibration_status"
         const val SILENT_SOUND = "sound_status"
         const val INFINITE_SOUND = "infinite_sound"
-        const val SILENT_SMS = "silent_sms"
         const val SILENT_CALL = "silent_call"
         const val LED_STATUS = "led_status"
         const val LED_COLOR = "led_color"
@@ -189,12 +188,6 @@ open class Prefs(context: Context) {
             putBoolean(TTS, value)
         }
 
-    var silentSms: Boolean
-        get() = getBoolean(SILENT_SMS)
-        set(value) {
-            putBoolean(SILENT_SMS, value)
-        }
-
     var wearNotification: Boolean
         get() = getBoolean(WEAR_NOTIFICATION)
         set(value) {
@@ -309,9 +302,6 @@ open class Prefs(context: Context) {
         }
         if (!hasKey(TTS)) {
             ttsEnabled = false
-        }
-        if (!hasKey(SILENT_SMS)) {
-            silentSms = false
         }
         if (!hasKey(WEAR_NOTIFICATION)) {
             wearNotification = false

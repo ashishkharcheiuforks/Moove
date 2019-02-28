@@ -13,12 +13,13 @@ import timber.log.Timber
 class BootReceiver : BroadcastReceiver(), KoinComponent {
 
     val locationEvent: LocationEvent by inject()
+    val roomDb: RoomDb by inject()
 
     override fun onReceive(context: Context, intent: Intent) {
         Timber.d("onReceive: ")
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
             launchDefault {
-                for (item in RoomDb.getInMemoryDatabase(context).reminderDao().getAll(active = true, removed = false)) {
+                for (item in roomDb.reminderDao().getAll(active = true, removed = false)) {
                     locationEvent.withReminder(item).start()
                 }
             }

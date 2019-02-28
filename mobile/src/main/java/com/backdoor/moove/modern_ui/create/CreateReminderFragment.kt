@@ -47,11 +47,9 @@ class CreateReminderFragment : Fragment(), MapCallback {
         }
 
         override fun onBackClick() {
-            if (!isTablet(resources)) {
-                if (binding.mapContainer.visibility == View.VISIBLE) {
-                    ViewUtils.fadeOutAnimation(binding.mapContainer)
-                    ViewUtils.fadeInAnimation(binding.scrollView)
-                }
+            if (binding.mapContainer.isVisible()) {
+                ViewUtils.fadeOutAnimation(binding.mapContainer)
+                ViewUtils.fadeInAnimation(binding.scrollView)
             }
         }
     }
@@ -96,9 +94,7 @@ class CreateReminderFragment : Fragment(), MapCallback {
         binding.taskSummary.filters = arrayOf(InputFilter.LengthFilter(150))
         binding.taskSummary.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s != null) {
-                    viewModel.reminder.summary = s.toString()
-                }
+                viewModel.reminder.summary = s?.toString()?.trim() ?: ""
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -190,6 +186,7 @@ class CreateReminderFragment : Fragment(), MapCallback {
 
     private fun saveReminder() {
         val reminder = prepare() ?: return
+        Timber.d("saveReminder: $reminder")
         viewModel.loadedReminder.removeObserver(mReminderObserver)
         viewModel.saveAndStart(reminder)
         findNavController().popBackStack()
@@ -211,6 +208,9 @@ class CreateReminderFragment : Fragment(), MapCallback {
     }
 
     private fun prepare(): Reminder? {
+        if (!Permissions.ensureForeground(activity!!, 112)) {
+            return null
+        }
         if (!SuperUtil.checkLocationEnable(context!!)) {
             Toast.makeText(context, getString(R.string.gps_is_not_enabled), Toast.LENGTH_SHORT).show()
             return null
@@ -223,7 +223,8 @@ class CreateReminderFragment : Fragment(), MapCallback {
             Toast.makeText(context, getString(R.string.no_place_selected), Toast.LENGTH_SHORT).show()
             return null
         }
-        if (TextUtils.isEmpty(reminder.summary)) {
+        val summary = binding.taskSummary.text.toString().trim()
+        if (TextUtils.isEmpty(summary)) {
             binding.taskLayout.error = getString(R.string.empty_field)
             binding.taskLayout.isErrorEnabled = true
             map.invokeBack()
@@ -242,13 +243,15 @@ class CreateReminderFragment : Fragment(), MapCallback {
                 if (binding.enterCheck.isChecked) ReminderUtils.TYPE_LOCATION_MESSAGE else ReminderUtils.TYPE_LOCATION_OUT_MESSAGE
             }
         }
-        val radius = map.markerRadius
+        reminder.summary = summary
         reminder.phoneNumber = number
         reminder.latitude = pos.latitude
         reminder.longitude = pos.longitude
-        reminder.radius = radius
+        reminder.radius = map.markerRadius
         reminder.markerColor = map.markerStyle
         reminder.type = type
+        reminder.isActive = true
+        reminder.isRemoved = false
         reminder.hasDelay = binding.attackDelay.isChecked
         if (binding.attackDelay.isChecked) {
             val startTime = binding.dateView.dateTime

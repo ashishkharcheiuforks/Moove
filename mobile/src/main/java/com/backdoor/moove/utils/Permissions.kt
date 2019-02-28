@@ -29,20 +29,11 @@ import androidx.core.content.ContextCompat
 object Permissions {
 
     const val READ_CONTACTS = Manifest.permission.READ_CONTACTS
-    const val GET_ACCOUNTS = Manifest.permission.GET_ACCOUNTS
-    const val READ_CALENDAR = Manifest.permission.READ_CALENDAR
-    const val WRITE_CALENDAR = Manifest.permission.WRITE_CALENDAR
-    const val WRITE_EXTERNAL = Manifest.permission.WRITE_EXTERNAL_STORAGE
     const val READ_EXTERNAL = Manifest.permission.READ_EXTERNAL_STORAGE
     const val ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION
     const val ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION
-    const val READ_PHONE_STATE = Manifest.permission.READ_PHONE_STATE
     const val CALL_PHONE = Manifest.permission.CALL_PHONE
-    const val SEND_SMS = Manifest.permission.SEND_SMS
-    const val MANAGE_DOCUMENTS = Manifest.permission.MANAGE_DOCUMENTS
-    const val RECORD_AUDIO = Manifest.permission.RECORD_AUDIO
     const val BLUETOOTH = Manifest.permission.BLUETOOTH
-    const val CAMERA = Manifest.permission.CAMERA
     @RequiresApi(Build.VERSION_CODES.P)
     const val FOREGROUND = Manifest.permission.FOREGROUND_SERVICE
 
@@ -79,6 +70,19 @@ object Permissions {
                 }
             }
             return false
+        }
+    }
+
+    fun ensureForeground(activity: Activity, requestCode: Int): Boolean {
+        return if (checkForeground(activity)) {
+            true
+        } else {
+            if (Module.isPie) {
+                Permissions.requestPermission(activity, requestCode, FOREGROUND)
+                false
+            } else {
+                true
+            }
         }
     }
 

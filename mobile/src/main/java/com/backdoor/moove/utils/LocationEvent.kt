@@ -7,13 +7,13 @@ import com.backdoor.moove.data.RoomDb
 import com.backdoor.moove.services.GeolocationService
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
+import timber.log.Timber
 
 class LocationEvent(val context: Context) : KoinComponent {
 
     val db: RoomDb by inject()
     val prefs: Prefs by inject()
-    var reminder: Reminder = Reminder()
-        private set
+    private var reminder: Reminder = Reminder()
 
     val isActive: Boolean
         get() = reminder.isActive
@@ -24,16 +24,14 @@ class LocationEvent(val context: Context) : KoinComponent {
     }
 
     fun start(): Boolean {
+        Timber.d("start: $reminder")
         return if (Module.hasLocation(context)) {
             reminder.isActive = true
             reminder.isRemoved = false
             save()
-            if (EventJobService.enablePositionDelay(context, reminder.uuId)) {
-                true
-            } else {
-                SuperUtil.startGpsTracking(context)
-                true
-            }
+            val b = EventJobService.enablePositionDelay(reminder)
+            if (!b) SuperUtil.startGpsTracking(context)
+            true
         } else {
             stop()
             remove()
@@ -42,6 +40,7 @@ class LocationEvent(val context: Context) : KoinComponent {
     }
 
     fun stop(): Boolean {
+        Timber.d("stop: $reminder")
         EventJobService.cancelReminder(reminder.uuId)
         reminder.isActive = false
         save()
@@ -51,20 +50,23 @@ class LocationEvent(val context: Context) : KoinComponent {
     }
 
     fun pause(): Boolean {
+        Timber.d("pause: $reminder")
         EventJobService.cancelReminder(reminder.uuId)
         stopTracking(true)
         return true
     }
 
     fun resume(): Boolean {
+        Timber.d("resume: $reminder")
         if (reminder.isActive) {
-            val b = EventJobService.enablePositionDelay(context, reminder.uuId)
+            val b = EventJobService.enablePositionDelay(reminder)
             if (!b) SuperUtil.startGpsTracking(context)
         }
         return true
     }
 
     fun onOff(): Boolean {
+        Timber.d("onOff: $reminder")
         return if (isActive) {
             stop()
         } else {
@@ -86,7 +88,7 @@ class LocationEvent(val context: Context) : KoinComponent {
                 if (item.uniqueId == reminder.uniqueId) {
                     continue
                 }
-                if (TextUtils.isEmpty(item.delayTime) || !TimeCount.isCurrent(item.delayTime)) {
+                if (!item.hasDelay || !TimeUtils.isCurrent(item.delayTime)) {
                     if (!item.isNotificationShown) {
                         hasActive = true
                         break

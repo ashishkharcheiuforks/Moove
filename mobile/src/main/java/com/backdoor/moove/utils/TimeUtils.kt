@@ -25,6 +25,20 @@ import java.util.*
  */
 object TimeUtils {
 
+    const val SECOND: Long = 1000
+    const val MINUTE: Long = 60 * SECOND
+    const val HOUR: Long = MINUTE * 60
+    private const val HALF_DAY: Long = HOUR * 12
+    const val DAY: Long = HALF_DAY * 2
+
+    fun isCurrent(eventTime: String?): Boolean {
+        return TimeUtils.getDateTimeFromGmt(eventTime) > System.currentTimeMillis()
+    }
+
+    fun isCurrent(millis: Long): Boolean {
+        return millis > System.currentTimeMillis()
+    }
+
     private const val GMT = "GMT"
     private val gmtFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
 
@@ -135,17 +149,6 @@ object TimeUtils {
             time24.format(date)
         else
             time12.format(date)
-    }
-
-    fun isCurrent(time: Long): Boolean {
-        var res = false
-        val cc = Calendar.getInstance()
-        cc.timeInMillis = System.currentTimeMillis()
-        val currentTime = cc.timeInMillis
-        if (time < currentTime) {
-            res = true
-        }
-        return res
     }
 
     fun showTimePicker(context: Context, is24: Boolean,

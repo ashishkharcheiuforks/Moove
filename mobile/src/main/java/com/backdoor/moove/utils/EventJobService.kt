@@ -1,18 +1,14 @@
 package com.backdoor.moove.utils
 
-import android.content.Context
-import com.backdoor.moove.data.RoomDb
+import com.backdoor.moove.data.Reminder
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobManager
 import com.evernote.android.job.JobRequest
 import com.evernote.android.job.util.support.PersistableBundleCompat
 import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
 import timber.log.Timber
 
 class EventJobService : Job(), KoinComponent {
-
-    val prefs: Prefs by inject()
 
     override fun onRunJob(params: Job.Params): Job.Result {
         val bundle = params.extras
@@ -25,37 +21,16 @@ class EventJobService : Job(), KoinComponent {
     companion object {
         private const val ARG_LOCATION = "arg_location"
 
-        fun enableDelay(time: Int, id: String) {
-            val min = TimeCount.MINUTE
-            val millis = min * time
-            enableDelay(millis, id)
-        }
-
-        fun enableDelay(millis: Long, id: String) {
-            if (millis <= 0) {
-                return
-            }
-            JobRequest.Builder(id)
-                    .setExact(millis)
-                    .setRequiresCharging(false)
-                    .setRequiresDeviceIdle(false)
-                    .setRequiresBatteryNotLow(false)
-                    .setRequiresStorageNotLow(false)
-                    .setUpdateCurrent(true)
-                    .build()
-                    .schedule()
-        }
-
-        fun enablePositionDelay(context: Context, id: String): Boolean {
-            val item = RoomDb.getInMemoryDatabase(context).reminderDao().getById(id) ?: return false
-            val due = TimeUtils.getDateTimeFromGmt(item.delayTime)
+        fun enablePositionDelay(reminder: Reminder): Boolean {
+            val due = TimeUtils.getDateTimeFromGmt(reminder.delayTime)
             val mills = due - System.currentTimeMillis()
             if (due == 0L || mills <= 0) {
                 return false
             }
+            Timber.d("enablePositionDelay: $reminder")
             val bundle = PersistableBundleCompat()
             bundle.putBoolean(ARG_LOCATION, true)
-            JobRequest.Builder(item.uuId)
+            JobRequest.Builder(reminder.uuId)
                     .setExact(mills)
                     .setRequiresCharging(false)
                     .setRequiresDeviceIdle(false)

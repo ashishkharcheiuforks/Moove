@@ -143,7 +143,7 @@
 
         <service
             android:name=".services.GeolocationService"
-            android:enabled="false" />
+            android:enabled="true" />
 
         <service
             android:name="com.evernote.android.job.gcm.PlatformGcmService"

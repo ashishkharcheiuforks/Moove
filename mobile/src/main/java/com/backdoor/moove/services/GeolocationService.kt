@@ -4,7 +4,6 @@ import android.app.Service
 import android.content.Intent
 import android.location.Location
 import android.os.IBinder
-import android.text.TextUtils
 import androidx.core.app.NotificationCompat
 import com.backdoor.moove.R
 import com.backdoor.moove.data.Reminder
@@ -59,8 +58,8 @@ class GeolocationService : Service() {
     }
 
     private suspend fun checkDistance(locationA: Location, reminder: Reminder) {
-        if (!TextUtils.isEmpty(reminder.delayTime)) {
-            if (TimeCount.isCurrent(reminder.delayTime)) {
+        if (reminder.hasDelay) {
+            if (!TimeUtils.isCurrent(reminder.delayTime)) {
                 selectBranch(locationA, reminder)
             }
         } else {

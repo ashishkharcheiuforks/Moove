@@ -55,7 +55,6 @@ class NotificationSettingsFragment : Fragment() {
         initTtsPrefs()
         initTtsLocalePrefs()
         initUnlockPrefs()
-        initAutoSmsPrefs()
         initAutoCallPrefs()
         initLedPrefs()
         initLedColorPrefs()
@@ -134,27 +133,6 @@ class NotificationSettingsFragment : Fragment() {
     private fun initAutoCallPrefs() {
         binding.prefsAutoCall.setOnClickListener { changeAutoCallPrefs() }
         binding.prefsAutoCall.isChecked = prefs.autoPlace
-    }
-
-    private fun changeAutoSmsPrefs() {
-        val isChecked = binding.prefsAutoSms.isChecked
-        if (!isChecked) {
-            if (Permissions.ensurePermissions(activity!!, PERM_AUTO_SMS, Permissions.SEND_SMS)) {
-                binding.prefsAutoSms.isChecked = !isChecked
-                prefs.silentSms = !isChecked
-            } else {
-                binding.prefsAutoSms.isChecked = isChecked
-                prefs.silentSms = isChecked
-            }
-        } else {
-            binding.prefsAutoSms.isChecked = !isChecked
-            prefs.silentSms = !isChecked
-        }
-    }
-
-    private fun initAutoSmsPrefs() {
-        binding.prefsAutoSms.setOnClickListener { changeAutoSmsPrefs() }
-        binding.prefsAutoSms.isChecked = prefs.silentSms
     }
 
     private fun changeUnlockPrefs() {
@@ -392,17 +370,14 @@ class NotificationSettingsFragment : Fragment() {
         if (Permissions.isAllGranted(grantResults)) {
             when (requestCode) {
                 PERM_AUTO_CALL -> changeAutoCallPrefs()
-                PERM_AUTO_SMS -> changeAutoSmsPrefs()
             }
         }
     }
 
     companion object {
-
         private const val MELODY_CODE = 125
         private const val PERM_BT = 1425
         private const val PERM_SD = 1426
         private const val PERM_AUTO_CALL = 1427
-        private const val PERM_AUTO_SMS = 1428
     }
 }

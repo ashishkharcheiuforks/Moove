@@ -1,28 +1,24 @@
--printmapping out.map
+-verbose
+-allowaccessmodification
+-assumevalues class android.os.Build$VERSION {
+    int SDK_INT return 21..2147483647;
+}
 
--keep class android.support.v4.app.** { *; }
--keep interface android.support.v4.app.** { *; }
--keep class com.dropbox.** {*;}
--keep class org.apache.http.** { *; }
--keep class ch.boye.** { *; }
--keep class jp.wasabeef.** { *; }
--keep class io.codetail.animation.arcanimator.** { *; }
--keep class android.support.v8.renderscript.** { *; }
--keep class android.support.design.** { *; }
--keep interface android.support.design.** { *; }
--keep public class android.support.design.R$* { *; }
--keep class com.android.vending.billing.**
+# ServiceLoader support
+-keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
+-keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}
 
--dontnote org.apache.**
--dontnote ch.boye.**
--dontnote org.json.**
--dontnote jp.wasabeef.**
--dontnote com.squareup.okhttp.**
--dontnote com.backdoor.**
--dontnote com.google.**
--dontnote uk.co.**
+# Most of volatile fields are updated with AFU and should not be mangled
+#-keepclassmembernames class kotlinx.** {
+#    volatile <fields>;
+#}
+
+-dontwarn com.google.errorprone.annotations.*
+-dontwarn java.lang.ClassValue
+-keep class java.lang.ClassValue { *; }
 
 -dontwarn org.apache.**
+-dontwarn de.hdodenhof.circleimageview.**
 -dontwarn ch.boye.**
 -dontwarn com.google.android.gms.**
 -dontwarn com.google.api.client.http.**
@@ -33,9 +29,20 @@
 -dontwarn com.squareup.okhttp.**
 -dontwarn android.support.v8.**
 -dontwarn android.support.design.**
+-dontwarn okio.**
+-dontwarn org.mockito.**
+-dontwarn sun.reflect.**
+-dontwarn android.test.**
+-dontwarn android.net.**
+-dontwarn junit.framework.**
 
--renamesourcefileattribute SourceFile
--keepattributes SourceFile,LineNumberTable
+-dontnote android.net.http.**
+-dontnote org.apache.http.**
+-dontnote com.dropbox.**
+-dontnote org.json.**
+-dontnote org.dmfs.rfc5545.**
+-dontnote com.backdoor.simpleai.**
+-dontnote okhttp3.internal.platform.**
 
 -keep class * extends java.util.ListResourceBundle {
     protected Object[][] getContents();
@@ -53,64 +60,6 @@
 -keepnames class * implements android.os.Parcelable {
     public static final ** CREATOR;
 }
-
-# This is a configuration file for ProGuard.
-# http://proguard.sourceforge.net/index.html#manual/usage.html
-
--dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
--verbose
-
-# Optimization is turned off by default. Dex does not like code run
-# through the ProGuard optimize and preverify steps (and performs some
-# of these optimizations on its own).
--dontoptimize
--dontpreverify
-# Note that if you want to enable optimization, you cannot just
-# include optimization flags in your own project configuration file;
-# instead you will need to point to the
-# "proguard-android-optimize.txt" file instead of this one from your
-# project.properties file.
-
--keepattributes *Annotation*
--keep public class com.google.vending.licensing.ILicensingService
--keep public class com.android.vending.licensing.ILicensingService
-
-# For native methods, see http://proguard.sourceforge.net/manual/examples.html#native
--keepclasseswithmembernames class * {
-    native <methods>;
-}
-
-# keep setters in Views so that animations can still work.
-# see http://proguard.sourceforge.net/manual/examples.html#beans
--keepclassmembers public class * extends android.view.View {
-   void set*(***);
-   *** get*();
-}
-
-# We want to keep methods in Activity that could be used in the XML attribute onClick
--keepclassmembers class * extends android.app.Activity {
-   public void *(android.view.View);
-}
-
-# For enumeration classes, see http://proguard.sourceforge.net/manual/examples.html#enumerations
--keepclassmembers enum * {
-    public static **[] values();
-    public static ** valueOf(java.lang.String);
-}
-
--keep class * implements android.os.Parcelable {
-  public static final android.os.Parcelable$Creator *;
-}
-
--keepclassmembers class **.R$* {
-    public static <fields>;
-}
-
-# The support library contains references to newer platform versions.
-# Don't warn about those in case this app is linking against an older
-# platform version.  We know about them, and they are safe.
--dontwarn android.support.**
 
 # Needed to keep generic types and @Key annotations accessed via reflection
 
@@ -143,4 +92,61 @@
 -dontnote sun.misc.Unsafe
 -dontwarn sun.misc.Unsafe
 
+-dontwarn java.lang.invoke.*
 
+# Platform calls Class.forName on types which do not exist on Android to determine platform.
+-dontnote retrofit2.Platform
+# Platform used when running on RoboVM on iOS. Will not be used at runtime.
+-dontnote retrofit2.Platform$IOS$MainThreadExecutor
+# Platform used when running on Java 8 VMs. Will not be used at runtime.
+-dontwarn retrofit2.Platform$Java8
+# Retain generic type information for use by reflection by converters and adapters.
+-keepattributes Signature
+# Retain declared checked exceptions for use by a Proxy instance.
+-keepattributes Exceptions
+
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.AppGlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
+-dontwarn org.hamcrest.**
+-dontwarn android.test.**
+-dontwarn android.support.test.**
+
+-keep class org.hamcrest.** {
+   *;
+}
+
+-keep class org.junit.** { *; }
+-dontwarn org.junit.**
+
+-keep class junit.** { *; }
+-dontwarn junit.**
+
+-keep class sun.misc.** { *; }
+-dontwarn sun.misc.**
+
+-dontwarn com.google.common.**
+
+-dontwarn com.evernote.android.job.gcm.**
+-dontwarn com.evernote.android.job.GcmAvailableHelper
+-dontwarn com.evernote.android.job.work.**
+-dontwarn com.evernote.android.job.WorkManagerAvailableHelper
+
+-keep public class com.evernote.android.job.v21.PlatformJobService
+-keep public class com.evernote.android.job.v14.PlatformAlarmService
+-keep public class com.evernote.android.job.v14.PlatformAlarmReceiver
+-keep public class com.evernote.android.job.JobBootReceiver
+-keep public class com.evernote.android.job.JobRescheduleService
+-keep public class com.evernote.android.job.gcm.PlatformGcmService
+-keep public class com.evernote.android.job.work.PlatformWorker
+
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception
+
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
