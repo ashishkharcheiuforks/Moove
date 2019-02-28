@@ -59,7 +59,10 @@ class CreateReminderFragment : Fragment(), MapCallback {
     private val mReminderObserver: Observer<in Reminder> = Observer {
         if (it != null && !viewModel.isReminderEdited) {
             viewModel.reminder = it
+            viewModel.original = it.copy()
             viewModel.isReminderEdited = true
+            viewModel.isPaused = true
+            viewModel.pauseReminder(it)
             binding.toolbar.menu.add(Menu.NONE, MENU_ITEM_DELETE, 100, getString(R.string.delete))
             editReminder()
         }
@@ -188,6 +191,7 @@ class CreateReminderFragment : Fragment(), MapCallback {
         val reminder = prepare() ?: return
         Timber.d("saveReminder: $reminder")
         viewModel.loadedReminder.removeObserver(mReminderObserver)
+        viewModel.isSaving = true
         viewModel.saveAndStart(reminder, prefs.autoPlace)
         findNavController().popBackStack()
     }
@@ -277,9 +281,6 @@ class CreateReminderFragment : Fragment(), MapCallback {
 
     private fun editReminder() {
         val reminder = viewModel.reminder
-        if (viewModel.isReminderEdited) {
-            viewModel.pauseReminder(reminder)
-        }
         Timber.d("editReminder: %s", reminder)
         if (reminder.delayTime != "") {
             binding.dateView.setDateTime(reminder.delayTime)
@@ -320,10 +321,8 @@ class CreateReminderFragment : Fragment(), MapCallback {
     override fun onDestroy() {
         super.onDestroy()
         ViewUtils.hideKeyboard(activity)
-        if (viewModel.isReminderEdited) {
-            if (viewModel.reminder.isActive) {
-                viewModel.resumeReminder(viewModel.reminder)
-            }
+        if (viewModel.isReminderEdited && viewModel.isPaused && !viewModel.isSaving) {
+            viewModel.original?.let { viewModel.resumeReminder(it) }
         }
     }
 

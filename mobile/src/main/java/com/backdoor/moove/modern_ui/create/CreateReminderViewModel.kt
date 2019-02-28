@@ -20,6 +20,7 @@ class CreateReminderViewModel(val uuId: String) : ViewModel(), KoinComponent {
 
     val loadedReminder = db.reminderDao().loadById(uuId)
     var reminder: Reminder = Reminder()
+    var original: Reminder? = null
     var isReminderEdited = false
     var isMessage: Boolean = false
     var isDelayAdded: Boolean = false
@@ -31,6 +32,8 @@ class CreateReminderViewModel(val uuId: String) : ViewModel(), KoinComponent {
 
     var hour: Int = 0
     var minute: Int = 0
+    var isPaused: Boolean = false
+    var isSaving: Boolean = false
 
     init {
         val calendar = Calendar.getInstance()
