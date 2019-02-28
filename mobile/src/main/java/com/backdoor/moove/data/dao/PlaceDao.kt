@@ -21,6 +21,9 @@ interface PlaceDao {
     @Query("select * from Place where uuId = :uuId")
     fun getById(uuId: String): Place?
 
+    @Query("select * from Place where latitude = :lat and longitude = :lon limit 1")
+    fun getByCoord(lat: Double, lon: Double): Place?
+
     @Insert(onConflict = REPLACE)
     fun insert(place: Place)
 

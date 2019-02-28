@@ -188,7 +188,7 @@ class CreateReminderFragment : Fragment(), MapCallback {
         val reminder = prepare() ?: return
         Timber.d("saveReminder: $reminder")
         viewModel.loadedReminder.removeObserver(mReminderObserver)
-        viewModel.saveAndStart(reminder)
+        viewModel.saveAndStart(reminder, prefs.autoPlace)
         findNavController().popBackStack()
     }
 

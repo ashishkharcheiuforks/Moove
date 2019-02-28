@@ -2,9 +2,11 @@ package com.backdoor.moove.modern_ui.create
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.backdoor.moove.data.Place
 import com.backdoor.moove.data.Reminder
 import com.backdoor.moove.data.RoomDb
 import com.backdoor.moove.utils.LocationEvent
+import com.backdoor.moove.utils.TimeUtils
 import com.backdoor.moove.utils.launchDefault
 import kotlinx.coroutines.runBlocking
 import org.koin.standalone.KoinComponent
@@ -40,10 +42,23 @@ class CreateReminderViewModel(val uuId: String) : ViewModel(), KoinComponent {
         minute = calendar.get(Calendar.MINUTE)
     }
 
-    fun saveAndStart(reminder: Reminder) {
+    fun saveAndStart(reminder: Reminder, addPlace: Boolean = false) {
         launchDefault {
             runBlocking {
                 locationEvent.withReminder(reminder).start()
+                if (addPlace) {
+                    val old = db.placeDao().getByCoord(reminder.latitude, reminder.longitude)
+                    if (old == null) {
+                        val place = Place().apply {
+                            createdAt = TimeUtils.gmtDateTime
+                            latitude = reminder.latitude
+                            longitude = reminder.longitude
+                            markerColor = reminder.markerColor
+                            name = reminder.summary
+                        }
+                        db.placeDao().insert(place)
+                    }
+                }
             }
         }
     }
