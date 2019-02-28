@@ -304,6 +304,8 @@ class CreateReminderFragment : Fragment(), MapCallback {
         binding.ledView.led = reminder.ledColor
         binding.taskSummary.setText(reminder.summary)
         binding.actionView.number = viewModel.reminder.phoneNumber
+
+        showPlaceOnMap()
     }
 
     override fun onMapReady() {
