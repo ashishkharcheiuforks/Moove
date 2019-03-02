@@ -1,18 +1,26 @@
 package com.backdoor.moove.widgets
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.widget.RemoteViews
 import com.backdoor.moove.R
+import com.backdoor.moove.SplashScreenActivity
+import com.backdoor.moove.data.RoomDb
 import com.backdoor.moove.utils.Coloring
 import com.backdoor.moove.utils.DrawableHelper
-import com.backdoor.moove.utils.Prefs
+import com.backdoor.moove.utils.launchDefault
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 
-class LeftDistanceWidget : AppWidgetProvider() {
+class LeftDistanceWidget : AppWidgetProvider(), KoinComponent {
+
+    private val roomDb: RoomDb by inject()
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         for (appWidgetId in appWidgetIds) {
@@ -23,6 +31,13 @@ class LeftDistanceWidget : AppWidgetProvider() {
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
         for (appWidgetId in appWidgetIds) {
             LeftDistanceWidgetConfigureActivity.deletePref(context, appWidgetId)
+            launchDefault {
+                val reminder = roomDb.reminderDao().getByWidgetId(LeftDistanceWidgetConfigureActivity.PREF_DISTANCE_KEY + appWidgetId)
+                reminder?.let {
+                    it.widgetId = ""
+                    roomDb.reminderDao().insert(it)
+                }
+            }
         }
     }
 
@@ -38,8 +53,8 @@ class LeftDistanceWidget : AppWidgetProvider() {
                                      appWidgetId: Int) {
 
             val widgetText = LeftDistanceWidgetConfigureActivity.loadTitlePref(context, appWidgetId)
-            val icon = LeftDistanceWidgetConfigureActivity.loadIConPref(context, appWidgetId)
             val distance = LeftDistanceWidgetConfigureActivity.loadDistancePref(context, appWidgetId)
+            val icon = LeftDistanceWidgetConfigureActivity.loadIconPref(context, appWidgetId)
 
             // Construct the RemoteViews object
             val views = RemoteViews(context.packageName, R.layout.left_distance_widget)
@@ -51,21 +66,20 @@ class LeftDistanceWidget : AppWidgetProvider() {
             })
 
             val coloring = Coloring(context)
-            val prefs = Prefs(context)
+
             val pointer = DrawableHelper.withContext(context)
                     .withDrawable(R.drawable.ic_twotone_place_24px)
-                    .withColor(coloring.accentColor(prefs.markerStyle))
+                    .withColor(coloring.accentColor(icon))
                     .tint()
                     .get()
 
             views.setImageViewBitmap(R.id.markerImage, toBitmap(pointer))
 
-//            val configIntent = Intent(context, MainActivity::class.java)
-//            val configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0)
-//            views.setOnClickPendingIntent(R.id.widgetBg, configPendingIntent)
-//
-//            // Instruct the widget manager to update the widget
-//            appWidgetManager.updateAppWidget(appWidgetId, views)
+            val configIntent = Intent(context, SplashScreenActivity::class.java)
+            val configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0)
+            views.setOnClickPendingIntent(R.id.widgetBg, configPendingIntent)
+
+            appWidgetManager.updateAppWidget(appWidgetId, views)
         }
 
         private fun toBitmap(drawable: Drawable): Bitmap {

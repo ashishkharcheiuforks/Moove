@@ -25,6 +25,9 @@ interface ReminderDao {
     @Query("select * from Reminder where uuId = :uuId")
     fun getById(uuId: String): Reminder?
 
+    @Query("select * from Reminder where widgetId = :id")
+    fun getByWidgetId(id: String): Reminder?
+
     @Insert(onConflict = REPLACE)
     fun insert(reminder: Reminder)
 

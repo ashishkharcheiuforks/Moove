@@ -32,4 +32,10 @@ class HomeViewModel : ViewModel(), KoinComponent {
             }
         }
     }
+
+    fun save(reminder: Reminder) {
+        launchDefault {
+            db.reminderDao().insert(reminder)
+        }
+    }
 }

@@ -1,132 +1,135 @@
 package com.backdoor.moove.widgets
 
+import android.app.Activity
+import android.appwidget.AppWidgetManager
 import android.content.Context
-import android.content.DialogInterface
+import android.content.Intent
+import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.backdoor.moove.R
+import com.backdoor.moove.data.Reminder
+import com.backdoor.moove.databinding.ActivityLeftDistanceWidgetBinding
+import com.backdoor.moove.modern_ui.home.HomeViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-/**
- * The configuration screen for the [LeftDistanceWidget] AppWidget.
- */
-class LeftDistanceWidgetConfigureActivity : AppCompatActivity(), DialogInterface.OnDismissListener {
-//    internal var mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
-//    private var reminderId: Long = 0
-//    internal var mAppWidgetText: TextView
-//    internal var mOnClickListener = { v ->
-//        val context = this@LeftDistanceWidgetConfigureActivity
-//
-//        if (!saveReminderPref(context, mAppWidgetId)) {
-//            return
-//        }
-//
-//        val appWidgetManager = AppWidgetManager.getInstance(context)
-//        LeftDistanceWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId)
-//
-//        val resultValue = Intent()
-//        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId)
-//        setResult(Activity.RESULT_OK, resultValue)
-//        finish()
-//    }
-//
-//    internal var chooseClick: View.OnClickListener = View.OnClickListener {
-//        val context = this@LeftDistanceWidgetConfigureActivity
-//
-//        val builder = AlertDialog.Builder(context)
-//        builder.setCancelable(true)
-//        builder.setTitle(context.getString(R.string.choose_reminder))
-//        val list = ReminderDataProvider.getListData(context)
-//        val titles = ArrayList<String>()
-//        for (item in list) {
-//            titles.add(item.title)
-//        }
-//
-//        val adapter = ArrayAdapter(context,
-//                android.R.layout.simple_list_item_single_choice, titles)
-//
-//        builder.setSingleChoiceItems(adapter, -1) { dialog, which ->
-//            if (which != -1) {
-//                dialog.dismiss()
-//                val model = list[which]
-//                reminderId = model.id
-//                val title = model.title
-//                saveTitlePref(context, mAppWidgetId, title)
-//                saveIconPref(context, mAppWidgetId, model.icon)
-//            }
-//        }
-//        builder.setPositiveButton(context.getString(R.string.ok)) { dialog, which ->
-//            if (which != -1) {
-//                dialog.dismiss()
-//                val model = list[which]
-//                reminderId = model.id
-//                val title = model.title
-//                saveTitlePref(context, mAppWidgetId, title)
-//                saveIconPref(context, mAppWidgetId, model.icon)
-//            }
-//        }
-//        val dialog = builder.create()
-//        dialog.setOnDismissListener(this@LeftDistanceWidgetConfigureActivity)
-//        dialog.show()
-//    }
-//
-//    private fun saveReminderPref(context: Context, appWidgetId: Int): Boolean {
-//        if (reminderId > 0) {
-//            saveDistancePref(context, PREF_DISTANCE_KEY + appWidgetId, 1)
-//            Reminder.setWidget(context, reminderId, PREF_DISTANCE_KEY + appWidgetId)
-//            return true
-//        } else {
-//            Snackbar.make(mAppWidgetText, R.string.at_first_select_reminder, Snackbar.LENGTH_SHORT).show()
-//            return false
-//        }
-//    }
-//
-//    public override fun onCreate(icicle: Bundle?) {
-//        super.onCreate(icicle)
-//
-//        // Set the result to CANCELED.  This will cause the widget host to cancel
-//        // out of the widget placement if the user presses the back button.
-//        setResult(Activity.RESULT_CANCELED)
-//
-//        setContentView(R.layout.left_distance_widget_configure)
-//        mAppWidgetText = findViewById(R.id.appwidget_text)
-//        findViewById<View>(R.id.add_button).setOnClickListener(mOnClickListener)
-//        findViewById<View>(R.id.selectButton).setOnClickListener(chooseClick)
-//
-//        // Find the widget id from the intent.
-//        val intent = intent
-//        val extras = intent.extras
-//        if (extras != null) {
-//            mAppWidgetId = extras.getInt(
-//                    AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-//        }
-//
-//        // If this activity was started with an intent without an app widget ID, finish with an error.
-//        if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
-//            finish()
-//            return
-//        }
-//
-//        mAppWidgetText.text = loadTitlePref(this@LeftDistanceWidgetConfigureActivity, mAppWidgetId)
-//    }
+class LeftDistanceWidgetConfigureActivity : AppCompatActivity() {
 
-    override fun onDismiss(dialog: DialogInterface) {
-//        mAppWidgetText.text = loadTitlePref(this, mAppWidgetId)
+    private val viewModel: HomeViewModel by viewModel()
+
+    private lateinit var binding: ActivityLeftDistanceWidgetBinding
+
+    private var mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+    private var mReminder: Reminder? = null
+    private var mSelectItem = 0
+    private val data: MutableList<Reminder> = mutableListOf()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setResult(Activity.RESULT_CANCELED)
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_left_distance_widget)
+        binding.addButton.setOnClickListener { addClick() }
+        binding.selectButton.setOnClickListener { selectClick() }
+
+        val intent = intent
+        val extras = intent.extras
+        if (extras != null) {
+            mAppWidgetId = extras.getInt(
+                    AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+        }
+
+        if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+            finish()
+            return
+        }
+
+        binding.appwidgetText.text = getString(R.string.no_reminder)
+
+        viewModel.reminders.observe(this, Observer {
+            if (it != null) {
+                data.clear()
+                data.addAll(it)
+            }
+        })
+    }
+
+    private fun selectClick() {
+        val builder = AlertDialog.Builder(this, R.style.HomeDarkDialog)
+        builder.setCancelable(true)
+        builder.setTitle(getString(R.string.choose_reminder))
+        val list = data
+        val titles = list.map { it.summary }
+
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_single_choice, titles)
+
+        builder.setSingleChoiceItems(adapter, -1) { _, which ->
+            if (which != -1) {
+                mSelectItem = which
+            }
+        }
+        builder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+            dialog.dismiss()
+            showSelected(mSelectItem)
+        }
+        builder.create().show()
+    }
+
+    private fun showSelected(selectItem: Int) {
+        if (selectItem >= 0 && selectItem < data.size) {
+            mReminder = data[selectItem]
+            val title = mReminder?.summary ?: ""
+            binding.appwidgetText.text = title
+
+            saveTitlePref(this, mAppWidgetId, title)
+            saveIconPref(this, mAppWidgetId, mReminder?.markerColor ?: 0)
+        }
+    }
+
+    private fun addClick() {
+        if (!saveReminderPref(this, mAppWidgetId)) {
+            return
+        }
+
+        val appWidgetManager = AppWidgetManager.getInstance(this)
+        LeftDistanceWidget.updateAppWidget(this, appWidgetManager, mAppWidgetId)
+
+        val resultValue = Intent()
+        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId)
+        setResult(Activity.RESULT_OK, resultValue)
+        finish()
+    }
+
+    private fun saveReminderPref(context: Context, appWidgetId: Int): Boolean {
+        val reminder = mReminder
+        if (reminder == null) {
+            Toast.makeText(this,  R.string.at_first_select_reminder, Toast.LENGTH_SHORT).show()
+            return false
+        }
+        saveDistancePref(context, PREF_DISTANCE_KEY + appWidgetId, 1)
+        reminder.widgetId = PREF_DISTANCE_KEY + appWidgetId
+        viewModel.save(reminder)
+        return true
     }
 
     companion object {
 
-        private val PREFS_NAME = "com.backdoor.moove.widgets.LeftDistanceWidget"
-        private val PREF_PREFIX_KEY = "appwidget_"
-        private val PREF_ICON_KEY = "appwidget_icon_"
-        val PREF_DISTANCE_KEY = "appwidget_distance_"
+        private const val PREFS_NAME = "com.backdoor.moove.widgets.LeftDistanceWidget"
+        private const val PREF_PREFIX_KEY = "appwidget_"
+        private const val PREF_ICON_KEY = "appwidget_icon_"
+        const val PREF_DISTANCE_KEY = "appwidget_distance_"
 
-        // Write the prefix to the SharedPreferences object for this widget
-        internal fun saveTitlePref(context: Context, appWidgetId: Int, text: String?) {
+        private fun saveTitlePref(context: Context, appWidgetId: Int, text: String?) {
             val prefs = context.getSharedPreferences(PREFS_NAME, 0).edit()
             prefs.putString(PREF_PREFIX_KEY + appWidgetId, text)
             prefs.apply()
         }
 
-        internal fun saveIconPref(context: Context, appWidgetId: Int, icon: Int) {
+        private fun saveIconPref(context: Context, appWidgetId: Int, icon: Int) {
             val prefs = context.getSharedPreferences(PREFS_NAME, 0).edit()
             prefs.putInt(PREF_ICON_KEY + appWidgetId, icon)
             prefs.apply()
@@ -138,8 +141,6 @@ class LeftDistanceWidgetConfigureActivity : AppCompatActivity(), DialogInterface
             prefs.apply()
         }
 
-        // Read the prefix from the SharedPreferences object for this widget.
-        // If there is no preference saved, get the default from a resource
         internal fun loadTitlePref(context: Context, appWidgetId: Int): String {
             val prefs = context.getSharedPreferences(PREFS_NAME, 0)
             try {
@@ -151,7 +152,7 @@ class LeftDistanceWidgetConfigureActivity : AppCompatActivity(), DialogInterface
 
         }
 
-        internal fun loadIConPref(context: Context, appWidgetId: Int): Int {
+        internal fun loadIconPref(context: Context, appWidgetId: Int): Int {
             val prefs = context.getSharedPreferences(PREFS_NAME, 0)
             val iconValue = prefs.getInt(PREF_ICON_KEY + appWidgetId, -1)
             return if (iconValue != -1) {
