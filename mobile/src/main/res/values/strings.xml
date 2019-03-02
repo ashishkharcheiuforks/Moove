@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Moove</string>
-    <string name="_2016_nazar_suhovich">2018 © Nazar Suhovich</string>
+    <string name="_2016_nazar_suhovich">2019 © Nazar Suhovich</string>
     <string name="search">Search</string>
     <string name="action">Action</string>
     <string name="make_call">Make call</string>
@@ -175,23 +175,20 @@
     <string name="channel_for_other_info_notifications" translatable="false">Channel for other informative notifications</string>
     <string name="location_tracking_service_running">Location tracking service running</string>
     <string name="app_not_found">Application not found</string>
-    <string name="cancel">Cancel</string>
     <string name="grant">grant</string>
     <string name="for_correct_work_of_application">For correct work allow notification permission</string>
     <string name="recent_places">recent places</string>
     <string name="aubergine">Aubergine</string>
     <string name="dark">Dark</string>
-    <string name="night">Night</string>
     <string name="silver">Silver</string>
     <string name="retro">Retro</string>
     <string name="day">Day</string>
     <string name="new_place">New place</string>
     <string name="entering_place">Entering place</string>
     <string name="leaving_place">Leaving place</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="portuguese">Portuguese</string>
-    <string name="ukrainian">Ukrainian</string>
     <string name="new_reminder">New reminder</string>
+    <string name="cancel">Cancel</string>
+    <string name="night">Night</string>
+    <string name="ukrainian">Ukrainian</string>
 </resources>

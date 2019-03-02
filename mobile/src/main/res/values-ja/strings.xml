@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">"Moove"</string>
-    <string name="_2016_nazar_suhovich">2018 © ナザールSuhovich</string>
+    <string name="_2016_nazar_suhovich">2019 © ナザールSuhovich</string>
     <string name="search">"サーチ"</string>
     <string name="action">"アクション"</string>
     <string name="make_call">"電話をかけます"</string>
@@ -170,4 +170,21 @@
     <string name="type_to_search">タイプして検索する</string>
     <string name="up">アップ</string>
     <string name="location_tracking_service_running">実行中の位置追跡サービス</string>
+    <string name="app_not_found">アプリケーションは見つかりませんでした</string>
+    <string name="cancel">キャンセル</string>
+    <string name="grant">付与</string>
+    <string name="for_correct_work_of_application">正しい仕事のために通知許可を許可する</string>
+    <string name="recent_places">最近の場所</string>
+    <string name="aubergine">茄子</string>
+    <string name="dark">ダーク</string>
+    <string name="night">夜</string>
+    <string name="silver">銀</string>
+    <string name="retro">レトロ</string>
+    <string name="day">日</string>
+    <string name="new_place">新しいところ</string>
+    <string name="entering_place">入り口</string>
+    <string name="leaving_place">出発地</string>
+    <string name="portuguese">ポルトガル語</string>
+    <string name="ukrainian">ウクライナ語</string>
+    <string name="new_reminder">新しいお知らせ</string>
 </resources>

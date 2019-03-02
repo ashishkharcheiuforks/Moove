@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">"Moove"</string>
-    <string name="_2016_nazar_suhovich">2018 © Nazar Suhovich</string>
+    <string name="_2016_nazar_suhovich">2019 © Nazar Suhovich</string>
     <string name="search">"Suche"</string>
     <string name="action">"Aktion"</string>
     <string name="make_call">"Anrufen"</string>
@@ -170,4 +170,21 @@
     <string name="type_to_search">Tippe um zu suchen</string>
     <string name="up">Oben</string>
     <string name="location_tracking_service_running">Standortverfolgungsdienst wird ausgeführt</string>
+    <string name="app_not_found">Anwendung nicht gefunden</string>
+    <string name="cancel">Stornieren</string>
+    <string name="grant">gewähren</string>
+    <string name="for_correct_work_of_application">Für korrekte Arbeit lassen Sie die Benachrichtigungserlaubnis zu</string>
+    <string name="recent_places">letzten Orte</string>
+    <string name="aubergine">Aubergine</string>
+    <string name="dark">Dunkel</string>
+    <string name="night">Nacht</string>
+    <string name="silver">Silber</string>
+    <string name="retro">Retro</string>
+    <string name="day">Tag</string>
+    <string name="new_place">Neuer Ort</string>
+    <string name="entering_place">Ort eingeben</string>
+    <string name="leaving_place">Platz verlassen</string>
+    <string name="portuguese">Portugiesisch</string>
+    <string name="ukrainian">Ukrainisch</string>
+    <string name="new_reminder">Neue Erinnerung</string>
 </resources>
