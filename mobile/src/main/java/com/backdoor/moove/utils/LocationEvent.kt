@@ -1,7 +1,6 @@
 package com.backdoor.moove.utils
 
 import android.content.Context
-import android.text.TextUtils
 import com.backdoor.moove.data.Reminder
 import com.backdoor.moove.data.RoomDb
 import com.backdoor.moove.services.GeolocationService
@@ -11,8 +10,7 @@ import timber.log.Timber
 
 class LocationEvent(val context: Context) : KoinComponent {
 
-    val db: RoomDb by inject()
-    val prefs: Prefs by inject()
+    private val db: RoomDb by inject()
     private var reminder: Reminder = Reminder()
 
     val isActive: Boolean
