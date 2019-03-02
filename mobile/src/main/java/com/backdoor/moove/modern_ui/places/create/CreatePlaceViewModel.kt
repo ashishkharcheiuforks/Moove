@@ -11,7 +11,7 @@ import org.koin.standalone.inject
 
 class CreatePlaceViewModel(val id: String) : ViewModel(), KoinComponent {
 
-    val db: RoomDb by inject()
+    private val db: RoomDb by inject()
 
     val loadedPlace = db.placeDao().loadById(id)
     var place: Place = Place()

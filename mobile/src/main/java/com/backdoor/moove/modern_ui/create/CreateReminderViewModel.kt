@@ -15,8 +15,8 @@ import java.util.*
 
 class CreateReminderViewModel(val uuId: String) : ViewModel(), KoinComponent {
 
-    val db: RoomDb by inject()
-    val locationEvent: LocationEvent by inject()
+    private val db: RoomDb by inject()
+    private val locationEvent: LocationEvent by inject()
 
     val loadedReminder = db.reminderDao().loadById(uuId)
     var reminder: Reminder = Reminder()

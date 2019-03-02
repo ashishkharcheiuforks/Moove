@@ -21,9 +21,9 @@ import org.koin.android.ext.android.inject
 
 class LocationSettingsFragment : Fragment() {
 
-    val dialogues: Dialogues by inject()
-    val prefs: Prefs by inject()
-    val coloring: Coloring by inject()
+    private val dialogues: Dialogues by inject()
+    private val prefs: Prefs by inject()
+    private val coloring: Coloring by inject()
     private var mItemSelect: Int = 0
 
     private lateinit var binding: FragmentSettingsLocationBinding

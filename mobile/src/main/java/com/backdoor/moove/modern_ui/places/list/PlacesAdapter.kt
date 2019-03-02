@@ -17,7 +17,7 @@ import org.koin.standalone.inject
 
 class PlacesAdapter(private val showMarker: Boolean) : RecyclerView.Adapter<PlacesAdapter.ViewHolder>(), KoinComponent {
 
-    val coloring: Coloring by inject()
+    private val coloring: Coloring by inject()
 
     private var data: MutableList<Place> = mutableListOf()
         set(value) {

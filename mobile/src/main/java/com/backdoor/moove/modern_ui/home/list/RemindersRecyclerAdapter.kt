@@ -15,7 +15,7 @@ import org.koin.standalone.inject
 
 class RemindersRecyclerAdapter : RecyclerView.Adapter<RemindersRecyclerAdapter.ViewHolder>(), KoinComponent {
 
-    val prefs: Prefs by inject()
+    private val prefs: Prefs by inject()
 
     var data: MutableList<Reminder> = mutableListOf()
         set(value) {

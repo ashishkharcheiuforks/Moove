@@ -17,7 +17,7 @@ import org.koin.standalone.inject
 
 class RecentPlacesAdapter : RecyclerView.Adapter<RecentPlacesAdapter.ViewHolder>(), KoinComponent {
 
-    val coloring by inject<Coloring>()
+    private val coloring by inject<Coloring>()
 
     private val mData = mutableListOf<Place>()
     var actionsListener: ActionsListener<Place>? = null

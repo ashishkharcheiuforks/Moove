@@ -12,7 +12,7 @@ import org.koin.android.ext.android.inject
 
 class GeneralSettingsFragment : Fragment() {
 
-    val prefs: Prefs by inject()
+    private val prefs: Prefs by inject()
     private lateinit var binding: FragmentSettingsGeneralBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

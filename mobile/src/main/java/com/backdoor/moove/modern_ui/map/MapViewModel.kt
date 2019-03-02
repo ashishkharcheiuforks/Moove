@@ -9,7 +9,7 @@ import org.koin.standalone.inject
 
 class MapViewModel : ViewModel(), KoinComponent {
 
-    val db: RoomDb by inject()
+    private val db: RoomDb by inject()
 
     val places: LiveData<List<Place>> = db.placeDao().loadAll()
 }

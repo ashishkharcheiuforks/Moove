@@ -10,7 +10,7 @@ import timber.log.Timber
 
 class DonateViewModel : ViewModel(), KoinComponent, LifecycleObserver, PurchasesUpdatedListener, BillingClientStateListener {
 
-    val context: Context by inject()
+    private val context: Context by inject()
 
     private val _purchases = MutableLiveData<List<Purchase>>()
     val purchases: LiveData<List<Purchase>> = _purchases

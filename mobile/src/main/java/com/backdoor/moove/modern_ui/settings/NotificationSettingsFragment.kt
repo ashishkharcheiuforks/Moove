@@ -23,9 +23,9 @@ import java.util.*
 
 class NotificationSettingsFragment : Fragment() {
 
-    val prefs: Prefs by inject()
-    val language: Language by inject()
-    val dialogues: Dialogues by inject()
+    private val prefs: Prefs by inject()
+    private val language: Language by inject()
+    private val dialogues: Dialogues by inject()
 
     private lateinit var binding: FragmentSettingsNotificationBinding
     private var mItemSelect: Int = 0
@@ -58,7 +58,6 @@ class NotificationSettingsFragment : Fragment() {
         initAutoCallPrefs()
         initLedPrefs()
         initLedColorPrefs()
-        Permissions.ensurePermissions(activity!!, PERM_SD, Permissions.READ_EXTERNAL)
     }
 
     private fun changeBlurPrefs() {
@@ -377,7 +376,6 @@ class NotificationSettingsFragment : Fragment() {
     companion object {
         private const val MELODY_CODE = 125
         private const val PERM_BT = 1425
-        private const val PERM_SD = 1426
         private const val PERM_AUTO_CALL = 1427
     }
 }
