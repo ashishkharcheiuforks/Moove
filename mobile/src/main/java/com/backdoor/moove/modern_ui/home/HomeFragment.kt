@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,10 +16,11 @@ import com.backdoor.moove.modern_ui.home.list.RemindersRecyclerAdapter
 import com.backdoor.moove.utils.ActionsListener
 import com.backdoor.moove.utils.ListActions
 import com.backdoor.moove.utils.SuperUtil
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
 
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel: HomeViewModel by viewModel()
     private lateinit var binding: HomeFragmentBinding
     private val adapter = RemindersRecyclerAdapter()
 
@@ -90,7 +90,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         viewModel.reminders.observe(this, Observer {
             if (it != null) {
                 showReminders(it)

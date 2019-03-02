@@ -36,9 +36,9 @@ import timber.log.Timber
 
 class MapFragment : Fragment() {
 
-    val prefs: Prefs by inject()
-    val coloring: Coloring by inject()
-    val dialogues: Dialogues by inject()
+    private val prefs: Prefs by inject()
+    private val coloring: Coloring by inject()
+    private val dialogues: Dialogues by inject()
 
     private var mMap: GoogleMap? = null
     private var placeRecyclerAdapter = RecentPlacesAdapter()
@@ -72,7 +72,7 @@ class MapFragment : Fragment() {
         mMap = googleMap
         googleMap.uiSettings.isMyLocationButtonEnabled = false
         googleMap.uiSettings.isCompassEnabled = true
-        setStyle(googleMap)
+        setStyle(googleMap, prefs.mapType)
         setMyLocation()
         googleMap.setOnMapClickListener {
             hideLayers()
@@ -167,7 +167,7 @@ class MapFragment : Fragment() {
         }
     }
 
-    fun recreateMarker(radius: Int = markerRadius) {
+    private fun recreateMarker(radius: Int = markerRadius) {
         markerRadius = radius
         if (markerRadius == -1)
             markerRadius = prefs.radius
@@ -427,6 +427,9 @@ class MapFragment : Fragment() {
         }
         if (!isRadius) {
             binding.radiusCard.visibility = View.GONE
+        }
+        if (!isStyles) {
+            binding.markersCard.visibility = View.GONE
         }
 
         hideStyles()

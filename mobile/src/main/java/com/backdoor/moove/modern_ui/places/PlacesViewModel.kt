@@ -10,7 +10,7 @@ import org.koin.standalone.inject
 
 class PlacesViewModel : ViewModel(), KoinComponent {
 
-    val db: RoomDb by inject()
+    private val db: RoomDb by inject()
 
     val places = db.placeDao().loadAll()
 

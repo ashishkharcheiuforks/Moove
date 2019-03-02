@@ -25,7 +25,7 @@ import timber.log.Timber
 
 class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
 
-    val prefs: Prefs by inject()
+    private val prefs: Prefs by inject()
 
     private lateinit var viewModel: CreatePlaceViewModel
     private lateinit var binding: CreatePlaceFragmentBinding

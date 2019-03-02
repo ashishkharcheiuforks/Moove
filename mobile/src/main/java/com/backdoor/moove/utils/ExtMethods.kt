@@ -1,14 +1,18 @@
 package com.backdoor.moove.utils
 
 import android.app.Activity
-import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import androidx.annotation.IdRes
 import com.backdoor.moove.data.RoomDb
+import com.backdoor.moove.modern_ui.events_map.EventsMapViewModel
+import com.backdoor.moove.modern_ui.home.HomeViewModel
+import com.backdoor.moove.modern_ui.places.PlacesViewModel
 import kotlinx.coroutines.*
+import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.Module
 import org.koin.dsl.module.module
 import java.io.File
@@ -106,16 +110,22 @@ fun Date.toCalendar(): Calendar {
     return calendar
 }
 
-fun utilModule(context: Context) = module {
-    single { RoomDb.getInMemoryDatabase(context) }
-    single { Prefs(context) }
-    single { SoundStackHolder(context, get()) }
-    single { Coloring(context) }
-    single { LocationEvent(context) }
+fun utilModule() = module {
+    single { RoomDb.getInMemoryDatabase(androidContext()) }
+    single { Prefs(androidContext()) }
+    single { SoundStackHolder(androidContext(), get()) }
+    single { Coloring(androidContext()) }
+    single { LocationEvent(androidContext()) }
     single { Dialogues(get()) }
     single { Language(get()) }
 }
 
-fun components(context: Context): List<Module> {
-    return listOf(utilModule(context))
+fun viewModelModule() = module {
+    viewModel { EventsMapViewModel() }
+    viewModel { HomeViewModel() }
+    viewModel { PlacesViewModel() }
+}
+
+fun components(): List<Module> {
+    return listOf(utilModule(), viewModelModule())
 }

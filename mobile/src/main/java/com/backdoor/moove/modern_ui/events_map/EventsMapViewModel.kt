@@ -1,7 +1,13 @@
 package com.backdoor.moove.modern_ui.events_map
 
 import androidx.lifecycle.ViewModel
+import com.backdoor.moove.data.RoomDb
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 
-class EventsMapViewModel : ViewModel() {
+class EventsMapViewModel : ViewModel(), KoinComponent {
+
+    private val db: RoomDb by inject()
+    val reminders = db.reminderDao().loadAll(active = true, removed = false)
 
 }

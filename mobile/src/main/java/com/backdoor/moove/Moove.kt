@@ -33,7 +33,7 @@ class Moove : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        startKoin(this, components(this))
+        startKoin(this, components())
         Notifier.createChannels(this)
         Fabric.with(this, Crashlytics())
         JobManager.create(this).addJobCreator { EventJobService() }

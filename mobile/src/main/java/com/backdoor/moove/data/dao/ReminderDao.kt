@@ -13,6 +13,10 @@ interface ReminderDao {
 
     @Transaction
     @Query("select * from Reminder WHERE isActive=:active AND isRemoved=:removed order by createdAt DESC")
+    fun loadAll(active: Boolean = true, removed: Boolean = false): LiveData<List<Reminder>>
+
+    @Transaction
+    @Query("select * from Reminder WHERE isActive=:active AND isRemoved=:removed order by createdAt DESC")
     fun getAll(active: Boolean = true, removed: Boolean = false): List<Reminder>
 
     @Query("select * from Reminder where uuId = :uuId")

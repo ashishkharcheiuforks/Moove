@@ -2,6 +2,7 @@ package com.backdoor.moove.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.android.gms.maps.model.LatLng
 import java.util.*
 
 @Entity
@@ -28,6 +29,9 @@ data class Reminder(
         var isNotificationShown: Boolean = false,
         var hasDelay: Boolean = false
 ) {
+
+    fun latLng(): LatLng = LatLng(latitude, longitude)
+
     fun hasPlace(): Boolean {
         return latitude != 0.0 && longitude != 0.0
     }

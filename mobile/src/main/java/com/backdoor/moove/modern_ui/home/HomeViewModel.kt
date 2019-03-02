@@ -11,8 +11,8 @@ import org.koin.standalone.inject
 
 class HomeViewModel : ViewModel(), KoinComponent {
 
-    val db: RoomDb by inject()
-    val locationEvent: LocationEvent by inject()
+    private val db: RoomDb by inject()
+    private val locationEvent: LocationEvent by inject()
 
     val reminders = db.reminderDao().loadAll()
 
