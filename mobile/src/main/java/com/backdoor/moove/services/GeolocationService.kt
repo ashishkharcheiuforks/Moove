@@ -21,8 +21,8 @@ class GeolocationService : Service() {
     private var isNotificationEnabled: Boolean = false
     private var stockRadius: Int = 0
 
-    val prefs: Prefs by inject()
-    val db: RoomDb by inject()
+    private val prefs: Prefs by inject()
+    private val db: RoomDb by inject()
 
     override fun onDestroy() {
         super.onDestroy()
