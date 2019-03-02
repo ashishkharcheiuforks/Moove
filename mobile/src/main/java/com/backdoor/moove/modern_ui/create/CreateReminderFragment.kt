@@ -293,19 +293,21 @@ class CreateReminderFragment : Fragment(), MapCallback {
             binding.enterCheck.isChecked = true
         }
         binding.dateView.setDateTime(reminder.delayTime)
-        if (reminder.phoneNumber != "") {
+        val phone = reminder.phoneNumber
+        if (phone != "") {
             binding.actionView.setAction(true)
             if (reminder.type.contains(ReminderUtils.TYPE_CALL)) {
                 binding.actionView.type = ActionView.TYPE_CALL
             } else if (reminder.type.contains(ReminderUtils.TYPE_MESSAGE)) {
                 binding.actionView.type = ActionView.TYPE_MESSAGE
             }
+            Timber.d("editReminder: $phone")
+            binding.actionView.number = phone
         }
         binding.loudnessView.setVolume(reminder.volume)
         binding.melodyView.file = reminder.melody
         binding.ledView.led = reminder.ledColor
         binding.taskSummary.setText(reminder.summary)
-        binding.actionView.number = viewModel.reminder.phoneNumber
 
         showPlaceOnMap()
     }
