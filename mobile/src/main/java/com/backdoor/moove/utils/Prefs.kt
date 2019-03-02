@@ -42,7 +42,7 @@ open class Prefs(context: Context) {
         const val VOLUME = "reminder_volume"
         const val TTS = "tts_enabled"
         const val TTS_LOCALE = "tts_locale"
-        const val CUSTOM_SOUND = "melody_file"
+        const val CUSTOM_SOUND = "new_melody_file"
         const val REMINDER_IMAGE = "reminder_image"
         const val REMINDER_IMAGE_BLUR = "reminder_image_blur"
         const val IS_24_TIME_FORMAT = "24_hour"

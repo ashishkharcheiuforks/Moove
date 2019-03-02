@@ -39,6 +39,16 @@ import java.util.*
  */
 object SuperUtil {
 
+    fun launchMarket(context: Context) {
+        val uri = Uri.parse("market://details?id=" + context.packageName)
+        val goToMarket = Intent(Intent.ACTION_VIEW, uri)
+        try {
+            context.startActivity(goToMarket)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(context, context.getString(R.string.could_not_launch_market), Toast.LENGTH_SHORT).show()
+        }
+    }
+
     fun startGpsTracking(context: Context) {
         if (!Permissions.checkForeground(context) || SuperUtil.isServiceRunning(context, GeolocationService::class.java)) {
             return

@@ -31,6 +31,8 @@ object Module {
     const val FILE_PICKED = "file_selected"
     const val CONTACT_SELECTED = "contact_selected"
     const val CONTACT_SELECTED_NAME = "contact_selected_name"
+    const val INTENT_NOTIFICATION: String = "arg_is_resumed"
+    const val INTENT_ID: String = "arg_id"
 
     val isPie: Boolean
         get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P

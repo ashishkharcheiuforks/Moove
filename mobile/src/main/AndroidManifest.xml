@@ -99,7 +99,7 @@
             android:value="@integer/google_play_services_version" />
 
         <receiver
-            android:name="com.backdoor.moove.widgets.LeftDistanceWidget"
+            android:name=".widgets.LeftDistanceWidget"
             android:label="@string/to_go">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -110,14 +110,14 @@
                 android:resource="@xml/left_distance_widget_info" />
         </receiver>
 
-        <activity android:name="com.backdoor.moove.widgets.LeftDistanceWidgetConfigureActivity">
+        <activity android:name=".widgets.LeftDistanceWidgetConfigureActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 
         <receiver
-            android:name="com.backdoor.moove.widgets.SimpleWidget"
+            android:name=".widgets.SimpleWidget"
             android:label="@string/to_go_only_distance">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

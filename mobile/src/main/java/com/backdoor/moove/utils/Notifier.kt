@@ -16,7 +16,7 @@ object Notifier {
         getManager(context)?.cancel(id)
     }
 
-    private fun getManager(context: Context): NotificationManager? {
+    fun getManager(context: Context): NotificationManager? {
         return context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
     }
 
@@ -32,9 +32,9 @@ object Notifier {
         val name = context.getString(R.string.info_channel)
         val descr = context.getString(R.string.channel_for_other_info_notifications)
         val importance = NotificationManager.IMPORTANCE_LOW
-        val mChannel = NotificationChannel(CHANNEL_SYSTEM, name, importance)
-        mChannel.description = descr
-        return mChannel
+        val channel = NotificationChannel(CHANNEL_SYSTEM, name, importance)
+        channel.description = descr
+        return channel
     }
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -42,8 +42,10 @@ object Notifier {
         val name = context.getString(R.string.reminder_channel)
         val descr = context.getString(R.string.default_reminder_notifications)
         val importance = NotificationManager.IMPORTANCE_HIGH
-        val mChannel = NotificationChannel(CHANNEL_REMINDER, name, importance)
-        mChannel.description = descr
-        return mChannel
+        val channel = NotificationChannel(CHANNEL_REMINDER, name, importance)
+        channel.enableLights(true)
+        channel.enableVibration(false)
+        channel.description = descr
+        return channel
     }
 }

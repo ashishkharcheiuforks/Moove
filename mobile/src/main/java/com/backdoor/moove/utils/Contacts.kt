@@ -15,9 +15,9 @@ object Contacts {
         return Uri.withAppendedPath(contactUri, ContactsContract.Contacts.Photo.DISPLAY_PHOTO)
     }
 
-    fun getContactIDFromNumber(contactNumber: String?, context: Context): Int {
-        if (contactNumber == null) return 0
-        var phoneContactID = 0
+    fun getContactIDFromNumber(contactNumber: String?, context: Context): Long {
+        if (contactNumber == null) return 0L
+        var phoneContactID = 0L
         try {
             val contact = Uri.encode(contactNumber)
             val cursor = context.contentResolver
@@ -25,7 +25,7 @@ object Contacts {
                             arrayOf(ContactsContract.PhoneLookup.DISPLAY_NAME, ContactsContract.PhoneLookup._ID), null, null, null)
             if (cursor != null) {
                 while (cursor.moveToNext()) {
-                    phoneContactID = cursor.getInt(cursor.getColumnIndexOrThrow(ContactsContract.PhoneLookup._ID))
+                    phoneContactID = cursor.getLong(cursor.getColumnIndexOrThrow(ContactsContract.PhoneLookup._ID))
                 }
                 cursor.close()
             }

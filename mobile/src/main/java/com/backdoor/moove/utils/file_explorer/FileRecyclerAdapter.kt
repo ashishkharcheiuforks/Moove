@@ -11,8 +11,6 @@ import com.backdoor.moove.databinding.ListItemFileBinding
 import com.backdoor.moove.utils.ActionsListener
 import com.backdoor.moove.utils.ListActions
 import com.backdoor.moove.utils.UriUtil
-import com.backdoor.moove.utils.file_explorer.FileDiffCallback
-import com.backdoor.moove.utils.file_explorer.FileItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import timber.log.Timber

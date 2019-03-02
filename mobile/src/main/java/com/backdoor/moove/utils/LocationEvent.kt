@@ -26,6 +26,8 @@ class LocationEvent(val context: Context) : KoinComponent {
         return if (Module.hasLocation(context)) {
             reminder.isActive = true
             reminder.isRemoved = false
+            reminder.isLocked = false
+            reminder.isNotificationShown = false
             save()
             val b = EventJobService.enablePositionDelay(reminder)
             if (!b) SuperUtil.startGpsTracking(context)

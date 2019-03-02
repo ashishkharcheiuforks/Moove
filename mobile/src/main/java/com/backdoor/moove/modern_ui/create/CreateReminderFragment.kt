@@ -33,7 +33,7 @@ import timber.log.Timber
 
 class CreateReminderFragment : Fragment(), MapCallback {
 
-    val prefs: Prefs by inject()
+    private val prefs: Prefs by inject()
 
     private lateinit var binding: CreateReminderFragmentBinding
     private lateinit var viewModel: CreateReminderViewModel
@@ -64,6 +64,7 @@ class CreateReminderFragment : Fragment(), MapCallback {
             viewModel.isPaused = true
             viewModel.pauseReminder(it)
             binding.toolbar.menu.add(Menu.NONE, MENU_ITEM_DELETE, 100, getString(R.string.delete))
+            binding.toolbar.title = getString(R.string.edit)
             editReminder()
         }
     }

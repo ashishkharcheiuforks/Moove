@@ -27,21 +27,29 @@ import java.io.File
  */
 object UriUtil {
 
-    fun getUri(context: Context, filePath: String): Uri {
+    fun getUri(context: Context, filePath: String): Uri? {
         Timber.d("getUri: %s", BuildConfig.APPLICATION_ID)
-        return if (Module.isNougat) {
-            FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", File(filePath))
-        } else {
-            Uri.fromFile(File(filePath))
+        return try {
+            if (Module.isNougat) {
+                FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", File(filePath))
+            } else {
+                Uri.fromFile(File(filePath))
+            }
+        } catch (e: Exception) {
+            null
         }
     }
 
-    fun getUri(context: Context, file: File): Uri {
+    fun getUri(context: Context, file: File): Uri? {
         Timber.d("getUri: %s", BuildConfig.APPLICATION_ID)
-        return if (Module.isNougat) {
-            FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file)
-        } else {
-            Uri.fromFile(file)
+        return try {
+            if (Module.isNougat) {
+                FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file)
+            } else {
+                Uri.fromFile(file)
+            }
+        } catch (e: Exception) {
+            null
         }
     }
 }
