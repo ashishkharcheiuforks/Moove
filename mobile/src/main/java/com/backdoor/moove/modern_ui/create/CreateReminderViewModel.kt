@@ -1,22 +1,25 @@
 package com.backdoor.moove.modern_ui.create
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.backdoor.moove.data.Place
 import com.backdoor.moove.data.Reminder
 import com.backdoor.moove.data.RoomDb
+import com.backdoor.moove.utils.GeocoderTask
 import com.backdoor.moove.utils.LocationEvent
 import com.backdoor.moove.utils.TimeUtils
 import com.backdoor.moove.utils.launchDefault
+import com.backdoor.moove.views.AddressAutoCompleteView
 import kotlinx.coroutines.runBlocking
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
-import java.util.*
 
 class CreateReminderViewModel(val uuId: String) : ViewModel(), KoinComponent {
 
     private val db: RoomDb by inject()
     private val locationEvent: LocationEvent by inject()
+    private val context: Context by inject()
 
     val loadedReminder = db.reminderDao().loadById(uuId)
     var reminder: Reminder = Reminder()
@@ -25,42 +28,37 @@ class CreateReminderViewModel(val uuId: String) : ViewModel(), KoinComponent {
     var isMessage: Boolean = false
     var isDelayAdded: Boolean = false
     var isLeave: Boolean = false
-
-    var day: Int = 0
-    var month: Int = 0
-    var year: Int = 0
-
-    var hour: Int = 0
-    var minute: Int = 0
     var isPaused: Boolean = false
     var isSaving: Boolean = false
-
-    init {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = System.currentTimeMillis()
-        day = calendar.get(Calendar.DAY_OF_MONTH)
-        month = calendar.get(Calendar.MONTH)
-        year = calendar.get(Calendar.YEAR)
-        hour = calendar.get(Calendar.HOUR)
-        minute = calendar.get(Calendar.MINUTE)
-    }
 
     fun saveAndStart(reminder: Reminder, addPlace: Boolean = false) {
         launchDefault {
             runBlocking {
                 locationEvent.withReminder(reminder).start()
-                if (addPlace) {
-                    val old = db.placeDao().getByCoord(reminder.latitude, reminder.longitude)
-                    if (old == null) {
-                        val place = Place().apply {
+            }
+            if (addPlace) {
+                val old = db.placeDao().getByCoord(reminder.latitude, reminder.longitude)
+                if (old == null) {
+                    val summary = reminder.summary
+                    val address = GeocoderTask.findAddress(context, reminder.latitude, reminder.longitude)
+                    val place = if (address != null) {
+                        Place().apply {
                             createdAt = TimeUtils.gmtDateTime
                             latitude = reminder.latitude
                             longitude = reminder.longitude
                             markerColor = reminder.markerColor
-                            name = reminder.summary
+                            name = AddressAutoCompleteView.formName(address)
                         }
-                        db.placeDao().insert(place)
+                    } else {
+                        Place().apply {
+                            createdAt = TimeUtils.gmtDateTime
+                            latitude = reminder.latitude
+                            longitude = reminder.longitude
+                            markerColor = reminder.markerColor
+                            name = summary
+                        }
                     }
+                    db.placeDao().insert(place)
                 }
             }
         }

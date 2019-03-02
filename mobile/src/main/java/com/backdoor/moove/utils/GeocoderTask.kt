@@ -4,7 +4,6 @@ import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import kotlinx.coroutines.Job
-import java.io.IOException
 
 /**
  * Copyright 2016 Nazar Suhovich
@@ -35,13 +34,23 @@ object GeocoderTask {
             val addresses: MutableList<Address> = mutableListOf()
             try {
                 addresses.addAll(geocoder.getFromLocationName(address, 5))
-            } catch (e: IOException) {
+            } catch (e: Exception) {
             }
             withUIContext {
                 listener?.invoke(addresses)
             }
             mJob = null
         }
+    }
+
+    fun findAddress(context: Context, lat: Double, lon: Double): Address? {
+        val geocoder = Geocoder(context)
+        var address: Address? = null
+        try {
+            address = geocoder.getFromLocation(lat, lon, 1)?.first()
+        } catch (e: Exception) {
+        }
+        return address
     }
 
     fun cancelJob() {
