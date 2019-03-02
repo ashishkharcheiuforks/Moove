@@ -33,7 +33,6 @@ import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
-import java.lang.Exception
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -52,7 +51,6 @@ class ReminderDialogActivity : AppCompatActivity() {
     private var mWakeLock: PowerManager.WakeLock? = null
 
     private var mReminder: Reminder? = null
-    private var isMockedTest = false
     private var isReminderShowed = false
     private var isScreenResumed: Boolean = false
 
@@ -125,9 +123,6 @@ class ReminderDialogActivity : AppCompatActivity() {
             Timber.d("Initialization Failed!")
         }
     }
-
-    private val sound: Sound?
-        get() = soundStackHolder.sound
 
     private val ttsLocale: Locale?
         get() {
@@ -347,7 +342,6 @@ class ReminderDialogActivity : AppCompatActivity() {
     }
 
     private fun showNotification() {
-        if (isMockedTest || isReminderShowed) return
         if (!isTtsEnabled) {
             showReminderNotification(this)
         } else {
@@ -480,7 +474,8 @@ class ReminderDialogActivity : AppCompatActivity() {
     }
 
     private fun discardMedia() {
-        sound?.stop(true)
+        Timber.d("discardMedia: ")
+        soundStackHolder.sound?.stop(true)
     }
 
     private fun showWearNotification(secondaryText: String) {
@@ -531,13 +526,13 @@ class ReminderDialogActivity : AppCompatActivity() {
             builder = NotificationCompat.Builder(this, Notifier.CHANNEL_SYSTEM)
             builder.priority = NotificationCompat.PRIORITY_LOW
         } else {
-            builder = NotificationCompat.Builder(this, Notifier.CHANNEL_REMINDER)
+            builder = NotificationCompat.Builder(this, Notifier.CHANNEL_SYSTEM)
             builder.priority = NotificationCompat.PRIORITY_HIGH
             if ((!SuperUtil.isDoNotDisturbEnabled(this) ||
                             (SuperUtil.checkNotificationPermission(this) && prefs.soundInSilent))) {
                 val soundUri = soundUri
                 Timber.d("showReminderNotification: $soundUri")
-                sound?.playAlarm(soundUri, prefs.repeatMelody)
+                soundStackHolder.sound?.playAlarm(soundUri, prefs.repeatMelody)
             }
             if (prefs.vibrate) {
                 val pattern: LongArray = if (prefs.infiniteVibration) {
@@ -582,7 +577,7 @@ class ReminderDialogActivity : AppCompatActivity() {
             builder = NotificationCompat.Builder(this, Notifier.CHANNEL_SYSTEM)
             builder.priority = NotificationCompat.PRIORITY_LOW
         } else {
-            builder = NotificationCompat.Builder(this, Notifier.CHANNEL_REMINDER)
+            builder = NotificationCompat.Builder(this, Notifier.CHANNEL_SYSTEM)
             builder.priority = NotificationCompat.PRIORITY_HIGH
             if ((!SuperUtil.isDoNotDisturbEnabled(this) ||
                             (SuperUtil.checkNotificationPermission(this) && prefs.soundInSilent))) {
@@ -627,14 +622,13 @@ class ReminderDialogActivity : AppCompatActivity() {
     }
 
     private fun playDefaultMelody() {
-        if (sound == null) return
         Timber.d("playDefaultMelody: ")
         try {
             val afd = assets.openFd("sounds/beep.mp3")
-            sound?.playAlarm(afd)
+            soundStackHolder.sound?.playAlarm(afd)
         } catch (e: IOException) {
             e.printStackTrace()
-            sound?.playAlarm(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), false)
+            soundStackHolder.sound?.playAlarm(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), false)
         }
     }
 

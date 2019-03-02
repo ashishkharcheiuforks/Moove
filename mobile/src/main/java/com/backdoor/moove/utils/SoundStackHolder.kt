@@ -23,7 +23,7 @@ import timber.log.Timber
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SoundStackHolder constructor(context: Context, val prefs: Prefs) : Sound.PlaybackCallback {
+class SoundStackHolder(context: Context, val prefs: Prefs) : Sound.PlaybackCallback {
 
     var sound: Sound? = null
         private set
