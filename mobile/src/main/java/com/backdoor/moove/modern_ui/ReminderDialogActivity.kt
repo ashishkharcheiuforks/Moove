@@ -185,8 +185,8 @@ class ReminderDialogActivity : AppCompatActivity() {
                         .centerCrop()
                         .into(binding.bgImage)
             } else {
-                val imageFile = File(prefs.reminderImage)
-                if (Permissions.checkPermission(this, Permissions.READ_EXTERNAL) && imageFile.exists()) {
+                val imageFile = Uri.parse(prefs.reminderImage)
+                if (Permissions.checkPermission(this, Permissions.READ_EXTERNAL)) {
                     Picasso.get()
                             .load(imageFile)
                             .resize(1080, 1080)
@@ -443,7 +443,6 @@ class ReminderDialogActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private fun startTts() {
         val checkTTSIntent = Intent()

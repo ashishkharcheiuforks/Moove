@@ -359,6 +359,8 @@ class NotificationSettingsFragment : Fragment() {
                 val selectedImage = data?.data
                 if (selectedImage != null) {
                     prefs.reminderImage = selectedImage.toString()
+                } else {
+                    prefs.reminderImage = Module.DEFAULT
                 }
             }
         }
