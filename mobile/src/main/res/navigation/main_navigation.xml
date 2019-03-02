@@ -19,16 +19,33 @@
             app:popExitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_homeFragment_to_createReminderFragment"
-            app:destination="@id/createReminderFragment" />
+            app:destination="@id/createReminderFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim"
+            app:popUpTo="@+id/homeFragment" />
         <action
             android:id="@+id/action_homeFragment_to_eventsMapFragment"
-            app:destination="@id/eventsMapFragment" />
+            app:destination="@id/eventsMapFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_homeFragment_to_donateFragment"
-            app:destination="@id/donateFragment" />
+            app:destination="@id/donateFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/placesFragment"
@@ -37,7 +54,11 @@
         tools:layout="@layout/places_fragment">
         <action
             android:id="@+id/action_placesFragment_to_createPlaceFragment"
-            app:destination="@id/createPlaceFragment" />
+            app:destination="@id/createPlaceFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/createPlaceFragment"
@@ -77,16 +98,32 @@
         tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_generalSettingsFragment"
-            app:destination="@id/generalSettingsFragment" />
+            app:destination="@id/generalSettingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_settingsFragment_to_locationSettingsFragment"
-            app:destination="@id/locationSettingsFragment" />
+            app:destination="@id/locationSettingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_settingsFragment_to_notificationSettingsFragment"
-            app:destination="@id/notificationSettingsFragment" />
+            app:destination="@id/notificationSettingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_settingsFragment_to_otherSettingsFragment"
-            app:destination="@id/otherSettingsFragment" />
+            app:destination="@id/otherSettingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/generalSettingsFragment"
@@ -118,7 +155,11 @@
         tools:layout="@layout/fragment_settings_other">
         <action
             android:id="@+id/action_otherSettingsFragment_to_ossSettingsFragment"
-            app:destination="@id/ossSettingsFragment" />
+            app:destination="@id/ossSettingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/ossSettingsFragment"
