@@ -184,6 +184,8 @@ class CreateReminderFragment : Fragment(), MapCallback {
     }
 
     private fun deleteReminder() {
+        viewModel.loadedReminder.removeObserver(mReminderObserver)
+        viewModel.isSaving = true
         viewModel.deleteReminder(viewModel.reminder)
         findNavController().popBackStack()
     }

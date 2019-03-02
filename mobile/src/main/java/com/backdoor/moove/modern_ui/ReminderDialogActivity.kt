@@ -28,6 +28,7 @@ import com.backdoor.moove.databinding.ActivityReminderDialogBinding
 import com.backdoor.moove.modern_ui.create.CreateReminderViewModel
 import com.backdoor.moove.utils.*
 import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.BlurTransformation
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.io.File
@@ -83,10 +84,10 @@ class ReminderDialogActivity : AppCompatActivity() {
         get() {
             val reminder = mReminder ?: return 0
             return if (reminder.ledColor != -1) {
-                    LED.getLED(reminder.ledColor)
-                } else {
-                    LED.getLED(prefs.ledColor)
-                }
+                LED.getLED(reminder.ledColor)
+            } else {
+                LED.getLED(prefs.ledColor)
+            }
         }
 
     private val isUnlockDevice: Boolean
@@ -179,25 +180,26 @@ class ReminderDialogActivity : AppCompatActivity() {
         if (prefs.reminderImage != Module.NONE) {
             binding.bgImage.visibility = View.VISIBLE
             if (prefs.reminderImage == Module.DEFAULT) {
-                Picasso.get()
-                        .load(R.drawable.photo)
-                        .resize(1080, 1080)
-                        .centerCrop()
-                        .into(binding.bgImage)
+                showDefaultImage()
             } else {
                 val imageFile = Uri.parse(prefs.reminderImage)
                 if (Permissions.checkPermission(this, Permissions.READ_EXTERNAL)) {
-                    Picasso.get()
-                            .load(imageFile)
-                            .resize(1080, 1080)
-                            .centerCrop()
-                            .into(binding.bgImage)
+                    if (prefs.blurImage) {
+                        Picasso.get()
+                                .load(imageFile)
+                                .resize(1080, 1080)
+                                .transform(BlurTransformation(this, 10))
+                                .centerCrop()
+                                .into(binding.bgImage)
+                    } else {
+                        Picasso.get()
+                                .load(imageFile)
+                                .resize(1080, 1080)
+                                .centerCrop()
+                                .into(binding.bgImage)
+                    }
                 } else {
-                    Picasso.get()
-                            .load(R.drawable.photo)
-                            .resize(1080, 1080)
-                            .centerCrop()
-                            .into(binding.bgImage)
+                    showDefaultImage()
                 }
             }
         } else {
@@ -213,6 +215,23 @@ class ReminderDialogActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this, CreateReminderViewModel.Factory(mId)).get(CreateReminderViewModel::class.java)
         viewModel.loadedReminder.observe(this, mReminderObserver)
 
+    }
+
+    private fun showDefaultImage() {
+        if (prefs.blurImage) {
+            Picasso.get()
+                    .load(R.drawable.photo)
+                    .resize(1080, 1080)
+                    .transform(BlurTransformation(this, 10))
+                    .centerCrop()
+                    .into(binding.bgImage)
+        } else {
+            Picasso.get()
+                    .load(R.drawable.photo)
+                    .resize(1080, 1080)
+                    .centerCrop()
+                    .into(binding.bgImage)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
