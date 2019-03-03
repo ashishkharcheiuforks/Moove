@@ -8,7 +8,7 @@ import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 import timber.log.Timber
 
-class LocationTracker(private val mContext: Context?, private val mCallback: ((lat: Double, lng: Double) -> Unit)?) : KoinComponent {
+class LocationTracker(private val mContext: Context, private val mCallback: ((lat: Double, lng: Double) -> Unit)?) : KoinComponent {
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult?) {
@@ -22,7 +22,7 @@ class LocationTracker(private val mContext: Context?, private val mCallback: ((l
         }
     }
 
-    val prefs: Prefs by inject()
+    private val prefs: Prefs by inject()
 
     init {
         updateListener()
@@ -34,9 +34,7 @@ class LocationTracker(private val mContext: Context?, private val mCallback: ((l
 
     @SuppressLint("MissingPermission")
     private fun updateListener() {
-        if (mContext == null) {
-            return
-        }
+        Timber.d("updateListener: ")
         val time = (prefs.trackTime * 1000 * 2).toLong()
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(mContext)
         val locationRequest = LocationRequest()

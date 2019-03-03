@@ -26,7 +26,6 @@ import com.backdoor.moove.utils.contacts.SelectContactActivity
 import com.backdoor.moove.utils.file_explorer.FileExplorerActivity
 import com.backdoor.moove.views.ActionView
 import com.backdoor.moove.views.DateTimeView
-import com.google.android.gms.common.util.DeviceProperties.isTablet
 import com.google.android.gms.maps.model.LatLng
 import org.koin.android.ext.android.inject
 import timber.log.Timber
