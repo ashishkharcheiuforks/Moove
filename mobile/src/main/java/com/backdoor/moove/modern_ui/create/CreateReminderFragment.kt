@@ -271,14 +271,12 @@ class CreateReminderFragment : Fragment(), MapCallback {
     }
 
     private fun toggleMap() {
-        if (!isTablet(resources)) {
-            if (binding.mapContainer.isVisible()) {
-                ViewUtils.fadeOutAnimation(binding.mapContainer)
-                ViewUtils.fadeInAnimation(binding.scrollView)
-            } else {
-                ViewUtils.fadeOutAnimation(binding.scrollView)
-                ViewUtils.fadeInAnimation(binding.mapContainer)
-            }
+        if (binding.mapContainer.isVisible()) {
+            ViewUtils.fadeOutAnimation(binding.mapContainer)
+            ViewUtils.fadeInAnimation(binding.scrollView)
+        } else {
+            ViewUtils.fadeOutAnimation(binding.scrollView)
+            ViewUtils.fadeInAnimation(binding.mapContainer)
         }
     }
 
