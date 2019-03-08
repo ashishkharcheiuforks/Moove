@@ -52,6 +52,7 @@ class LocationEvent(val context: Context) : KoinComponent {
     fun pause(): Boolean {
         Timber.d("pause: $reminder")
         EventJobService.cancelReminder(reminder.uuId)
+        Notifier.hideNotification(context, reminder.uniqueId)
         stopTracking(true)
         return true
     }

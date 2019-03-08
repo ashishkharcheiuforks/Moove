@@ -144,14 +144,12 @@ class GeolocationService : Service() {
         builder.setContentText(roundedDistance.toString())
         builder.priority = NotificationCompat.PRIORITY_LOW
         builder.setSmallIcon(R.drawable.ic_directions_white_24dp)
-        startForeground(NOTIFICATION_ID, builder.build())
+        startForeground(reminder.uniqueId, builder.build())
     }
 
     private fun showDefaultNotification() {
-        if (!isNotificationEnabled) return
         val builder = NotificationCompat.Builder(applicationContext, Notifier.CHANNEL_SYSTEM)
         builder.setContentText(getString(R.string.app_name))
-
         builder.setContentTitle(getString(R.string.location_tracking_service_running))
         builder.setSmallIcon(R.drawable.ic_directions_white_24dp)
         startForeground(NOTIFICATION_ID, builder.build())

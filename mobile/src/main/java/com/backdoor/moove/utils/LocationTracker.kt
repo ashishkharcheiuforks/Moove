@@ -12,7 +12,7 @@ import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 import timber.log.Timber
 
-class LocationTracker(private val mContext: Context, private val mCallback: ((lat: Double, lng: Double) -> Unit)?) : LocationListener, KoinComponent {
+class LocationTracker(private val context: Context, private val callback: ((lat: Double, lng: Double) -> Unit)?) : LocationListener, KoinComponent {
 
     private var mLocationManager: LocationManager? = null
     private val prefs: Prefs by inject()
@@ -29,7 +29,7 @@ class LocationTracker(private val mContext: Context, private val mCallback: ((la
     private fun updateListener() {
         Timber.d("updateListener: ")
         val time = (prefs.trackTime * 1000 * 2).toLong()
-        val locationManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
         if (locationManager != null) {
             val criteria = Criteria()
             val bestProvider = locationManager.getBestProvider(criteria, false)
@@ -49,7 +49,7 @@ class LocationTracker(private val mContext: Context, private val mCallback: ((la
         if (location != null) {
             val latitude = location.latitude
             val longitude = location.longitude
-            mCallback?.invoke(latitude, longitude)
+            callback?.invoke(latitude, longitude)
         }
     }
 
