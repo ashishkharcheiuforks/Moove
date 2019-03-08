@@ -98,7 +98,7 @@
                             app:boxCornerRadiusBottomStart="5dp"
                             app:boxCornerRadiusTopEnd="5dp"
                             app:boxCornerRadiusTopStart="5dp"
-                            app:boxStrokeColor="?colorSecondary"
+                            app:boxStrokeColor="@color/field_colors"
                             app:boxStrokeWidth="1dp">
 
                             <com.backdoor.moove.views.AddressAutoCompleteView
