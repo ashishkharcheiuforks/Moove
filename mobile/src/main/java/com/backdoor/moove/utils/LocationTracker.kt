@@ -8,6 +8,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
+import com.google.android.gms.location.*
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 import timber.log.Timber
@@ -15,6 +16,19 @@ import timber.log.Timber
 class LocationTracker(private val context: Context, private val callback: ((lat: Double, lng: Double) -> Unit)?) : LocationListener, KoinComponent {
 
     private var mLocationManager: LocationManager? = null
+    private var mFusedLocationClient: FusedLocationProviderClient? = null
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult?) {
+            Timber.d("onLocationResult: $locationResult")
+            for (location in locationResult!!.locations) {
+                val latitude = location.latitude
+                val longitude = location.longitude
+                callback?.invoke(latitude, longitude)
+                break
+            }
+        }
+    }
+
     private val prefs: Prefs by inject()
 
     init {
@@ -22,6 +36,7 @@ class LocationTracker(private val context: Context, private val callback: ((lat:
     }
 
     fun removeUpdates() {
+        mFusedLocationClient?.removeLocationUpdates(mLocationCallback)
         mLocationManager?.removeUpdates(this)
     }
 
@@ -33,15 +48,28 @@ class LocationTracker(private val context: Context, private val callback: ((lat:
         if (locationManager != null) {
             val criteria = Criteria()
             val bestProvider = locationManager.getBestProvider(criteria, false)
-            locationManager.requestLocationUpdates(
-                    bestProvider,
-                    time,
-                    3.0f,
-                    this,
-                    Looper.getMainLooper()
-            )
+            if (bestProvider != null) {
+                locationManager.requestLocationUpdates(
+                        bestProvider,
+                        time,
+                        3.0f,
+                        this,
+                        Looper.getMainLooper()
+                )
+            }
         }
         this.mLocationManager = locationManager
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+        val locationRequest = LocationRequest()
+        locationRequest.interval = time
+        locationRequest.fastestInterval = 5000
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        val builder = LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest)
+        val client = LocationServices.getSettingsClient(context)
+        val task = client.checkLocationSettings(builder.build())
+        task.addOnSuccessListener { mFusedLocationClient?.requestLocationUpdates(locationRequest, mLocationCallback, Looper.myLooper()) }
     }
 
     override fun onLocationChanged(location: Location?) {
