@@ -13,7 +13,6 @@ import com.backdoor.moove.utils.*
 import com.backdoor.moove.widgets.LeftDistanceWidgetConfigureActivity
 import com.backdoor.moove.widgets.SimpleWidgetConfigureActivity
 import org.koin.android.ext.android.inject
-import timber.log.Timber
 
 class GeolocationService : Service() {
 
@@ -28,15 +27,18 @@ class GeolocationService : Service() {
         super.onDestroy()
         mTracker?.removeUpdates()
         stopForeground(true)
-        Timber.d("onDestroy: ")
     }
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        showDefaultNotification()
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Timber.d("onStartCommand: ")
         isNotificationEnabled = prefs.isDistanceNotificationEnabled
         stockRadius = prefs.radius
         mTracker = LocationTracker(applicationContext) { lat, lng ->
@@ -144,7 +146,7 @@ class GeolocationService : Service() {
         builder.setContentText(roundedDistance.toString())
         builder.priority = NotificationCompat.PRIORITY_LOW
         builder.setSmallIcon(R.drawable.ic_directions_white_24dp)
-        startForeground(reminder.uniqueId, builder.build())
+        Notifier.getManager(applicationContext)?.notify(reminder.uniqueId, builder.build())
     }
 
     private fun showDefaultNotification() {
