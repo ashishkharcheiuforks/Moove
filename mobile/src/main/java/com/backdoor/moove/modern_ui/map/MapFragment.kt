@@ -256,7 +256,7 @@ class MapFragment : Fragment() {
             val criteria = Criteria()
             var location: Location? = null
             try {
-                location = locationManager?.getLastKnownLocation(locationManager.getBestProvider(criteria, false))
+                location = locationManager?.getLastKnownLocation(locationManager.getBestProvider(criteria, false) ?: "")
             } catch (e: IllegalArgumentException) {
                 Timber.d("moveToMyLocation: ${e.message}")
             }
@@ -567,8 +567,7 @@ class MapFragment : Fragment() {
     private val mapStyleJson: Int
         @RawRes
         get() {
-            val style = prefs.mapStyle
-            return when (style) {
+            return when (prefs.mapStyle) {
                 0 -> R.raw.map_terrain_day
                 1 -> R.raw.map_terrain_retro
                 2 -> R.raw.map_terrain_silver

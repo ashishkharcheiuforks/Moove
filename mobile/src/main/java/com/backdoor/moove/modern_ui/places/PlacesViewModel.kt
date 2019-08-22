@@ -5,8 +5,8 @@ import com.backdoor.moove.data.Place
 import com.backdoor.moove.data.RoomDb
 import com.backdoor.moove.utils.launchDefault
 import kotlinx.coroutines.runBlocking
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
 class PlacesViewModel : ViewModel(), KoinComponent {
 

@@ -11,8 +11,8 @@ import com.backdoor.moove.utils.ActionsListener
 import com.backdoor.moove.utils.Coloring
 import com.backdoor.moove.utils.DrawableHelper
 import com.backdoor.moove.utils.ListActions
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
 class LocationsRecyclerAdapter : RecyclerView.Adapter<LocationsRecyclerAdapter.ViewHolder>(), KoinComponent {
 

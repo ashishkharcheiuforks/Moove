@@ -8,8 +8,7 @@ class Language(private val prefs: Prefs){
 
     fun getLocale(isBirth: Boolean): Locale? {
         var res: Locale? = null
-        val locale: String = prefs.ttsLocale
-        when (locale) {
+        when (prefs.ttsLocale) {
             ENGLISH -> res = Locale.ENGLISH
             FRENCH -> res = Locale.FRENCH
             GERMAN -> res = Locale.GERMAN

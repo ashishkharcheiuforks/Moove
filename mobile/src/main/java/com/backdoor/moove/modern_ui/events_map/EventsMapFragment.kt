@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,18 +21,21 @@ import com.backdoor.moove.utils.ListActions
 import com.backdoor.moove.utils.MapCallback
 import com.backdoor.moove.utils.MapListener
 import com.google.android.gms.maps.model.LatLng
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EventsMapFragment : Fragment(), MapListener, MapCallback {
 
-    private val viewModel: EventsMapViewModel by viewModel()
+    private val viewModel: EventsMapViewModel by lazy {
+        ViewModelProviders.of(this).get(EventsMapViewModel::class.java)
+    }
     private lateinit var binding: EventsMapFragmentBinding
     private val adapter = LocationsRecyclerAdapter()
     private var mMap: MapFragment? = null
     private var isDataShowed: Boolean = false
 
-    private val mBackHandler: OnBackPressedCallback = OnBackPressedCallback {
-        mMap?.onBackPressed() == false
+    private val mBackHandler: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            mMap?.onBackPressed() == false
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +46,7 @@ class EventsMapFragment : Fragment(), MapListener, MapCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.addOnBackPressedCallback(mBackHandler)
+        activity?.onBackPressedDispatcher?.addCallback(mBackHandler)
         initList()
 
         mMap = MapFragment.newInstance(isTouch = false, isPlaces = false, isSearch = false, isStyles = false, isBack = true)
@@ -123,6 +127,6 @@ class EventsMapFragment : Fragment(), MapListener, MapCallback {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        activity?.removeOnBackPressedCallback(mBackHandler)
+        mBackHandler.isEnabled = false
     }
 }

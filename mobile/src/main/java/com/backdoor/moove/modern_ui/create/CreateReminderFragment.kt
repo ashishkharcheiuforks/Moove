@@ -52,8 +52,10 @@ class CreateReminderFragment : Fragment(), MapCallback {
             }
         }
     }
-    private val mBackHandler: OnBackPressedCallback = OnBackPressedCallback {
-        mMap?.onBackPressed() == false
+    private val mBackHandler: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            mMap?.onBackPressed() == false
+        }
     }
     private val mReminderObserver: Observer<in Reminder> = Observer {
         if (it != null && !viewModel.isReminderEdited) {
@@ -92,7 +94,7 @@ class CreateReminderFragment : Fragment(), MapCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initActionBar()
-        activity?.addOnBackPressedCallback(mBackHandler)
+        activity?.onBackPressedDispatcher?.addCallback(mBackHandler)
 
         binding.taskSummary.filters = arrayOf(InputFilter.LengthFilter(150))
         binding.taskSummary.addTextChangedListener(object : TextWatcher {
@@ -317,7 +319,7 @@ class CreateReminderFragment : Fragment(), MapCallback {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        activity?.removeOnBackPressedCallback(mBackHandler)
+        mBackHandler.isEnabled = false
     }
 
     override fun onDestroy() {

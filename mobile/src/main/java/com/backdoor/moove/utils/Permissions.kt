@@ -1,6 +1,7 @@
 package com.backdoor.moove.utils
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
@@ -8,24 +9,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 
-/**
- * Copyright 2016 Nazar Suhovich
- *
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 object Permissions {
 
     const val READ_CONTACTS = Manifest.permission.READ_CONTACTS
@@ -36,6 +19,15 @@ object Permissions {
     const val BLUETOOTH = Manifest.permission.BLUETOOTH
     @RequiresApi(Build.VERSION_CODES.P)
     const val FOREGROUND = Manifest.permission.FOREGROUND_SERVICE
+    @SuppressLint("InlinedApi")
+    const val BACKGROUND_LOCATION = Manifest.permission.ACCESS_BACKGROUND_LOCATION
+
+    fun isBgLocationAllowed(context: Context): Boolean {
+        if (Module.isQ) {
+            return ContextCompat.checkSelfPermission(context, BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
+        }
+        return true
+    }
 
     fun checkForeground(context: Context): Boolean {
         if (Module.isPie) {
@@ -45,6 +37,32 @@ object Permissions {
             return true
         }
         return true
+    }
+
+    fun ensureBackgroundLocation(activity: Activity, requestCode: Int): Boolean {
+        return if (isBgLocationAllowed(activity)) {
+            true
+        } else {
+            if (Module.isQ) {
+                requestPermission(activity, requestCode, BACKGROUND_LOCATION)
+                false
+            } else {
+                return true
+            }
+        }
+    }
+
+    fun ensureForeground(activity: Activity, requestCode: Int): Boolean {
+        return if (checkForeground(activity)) {
+            true
+        } else {
+            if (Module.isPie) {
+                requestPermission(activity, requestCode, FOREGROUND)
+                false
+            } else {
+                return true
+            }
+        }
     }
 
     fun isAllGranted(grantResults: IntArray): Boolean {
@@ -73,24 +91,11 @@ object Permissions {
         }
     }
 
-    fun ensureForeground(activity: Activity, requestCode: Int): Boolean {
-        return if (checkForeground(activity)) {
-            true
-        } else {
-            if (Module.isPie) {
-                Permissions.requestPermission(activity, requestCode, FOREGROUND)
-                false
-            } else {
-                true
-            }
-        }
-    }
-
     fun ensurePermissions(activity: Activity, requestCode: Int, vararg permissions: String): Boolean {
         return if (checkPermission(activity, *permissions)) {
             true
         } else {
-            Permissions.requestPermission(activity, requestCode, *permissions)
+            requestPermission(activity, requestCode, *permissions)
             false
         }
     }

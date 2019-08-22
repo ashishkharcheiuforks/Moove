@@ -15,7 +15,9 @@ import com.backdoor.moove.databinding.DonateFragmentBinding
 class DonateFragment : Fragment() {
 
     private lateinit var binding: DonateFragmentBinding
-    private lateinit var viewModel: DonateViewModel
+    private val viewModel: DonateViewModel by lazy {
+        ViewModelProviders.of(this).get(DonateViewModel::class.java)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -41,7 +43,6 @@ class DonateFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(DonateViewModel::class.java)
         viewModel.isLoading.observe(this, Observer {
             if (it != null) {
                 showLoading(it)

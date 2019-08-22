@@ -9,8 +9,8 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import com.google.android.gms.location.*
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import timber.log.Timber
 
 class LocationTracker(private val context: Context, private val callback: ((lat: Double, lng: Double) -> Unit)?) : LocationListener, KoinComponent {

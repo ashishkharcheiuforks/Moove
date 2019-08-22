@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,12 +17,13 @@ import com.backdoor.moove.modern_ui.places.list.PlacesAdapter
 import com.backdoor.moove.utils.ActionsListener
 import com.backdoor.moove.utils.Dialogues
 import com.backdoor.moove.utils.ListActions
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlacesFragment : Fragment() {
 
     private lateinit var binding: PlacesFragmentBinding
-    private val viewModel: PlacesViewModel by viewModel()
+    private val viewModel: PlacesViewModel by lazy {
+        ViewModelProviders.of(this).get(PlacesViewModel::class.java)
+    }
     private val adapter = PlacesAdapter(true)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

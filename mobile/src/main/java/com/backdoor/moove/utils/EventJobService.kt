@@ -5,17 +5,16 @@ import com.evernote.android.job.Job
 import com.evernote.android.job.JobManager
 import com.evernote.android.job.JobRequest
 import com.evernote.android.job.util.support.PersistableBundleCompat
-import org.koin.standalone.KoinComponent
 import timber.log.Timber
 
-class EventJobService : Job(), KoinComponent {
+class EventJobService : Job() {
 
-    override fun onRunJob(params: Job.Params): Job.Result {
+    override fun onRunJob(params: Params): Result {
         val bundle = params.extras
         if (bundle.getBoolean(ARG_LOCATION, false)) {
             SuperUtil.startGpsTracking(context)
         }
-        return Job.Result.SUCCESS
+        return Result.SUCCESS
     }
 
     companion object {
@@ -44,7 +43,7 @@ class EventJobService : Job(), KoinComponent {
         }
 
         fun isEnabledReminder(id: String): Boolean {
-            return !JobManager.instance().getAllJobsForTag(id).isEmpty()
+            return JobManager.instance().getAllJobsForTag(id).isNotEmpty()
         }
 
         fun cancelReminder(tag: String) {

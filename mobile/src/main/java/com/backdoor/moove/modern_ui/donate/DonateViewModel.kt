@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.*
 import com.android.billingclient.api.*
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import timber.log.Timber
 
 class DonateViewModel : ViewModel(), KoinComponent, LifecycleObserver, PurchasesUpdatedListener, BillingClientStateListener {
@@ -55,10 +55,10 @@ class DonateViewModel : ViewModel(), KoinComponent, LifecycleObserver, Purchases
         }
     }
 
-    override fun onPurchasesUpdated(responseCode: Int, purchases: MutableList<Purchase>?) {
-        Timber.d("onPurchasesUpdated: $responseCode, $purchases")
+    override fun onPurchasesUpdated(billingResult: BillingResult?, purchases: MutableList<Purchase>?) {
+        Timber.d("onPurchasesUpdated: ${billingResult?.responseCode}, $purchases")
         _isLoading.postValue(false)
-        if (responseCode == BillingClient.BillingResponse.OK) {
+        if (billingResult?.responseCode == BillingClient.BillingResponseCode.OK) {
             _purchases.postValue(purchases)
         }
     }
@@ -67,16 +67,17 @@ class DonateViewModel : ViewModel(), KoinComponent, LifecycleObserver, Purchases
         isReady = false
     }
 
-    override fun onBillingSetupFinished(responseCode: Int) {
-        Timber.d("onBillingSetupFinished: $responseCode")
+    override fun onBillingSetupFinished(billingResult: BillingResult?) {
+        Timber.d("onBillingSetupFinished: ${billingResult?.responseCode}")
         isReady = true
         loadSkuDetails()
         loadPurchases()
     }
 
     private fun loadPurchases() {
-        billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP) { responseCode, purchasesList ->
-            onPurchasesUpdated(responseCode, purchasesList)
+        val result = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
+        if (result.responseCode == BillingClient.BillingResponseCode.OK) {
+            onPurchasesUpdated(result.billingResult, result.purchasesList)
         }
     }
 
@@ -84,10 +85,10 @@ class DonateViewModel : ViewModel(), KoinComponent, LifecycleObserver, Purchases
         _isLoading.postValue(true)
         val params = SkuDetailsParams.newBuilder()
         params.setSkusList(listOf(SKU_1, SKU_2, SKU_3, SKU_4)).setType(BillingClient.SkuType.INAPP)
-        billingClient.querySkuDetailsAsync(params.build()) { responseCode, skuDetailsList ->
-            Timber.d("loadSkuDetails: $responseCode, $skuDetailsList")
+        billingClient.querySkuDetailsAsync(params.build()) { billingResult, skuDetailsList ->
+            Timber.d("loadSkuDetails: $billingResult, $skuDetailsList")
             _isLoading.postValue(false)
-            if (responseCode == BillingClient.BillingResponse.OK) {
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                 _skuDetails.postValue(skuDetailsList)
             }
         }

@@ -15,8 +15,8 @@ import com.backdoor.moove.data.RoomDb
 import com.backdoor.moove.utils.Coloring
 import com.backdoor.moove.utils.DrawableHelper
 import com.backdoor.moove.utils.launchDefault
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
 class LeftDistanceWidget : AppWidgetProvider(), KoinComponent {
 

@@ -57,7 +57,7 @@ class SelectFileViewModel : ViewModel(), LifecycleObserver {
         }
 
         val list = try {
-            Arrays.asList(*path.list(filter))
+            listOf(*path.list(filter) ?: arrayOf())
         } catch (e: NullPointerException) {
             arrayListOf<String>()
         }

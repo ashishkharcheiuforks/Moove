@@ -34,8 +34,10 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
     private var mPlace: Place? = null
 
     private var mId: String = ""
-    private val mBackHandler: OnBackPressedCallback = OnBackPressedCallback {
-        mMap?.onBackPressed() == false
+    private val mBackHandler: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            mMap?.onBackPressed() == false
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +56,7 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initActionBar()
-        activity?.addOnBackPressedCallback(mBackHandler)
+        activity?.onBackPressedDispatcher?.addCallback(mBackHandler)
 
         mMap = MapFragment.newInstance(isTouch = true, isPlaces = false, isSearch = true, isStyles = true, isBack = false)
         mMap?.setListener(this)
@@ -168,7 +170,7 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        activity?.removeOnBackPressedCallback(mBackHandler)
+        mBackHandler.isEnabled = false
     }
 
     override fun onDestroy() {

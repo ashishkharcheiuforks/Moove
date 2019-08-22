@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.backdoor.moove.data.Place
 import com.backdoor.moove.data.RoomDb
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
 class MapViewModel : ViewModel(), KoinComponent {
 

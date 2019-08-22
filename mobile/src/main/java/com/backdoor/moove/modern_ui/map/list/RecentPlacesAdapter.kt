@@ -12,8 +12,8 @@ import com.backdoor.moove.utils.ActionsListener
 import com.backdoor.moove.utils.DrawableHelper
 import com.backdoor.moove.utils.ListActions
 import com.backdoor.moove.utils.TimeUtils
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
 class RecentPlacesAdapter : RecyclerView.Adapter<RecentPlacesAdapter.ViewHolder>(), KoinComponent {
 

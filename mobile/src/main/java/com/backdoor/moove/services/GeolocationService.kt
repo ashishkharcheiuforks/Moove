@@ -13,6 +13,7 @@ import com.backdoor.moove.utils.*
 import com.backdoor.moove.widgets.LeftDistanceWidgetConfigureActivity
 import com.backdoor.moove.widgets.SimpleWidgetConfigureActivity
 import org.koin.android.ext.android.inject
+import kotlin.math.roundToInt
 
 class GeolocationService : Service() {
 
@@ -48,7 +49,7 @@ class GeolocationService : Service() {
             checkReminders(locationA)
         }
         showDefaultNotification()
-        return Service.START_STICKY
+        return START_STICKY
     }
 
     private fun checkReminders(locationA: Location) {
@@ -82,7 +83,7 @@ class GeolocationService : Service() {
         locationB.latitude = reminder.latitude
         locationB.longitude = reminder.longitude
         val distance = locationA.distanceTo(locationB)
-        val roundedDistance = Math.round(distance)
+        val roundedDistance = distance.roundToInt()
         if (roundedDistance <= getRadius(reminder.radius)) {
             showReminder(reminder)
         } else {
@@ -102,7 +103,7 @@ class GeolocationService : Service() {
         locationB.latitude = reminder.latitude
         locationB.longitude = reminder.longitude
         val distance = locationA.distanceTo(locationB)
-        val roundedDistance = Math.round(distance)
+        val roundedDistance = distance.roundToInt()
         if (reminder.isLocked) {
             if (roundedDistance > getRadius(reminder.radius)) {
                 showReminder(reminder)

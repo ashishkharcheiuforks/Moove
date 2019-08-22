@@ -11,15 +11,17 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.backdoor.moove.R
 import com.backdoor.moove.data.Reminder
 import com.backdoor.moove.databinding.ActivitySimpleWidgetBinding
 import com.backdoor.moove.modern_ui.home.HomeViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SimpleWidgetConfigureActivity : AppCompatActivity() {
 
-    private val viewModel: HomeViewModel by viewModel()
+    private val viewModel: HomeViewModel by lazy {
+        ViewModelProviders.of(this).get(HomeViewModel::class.java)
+    }
 
     private lateinit var binding: ActivitySimpleWidgetBinding
 

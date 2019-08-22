@@ -12,8 +12,8 @@ import com.backdoor.moove.utils.TimeUtils
 import com.backdoor.moove.utils.launchDefault
 import com.backdoor.moove.views.AddressAutoCompleteView
 import kotlinx.coroutines.runBlocking
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
 class CreateReminderViewModel(val uuId: String) : ViewModel(), KoinComponent {
 

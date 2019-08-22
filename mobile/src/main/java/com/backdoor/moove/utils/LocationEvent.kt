@@ -4,8 +4,8 @@ import android.content.Context
 import com.backdoor.moove.data.Reminder
 import com.backdoor.moove.data.RoomDb
 import com.backdoor.moove.services.GeolocationService
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import timber.log.Timber
 
 class LocationEvent(val context: Context) : KoinComponent {
