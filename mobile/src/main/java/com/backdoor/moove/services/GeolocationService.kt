@@ -125,7 +125,6 @@ class GeolocationService : Service() {
             val context = applicationContext
             LeftDistanceWidgetConfigureActivity.saveDistancePref(context, prefsKey, distance)
             SimpleWidgetConfigureActivity.saveDistancePref(context, prefsKey, distance)
-
             WidgetUtil.updateWidgets(context)
         }
     }

@@ -32,17 +32,13 @@ object SuperUtil {
     }
 
     fun startGpsTracking(context: Context) {
-        if (!Permissions.checkForeground(context) || SuperUtil.isServiceRunning(context, GeolocationService::class.java)) {
+        if (!Permissions.checkForeground(context) || isServiceRunning(context, GeolocationService::class.java)) {
             return
         }
         Timber.d("startGpsTracking: ")
         val intent = Intent(context, GeolocationService::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        if (Module.isOreo) {
-            context.startForegroundService(intent)
-        } else {
-            context.startService(intent)
-        }
+        context.startService(intent)
     }
 
     fun isGooglePlayServicesAvailable(a: Context): Boolean {
