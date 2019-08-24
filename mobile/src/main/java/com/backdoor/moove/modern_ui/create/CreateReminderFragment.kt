@@ -54,9 +54,18 @@ class CreateReminderFragment : Fragment(), MapCallback {
     }
     private val mBackHandler: OnBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            mMap?.onBackPressed() == false
+            if (mMap?.onBackPressed() == false) {
+                removeBackHandler()
+                return
+            }
+            findNavController().popBackStack()
         }
     }
+
+    private fun removeBackHandler() {
+        mBackHandler.remove()
+    }
+
     private val mReminderObserver: Observer<in Reminder> = Observer {
         if (it != null && !viewModel.isReminderEdited) {
             viewModel.reminder = it
@@ -219,6 +228,9 @@ class CreateReminderFragment : Fragment(), MapCallback {
         if (!Permissions.ensureForeground(activity!!, 112)) {
             return null
         }
+        if (!Permissions.ensureBackgroundLocation(activity!!, 335)) {
+            return null
+        }
         if (!SuperUtil.checkLocationEnable(context!!)) {
             Toast.makeText(context, getString(R.string.gps_is_not_enabled), Toast.LENGTH_SHORT).show()
             return null
@@ -319,7 +331,7 @@ class CreateReminderFragment : Fragment(), MapCallback {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mBackHandler.isEnabled = false
+        removeBackHandler()
     }
 
     override fun onDestroy() {

@@ -105,6 +105,9 @@ class DonateFragment : Fragment() {
         binding.buyButton1.isEnabled = !b
         binding.buyButton2.isEnabled = !b
         binding.buyButton3.isEnabled = !b
+        viewModel.purchases.value?.let {
+            updateButtons(it)
+        }
     }
 
     override fun onDestroy() {

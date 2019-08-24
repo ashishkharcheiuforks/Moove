@@ -48,14 +48,14 @@
                         android:orientation="horizontal"
                         android:padding="8dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Base support"
                             android:textSize="18sp" />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/buyButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -80,14 +80,14 @@
                         android:orientation="horizontal"
                         android:padding="8dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Standard support"
                             android:textSize="18sp" />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/buyButton1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -112,14 +112,14 @@
                         android:orientation="horizontal"
                         android:padding="8dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Pro support"
                             android:textSize="18sp" />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/buyButton2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -144,14 +144,14 @@
                         android:orientation="horizontal"
                         android:padding="8dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Top support"
                             android:textSize="18sp" />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/buyButton3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

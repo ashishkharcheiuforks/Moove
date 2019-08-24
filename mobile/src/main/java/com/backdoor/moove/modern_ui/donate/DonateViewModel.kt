@@ -25,7 +25,10 @@ class DonateViewModel : ViewModel(), KoinComponent, LifecycleObserver, Purchases
     private var isReady = false
 
     init {
-        billingClient = BillingClient.newBuilder(context).setListener(this).build()
+        billingClient = BillingClient.newBuilder(context)
+                .setListener(this)
+                .enablePendingPurchases()
+                .build()
         billingClient.startConnection(this)
     }
 
