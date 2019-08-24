@@ -36,8 +36,16 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
     private var mId: String = ""
     private val mBackHandler: OnBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            mMap?.onBackPressed() == false
+            if (mMap?.onBackPressed() == false) {
+                removeBackHandler()
+                return
+            }
+            findNavController().popBackStack()
         }
+    }
+
+    private fun removeBackHandler() {
+        mBackHandler.remove()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -144,7 +152,7 @@ class CreatePlaceFragment : Fragment(), MapListener, MapCallback {
         val map = mMap ?: return
         if (viewModel.place.hasLatLng()) {
             map.setStyle(viewModel.place.markerColor)
-            map.addMarker(viewModel.place.latLng(), viewModel.place.name, true, true, -1)
+            map.addMarker(viewModel.place.latLng(), viewModel.place.name, clear = true, animate = true, radius = -1)
         }
     }
 

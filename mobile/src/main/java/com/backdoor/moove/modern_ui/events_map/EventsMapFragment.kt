@@ -34,8 +34,16 @@ class EventsMapFragment : Fragment(), MapListener, MapCallback {
 
     private val mBackHandler: OnBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            mMap?.onBackPressed() == false
+            if (mMap?.onBackPressed() == false) {
+                removeBackHandler()
+                return
+            }
+            findNavController().popBackStack()
         }
+    }
+
+    private fun removeBackHandler() {
+        mBackHandler.remove()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
